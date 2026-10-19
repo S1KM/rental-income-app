@@ -1,0 +1,20 @@
+{
+  "name": "rental-income-app",
+  "version": "1.0.0",
+  "description": "Unified Rental Suite, Real-Time Property Ledger, Multi-Unit Rent Roll & Supabase Cloud Sync",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  },
+  "keywords": [
+    "rental",
+    "real-estate",
+    "property-management",
+    "rent-ledger",
+    "supabase",
+    "vercel"
+  ],
+  "author": "Sachin Kumar <abcltd9925@gmail.com>",
+  "license": "MIT"
+}
