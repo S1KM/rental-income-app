@@ -15,3 +15,6 @@ scratch/
 # OS metadata
 .DS_Store
 Thumbs.db
+
+# Vercel Deployment Cache
+.vercel/

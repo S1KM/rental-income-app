@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "npx serve .",
-    "dev": "npx serve ."
+    "dev": "npx serve .",
+    "deploy": "node scripts/deploy.js"
   },
   "keywords": [
     "rental",
@@ -17,5 +18,8 @@
     "vercel"
   ],
   "author": "Sachin Kumar <abcltd9925@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "vercel": "^64.7.0"
+  }
 }

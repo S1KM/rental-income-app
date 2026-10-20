@@ -1,0 +1,34 @@
+name: Deploy Production CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm ci || npm install
+
+      - name: Run Dashboard & Scroll-Free Tests
+        run: node tests/test_dashboard_redesign.js
+
+      - name: Run Running Balance & Ledger Math Tests
+        run: node tests/test_running_balance_due_display.js
+
+      - name: Run Unsettled Rent Verification
+        run: node tests/test_unsettled_cycles_only.js
+
+      - name: Run Supabase Cloud Integration Tests
+        run: node tests/test_supabase_integration.js
