@@ -1002,6 +1002,9 @@
         </div>
 
         <form id="addTenantMasterForm" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Hidden Legacy ID input for backward compatibility -->
+          <input type="hidden" id="tmIdInput" />
+
           <!-- Tenant Name -->
           <div>
             <label for="tmNameInput" class="block text-xs font-bold text-slate-700 mb-1">Tenant Full Name *</label>
@@ -1017,13 +1020,17 @@
           <!-- Mobile -->
           <div>
             <label for="tmMobileInput" class="block text-xs font-bold text-slate-700 mb-1">Mobile No. (WhatsApp) *</label>
-            <input
-              id="tmMobileInput"
-              type="tel"
-              required
-              placeholder="e.g. 9811098765"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
-            />
+            <div class="flex items-center">
+              <span class="px-2.5 py-2 rounded-l-xl border border-r-0 border-slate-300 bg-slate-100 text-slate-600 font-mono text-xs font-bold">+91</span>
+              <input
+                id="tmMobileInput"
+                type="tel"
+                required
+                maxlength="10"
+                placeholder="9811098765"
+                class="w-full px-3.5 py-2 rounded-r-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium font-mono"
+              />
+            </div>
           </div>
 
           <!-- Email -->
@@ -1033,18 +1040,7 @@
               id="tmEmailInput"
               type="email"
               placeholder="e.g. vikram.m@example.com"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
-            />
-          </div>
-
-          <!-- Identity No -->
-          <div>
-            <label for="tmIdInput" class="block text-xs font-bold text-slate-700 mb-1">Govt ID (Aadhaar / PAN)</label>
-            <input
-              id="tmIdInput"
-              type="text"
-              placeholder="e.g. Aadhaar: 9021-4321-7890"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium font-mono"
             />
           </div>
 
@@ -1073,6 +1069,44 @@
             />
           </div>
 
+          <!-- Security Deposit (Months) -->
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label for="tmDepositMonthsInput" class="text-xs font-bold text-slate-700">Security Deposit (Months)</label>
+              <div class="flex items-center gap-1">
+                <button type="button" class="deposit-quick-btn text-[10px] px-1.5 py-0.2 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 font-bold transition border border-slate-200" data-months="1">1 Mo</button>
+                <button type="button" class="deposit-quick-btn text-[10px] px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-bold transition border border-indigo-200" data-months="2">2 Mo</button>
+                <button type="button" class="deposit-quick-btn text-[10px] px-1.5 py-0.2 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 font-bold transition border border-slate-200" data-months="3">3 Mo</button>
+              </div>
+            </div>
+            <input
+              id="tmDepositMonthsInput"
+              type="number"
+              min="0"
+              max="24"
+              step="0.5"
+              value="2"
+              placeholder="e.g. 2"
+              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-slate-800"
+            />
+          </div>
+
+          <!-- Security Deposit Amount (₹) - Auto-Calculated -->
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label for="tmDepositAmountInput" class="text-xs font-bold text-slate-700">Security Deposit Amount (₹)</label>
+              <span id="tmDepositAutoBadge" class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">⚡ Auto</span>
+            </div>
+            <input
+              id="tmDepositAmountInput"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="e.g. 50000"
+              class="w-full px-3.5 py-2 rounded-xl border border-emerald-300 bg-emerald-50/40 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-emerald-800"
+            />
+          </div>
+
           <!-- Outstanding Due (O/S) -->
           <div>
             <label for="tmOsInput" class="block text-xs font-bold text-slate-700 mb-1">Current Balance / Dues (₹)</label>
@@ -1085,6 +1119,100 @@
               placeholder="0 for settled"
               class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-amber-700"
             />
+          </div>
+
+          <!-- Dedicated Box: PAN Card & Document Attachment -->
+          <div class="sm:col-span-1 lg:col-span-2 p-3.5 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <label for="tmPanInput" class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <span class="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-black">🪪</span>
+                <span>PAN Card Number</span>
+              </label>
+              <span id="tmPanStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200">10 Chars (ABCDE1234F)</span>
+            </div>
+            <input
+              id="tmPanInput"
+              type="text"
+              maxlength="10"
+              placeholder="e.g. ABCPS1234D"
+              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-sm font-mono uppercase tracking-wider text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+            
+            <!-- PAN Document Attachment -->
+            <div class="pt-1">
+              <input type="file" id="tmPanDocInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
+              <div id="tmPanDocEmptyState" class="flex items-center gap-2">
+                <button
+                  type="button"
+                  id="tmPanDocUploadBtn"
+                  class="px-3 py-1.5 rounded-xl border border-indigo-200 bg-indigo-50/80 hover:bg-indigo-100 text-indigo-700 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                  <span>Attach PAN Document (PDF / Image)</span>
+                </button>
+                <span class="text-[11px] text-slate-400">PDF, JPG, PNG up to 5MB</span>
+              </div>
+              <div id="tmPanDocChip" class="hidden flex items-center justify-between p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs">
+                <div class="flex items-center gap-2 truncate pr-2">
+                  <span class="text-base">📄</span>
+                  <div class="truncate">
+                    <span id="tmPanDocName" class="font-bold truncate">pan_card.pdf</span>
+                    <span id="tmPanDocSize" class="text-[10px] text-emerald-700 block">180 KB</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button type="button" id="tmPanDocPreviewBtn" class="px-2 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] transition cursor-pointer">View</button>
+                  <button type="button" id="tmPanDocRemoveBtn" class="p-1 rounded-lg hover:bg-rose-100 text-rose-600 font-bold text-xs transition cursor-pointer" title="Remove attachment">✕</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dedicated Box: Aadhaar Card & Document Attachment -->
+          <div class="sm:col-span-1 lg:col-span-2 p-3.5 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <label for="tmAadhaarInput" class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <span class="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">🪪</span>
+                <span>Aadhaar Card Number</span>
+              </label>
+              <span id="tmAadhaarStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200">12 Digits (UID)</span>
+            </div>
+            <input
+              id="tmAadhaarInput"
+              type="text"
+              maxlength="14"
+              placeholder="e.g. 2345 6789 0123"
+              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-sm font-mono tracking-wider text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+
+            <!-- Aadhaar Document Attachment -->
+            <div class="pt-1">
+              <input type="file" id="tmAadhaarDocInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
+              <div id="tmAadhaarDocEmptyState" class="flex items-center gap-2">
+                <button
+                  type="button"
+                  id="tmAadhaarDocUploadBtn"
+                  class="px-3 py-1.5 rounded-xl border border-emerald-200 bg-emerald-50/80 hover:bg-emerald-100 text-emerald-700 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                  <span>Attach Aadhaar Document (PDF / Image)</span>
+                </button>
+                <span class="text-[11px] text-slate-400">PDF, JPG, PNG up to 5MB</span>
+              </div>
+              <div id="tmAadhaarDocChip" class="hidden flex items-center justify-between p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs">
+                <div class="flex items-center gap-2 truncate pr-2">
+                  <span class="text-base">📄</span>
+                  <div class="truncate">
+                    <span id="tmAadhaarDocName" class="font-bold truncate">aadhaar_card.pdf</span>
+                    <span id="tmAadhaarDocSize" class="text-[10px] text-emerald-700 block">340 KB</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button type="button" id="tmAadhaarDocPreviewBtn" class="px-2 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] transition cursor-pointer">View</button>
+                  <button type="button" id="tmAadhaarDocRemoveBtn" class="p-1 rounded-lg hover:bg-rose-100 text-rose-600 font-bold text-xs transition cursor-pointer" title="Remove attachment">✕</button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Tenancy Status -->
@@ -1125,7 +1253,7 @@
           </div>
 
           <!-- Permanent Address -->
-          <div class="sm:col-span-2">
+          <div>
             <label for="tmPermAddressInput" class="block text-xs font-bold text-slate-700 mb-1">Tenant's Permanent Home Address</label>
             <input
               id="tmPermAddressInput"
@@ -1138,11 +1266,12 @@
           <!-- Submit Button Row -->
           <div class="sm:col-span-2 lg:col-span-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-3 mt-1 border-t border-slate-100">
             <span class="text-xs text-slate-500">
-              Tenants registered with Active status will occupy the selected property. Marking Vacated frees the unit and displays it as <strong>VACANT</strong> on the Dashboard.
+              Security deposit is auto-calculated based on agreed rent &amp; months. Attach tenant PAN &amp; Aadhaar copies for instant legal tenancy agreement documentation.
             </span>
             <button
               type="submit"
-              class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold transition shadow-sm flex items-center justify-center gap-1.5"
+              id="tmSubmitBtn"
+              class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <span>+ Save Tenant Profile to Master</span>
             </button>
@@ -2252,26 +2381,86 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <input type="hidden" id="modalTenantId" />
+
           <div>
             <label for="modalTenantName" class="block text-xs font-bold text-slate-700 mb-1">Tenant Full Name *</label>
-            <input id="modalTenantName" type="text" required placeholder="e.g. Rahul Sharma" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500" />
+            <input id="modalTenantName" type="text" required placeholder="e.g. Rahul Sharma" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 font-medium" />
           </div>
           <div>
             <label for="modalTenantMobile" class="block text-xs font-bold text-slate-700 mb-1">Mobile Number (WhatsApp) *</label>
-            <input id="modalTenantMobile" type="tel" required placeholder="e.g. 9811098765" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500" />
+            <input id="modalTenantMobile" type="tel" required placeholder="e.g. 9811098765" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 font-mono font-medium" />
           </div>
           <div>
             <label for="modalTenantEmail" class="block text-xs font-bold text-slate-700 mb-1">Email ID</label>
-            <input id="modalTenantEmail" type="email" placeholder="e.g. rahul@example.com" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500" />
-          </div>
-          <div>
-            <label for="modalTenantId" class="block text-xs font-bold text-slate-700 mb-1">Aadhaar / PAN / ID No.</label>
-            <input id="modalTenantId" type="text" placeholder="e.g. Aadhaar: 1234-5678-9012" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500" />
+            <input id="modalTenantEmail" type="email" placeholder="e.g. rahul@example.com" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500 font-mono" />
           </div>
           <div>
             <label for="modalTenantRent" class="block text-xs font-bold text-slate-700 mb-1">Agreed Monthly Rent (₹) *</label>
             <input id="modalTenantRent" type="number" min="1" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold text-indigo-700 focus:ring-2 focus:ring-indigo-500" />
           </div>
+
+          <!-- Security Deposit (Months) -->
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label for="modalTenantDepositMonths" class="text-xs font-bold text-slate-700">Security Deposit (Months)</label>
+              <div class="flex items-center gap-1">
+                <button type="button" class="modal-deposit-quick-btn text-[10px] px-1.5 py-0.2 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 font-bold border border-slate-200" data-months="1">1 Mo</button>
+                <button type="button" class="modal-deposit-quick-btn text-[10px] px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-bold border border-indigo-200" data-months="2">2 Mo</button>
+              </div>
+            </div>
+            <input id="modalTenantDepositMonths" type="number" min="0" max="24" step="0.5" value="2" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500" />
+          </div>
+
+          <!-- Security Deposit Amount (₹) -->
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label for="modalTenantDepositAmount" class="text-xs font-bold text-slate-700">Deposit Amount (₹)</label>
+              <span id="modalTenantDepositAutoBadge" class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">⚡ Auto</span>
+            </div>
+            <input id="modalTenantDepositAmount" type="number" min="0" step="any" class="w-full px-3.5 py-2 rounded-xl border border-emerald-300 bg-emerald-50/40 text-xs font-bold text-emerald-800 focus:ring-2 focus:ring-emerald-500" />
+          </div>
+
+          <!-- PAN Card & Document Box -->
+          <div class="p-3 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <label for="modalTenantPan" class="text-xs font-bold text-slate-800">🪪 PAN Card</label>
+              <span class="text-[10px] text-slate-400">10 Chars</span>
+            </div>
+            <input id="modalTenantPan" type="text" maxlength="10" placeholder="e.g. ABCPS1234D" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-mono uppercase tracking-wider" />
+            <input type="file" id="modalTenantPanDocInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
+            <div id="modalTenantPanDocEmpty" class="flex items-center gap-1.5">
+              <button type="button" id="modalTenantPanDocBtn" class="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 cursor-pointer">📎 Attach PAN Doc</button>
+            </div>
+            <div id="modalTenantPanDocChip" class="hidden flex items-center justify-between p-1.5 rounded-lg bg-emerald-50 text-emerald-900 text-[11px]">
+              <span id="modalTenantPanDocName" class="font-bold truncate max-w-[130px]">pan.pdf</span>
+              <div class="flex items-center gap-1">
+                <button type="button" id="modalTenantPanDocPreviewBtn" class="text-emerald-700 font-bold hover:underline cursor-pointer">View</button>
+                <button type="button" id="modalTenantPanDocRemoveBtn" class="text-rose-500 font-bold ml-1 cursor-pointer">✕</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Aadhaar Card & Document Box -->
+          <div class="p-3 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <label for="modalTenantAadhaar" class="text-xs font-bold text-slate-800">🪪 Aadhaar Card</label>
+              <span class="text-[10px] text-slate-400">12 Digits</span>
+            </div>
+            <input id="modalTenantAadhaar" type="text" maxlength="14" placeholder="e.g. 2345 6789 0123" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-mono tracking-wider" />
+            <input type="file" id="modalTenantAadhaarDocInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
+            <div id="modalTenantAadhaarDocEmpty" class="flex items-center gap-1.5">
+              <button type="button" id="modalTenantAadhaarDocBtn" class="text-[11px] font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1 cursor-pointer">📎 Attach Aadhaar Doc</button>
+            </div>
+            <div id="modalTenantAadhaarDocChip" class="hidden flex items-center justify-between p-1.5 rounded-lg bg-emerald-50 text-emerald-900 text-[11px]">
+              <span id="modalTenantAadhaarDocName" class="font-bold truncate max-w-[130px]">aadhaar.pdf</span>
+              <div class="flex items-center gap-1">
+                <button type="button" id="modalTenantAadhaarDocPreviewBtn" class="text-emerald-700 font-bold hover:underline cursor-pointer">View</button>
+                <button type="button" id="modalTenantAadhaarDocRemoveBtn" class="text-rose-500 font-bold ml-1 cursor-pointer">✕</button>
+              </div>
+            </div>
+          </div>
+
           <div>
             <label for="modalTenantOs" class="block text-xs font-bold text-slate-700 mb-1">Current O/S Balance (₹)</label>
             <input id="modalTenantOs" type="number" min="0" value="0" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-semibold text-amber-700 focus:ring-2 focus:ring-indigo-500" />
@@ -2280,7 +2469,7 @@
             <label for="modalTenantStart" class="block text-xs font-bold text-slate-700 mb-1">Lease Start Date</label>
             <input id="modalTenantStart" type="date" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500" />
           </div>
-          <div>
+          <div class="sm:col-span-2">
             <div class="flex items-center justify-between mb-1">
               <label for="modalTenantEnd" class="text-xs font-bold text-slate-700">Lease End Date</label>
               <button type="button" id="modalAutoFillDatesBtn" class="text-[10px] text-indigo-600 font-bold hover:underline">Auto-fill 11 Mo</button>
@@ -3403,6 +3592,65 @@
           </button>
         </form>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: TENANT DOCUMENT VIEWER (PAN & AADHAAR PREVIEW)
+       ========================================================= -->
+  <div
+    id="docPreviewModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 backdrop-blur-xs p-3 sm:p-5 hidden"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-2xl w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150 flex flex-col max-h-[92vh]">
+      <!-- Header -->
+      <div class="px-5 py-3.5 bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5 truncate pr-2">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center justify-center text-sm font-bold shrink-0">
+            📄
+          </div>
+          <div class="truncate">
+            <h3 id="docPreviewTitle" class="font-bold text-sm text-white truncate">Attached Document</h3>
+            <p id="docPreviewSubtitle" class="text-[11px] text-slate-400 truncate">Tenant Verification Record</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="closeDocPreviewModalBtn"
+          class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Preview Body -->
+      <div class="p-4 overflow-y-auto flex-1 bg-slate-100 flex items-center justify-center min-h-[300px]" id="docPreviewContent">
+        <!-- Rendered dynamically (image or embed) -->
+      </div>
+
+      <!-- Footer -->
+      <div class="px-5 py-3 bg-white border-t border-slate-200 flex items-center justify-between">
+        <span id="docPreviewMeta" class="text-xs text-slate-500 font-medium">Ready</span>
+        <div class="flex items-center gap-2">
+          <a
+            id="docPreviewDownloadBtn"
+            download="tenant_document"
+            href="#"
+            class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition shadow-xs flex items-center gap-1.5 cursor-pointer"
+          >
+            <span>⬇ Download Document</span>
+          </a>
+          <button
+            type="button"
+            id="closeDocPreviewModalFooterBtn"
+            class="px-3.5 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs font-semibold transition cursor-pointer"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -8299,6 +8547,189 @@
         });
       }
 
+      // =========================================================
+      // 🪪 TENANT MASTER: DOCUMENT ATTACHMENTS & DEPOSIT ENGINE
+      // =========================================================
+      let currentTmPanDoc = null;
+      let currentTmAadhaarDoc = null;
+      let currentModalPanDoc = null;
+      let currentModalAadhaarDoc = null;
+      let editingTenantId = null;
+
+      window.setCurrentTmPanDoc = (doc) => { currentTmPanDoc = doc; };
+      window.setCurrentTmAadhaarDoc = (doc) => { currentTmAadhaarDoc = doc; };
+      window.getCurrentTmPanDoc = () => currentTmPanDoc;
+      window.getCurrentTmAadhaarDoc = () => currentTmAadhaarDoc;
+
+      function formatDocSize(bytes) {
+        if (!bytes) return "0 KB";
+        const kb = bytes / 1024;
+        if (kb < 1024) return `${Math.round(kb)} KB`;
+        return `${(kb / 1024).toFixed(1)} MB`;
+      }
+
+      function openDocPreviewModal(title, subtitle, docObj) {
+        const modal = document.getElementById("docPreviewModal");
+        if (!modal) return;
+        const titleEl = document.getElementById("docPreviewTitle");
+        const subTitleEl = document.getElementById("docPreviewSubtitle");
+        const contentEl = document.getElementById("docPreviewContent");
+        const dlBtn = document.getElementById("docPreviewDownloadBtn");
+        const metaEl = document.getElementById("docPreviewMeta");
+
+        if (titleEl) titleEl.textContent = title || "Attached Document";
+        if (subTitleEl) subTitleEl.textContent = subtitle || "Tenant Identity Verification";
+        if (metaEl) metaEl.textContent = docObj ? `${docObj.name || "document"} · ${formatDocSize(docObj.size || 0)}` : "Attached file";
+
+        if (dlBtn && docObj && docObj.dataUrl) {
+          dlBtn.href = docObj.dataUrl;
+          dlBtn.download = docObj.name || "tenant_document";
+          dlBtn.classList.remove("hidden");
+        } else if (dlBtn) {
+          dlBtn.classList.add("hidden");
+        }
+
+        if (contentEl) {
+          contentEl.innerHTML = "";
+          if (!docObj || !docObj.dataUrl) {
+            contentEl.innerHTML = `<div class="text-center p-8 text-slate-400"><p class="text-sm font-semibold">No document preview available.</p></div>`;
+          } else if (docObj.type === "application/pdf" || (docObj.name && docObj.name.toLowerCase().endsWith(".pdf")) || docObj.dataUrl.startsWith("data:application/pdf")) {
+            contentEl.innerHTML = `<iframe src="${docObj.dataUrl}" class="w-full h-[65vh] rounded-2xl border border-slate-300 bg-white" title="${escapeHtml(title || 'Document')}"></iframe>`;
+          } else {
+            contentEl.innerHTML = `<img src="${docObj.dataUrl}" alt="${escapeHtml(title || 'Document')}" class="max-h-[65vh] max-w-full rounded-2xl object-contain shadow-lg border border-slate-200 bg-white mx-auto" />`;
+          }
+        }
+
+        modal.classList.remove("hidden");
+      }
+
+      function closeDocPreviewModal() {
+        const modal = document.getElementById("docPreviewModal");
+        if (modal) {
+          modal.classList.add("hidden");
+          const contentEl = document.getElementById("docPreviewContent");
+          if (contentEl) contentEl.innerHTML = "";
+        }
+      }
+
+      function updateDocChipUI(chipId, emptyStateId, nameId, sizeId, docObj) {
+        const chip = document.getElementById(chipId);
+        const emptyState = document.getElementById(emptyStateId);
+        const nameEl = document.getElementById(nameId);
+        const sizeEl = document.getElementById(sizeId);
+
+        if (docObj && docObj.name) {
+          if (nameEl) nameEl.textContent = docObj.name;
+          if (sizeEl) sizeEl.textContent = formatDocSize(docObj.size);
+          if (chip) chip.classList.remove("hidden");
+          if (emptyState) emptyState.classList.add("hidden");
+        } else {
+          if (chip) chip.classList.add("hidden");
+          if (emptyState) emptyState.classList.remove("hidden");
+        }
+      }
+
+      function recalculateTmDeposit(source = "months") {
+        const rentInput = document.getElementById("tmRentInput");
+        const monthsInput = document.getElementById("tmDepositMonthsInput");
+        const amtInput = document.getElementById("tmDepositAmountInput");
+        if (!rentInput || !monthsInput || !amtInput) return;
+
+        const rent = Number(rentInput.value) || 0;
+        if (source === "amount") {
+          const amt = Number(amtInput.value) || 0;
+          if (rent > 0) {
+            monthsInput.value = (amt / rent).toFixed(1).replace(/\.0$/, "");
+          }
+        } else {
+          const months = Number(monthsInput.value) || 0;
+          amtInput.value = Math.round(rent * months);
+        }
+      }
+
+      function recalculateModalTenantDeposit(source = "months") {
+        const rentInput = document.getElementById("modalTenantRent");
+        const monthsInput = document.getElementById("modalTenantDepositMonths");
+        const amtInput = document.getElementById("modalTenantDepositAmount");
+        if (!rentInput || !monthsInput || !amtInput) return;
+
+        const rent = Number(rentInput.value) || 0;
+        if (source === "amount") {
+          const amt = Number(amtInput.value) || 0;
+          if (rent > 0) {
+            monthsInput.value = (amt / rent).toFixed(1).replace(/\.0$/, "");
+          }
+        } else {
+          const months = Number(monthsInput.value) || 0;
+          amtInput.value = Math.round(rent * months);
+        }
+      }
+
+      function formatPanString(str) {
+        return (str || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
+      }
+
+      function formatAadhaarString(str) {
+        const digits = (str || "").replace(/\D/g, "").slice(0, 12);
+        const parts = [];
+        for (let i = 0; i < digits.length; i += 4) {
+          parts.push(digits.substring(i, i + 4));
+        }
+        return parts.join(" ");
+      }
+
+      function loadTenantIntoForm(tenantId) {
+        const tenant = state.tenants.find((t) => t.id === tenantId);
+        if (!tenant) return;
+
+        editingTenantId = tenant.id;
+        document.getElementById("tmNameInput").value = tenant.name || "";
+        document.getElementById("tmMobileInput").value = tenant.mobile || "";
+        document.getElementById("tmEmailInput").value = tenant.email || "";
+        document.getElementById("tmUnitSelect").value = tenant.unit || "Unassigned";
+        document.getElementById("tmRentInput").value = tenant.rent || 0;
+
+        const monthsInput = document.getElementById("tmDepositMonthsInput");
+        const amtInput = document.getElementById("tmDepositAmountInput");
+        if (monthsInput) monthsInput.value = tenant.depositMonths !== undefined ? tenant.depositMonths : 2;
+        if (amtInput) amtInput.value = tenant.deposit || (Number(tenant.rent || 0) * (Number(monthsInput?.value) || 2));
+
+        // PAN & Aadhaar
+        const panInput = document.getElementById("tmPanInput");
+        const aadhaarInput = document.getElementById("tmAadhaarInput");
+        if (panInput) panInput.value = tenant.pan || "";
+        if (aadhaarInput) aadhaarInput.value = tenant.aadhaar || "";
+
+        currentTmPanDoc = tenant.panDoc || null;
+        currentTmAadhaarDoc = tenant.aadhaarDoc || null;
+        updateDocChipUI("tmPanDocChip", "tmPanDocEmptyState", "tmPanDocName", "tmPanDocSize", currentTmPanDoc);
+        updateDocChipUI("tmAadhaarDocChip", "tmAadhaarDocEmptyState", "tmAadhaarDocName", "tmAadhaarDocSize", currentTmAadhaarDoc);
+
+        document.getElementById("tmOsInput").value = tenant.osAmount || 0;
+        document.getElementById("tmStatusSelect").value = tenant.status || "Active";
+        document.getElementById("tmStartDateInput").value = tenant.startDate || "";
+        document.getElementById("tmEndDateInput").value = tenant.endDate || "";
+        document.getElementById("tmPermAddressInput").value = tenant.permAddress || "";
+
+        const submitBtn = document.getElementById("tmSubmitBtn");
+        if (submitBtn) {
+          submitBtn.innerHTML = `<span>✓ Update "${escapeHtml(tenant.name)}" Profile</span>`;
+          submitBtn.className = "px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer";
+        }
+
+        document.getElementById("addTenantMasterForm")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        showFeedback(`Loaded "${tenant.name}" for editing.`);
+      }
+
+      window.recalculateTmDeposit = recalculateTmDeposit;
+      window.recalculateModalTenantDeposit = recalculateModalTenantDeposit;
+      window.formatPanString = formatPanString;
+      window.formatAadhaarString = formatAadhaarString;
+      window.loadTenantIntoForm = loadTenantIntoForm;
+      window.openDocPreviewModal = openDocPreviewModal;
+      window.closeDocPreviewModal = closeDocPreviewModal;
+      window.renderTenantMaster = renderTenantMaster;
+
       // --- RENDERING: TENANT MASTER DIRECTORY ---
       function renderTenantMaster() {
         const container = document.getElementById("tenantMasterListContainer");
@@ -8341,13 +8772,16 @@
           const isVacated = t.status === "Vacated";
           const os = Number(t.osAmount) || 0;
           const hasOs = os > 0;
+          const depositAmt = t.deposit || (Number(t.rent || 0) * (t.depositMonths !== undefined ? Number(t.depositMonths) : 2));
+          const depositMonths = t.depositMonths !== undefined ? t.depositMonths : 2;
+
           const card = document.createElement("div");
           card.className = `p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 transition ${
             isVacated ? "bg-amber-50/20 hover:bg-amber-50/40" : "hover:bg-slate-50/80"
           }`;
 
           card.innerHTML = `
-            <div class="space-y-1.5 flex-1">
+            <div class="space-y-2 flex-1">
               <div class="flex flex-wrap items-center gap-2">
                 <h3 class="font-bold text-slate-900 text-base">${escapeHtml(t.name)}</h3>
                 <span class="text-xs px-2.5 py-0.5 rounded-full font-bold ${
@@ -8374,11 +8808,12 @@
                 }
               </div>
 
-              <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600">
+              <!-- Contact & Terms Info Row -->
+              <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-600">
                 <span>📱 ${escapeHtml(t.mobile || "N/A")}</span>
                 ${t.email ? `<span>✉️ ${escapeHtml(t.email)}</span>` : ""}
-                ${t.tenantIdNumber ? `<span>🪪 ${escapeHtml(t.tenantIdNumber)}</span>` : ""}
                 <span>Agreed Rent: <strong class="text-slate-900">${formatINR(t.rent)}</strong>/mo</span>
+                <span>Security Deposit: <strong class="text-emerald-800 font-mono">${formatINR(depositAmt)}</strong> <span class="text-slate-500 font-semibold">(${depositMonths} Mo)</span></span>
                 ${
                   t.startDate && t.endDate
                     ? `<span class="text-slate-500">📅 Term: ${t.startDate} to ${t.endDate}</span>`
@@ -8387,6 +8822,50 @@
                 ${
                   isVacated && t.vacatedDate
                     ? `<span class="text-amber-700 font-semibold">Vacated Date: ${t.vacatedDate}</span>`
+                    : ""
+                }
+              </div>
+
+              <!-- Separate PAN & Aadhaar Badges with Document Viewers -->
+              <div class="flex flex-wrap items-center gap-2 pt-0.5 text-xs">
+                ${
+                  t.pan
+                    ? `<span class="inline-flex items-center gap-1.5 font-mono bg-indigo-50/70 text-indigo-950 px-2.5 py-1 rounded-lg border border-indigo-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span>
+                        <span class="font-bold">PAN:</span>
+                        <span class="tracking-wider uppercase font-semibold">${escapeHtml(t.pan)}</span>
+                        ${
+                          t.panDoc
+                            ? `<button type="button" data-action="tm-view-doc" data-id="${t.id}" data-doctype="pan" class="ml-1 px-1.5 py-0.5 rounded bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold transition flex items-center gap-1 cursor-pointer">
+                                <span>📎 View Doc</span>
+                               </button>`
+                            : `<span class="text-[10px] text-slate-400 font-sans italic ml-1">(No doc)</span>`
+                        }
+                       </span>`
+                    : ""
+                }
+                ${
+                  t.aadhaar
+                    ? `<span class="inline-flex items-center gap-1.5 font-mono bg-emerald-50/70 text-emerald-950 px-2.5 py-1 rounded-lg border border-emerald-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                        <span class="font-bold">Aadhaar:</span>
+                        <span class="tracking-wider font-semibold">${escapeHtml(t.aadhaar)}</span>
+                        ${
+                          t.aadhaarDoc
+                            ? `<button type="button" data-action="tm-view-doc" data-id="${t.id}" data-doctype="aadhaar" class="ml-1 px-1.5 py-0.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold transition flex items-center gap-1 cursor-pointer">
+                                <span>📎 View Doc</span>
+                               </button>`
+                            : `<span class="text-[10px] text-slate-400 font-sans italic ml-1">(No doc)</span>`
+                        }
+                       </span>`
+                    : ""
+                }
+                ${
+                  !t.pan && !t.aadhaar && t.tenantIdNumber
+                    ? `<span class="inline-flex items-center gap-1 bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-200">
+                        <span>🪪</span>
+                        <span>${escapeHtml(t.tenantIdNumber)}</span>
+                       </span>`
                     : ""
                 }
               </div>
@@ -8400,13 +8879,23 @@
 
             <!-- Actions for Tenant Master -->
             <div class="flex flex-wrap items-center gap-2 shrink-0 pt-2 lg:pt-0">
+              <button
+                type="button"
+                data-action="tm-edit-tenant"
+                data-id="${t.id}"
+                class="px-3 py-2 rounded-xl border border-indigo-200 bg-indigo-50/80 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition flex items-center gap-1 shadow-2xs cursor-pointer"
+                title="Edit tenant details, security deposit, PAN & Aadhaar"
+              >
+                <span>✏️ Edit</span>
+              </button>
+
               ${
                 !isVacated
                   ? `<button
                       type="button"
                       data-action="tm-vacate-tenant"
                       data-id="${t.id}"
-                      class="px-3.5 py-2 rounded-xl border border-rose-300 text-rose-700 hover:bg-rose-50 text-xs font-bold transition flex items-center gap-1.5 shadow-2xs"
+                      class="px-3.5 py-2 rounded-xl border border-rose-300 text-rose-700 hover:bg-rose-50 text-xs font-bold transition flex items-center gap-1.5 shadow-2xs cursor-pointer"
                       title="Mark tenant as vacated and release the property as VACANT"
                     >
                       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
@@ -8416,7 +8905,7 @@
                       type="button"
                       data-action="tm-reassign-tenant"
                       data-id="${t.id}"
-                      class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs flex items-center gap-1.5"
+                      class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs flex items-center gap-1.5 cursor-pointer"
                       title="Re-assign this tenant to an available vacant unit"
                     >
                       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
@@ -8428,7 +8917,7 @@
                 type="button"
                 data-action="tm-receipt"
                 data-id="${t.id}"
-                class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-800 text-xs font-semibold transition shadow-2xs flex items-center gap-1"
+                class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-800 text-xs font-semibold transition shadow-2xs flex items-center gap-1 cursor-pointer"
                 title="Generate Rent Receipt"
               >
                 <span>🧾 Receipt</span>
@@ -8438,7 +8927,7 @@
                 type="button"
                 data-action="tm-agreement"
                 data-id="${t.id}"
-                class="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-semibold transition"
+                class="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-semibold transition cursor-pointer"
                 title="Prepare Agreement"
               >
                 <span>Draft Agreement &rarr;</span>
@@ -8448,7 +8937,7 @@
                 type="button"
                 data-action="tm-delete"
                 data-id="${t.id}"
-                class="px-2.5 py-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 text-xs font-bold transition"
+                class="px-2.5 py-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 text-xs font-bold transition cursor-pointer"
                 title="Delete Tenant Profile"
               >
                 ✕
@@ -9061,6 +9550,19 @@
           document.getElementById("modalTenantOs").value = existingTenant.osAmount || 0;
           document.getElementById("modalTenantStart").value = existingTenant.startDate || "";
           document.getElementById("modalTenantEnd").value = existingTenant.endDate || "";
+
+          const mMonths = document.getElementById("modalTenantDepositMonths");
+          const mAmt = document.getElementById("modalTenantDepositAmount");
+          if (mMonths) mMonths.value = existingTenant.depositMonths !== undefined ? existingTenant.depositMonths : 2;
+          if (mAmt) mAmt.value = existingTenant.deposit || (Number(existingTenant.rent || prop.rent || 0) * (Number(mMonths?.value) || 2));
+          const mPan = document.getElementById("modalTenantPan");
+          const mAadhaar = document.getElementById("modalTenantAadhaar");
+          if (mPan) mPan.value = existingTenant.pan || "";
+          if (mAadhaar) mAadhaar.value = existingTenant.aadhaar || "";
+          currentModalPanDoc = existingTenant.panDoc || null;
+          currentModalAadhaarDoc = existingTenant.aadhaarDoc || null;
+          updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, currentModalPanDoc);
+          updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, currentModalAadhaarDoc);
         } else {
           // Property is VACANT: show unassigned tenants first and pre-fill the first unassigned tenant!
           if (vacateBtn) vacateBtn.classList.add("hidden");
@@ -9075,6 +9577,19 @@
             document.getElementById("modalTenantId").value = firstUnassigned.tenantIdNumber || "";
             document.getElementById("modalTenantRent").value = prop.rent || firstUnassigned.rent || 12000;
             document.getElementById("modalTenantOs").value = firstUnassigned.osAmount || 0;
+
+            const mMonths = document.getElementById("modalTenantDepositMonths");
+            const mAmt = document.getElementById("modalTenantDepositAmount");
+            if (mMonths) mMonths.value = firstUnassigned.depositMonths !== undefined ? firstUnassigned.depositMonths : 2;
+            if (mAmt) mAmt.value = firstUnassigned.deposit || (Number(firstUnassigned.rent || prop.rent || 0) * (Number(mMonths?.value) || 2));
+            const mPan = document.getElementById("modalTenantPan");
+            const mAadhaar = document.getElementById("modalTenantAadhaar");
+            if (mPan) mPan.value = firstUnassigned.pan || "";
+            if (mAadhaar) mAadhaar.value = firstUnassigned.aadhaar || "";
+            currentModalPanDoc = firstUnassigned.panDoc || null;
+            currentModalAadhaarDoc = firstUnassigned.aadhaarDoc || null;
+            updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, currentModalPanDoc);
+            updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, currentModalAadhaarDoc);
           } else {
             if (modalSelect) modalSelect.value = "new";
             document.getElementById("modalTenantName").value = "";
@@ -9083,6 +9598,19 @@
             document.getElementById("modalTenantId").value = "";
             document.getElementById("modalTenantRent").value = prop.rent || 24000;
             document.getElementById("modalTenantOs").value = 0;
+
+            const mMonths = document.getElementById("modalTenantDepositMonths");
+            const mAmt = document.getElementById("modalTenantDepositAmount");
+            if (mMonths) mMonths.value = 2;
+            if (mAmt) mAmt.value = prop.deposit || ((prop.rent || 24000) * 2);
+            const mPan = document.getElementById("modalTenantPan");
+            const mAadhaar = document.getElementById("modalTenantAadhaar");
+            if (mPan) mPan.value = "";
+            if (mAadhaar) mAadhaar.value = "";
+            currentModalPanDoc = null;
+            currentModalAadhaarDoc = null;
+            updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, null);
+            updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, null);
           }
 
           // Pre-fill 11 month dates
@@ -11794,6 +12322,19 @@
               document.getElementById("modalTenantId").value = "";
               document.getElementById("modalTenantRent").value = prop ? prop.rent : 24000;
               document.getElementById("modalTenantOs").value = 0;
+
+              const mMonths = document.getElementById("modalTenantDepositMonths");
+              const mAmt = document.getElementById("modalTenantDepositAmount");
+              if (mMonths) mMonths.value = 2;
+              if (mAmt) mAmt.value = prop ? (prop.deposit || prop.rent * 2) : 48000;
+              const mPan = document.getElementById("modalTenantPan");
+              const mAadhaar = document.getElementById("modalTenantAadhaar");
+              if (mPan) mPan.value = "";
+              if (mAadhaar) mAadhaar.value = "";
+              currentModalPanDoc = null;
+              currentModalAadhaarDoc = null;
+              updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, null);
+              updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, null);
             } else {
               const selectedTenant = state.tenants.find((t) => t.id === val);
               if (selectedTenant) {
@@ -11805,6 +12346,19 @@
                 document.getElementById("modalTenantOs").value = selectedTenant.osAmount || 0;
                 document.getElementById("modalTenantStart").value = selectedTenant.startDate || "";
                 document.getElementById("modalTenantEnd").value = selectedTenant.endDate || "";
+
+                const mMonths = document.getElementById("modalTenantDepositMonths");
+                const mAmt = document.getElementById("modalTenantDepositAmount");
+                if (mMonths) mMonths.value = selectedTenant.depositMonths !== undefined ? selectedTenant.depositMonths : 2;
+                if (mAmt) mAmt.value = selectedTenant.deposit || (Number(selectedTenant.rent || prop?.rent || 0) * (Number(mMonths?.value) || 2));
+                const mPan = document.getElementById("modalTenantPan");
+                const mAadhaar = document.getElementById("modalTenantAadhaar");
+                if (mPan) mPan.value = selectedTenant.pan || "";
+                if (mAadhaar) mAadhaar.value = selectedTenant.aadhaar || "";
+                currentModalPanDoc = selectedTenant.panDoc || null;
+                currentModalAadhaarDoc = selectedTenant.aadhaarDoc || null;
+                updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, currentModalPanDoc);
+                updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, currentModalAadhaarDoc);
               }
             }
           });
@@ -11835,6 +12389,13 @@
             const startDate = document.getElementById("modalTenantStart").value;
             const endDate = document.getElementById("modalTenantEnd").value;
 
+            // Security Deposit & ID Cards
+            const depositMonths = Number(document.getElementById("modalTenantDepositMonths")?.value) || 2;
+            const deposit = Number(document.getElementById("modalTenantDepositAmount")?.value) || (rent * depositMonths);
+            const pan = formatPanString(document.getElementById("modalTenantPan")?.value);
+            const aadhaar = formatAadhaarString(document.getElementById("modalTenantAadhaar")?.value);
+            const computedId = [pan ? "PAN: " + pan : "", aadhaar ? "Aadhaar: " + aadhaar : ""].filter(Boolean).join(" · ") || tenantId || "Aadhaar: XXXX-XXXX-1234";
+
             if (!name || !mobile) {
               showFeedback("Please enter tenant full name and mobile number.", "error");
               return;
@@ -11859,12 +12420,18 @@
               targetTenant.mobile = mobile;
               targetTenant.email = email;
               targetTenant.rent = rent;
+              targetTenant.depositMonths = depositMonths;
+              targetTenant.deposit = deposit;
+              targetTenant.pan = pan;
+              targetTenant.panDoc = currentModalPanDoc;
+              targetTenant.aadhaar = aadhaar;
+              targetTenant.aadhaarDoc = currentModalAadhaarDoc;
               targetTenant.osAmount = os;
               targetTenant.startDate = startDate;
               targetTenant.endDate = endDate;
               targetTenant.status = "Active";
               delete targetTenant.vacatedDate;
-              targetTenant.tenantIdNumber = tenantId || targetTenant.tenantIdNumber || "Aadhaar: XXXX-XXXX-1234";
+              targetTenant.tenantIdNumber = computedId;
             } else {
               state.tenants.unshift({
                 id: "ten_" + Date.now(),
@@ -11873,13 +12440,22 @@
                 mobile,
                 email,
                 rent,
+                depositMonths,
+                deposit,
+                pan,
+                panDoc: currentModalPanDoc,
+                aadhaar,
+                aadhaarDoc: currentModalAadhaarDoc,
                 osAmount: os,
                 status: "Active",
                 startDate,
                 endDate,
-                tenantIdNumber: tenantId || "Aadhaar: XXXX-XXXX-1234"
+                tenantIdNumber: computedId
               });
             }
+
+            prop.rent = rent;
+            prop.deposit = deposit;
 
             saveState();
             renderAll();
@@ -11899,73 +12475,332 @@
             const tenantIdNumber = document.getElementById("tmIdInput").value.trim();
             const unit = document.getElementById("tmUnitSelect").value;
             const rent = Number(document.getElementById("tmRentInput").value) || 0;
+            const depositMonths = Number(document.getElementById("tmDepositMonthsInput")?.value) || 2;
+            const deposit = Number(document.getElementById("tmDepositAmountInput")?.value) || (rent * depositMonths);
+            const pan = formatPanString(document.getElementById("tmPanInput")?.value);
+            const aadhaar = formatAadhaarString(document.getElementById("tmAadhaarInput")?.value);
             const osAmount = Number(document.getElementById("tmOsInput").value) || 0;
             const status = document.getElementById("tmStatusSelect").value || "Active";
             const startDate = document.getElementById("tmStartDateInput").value;
             const endDate = document.getElementById("tmEndDateInput").value;
             const permAddress = document.getElementById("tmPermAddressInput").value.trim();
+            const effectiveId = [pan ? "PAN: " + pan : "", aadhaar ? "Aadhaar: " + aadhaar : ""].filter(Boolean).join(" · ") || tenantIdNumber || "Aadhaar: XXXX-XXXX-1234";
 
             if (!name || !mobile) {
               showFeedback("Please enter tenant name and mobile number.", "error");
               return;
             }
 
-            // If an active tenant is already occupying this unit (and it's not unassigned), warn or swap
-            if (status === "Active" && unit && !unit.startsWith("Unassigned")) {
-              const existingOccupant = state.tenants.find(
-                (t) => (t.unit || "").trim().toLowerCase() === unit.trim().toLowerCase() && t.status !== "Vacated"
-              );
-              if (existingOccupant) {
-                if (
-                  confirm(
-                    `Unit "${unit}" is currently occupied by "${existingOccupant.name}".\n\nDo you want to mark "${existingOccupant.name}" as Vacated and assign this unit to "${name}"?`
-                  )
-                ) {
-                  existingOccupant.status = "Vacated";
-                  existingOccupant.previousUnit = existingOccupant.unit;
-                  existingOccupant.unit = "Unassigned / Vacated";
-                  existingOccupant.vacatedDate = new Date().toISOString().split("T")[0];
-                } else {
-                  return;
+            // Mode: Update Existing Tenant (Editing Mode)
+            if (editingTenantId) {
+              const targetTenant = state.tenants.find((t) => t.id === editingTenantId);
+              if (targetTenant) {
+                targetTenant.name = name;
+                targetTenant.mobile = mobile;
+                targetTenant.email = email;
+                targetTenant.unit = status === "Vacated" ? "Unassigned / Vacated" : (unit || "Unassigned");
+                targetTenant.rent = rent;
+                targetTenant.depositMonths = depositMonths;
+                targetTenant.deposit = deposit;
+                targetTenant.pan = pan;
+                targetTenant.panDoc = currentTmPanDoc;
+                targetTenant.aadhaar = aadhaar;
+                targetTenant.aadhaarDoc = currentTmAadhaarDoc;
+                targetTenant.osAmount = osAmount;
+                targetTenant.status = status;
+                targetTenant.startDate = startDate;
+                targetTenant.endDate = endDate;
+                targetTenant.permAddress = permAddress;
+                targetTenant.tenantIdNumber = effectiveId;
+
+                if (status === "Vacated" && !targetTenant.vacatedDate) {
+                  targetTenant.vacatedDate = new Date().toISOString().split("T")[0];
+                } else if (status !== "Vacated") {
+                  delete targetTenant.vacatedDate;
                 }
               }
+
+              editingTenantId = null;
+              const submitBtn = document.getElementById("tmSubmitBtn");
+              if (submitBtn) {
+                submitBtn.innerHTML = '<span class="flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg><span>Save Tenant to Master</span></span>';
+                submitBtn.className = "px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer";
+              }
+              showFeedback(`Tenant "${name}" profile updated successfully!`);
+            } else {
+              // Mode: Register New Permanent Tenant
+              // If an active tenant is already occupying this unit (and it's not unassigned), warn or swap
+              if (status === "Active" && unit && !unit.startsWith("Unassigned")) {
+                const existingOccupant = state.tenants.find(
+                  (t) => (t.unit || "").trim().toLowerCase() === unit.trim().toLowerCase() && t.status !== "Vacated"
+                );
+                if (existingOccupant) {
+                  if (
+                    confirm(
+                      `Unit "${unit}" is currently occupied by "${existingOccupant.name}".\n\nDo you want to mark "${existingOccupant.name}" as Vacated and assign this unit to "${name}"?`
+                    )
+                  ) {
+                    existingOccupant.status = "Vacated";
+                    existingOccupant.previousUnit = existingOccupant.unit;
+                    existingOccupant.unit = "Unassigned / Vacated";
+                    existingOccupant.vacatedDate = new Date().toISOString().split("T")[0];
+                  } else {
+                    return;
+                  }
+                }
+              }
+
+              state.tenants.unshift({
+                id: "ten_" + Date.now(),
+                name,
+                mobile,
+                email,
+                tenantIdNumber: effectiveId,
+                unit: status === "Vacated" ? "Unassigned / Vacated" : (unit || "Unassigned"),
+                previousUnit: status === "Vacated" && unit && !unit.startsWith("Unassigned") ? unit : "",
+                rent,
+                depositMonths,
+                deposit,
+                pan,
+                panDoc: currentTmPanDoc,
+                aadhaar,
+                aadhaarDoc: currentTmAadhaarDoc,
+                osAmount,
+                status,
+                startDate,
+                endDate,
+                permAddress,
+                vacatedDate: status === "Vacated" ? new Date().toISOString().split("T")[0] : ""
+              });
+
+              showFeedback(`Tenant "${name}" successfully registered in Tenant Master (${status})!`);
             }
 
-            state.tenants.unshift({
-              id: "ten_" + Date.now(),
-              name,
-              mobile,
-              email,
-              tenantIdNumber: tenantIdNumber || "Aadhaar: XXXX-XXXX-1234",
-              unit: status === "Vacated" ? "Unassigned / Vacated" : (unit || "Unassigned"),
-              previousUnit: status === "Vacated" && unit && !unit.startsWith("Unassigned") ? unit : "",
-              rent,
-              osAmount,
-              status,
-              startDate,
-              endDate,
-              permAddress,
-              vacatedDate: status === "Vacated" ? new Date().toISOString().split("T")[0] : ""
-            });
-
-            // Synchronize agreed rent & standard deposit to property
+            // Synchronize agreed rent & deposit to property
             if (unit && !unit.startsWith("Unassigned")) {
               const matchingProp = state.properties.find(
                 (p) => (p.name || "").trim().toLowerCase() === unit.trim().toLowerCase()
               );
               if (matchingProp) {
                 matchingProp.rent = rent;
-                matchingProp.deposit = rent * 2;
+                matchingProp.deposit = deposit;
               }
             }
 
             saveState();
             renderAll();
             addTenantMasterForm.reset();
+            currentTmPanDoc = null;
+            currentTmAadhaarDoc = null;
+            updateDocChipUI("tmPanDocChip", "tmPanDocEmptyState", "tmPanDocName", "tmPanDocSize", null);
+            updateDocChipUI("tmAadhaarDocChip", "tmAadhaarDocEmptyState", "tmAadhaarDocName", "tmAadhaarDocSize", null);
+            const mInput = document.getElementById("tmDepositMonthsInput");
+            if (mInput) mInput.value = 2;
             document.getElementById("tmOsInput").value = 0;
-            showFeedback(`Tenant "${name}" successfully registered in Tenant Master (${status})!`);
           });
         }
+
+        // --- REAL-TIME DEPOSIT AUTO-CALCULATION & FORMATTING HANDLERS ---
+        const tmRentInput = document.getElementById("tmRentInput");
+        const tmDepositMonthsInput = document.getElementById("tmDepositMonthsInput");
+        const tmDepositAmountInput = document.getElementById("tmDepositAmountInput");
+        if (tmRentInput) tmRentInput.addEventListener("input", () => recalculateTmDeposit("months"));
+        if (tmDepositMonthsInput) tmDepositMonthsInput.addEventListener("input", () => recalculateTmDeposit("months"));
+        if (tmDepositAmountInput) tmDepositAmountInput.addEventListener("input", () => recalculateTmDeposit("amount"));
+
+        // Quick month pill buttons (1 Mo, 2 Mo, 3 Mo)
+        const quickBtns = document.querySelectorAll ? Array.from(document.querySelectorAll(".deposit-quick-btn")) : [];
+        quickBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const months = Number(btn.getAttribute("data-months")) || 2;
+            if (tmDepositMonthsInput) {
+              tmDepositMonthsInput.value = months;
+              recalculateTmDeposit("months");
+            }
+            quickBtns.forEach((b) => {
+              b.className = b === btn
+                ? "deposit-quick-btn text-[10px] px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-bold transition border border-indigo-200"
+                : "deposit-quick-btn text-[10px] px-1.5 py-0.2 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 font-bold transition border border-slate-200";
+            });
+          });
+        });
+
+        // Modal real-time deposit auto-calculation
+        const modalTenantRent = document.getElementById("modalTenantRent");
+        const modalTenantDepositMonths = document.getElementById("modalTenantDepositMonths");
+        const modalTenantDepositAmount = document.getElementById("modalTenantDepositAmount");
+        if (modalTenantRent) modalTenantRent.addEventListener("input", () => recalculateModalTenantDeposit("months"));
+        if (modalTenantDepositMonths) modalTenantDepositMonths.addEventListener("input", () => recalculateModalTenantDeposit("months"));
+        if (modalTenantDepositAmount) modalTenantDepositAmount.addEventListener("input", () => recalculateModalTenantDeposit("amount"));
+
+        // Live PAN and Aadhaar input formatting
+        const tmPanInput = document.getElementById("tmPanInput");
+        if (tmPanInput) {
+          tmPanInput.addEventListener("input", (e) => {
+            e.target.value = formatPanString(e.target.value);
+            const badge = document.getElementById("tmPanStatusBadge");
+            if (badge) {
+              badge.textContent = e.target.value.length === 10 ? "✓ 10 Chars (Valid)" : `${e.target.value.length}/10 Chars`;
+              badge.className = e.target.value.length === 10
+                ? "text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200"
+                : "text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200";
+            }
+          });
+        }
+
+        const modalTenantPan = document.getElementById("modalTenantPan");
+        if (modalTenantPan) {
+          modalTenantPan.addEventListener("input", (e) => {
+            e.target.value = formatPanString(e.target.value);
+          });
+        }
+
+        const tmAadhaarInput = document.getElementById("tmAadhaarInput");
+        if (tmAadhaarInput) {
+          tmAadhaarInput.addEventListener("input", (e) => {
+            const rawDigits = e.target.value.replace(/\D/g, "");
+            e.target.value = formatAadhaarString(e.target.value);
+            const badge = document.getElementById("tmAadhaarStatusBadge");
+            if (badge) {
+              badge.textContent = rawDigits.length === 12 ? "✓ 12 Digits (Valid)" : `${rawDigits.length}/12 Digits`;
+              badge.className = rawDigits.length === 12
+                ? "text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200"
+                : "text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200";
+            }
+          });
+        }
+
+        const modalTenantAadhaar = document.getElementById("modalTenantAadhaar");
+        if (modalTenantAadhaar) {
+          modalTenantAadhaar.addEventListener("input", (e) => {
+            e.target.value = formatAadhaarString(e.target.value);
+          });
+        }
+
+        // --- FILE UPLOAD LISTENERS FOR PAN & AADHAAR ATTACHMENTS ---
+        // Helper file reader
+        function processFileUpload(file, onLoaded) {
+          if (!file) return;
+          if (file.size > 5 * 1024 * 1024) {
+            showFeedback("Document size exceeds 5MB limit. Please upload a smaller file.", "error");
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            onLoaded({
+              name: file.name,
+              size: file.size,
+              type: file.type || "application/octet-stream",
+              dataUrl: e.target.result
+            });
+          };
+          reader.readAsDataURL(file);
+        }
+
+        // Tenant Master Form: PAN Doc
+        document.getElementById("tmPanDocUploadBtn")?.addEventListener("click", () => {
+          document.getElementById("tmPanDocInput")?.click();
+        });
+        document.getElementById("tmPanDocInput")?.addEventListener("change", (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          processFileUpload(file, (doc) => {
+            currentTmPanDoc = doc;
+            updateDocChipUI("tmPanDocChip", "tmPanDocEmptyState", "tmPanDocName", "tmPanDocSize", doc);
+            showFeedback(`PAN Document "${file.name}" attached successfully.`);
+          });
+        });
+        document.getElementById("tmPanDocRemoveBtn")?.addEventListener("click", () => {
+          currentTmPanDoc = null;
+          const input = document.getElementById("tmPanDocInput");
+          if (input) input.value = "";
+          updateDocChipUI("tmPanDocChip", "tmPanDocEmptyState", "tmPanDocName", "tmPanDocSize", null);
+        });
+        document.getElementById("tmPanDocPreviewBtn")?.addEventListener("click", () => {
+          const tenantName = document.getElementById("tmNameInput")?.value || "Tenant";
+          const panNum = document.getElementById("tmPanInput")?.value || "";
+          openDocPreviewModal(`PAN Card Document — ${tenantName}`, `PAN: ${panNum || "Attached"}`, currentTmPanDoc);
+        });
+
+        // Tenant Master Form: Aadhaar Doc
+        document.getElementById("tmAadhaarDocUploadBtn")?.addEventListener("click", () => {
+          document.getElementById("tmAadhaarDocInput")?.click();
+        });
+        document.getElementById("tmAadhaarDocInput")?.addEventListener("change", (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          processFileUpload(file, (doc) => {
+            currentTmAadhaarDoc = doc;
+            updateDocChipUI("tmAadhaarDocChip", "tmAadhaarDocEmptyState", "tmAadhaarDocName", "tmAadhaarDocSize", doc);
+            showFeedback(`Aadhaar Document "${file.name}" attached successfully.`);
+          });
+        });
+        document.getElementById("tmAadhaarDocRemoveBtn")?.addEventListener("click", () => {
+          currentTmAadhaarDoc = null;
+          const input = document.getElementById("tmAadhaarDocInput");
+          if (input) input.value = "";
+          updateDocChipUI("tmAadhaarDocChip", "tmAadhaarDocEmptyState", "tmAadhaarDocName", "tmAadhaarDocSize", null);
+        });
+        document.getElementById("tmAadhaarDocPreviewBtn")?.addEventListener("click", () => {
+          const tenantName = document.getElementById("tmNameInput")?.value || "Tenant";
+          const aadhaarNum = document.getElementById("tmAadhaarInput")?.value || "";
+          openDocPreviewModal(`Aadhaar Card Document — ${tenantName}`, `Aadhaar: ${aadhaarNum || "Attached"}`, currentTmAadhaarDoc);
+        });
+
+        // Link Tenant Modal: PAN Doc
+        document.getElementById("modalTenantPanDocBtn")?.addEventListener("click", () => {
+          document.getElementById("modalTenantPanDocInput")?.click();
+        });
+        document.getElementById("modalTenantPanDocInput")?.addEventListener("change", (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          processFileUpload(file, (doc) => {
+            currentModalPanDoc = doc;
+            updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, doc);
+            showFeedback(`PAN Document "${file.name}" attached.`);
+          });
+        });
+        document.getElementById("modalTenantPanDocRemoveBtn")?.addEventListener("click", () => {
+          currentModalPanDoc = null;
+          const input = document.getElementById("modalTenantPanDocInput");
+          if (input) input.value = "";
+          updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, null);
+        });
+        document.getElementById("modalTenantPanDocPreviewBtn")?.addEventListener("click", () => {
+          const tenantName = document.getElementById("modalTenantName")?.value || "Tenant";
+          openDocPreviewModal(`PAN Card Document — ${tenantName}`, "Tenant Identity Verification", currentModalPanDoc);
+        });
+
+        // Link Tenant Modal: Aadhaar Doc
+        document.getElementById("modalTenantAadhaarDocBtn")?.addEventListener("click", () => {
+          document.getElementById("modalTenantAadhaarDocInput")?.click();
+        });
+        document.getElementById("modalTenantAadhaarDocInput")?.addEventListener("change", (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          processFileUpload(file, (doc) => {
+            currentModalAadhaarDoc = doc;
+            updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, doc);
+            showFeedback(`Aadhaar Document "${file.name}" attached.`);
+          });
+        });
+        document.getElementById("modalTenantAadhaarDocRemoveBtn")?.addEventListener("click", () => {
+          currentModalAadhaarDoc = null;
+          const input = document.getElementById("modalTenantAadhaarDocInput");
+          if (input) input.value = "";
+          updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, null);
+        });
+        document.getElementById("modalTenantAadhaarDocPreviewBtn")?.addEventListener("click", () => {
+          const tenantName = document.getElementById("modalTenantName")?.value || "Tenant";
+          openDocPreviewModal(`Aadhaar Card Document — ${tenantName}`, "Tenant Identity Verification", currentModalAadhaarDoc);
+        });
+
+        // Document Viewer Modal Close buttons
+        document.getElementById("closeDocPreviewModalBtn")?.addEventListener("click", closeDocPreviewModal);
+        document.getElementById("closeDocPreviewModalFooterBtn")?.addEventListener("click", closeDocPreviewModal);
+        document.getElementById("docPreviewModal")?.addEventListener("click", (e) => {
+          if (e.target.id === "docPreviewModal") closeDocPreviewModal();
+        });
 
         // Tenant Master: Auto 11-Month button
         const tmAutoFillDatesBtn = document.getElementById("tmAutoFillDatesBtn");
@@ -11991,7 +12826,7 @@
           });
         }
 
-        // Tenant Master: Unit selection change -> auto-suggest standard rent
+        // Tenant Master: Unit selection change -> auto-suggest standard rent & deposit
         const tmUnitSelect = document.getElementById("tmUnitSelect");
         if (tmUnitSelect) {
           tmUnitSelect.addEventListener("change", (e) => {
@@ -12000,6 +12835,7 @@
               const rentInput = document.getElementById("tmRentInput");
               if (rentInput && !rentInput.value) {
                 rentInput.value = selectedOpt.dataset.rent;
+                recalculateTmDeposit("months");
               }
             }
           });
@@ -12026,7 +12862,7 @@
           });
         }
 
-        // Tenant Master Directory Delegated Actions (Vacate, Re-assign, Receipt, Agreement, Delete)
+        // Tenant Master Directory Delegated Actions (Vacate, Re-assign, Receipt, Agreement, Edit, View Doc, Delete)
         const tenantMasterContainer = document.getElementById("tenantMasterListContainer");
         if (tenantMasterContainer) {
           tenantMasterContainer.addEventListener("click", (e) => {
@@ -12034,6 +12870,25 @@
             if (!btn) return;
             const action = btn.getAttribute("data-action");
             const id = btn.getAttribute("data-id");
+
+            if (action === "tm-view-doc") {
+              const docType = btn.getAttribute("data-doctype");
+              const tenant = state.tenants.find((t) => t.id === id);
+              if (!tenant) return;
+              if (docType === "pan" && tenant.panDoc) {
+                openDocPreviewModal(`PAN Card Document — ${tenant.name}`, `PAN: ${tenant.pan || "On Record"}`, tenant.panDoc);
+              } else if (docType === "aadhaar" && tenant.aadhaarDoc) {
+                openDocPreviewModal(`Aadhaar Card Document — ${tenant.name}`, `Aadhaar: ${tenant.aadhaar || "On Record"}`, tenant.aadhaarDoc);
+              } else {
+                showFeedback("No attached document found for this record.", "error");
+              }
+              return;
+            }
+
+            if (action === "tm-edit-tenant") {
+              loadTenantIntoForm(id);
+              return;
+            }
 
             if (action === "tm-vacate-tenant") {
               vacateTenant(id);
@@ -12575,6 +13430,7 @@
             closePartialPaymentModal();
             closeRentReceipt();
             closeLinkTenantModal();
+            closeDocPreviewModal();
             closeKpiDetailModal();
             closeSupabaseModal();
           } else if ((e.key === "/" || (e.ctrlKey && e.key.toLowerCase() === "k")) && !["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName)) {
