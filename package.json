@@ -5,6 +5,7 @@
   "main": "index.html",
   "type": "module",
   "scripts": {
+    "build": "echo 'Build complete: Static assets ready'",
     "start": "npx serve .",
     "dev": "npx serve .",
     "deploy": "node scripts/deploy.js"
