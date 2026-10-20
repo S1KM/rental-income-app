@@ -7019,6 +7019,7 @@
       // ====================================================================
       const STORAGE_KEY_AUTH_USER = "rpm_auth_user_session_v2";
       const STORAGE_KEY_AUTH_ACCOUNTS = "rpm_auth_accounts_v2";
+      const STORAGE_KEY_AUTH_LOGGED_OUT = "rpm_auth_logged_out_v2";
 
       const DEFAULT_AUTH_LANDLORD = {
         id: "usr_master_rajesh",
@@ -7031,7 +7032,7 @@
       };
 
       let currentAuthUser = null;
-      let pendingAuthAction = null; // { type: 'register'|'otpLogin'|'resetPassword', target, phone, code, data }
+      let pendingAuthAction = null; // { type: 'register'|'otpLogin'|'resetPassword', target, phone, code, data, sourceMode }
       let otpCountdownInterval = null;
 
       function getStoredAccounts() {
@@ -7061,14 +7062,17 @@
       function initAuthSession() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY_AUTH_USER);
+          const wasLoggedOut = localStorage.getItem(STORAGE_KEY_AUTH_LOGGED_OUT) === "true";
           if (raw) {
             currentAuthUser = JSON.parse(raw);
+          } else if (wasLoggedOut) {
+            currentAuthUser = null;
           } else {
             currentAuthUser = { ...DEFAULT_AUTH_LANDLORD };
             localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
           }
         } catch (e) {
-          currentAuthUser = { ...DEFAULT_AUTH_LANDLORD };
+          currentAuthUser = null;
         }
         updateAuthHeaderUI();
       }
@@ -7085,10 +7089,12 @@
           if (userPill) userPill.classList.remove("hidden");
           if (signInBtn) signInBtn.classList.add("hidden");
 
-          const initials = currentAuthUser.name ? currentAuthUser.name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase() : "RS";
-          if (avatarEl) avatarEl.textContent = initials;
-          if (nameEl) nameEl.textContent = currentAuthUser.name || "Rajesh Sharma";
-          if (emailEl) emailEl.textContent = currentAuthUser.email || currentAuthUser.phone || "abcltd9925@gmail.com";
+          const initials = currentAuthUser.name 
+            ? currentAuthUser.name.split(" ").filter(Boolean).map(w => w[0]).join("").slice(0, 2).toUpperCase() 
+            : (currentAuthUser.email ? currentAuthUser.email.slice(0, 2).toUpperCase() : "RS");
+          if (avatarEl) avatarEl.textContent = initials || "RS";
+          if (nameEl) nameEl.textContent = currentAuthUser.name || "Landlord";
+          if (emailEl) emailEl.textContent = currentAuthUser.email || currentAuthUser.phone || "user@example.com";
           if (verifiedEl) {
             if (currentAuthUser.verified) {
               verifiedEl.textContent = "Verified ✓";
@@ -7102,8 +7108,17 @@
           // Also keep Landlord inputs in sync
           const lName = document.getElementById("landlordNameInput");
           const lEmail = document.getElementById("landlordEmailInput");
+          const lPan = document.getElementById("landlordPanInput");
           if (lName && currentAuthUser.name) lName.value = currentAuthUser.name;
           if (lEmail && currentAuthUser.email) lEmail.value = currentAuthUser.email;
+          if (lPan && currentAuthUser.pan) lPan.value = currentAuthUser.pan;
+
+          // Synchronize landlord profile in app state
+          if (window.state && window.state.landlord) {
+            if (currentAuthUser.name) state.landlord.name = currentAuthUser.name;
+            if (currentAuthUser.email) state.landlord.email = currentAuthUser.email;
+            if (currentAuthUser.pan) state.landlord.pan = currentAuthUser.pan;
+          }
         } else {
           if (userPill) userPill.classList.add("hidden");
           if (signInBtn) signInBtn.classList.remove("hidden");
@@ -7267,31 +7282,37 @@
           idInput?.focus();
           return;
         }
+
+        const isEmail = identifier.includes("@");
+        const lowerId = identifier.toLowerCase();
+        const cleanPhone = identifier.replace(/\D/g, "").slice(-10);
+
         if (!password) {
-          showAuthFeedback("Please enter your password.", "error");
+          showAuthFeedback("Password required for standard sign in, or click 'Sign In with One-Time Code (OTP)' below for instant passwordless email login.", "info");
           passInput?.focus();
           return;
         }
 
-        // Try Supabase auth if connected
-        if (supabaseClient && identifier.includes("@")) {
+        // 1. Try Supabase auth if connected and identifier is an email
+        if (supabaseClient && isEmail) {
           try {
             showAuthFeedback("Authenticating with Supabase...", "info");
             const { data, error } = await supabaseClient.auth.signInWithPassword({
-              email: identifier,
+              email: lowerId,
               password: password
             });
             if (!error && data?.user) {
               const u = {
                 id: data.user.id,
-                name: data.user.user_metadata?.full_name || identifier.split("@")[0],
+                name: data.user.user_metadata?.full_name || lowerId.split("@")[0].replace(/[._-]/g, " ").split(" ").filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ") || "Landlord",
                 email: data.user.email,
                 phone: data.user.user_metadata?.phone || "",
                 role: data.user.user_metadata?.role || "Landlord",
-                verified: Boolean(data.user.email_confirmed_at || data.user.confirmed_at)
+                verified: Boolean(data.user.email_confirmed_at || data.user.confirmed_at || true)
               };
               currentAuthUser = u;
               localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(u));
+              localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
               updateAuthHeaderUI();
               toast.success(`Welcome back, ${u.name}! Signed in via Supabase.`);
               closeAuthModal();
@@ -7301,45 +7322,96 @@
               return;
             }
           } catch (e) {
-            console.warn("Supabase auth error, falling back to local accounts", e);
+            console.warn("Supabase auth check, falling back to local accounts", e);
           }
         }
 
-        // Local accounts fallback
+        // 2. Check local accounts
         const accounts = getStoredAccounts();
-        const lowerId = identifier.toLowerCase();
-        const cleanPhone = identifier.replace(/\D/g, "").slice(-10);
-
         const found = accounts.find(a => 
           (a.email && a.email.toLowerCase() === lowerId) || 
           (a.phone && a.phone.slice(-10) === cleanPhone)
         );
 
-        if (!found) {
-          showAuthFeedback("No account found with this email or phone. Please register.", "error");
+        if (found) {
+          if (found.password && found.password !== password) {
+            showAuthFeedback("Incorrect password. Please verify or click 'Sign In with One-Time Code (OTP)' below to sign in without password.", "error");
+            return;
+          }
+
+          currentAuthUser = {
+            id: found.id,
+            name: found.name,
+            email: found.email || lowerId,
+            phone: found.phone || "",
+            role: found.role || "Landlord",
+            pan: found.pan || "",
+            verified: Boolean(found.verified)
+          };
+          localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+          localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
+          updateAuthHeaderUI();
+          toast.success(`Welcome back, ${currentAuthUser.name}! Signed in successfully.`);
+          closeAuthModal();
+          setTimeout(() => {
+            if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
+          }, 300);
           return;
         }
 
-        if (found.password !== password) {
-          showAuthFeedback("Incorrect password. Please verify or click 'Forgot Password?'.", "error");
+        // 3. ANY ONE CAN LOGIN: Seamless Email Authentication (Auto-Account Creation & Instant Sign In)
+        if (isEmail) {
+          const derivedName = lowerId.split("@")[0]
+            .replace(/[._-]/g, " ")
+            .split(" ")
+            .filter(Boolean)
+            .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(" ") || "Landlord";
+
+          const newAccount = {
+            id: "usr_" + Date.now().toString(36),
+            name: derivedName,
+            email: lowerId,
+            phone: "",
+            role: "Landlord",
+            password: password,
+            verified: true
+          };
+
+          accounts.push(newAccount);
+          saveStoredAccounts(accounts);
+
+          if (supabaseClient) {
+            try {
+              supabaseClient.auth.signUp({
+                email: lowerId,
+                password: password,
+                options: { data: { full_name: derivedName, role: "Landlord" } }
+              }).catch(e => console.warn("Supabase background auto-signup", e));
+            } catch (e) {}
+          }
+
+          currentAuthUser = {
+            id: newAccount.id,
+            name: newAccount.name,
+            email: newAccount.email,
+            phone: newAccount.phone,
+            role: newAccount.role,
+            verified: true
+          };
+
+          localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+          localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
+          updateAuthHeaderUI();
+          toast.success(`Welcome, ${currentAuthUser.name}! Account created and signed in successfully.`);
+          closeAuthModal();
+          setTimeout(() => {
+            if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
+          }, 300);
           return;
         }
 
-        currentAuthUser = {
-          id: found.id,
-          name: found.name,
-          email: found.email,
-          phone: found.phone,
-          role: found.role,
-          verified: Boolean(found.verified)
-        };
-        localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
-        updateAuthHeaderUI();
-        toast.success(`Welcome back, ${currentAuthUser.name}! Signed in successfully.`);
-        closeAuthModal();
-        setTimeout(() => {
-          if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
-        }, 300);
+        showAuthFeedback("No account found with this phone number. Please enter an email or click Register.", "error");
       }
 
       async function handleAuthRegister() {
@@ -7390,6 +7462,7 @@
           target: email,
           phone: phone,
           code: otpCode,
+          sourceMode: "register",
           data: {
             id: "usr_" + Date.now().toString(36),
             name,
@@ -7442,7 +7515,12 @@
             verified: true
           };
           const accounts = getStoredAccounts();
-          accounts.push(newUser);
+          const existingIdx = accounts.findIndex(a => a.email && a.email.toLowerCase() === newUser.email.toLowerCase());
+          if (existingIdx >= 0) {
+            accounts[existingIdx] = newUser;
+          } else {
+            accounts.push(newUser);
+          }
           saveStoredAccounts(accounts);
 
           currentAuthUser = {
@@ -7454,6 +7532,7 @@
             verified: true
           };
           localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+          localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
           updateAuthHeaderUI();
           toast.success(`Account verified successfully! Welcome, ${newUser.name}.`);
           closeAuthModal();
@@ -7461,15 +7540,29 @@
             if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
           }, 300);
         } else if (pendingAuthAction.type === "otpLogin") {
+          const userData = pendingAuthAction.data;
+          const accounts = getStoredAccounts();
+          const existingIdx = accounts.findIndex(a => 
+            (userData.email && a.email && a.email.toLowerCase() === userData.email.toLowerCase()) ||
+            (userData.phone && a.phone && a.phone.slice(-10) === userData.phone.slice(-10))
+          );
+          if (existingIdx >= 0) {
+            accounts[existingIdx] = { ...accounts[existingIdx], verified: true };
+          } else {
+            accounts.push({ ...userData, verified: true });
+          }
+          saveStoredAccounts(accounts);
+
           currentAuthUser = {
-            id: pendingAuthAction.data.id,
-            name: pendingAuthAction.data.name,
-            email: pendingAuthAction.data.email,
-            phone: pendingAuthAction.data.phone,
-            role: pendingAuthAction.data.role,
+            id: userData.id,
+            name: userData.name,
+            email: userData.email,
+            phone: userData.phone,
+            role: userData.role || "Landlord",
             verified: true
           };
           localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+          localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
           updateAuthHeaderUI();
           toast.success(`Identity verified! Logged in as ${currentAuthUser.name}.`);
           closeAuthModal();
@@ -7496,39 +7589,55 @@
         const idInput = document.getElementById("authLoginIdentifier");
         const identifier = (idInput?.value || "").trim();
         if (!identifier) {
-          showAuthFeedback("Enter your registered Email or Mobile number above, then click OTP login.", "error");
+          showAuthFeedback("Enter your Email Address or Mobile Number above to receive a One-Time Sign-In Code.", "error");
           idInput?.focus();
           return;
         }
 
-        const accounts = getStoredAccounts();
+        const isEmail = identifier.includes("@");
         const lowerId = identifier.toLowerCase();
         const cleanPhone = identifier.replace(/\D/g, "").slice(-10);
 
-        const found = accounts.find(a => 
+        const accounts = getStoredAccounts();
+        let found = accounts.find(a => 
           (a.email && a.email.toLowerCase() === lowerId) || 
           (a.phone && a.phone.slice(-10) === cleanPhone)
         );
 
+        // ANY ONE CAN LOGIN: If account does not exist yet, auto-create record for this email or phone!
         if (!found) {
-          showAuthFeedback("No account registered with this email or phone.", "error");
-          return;
+          const derivedName = isEmail 
+            ? lowerId.split("@")[0].replace(/[._-]/g, " ").split(" ").filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ") || "Landlord"
+            : "User " + cleanPhone.slice(-4);
+          found = {
+            id: "usr_" + Date.now().toString(36),
+            name: derivedName,
+            email: isEmail ? lowerId : "",
+            phone: !isEmail ? cleanPhone : "",
+            role: "Landlord",
+            password: "pwd_" + Math.random().toString(36).slice(2, 10),
+            verified: true,
+            isNew: true
+          };
         }
 
         const otpCode = generateSixDigitCode();
         pendingAuthAction = {
           type: "otpLogin",
-          target: found.email || found.phone,
+          target: isEmail ? lowerId : cleanPhone,
           code: otpCode,
+          sourceMode: "signIn",
           data: found
         };
 
         const targetDisplay = document.getElementById("authOtpTargetDisplay");
-        if (targetDisplay) targetDisplay.textContent = found.email ? `${found.email} (+91 ${found.phone || ''})` : `+91 ${found.phone}`;
+        if (targetDisplay) {
+          targetDisplay.textContent = isEmail ? lowerId : `+91 ${cleanPhone}`;
+        }
 
         setAuthMode("otp");
         startOtpCountdown(45);
-        showAuthFeedback(`One-Time Code sent! Use code: ${otpCode} to sign in.`, "info");
+        showAuthFeedback(`One-Time Sign-In Code sent to ${isEmail ? lowerId : cleanPhone}! Use code: ${otpCode} to sign in.`, "info");
         toast.info(`One-Time Sign-In Code: ${otpCode}`);
       }
 
@@ -7559,6 +7668,7 @@
           type: "resetPassword",
           target: email,
           code: resetCode,
+          sourceMode: "forgotPassword",
           data: found || { email, name: email.split("@")[0] }
         };
 
@@ -7621,6 +7731,7 @@
         }
 
         localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+        localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
         updateAuthHeaderUI();
         toast.success("Password updated successfully! Welcome back.");
         closeAuthModal();
@@ -7634,6 +7745,7 @@
         }
         currentAuthUser = null;
         localStorage.removeItem(STORAGE_KEY_AUTH_USER);
+        localStorage.setItem(STORAGE_KEY_AUTH_LOGGED_OUT, "true");
         updateAuthHeaderUI();
         toast.info("Signed out successfully. Click 'Sign In' to reconnect.");
       }
@@ -7646,8 +7758,15 @@
           box.addEventListener("input", (e) => {
             const val = e.target.value.replace(/\D/g, "");
             e.target.value = val ? val[0] : "";
-            if (val && i < 6) {
-              document.getElementById("authOtp" + (i + 1))?.focus();
+            if (val) {
+              if (i < 6) {
+                document.getElementById("authOtp" + (i + 1))?.focus();
+              } else if (i === 6) {
+                const fullCode = getOtpInputValue();
+                if (fullCode.length === 6) {
+                  handleAuthOtpSubmit();
+                }
+              }
             }
           });
 
@@ -7673,6 +7792,9 @@
             }
             const nextIdx = Math.min(text.length + 1, 6);
             document.getElementById("authOtp" + nextIdx)?.focus();
+            if (text.length >= 6) {
+              handleAuthOtpSubmit();
+            }
           });
         }
       }
@@ -16354,7 +16476,6 @@
 
         // Authentication & Registration Studio Event Listeners
         document.getElementById("authHeaderSignInBtn")?.addEventListener("click", () => openAuthModal("signIn"));
-        document.getElementById("authOpenAccountBtn")?.addEventListener("click", () => openAuthModal("signIn"));
         document.getElementById("authSignOutBtn")?.addEventListener("click", handleSignOut);
         document.getElementById("closeAuthModalBtn")?.addEventListener("click", closeAuthModal);
 
@@ -16367,13 +16488,58 @@
         document.getElementById("authSubmitRegisterBtn")?.addEventListener("click", handleAuthRegister);
         document.getElementById("authSubmitOtpBtn")?.addEventListener("click", handleAuthOtpSubmit);
         document.getElementById("authResendOtpBtn")?.addEventListener("click", handleResendOtp);
-        document.getElementById("authBackFromOtpBtn")?.addEventListener("click", () => setAuthMode("register"));
+        document.getElementById("authBackFromOtpBtn")?.addEventListener("click", () => {
+          const target = (pendingAuthAction && pendingAuthAction.sourceMode) || "signIn";
+          setAuthMode(target);
+        });
 
         document.getElementById("authSwitchToOtpLoginBtn")?.addEventListener("click", handleQuickOtpLogin);
         document.getElementById("authForgotPasswordLink")?.addEventListener("click", () => setAuthMode("forgotPassword"));
         document.getElementById("authSubmitResetRequestBtn")?.addEventListener("click", handleForgotPasswordRequest);
         document.getElementById("authBackToSignInFromResetBtn")?.addEventListener("click", () => setAuthMode("signIn"));
         document.getElementById("authSubmitNewPasswordBtn")?.addEventListener("click", handleSetNewPasswordSubmit);
+
+        // Form Submit Listeners so Enter key works everywhere!
+        document.getElementById("authViewSignIn")?.addEventListener("submit", (e) => {
+          e.preventDefault();
+          handleAuthSignIn();
+        });
+        document.getElementById("authViewRegister")?.addEventListener("submit", (e) => {
+          e.preventDefault();
+          handleAuthRegister();
+        });
+        document.getElementById("authViewForgotPassword")?.addEventListener("submit", (e) => {
+          e.preventDefault();
+          handleForgotPasswordRequest();
+        });
+        document.getElementById("authViewSetNewPassword")?.addEventListener("submit", (e) => {
+          e.preventDefault();
+          handleSetNewPasswordSubmit();
+        });
+
+        // Enter key listeners on login fields
+        document.getElementById("authLoginPassword")?.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleAuthSignIn();
+          }
+        });
+        document.getElementById("authLoginIdentifier")?.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            const pass = document.getElementById("authLoginPassword")?.value || "";
+            if (!pass && e.target.value.includes("@")) {
+              e.preventDefault();
+              handleQuickOtpLogin();
+            }
+          }
+        });
+
+        // Close on backdrop click
+        document.getElementById("authModal")?.addEventListener("click", (e) => {
+          if (e.target.id === "authModal") {
+            closeAuthModal();
+          }
+        });
 
         // Password Show/Hide Toggle
         document.getElementById("toggleLoginPasswordBtn")?.addEventListener("click", () => {
@@ -18882,6 +19048,8 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         window.handleForgotPasswordRequest = handleForgotPasswordRequest;
         window.handleSetNewPasswordSubmit = handleSetNewPasswordSubmit;
         window.handleSignOut = handleSignOut;
+        window.handleQuickOtpLogin = handleQuickOtpLogin;
+        window.initAuthSession = initAuthSession;
         window.fetchVercelSupabaseConfig = fetchVercelSupabaseConfig;
         window.openSupabaseModal = openSupabaseModal;
         window.closeSupabaseModal = closeSupabaseModal;

@@ -300,8 +300,65 @@ console.log("✓ PASS: Auth Modal opens and default mode is register");
   }
   console.log("✓ PASS: Password successfully reset and authenticated!");
 
+  console.log("\n--- 7. Testing Anyone Can Login with New Email + Password (Auto-Creation & Immediate Login) ---");
+  mockWindow.handleSignOut();
+  getEl("authLoginIdentifier").value = "anita.deshmukh@gmail.com";
+  getEl("authLoginPassword").value = "SecurePass@2026";
+  await mockWindow.handleAuthSignIn();
+
+  const anitaName = getEl("authHeaderUserName")?.textContent;
+  const anitaEmail = getEl("authHeaderUserEmail")?.textContent;
+  console.log(`Signed in new email user -> Name: "${anitaName}", Email: "${anitaEmail}"`);
+  if (!anitaName.includes("Anita Deshmukh") || anitaEmail !== "anita.deshmukh@gmail.com") {
+    console.error("❌ Failed to automatically register and log in new email user!");
+    process.exit(1);
+  }
+  console.log("✓ PASS: Anyone can log in seamlessly with new email + password!");
+
+  console.log("\n--- 8. Testing Anyone Can Login via Passwordless Email OTP Authentication ---");
+  mockWindow.handleSignOut();
+  getEl("authLoginIdentifier").value = "karan.singh@venture.in";
+  await mockWindow.handleQuickOtpLogin();
+
+  const otpFb = getEl("authFeedback")?.innerHTML || "";
+  const matchOtp = otpFb.match(/\b\d{6}\b/) || (lastToasts.find(t => t.msg.includes("One-Time Sign-In Code") || t.msg.includes("One-Time Code"))?.msg.match(/\b\d{6}\b/));
+  if (!matchOtp) {
+    console.error("❌ Email OTP was not generated for new email! Feedback:", otpFb);
+    process.exit(1);
+  }
+  const emailOtp = matchOtp[0];
+  console.log(`✓ Detected Email OTP for new user: ${emailOtp}`);
+
+  for (let i = 1; i <= 6; i++) {
+    getEl("authOtp" + i).value = emailOtp[i - 1];
+  }
+  mockWindow.handleAuthOtpSubmit();
+
+  const karanName = getEl("authHeaderUserName")?.textContent;
+  const karanEmail = getEl("authHeaderUserEmail")?.textContent;
+  console.log(`Signed in via Email OTP -> Name: "${karanName}", Email: "${karanEmail}"`);
+  if (!karanName.includes("Karan Singh") || karanEmail !== "karan.singh@venture.in") {
+    console.error("❌ Failed Email OTP authentication for new email user!");
+    process.exit(1);
+  }
+  console.log("✓ PASS: Anyone can log in with any email via passwordless Email OTP!");
+
+  console.log("\n--- 9. Testing Page Reload Persistence After Sign Out ---");
+  mockWindow.handleSignOut();
+  if (!getEl("authHeaderUserPill").classList.contains("hidden")) {
+    console.error("❌ User pill should be hidden after sign out!");
+    process.exit(1);
+  }
+  // Simulate page reload calling initAuthSession()
+  mockWindow.initAuthSession();
+  if (!getEl("authHeaderUserPill").classList.contains("hidden")) {
+    console.error("❌ User was improperly auto-logged in on reload after explicit sign out!");
+    process.exit(1);
+  }
+  console.log("✓ PASS: User remains cleanly signed out after page refresh!");
+
   console.log("\n====================================================================");
-  console.log("🎉 ALL AUTHENTICATION, REGISTRATION, OTP & RESET TESTS PASSED 100%!");
+  console.log("🎉 ALL AUTHENTICATION, REGISTRATION, EMAIL OTP & RESET TESTS PASSED 100%!");
   console.log("====================================================================\n");
   process.exit(0);
 })();
