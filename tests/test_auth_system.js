@@ -43,7 +43,8 @@ const requiredAuthIds = [
   "authSubmitResetRequestBtn",
   "authNewPasswordInput",
   "authNewPasswordConfirmInput",
-  "authSubmitNewPasswordBtn"
+  "authSubmitNewPasswordBtn",
+  "authQuickDemoLoginBtn"
 ];
 
 let missingIds = 0;
@@ -356,6 +357,40 @@ console.log("✓ PASS: Auth Modal opens and default mode is register");
     process.exit(1);
   }
   console.log("✓ PASS: User remains cleanly signed out after page refresh!");
+
+  console.log("\n--- 10. Testing Gated Login Page on Sign Out (Dashboard & Tabs Hidden) ---");
+  // Confirm that while signed out, authModal is shown and main navigation is hidden
+  const isAuthModalOpen = !getEl("authModal").classList.contains("hidden");
+  const isNavHidden = getEl("mainTabNav").classList.contains("hidden");
+  const isCloseBtnHidden = getEl("closeAuthModalBtn").classList.contains("hidden");
+  console.log("Auth Modal (Login Page) open when signed out?:", isAuthModalOpen);
+  console.log("Main Navigation tabs hidden when signed out?:", isNavHidden);
+  console.log("Modal close button hidden when signed out?:", isCloseBtnHidden);
+  if (!isAuthModalOpen || !isNavHidden || !isCloseBtnHidden) {
+    console.error("❌ Sign out must show login page and hide dashboard tabs!");
+    process.exit(1);
+  }
+
+  // Attempt to dismiss login page while unauthenticated
+  mockWindow.closeAuthModal();
+  if (getEl("authModal").classList.contains("hidden")) {
+    console.error("❌ Login page should NOT be dismissible while signed out!");
+    process.exit(1);
+  }
+  console.log("✓ PASS: Login page is non-dismissible while signed out!");
+
+  // Now log back in and verify dashboard and tabs are restored
+  getEl("authLoginIdentifier").value = "abcltd9925@gmail.com";
+  getEl("authLoginPassword").value = "password123";
+  await mockWindow.handleAuthSignIn();
+
+  const isAuthModalClosedAfterLogin = getEl("authModal").classList.contains("hidden");
+  const isNavVisibleAfterLogin = !getEl("mainTabNav").classList.contains("hidden");
+  if (!isAuthModalClosedAfterLogin || !isNavVisibleAfterLogin) {
+    console.error("❌ After login, login page should close and dashboard tabs should be revealed!");
+    process.exit(1);
+  }
+  console.log("✓ PASS: Dashboard & navigation restored and login page closed upon sign in!");
 
   console.log("\n====================================================================");
   console.log("🎉 ALL AUTHENTICATION, REGISTRATION, EMAIL OTP & RESET TESTS PASSED 100%!");

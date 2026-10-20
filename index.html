@@ -4873,7 +4873,7 @@
        ========================================================= -->
   <div
     id="authModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 hidden"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4 hidden"
     role="dialog"
     aria-modal="true"
   >
@@ -5007,6 +5007,15 @@
             class="w-full py-2 px-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs transition flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>⚡ Sign In with One-Time Code (OTP)</span>
+          </button>
+
+          <button
+            type="button"
+            id="authQuickDemoLoginBtn"
+            class="w-full py-2 px-4 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-indigo-800 font-bold text-xs transition flex items-center justify-center gap-2 cursor-pointer"
+            title="1-Click Quick Demo Sign In"
+          >
+            <span>👤 Quick Demo Sign In (Rajesh Sharma)</span>
           </button>
 
           <div class="text-center pt-2 text-slate-500 text-[11px]">
@@ -7084,10 +7093,17 @@
         const nameEl = document.getElementById("authHeaderUserName");
         const emailEl = document.getElementById("authHeaderUserEmail");
         const verifiedEl = document.getElementById("authHeaderVerifiedBadge");
+        const mainNav = document.getElementById("mainTabNav");
+        const tabViews = ["tabViewDashboard", "tabViewProperties", "tabViewTenants", "tabViewAgreements", "tabViewReports", "tabViewPolice", "tabViewGst"];
 
         if (currentAuthUser) {
           if (userPill) userPill.classList.remove("hidden");
           if (signInBtn) signInBtn.classList.add("hidden");
+
+          // Authenticated: show main navigation tabs & close button
+          if (mainNav) mainNav.classList.remove("hidden");
+          const closeBtn = document.getElementById("closeAuthModalBtn");
+          if (closeBtn) closeBtn.classList.remove("hidden");
 
           const initials = currentAuthUser.name 
             ? currentAuthUser.name.split(" ").filter(Boolean).map(w => w[0]).join("").slice(0, 2).toUpperCase() 
@@ -7122,6 +7138,16 @@
         } else {
           if (userPill) userPill.classList.add("hidden");
           if (signInBtn) signInBtn.classList.remove("hidden");
+
+          // Unauthenticated: hide main navigation tabs & all tab views
+          if (mainNav) mainNav.classList.add("hidden");
+          tabViews.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add("hidden");
+          });
+
+          // Present the dedicated Login Page!
+          openAuthModal("signIn");
         }
       }
 
@@ -7130,10 +7156,23 @@
         if (!modal) return;
         setAuthMode(initialMode);
         hideAuthFeedback();
+        
+        // Hide close button when signed out so user cannot close into an unauthenticated dashboard
+        const closeBtn = document.getElementById("closeAuthModalBtn");
+        if (closeBtn) {
+          if (!currentAuthUser) {
+            closeBtn.classList.add("hidden");
+          } else {
+            closeBtn.classList.remove("hidden");
+          }
+        }
         modal.classList.remove("hidden");
       }
 
-      function closeAuthModal() {
+      function closeAuthModal(force = false) {
+        if (!currentAuthUser && !force) {
+          return; // Login page cannot be dismissed while unauthenticated
+        }
         const modal = document.getElementById("authModal");
         if (modal) modal.classList.add("hidden");
         if (otpCountdownInterval) clearInterval(otpCountdownInterval);
@@ -7314,8 +7353,9 @@
               localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(u));
               localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
               updateAuthHeaderUI();
+              switchTab("dashboard");
+              closeAuthModal(true);
               toast.success(`Welcome back, ${u.name}! Signed in via Supabase.`);
-              closeAuthModal();
               setTimeout(() => {
                 if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
               }, 300);
@@ -7351,8 +7391,9 @@
           localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
           localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
           updateAuthHeaderUI();
+          switchTab("dashboard");
+          closeAuthModal(true);
           toast.success(`Welcome back, ${currentAuthUser.name}! Signed in successfully.`);
-          closeAuthModal();
           setTimeout(() => {
             if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
           }, 300);
@@ -7403,8 +7444,9 @@
           localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
           localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
           updateAuthHeaderUI();
+          switchTab("dashboard");
+          closeAuthModal(true);
           toast.success(`Welcome, ${currentAuthUser.name}! Account created and signed in successfully.`);
-          closeAuthModal();
           setTimeout(() => {
             if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
           }, 300);
@@ -7534,8 +7576,9 @@
           localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
           localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
           updateAuthHeaderUI();
+          switchTab("dashboard");
+          closeAuthModal(true);
           toast.success(`Account verified successfully! Welcome, ${newUser.name}.`);
-          closeAuthModal();
           setTimeout(() => {
             if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
           }, 300);
@@ -7564,8 +7607,9 @@
           localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
           localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
           updateAuthHeaderUI();
+          switchTab("dashboard");
+          closeAuthModal(true);
           toast.success(`Identity verified! Logged in as ${currentAuthUser.name}.`);
-          closeAuthModal();
           setTimeout(() => {
             if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
           }, 300);
@@ -7733,8 +7777,9 @@
         localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
         localStorage.removeItem(STORAGE_KEY_AUTH_LOGGED_OUT);
         updateAuthHeaderUI();
+        switchTab("dashboard");
+        closeAuthModal(true);
         toast.success("Password updated successfully! Welcome back.");
-        closeAuthModal();
       }
 
       function handleSignOut() {
@@ -7747,7 +7792,14 @@
         localStorage.removeItem(STORAGE_KEY_AUTH_USER);
         localStorage.setItem(STORAGE_KEY_AUTH_LOGGED_OUT, "true");
         updateAuthHeaderUI();
-        toast.info("Signed out successfully. Click 'Sign In' to reconnect.");
+        
+        const passInput = document.getElementById("authLoginPassword");
+        const idInput = document.getElementById("authLoginIdentifier");
+        if (passInput) passInput.value = "";
+        if (idInput) {
+          idInput.focus();
+        }
+        toast.info("Signed out successfully. Please sign in to continue.");
       }
 
       function setupOtpInputNavigation() {
@@ -16494,6 +16546,13 @@
         });
 
         document.getElementById("authSwitchToOtpLoginBtn")?.addEventListener("click", handleQuickOtpLogin);
+        document.getElementById("authQuickDemoLoginBtn")?.addEventListener("click", () => {
+          const idInput = document.getElementById("authLoginIdentifier");
+          const passInput = document.getElementById("authLoginPassword");
+          if (idInput) idInput.value = "abcltd9925@gmail.com";
+          if (passInput) passInput.value = "password123";
+          handleAuthSignIn();
+        });
         document.getElementById("authForgotPasswordLink")?.addEventListener("click", () => setAuthMode("forgotPassword"));
         document.getElementById("authSubmitResetRequestBtn")?.addEventListener("click", handleForgotPasswordRequest);
         document.getElementById("authBackToSignInFromResetBtn")?.addEventListener("click", () => setAuthMode("signIn"));
