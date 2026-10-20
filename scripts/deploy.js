@@ -26,6 +26,7 @@ try {
   execSync('node tests/test_auth_system.js', { stdio: 'inherit' });
   execSync('node tests/test_tenant_deposit_pan_aadhaar.js', { stdio: 'inherit' });
   execSync('node tests/test_police_verification.js', { stdio: 'inherit' });
+  execSync('node tests/test_theme_toggle.js', { stdio: 'inherit' });
   console.log('✅ All verification test suites passed 100%!\n');
 } catch (e) {
   console.error('❌ Verification tests failed. Aborting deployment.');
