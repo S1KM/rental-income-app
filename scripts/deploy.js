@@ -23,6 +23,7 @@ try {
   execSync('node tests/test_running_balance_due_display.js', { stdio: 'inherit' });
   execSync('node tests/test_unsettled_cycles_only.js', { stdio: 'inherit' });
   execSync('node tests/test_supabase_integration.js', { stdio: 'inherit' });
+  execSync('node tests/test_auth_system.js', { stdio: 'inherit' });
   console.log('✅ All verification test suites passed 100%!\n');
 } catch (e) {
   console.error('❌ Verification tests failed. Aborting deployment.');

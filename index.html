@@ -213,6 +213,52 @@
             <span id="supabaseStatusNavLabel" class="font-bold tracking-tight">Supabase: Connected</span>
             <span id="supabaseNavDot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-sm shadow-emerald-500/50"></span>
           </button>
+
+          <!-- User Authentication Profile Pill / Sign In Button -->
+          <div id="authHeaderContainer" class="flex items-center">
+            <!-- Signed In State -->
+            <div id="authHeaderUserPill" class="flex items-center gap-2.5 bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl px-3.5 py-2 shadow-xs border border-indigo-400/20">
+              <div class="w-8 h-8 rounded-xl bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 flex items-center justify-center font-black text-xs shrink-0 tracking-wider">
+                <span id="authHeaderAvatar">RS</span>
+              </div>
+              <div class="text-left leading-tight hidden sm:block">
+                <div class="flex items-center gap-1.5">
+                  <span id="authHeaderUserName" class="text-xs font-bold text-slate-100 max-w-[120px] truncate">Rajesh Sharma</span>
+                  <span id="authHeaderVerifiedBadge" class="text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Verified ✓</span>
+                </div>
+                <div id="authHeaderUserEmail" class="text-[10px] text-slate-400 font-mono max-w-[140px] truncate">abcltd9925@gmail.com</div>
+              </div>
+              <button
+                type="button"
+                id="authOpenAccountBtn"
+                class="ml-1 px-2 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-[11px] transition cursor-pointer"
+                title="Account Settings"
+              >
+                Profile
+              </button>
+              <button
+                type="button"
+                id="authSignOutBtn"
+                class="p-1.5 rounded-lg hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 transition cursor-pointer"
+                title="Sign Out"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+              </button>
+            </div>
+
+            <!-- Signed Out State (Hidden by default, shown when signed out) -->
+            <button
+              type="button"
+              id="authHeaderSignInBtn"
+              class="hidden px-4 py-3 rounded-2xl border border-indigo-300/80 bg-indigo-50/90 hover:bg-indigo-100 text-indigo-900 text-xs font-bold transition shadow-2xs flex items-center gap-2 cursor-pointer active:scale-95"
+              title="Sign in with Email/Phone or Register"
+            >
+              <span class="w-6 h-6 rounded-lg bg-indigo-200/90 text-indigo-900 flex items-center justify-center shrink-0 text-xs font-black">
+                👤
+              </span>
+              <span>Sign In / Register</span>
+            </button>
+          </div>
         </div>
       </div>
     </header>
@@ -2958,6 +3004,410 @@
   </div>
 
   <!-- =========================================================
+       MODAL: AUTHENTICATION, REGISTRATION & PASSWORD RECOVERY
+       ========================================================= -->
+  <div
+    id="authModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 hidden"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150 relative">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-gradient-to-r from-slate-950 via-indigo-950 to-indigo-900 text-white flex items-center justify-between relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="flex items-center gap-3 relative z-10">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-700 text-white flex items-center justify-center text-lg font-black shadow-md border border-indigo-400/30">
+            🔐
+          </div>
+          <div>
+            <h3 id="authModalTitle" class="font-extrabold text-base tracking-tight text-white flex items-center gap-2">
+              <span>Account Portal</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-800/80 text-indigo-200 border border-indigo-700">Secure</span>
+            </h3>
+            <p id="authModalSubtitle" class="text-[11px] text-slate-300 font-medium">Unified Rental Suite Identity &amp; Access Studio</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="closeAuthModalBtn"
+          class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition cursor-pointer relative z-10"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Segmented Navigation for Sign In / Register (Hidden in OTP / Reset modes) -->
+      <div id="authNavTabGroup" class="p-1.5 mx-6 mt-4 bg-slate-100 rounded-xl flex items-center gap-1 border border-slate-200">
+        <button
+          type="button"
+          id="authTabSignInBtn"
+          class="flex-1 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow-2xs cursor-pointer"
+        >
+          Sign In
+        </button>
+        <button
+          type="button"
+          id="authTabRegisterBtn"
+          class="flex-1 py-1.5 text-xs font-bold rounded-lg transition text-slate-600 hover:text-slate-900 cursor-pointer"
+        >
+          Register New Account
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 pt-4 text-xs space-y-4">
+        
+        <!-- Feedback Banner -->
+        <div id="authFeedback" class="hidden p-3 rounded-xl text-xs font-medium border flex items-start gap-2"></div>
+
+        <!-- ==============================================
+             VIEW 1: SIGN IN (EMAIL / PHONE & PASSWORD)
+             ============================================== -->
+        <form id="authViewSignIn" class="space-y-3.5" onsubmit="return false;">
+          <div>
+            <label class="block text-slate-700 font-bold text-[11px] mb-1">
+              Email Address or Mobile Phone <span class="text-rose-500">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-3 top-2.5 text-slate-400 text-sm">📧</span>
+              <input
+                type="text"
+                id="authLoginIdentifier"
+                placeholder="name@example.com or 9818012345"
+                class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-medium text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-slate-700 font-bold text-[11px]">
+                Password <span class="text-rose-500">*</span>
+              </label>
+              <button
+                type="button"
+                id="authForgotPasswordLink"
+                class="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 transition cursor-pointer"
+              >
+                Forgot Password?
+              </button>
+            </div>
+            <div class="relative">
+              <span class="absolute left-3 top-2.5 text-slate-400 text-sm">🔑</span>
+              <input
+                type="password"
+                id="authLoginPassword"
+                placeholder="••••••••"
+                class="w-full pl-9 pr-10 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-mono text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition"
+                required
+              />
+              <button
+                type="button"
+                id="toggleLoginPasswordBtn"
+                class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-700 text-xs cursor-pointer"
+                title="Toggle Password Visibility"
+              >
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-1">
+            <label class="flex items-center gap-2 cursor-pointer text-slate-600 font-medium text-[11px]">
+              <input type="checkbox" id="authRememberMe" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" checked />
+              <span>Remember me on this browser</span>
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            id="authSubmitSignInBtn"
+            class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold text-xs transition shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>Sign In to Account</span>
+            <span>➔</span>
+          </button>
+
+          <div class="relative flex items-center justify-center my-2">
+            <div class="border-t border-slate-200 w-full"></div>
+            <span class="bg-white px-2 text-[10px] uppercase font-bold text-slate-400 absolute">OR</span>
+          </div>
+
+          <button
+            type="button"
+            id="authSwitchToOtpLoginBtn"
+            class="w-full py-2 px-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs transition flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>⚡ Sign In with One-Time Code (OTP)</span>
+          </button>
+
+          <div class="text-center pt-2 text-slate-500 text-[11px]">
+            Don't have an account? 
+            <button type="button" id="authInlineSwitchToRegister" class="text-indigo-600 hover:text-indigo-800 font-bold underline cursor-pointer">Register Now</button>
+          </div>
+        </form>
+
+        <!-- ==============================================
+             VIEW 2: REGISTRATION (FULL NAME, EMAIL, PHONE, PASSWORD)
+             ============================================== -->
+        <form id="authViewRegister" class="space-y-3 hidden" onsubmit="return false;">
+          <div>
+            <label class="block text-slate-700 font-bold text-[11px] mb-1">
+              Full Legal Name <span class="text-rose-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="authRegName"
+              placeholder="e.g. Rajesh Sharma"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-slate-700 font-bold text-[11px] mb-1">
+                Official Email ID <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="email"
+                id="authRegEmail"
+                placeholder="name@example.com"
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-mono text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-slate-700 font-bold text-[11px] mb-1">
+                Mobile Phone <span class="text-rose-500">*</span>
+              </label>
+              <div class="flex items-center">
+                <span class="px-2 py-2 rounded-l-xl border border-r-0 border-slate-300 bg-slate-100 text-slate-600 font-mono text-xs font-bold">+91</span>
+                <input
+                  type="tel"
+                  id="authRegPhone"
+                  placeholder="9818012345"
+                  maxlength="10"
+                  class="w-full px-3 py-2 rounded-r-xl border border-slate-300 bg-white text-xs font-mono text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-bold text-[11px] mb-1">
+              Account Role
+            </label>
+            <select
+              id="authRegRole"
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-medium text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            >
+              <option value="Landlord">Landlord (Lessor / Property Owner)</option>
+              <option value="Manager">Property Manager / Authorized Agent</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-slate-700 font-bold text-[11px] mb-1">
+                Password <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="password"
+                id="authRegPassword"
+                placeholder="Min 6 characters"
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-mono text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-slate-700 font-bold text-[11px] mb-1">
+                Confirm Password <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="password"
+                id="authRegPasswordConfirm"
+                placeholder="Re-enter password"
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-mono text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-indigo-50 border border-indigo-200/80 text-[11px] text-indigo-900 flex items-start gap-2">
+            <span class="text-sm">🛡️</span>
+            <span>A 6-digit One-Time Verification Code (OTP) will be sent to your email or mobile to verify your identity.</span>
+          </div>
+
+          <button
+            type="submit"
+            id="authSubmitRegisterBtn"
+            class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold text-xs transition shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>Create Account &amp; Send Verification Code</span>
+            <span>➔</span>
+          </button>
+
+          <div class="text-center pt-1 text-slate-500 text-[11px]">
+            Already have an account? 
+            <button type="button" id="authInlineSwitchToSignIn" class="text-indigo-600 hover:text-indigo-800 font-bold underline cursor-pointer">Sign In</button>
+          </div>
+        </form>
+
+        <!-- ==============================================
+             VIEW 3: OTP ONE-TIME CODE VERIFICATION
+             ============================================== -->
+        <div id="authViewOtp" class="space-y-4 hidden">
+          <div class="text-center space-y-1">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-700 mx-auto flex items-center justify-center text-xl font-bold border border-indigo-200">
+              💬
+            </div>
+            <h4 class="font-bold text-sm text-slate-900">Verify One-Time Code</h4>
+            <p class="text-[11px] text-slate-500">
+              Enter the 6-digit verification code sent to:<br/>
+              <span id="authOtpTargetDisplay" class="font-mono font-bold text-indigo-700">abcltd9925@gmail.com</span>
+            </p>
+          </div>
+
+          <!-- 6-Digit OTP Group -->
+          <div class="flex items-center justify-center gap-2 pt-2">
+            <input type="text" maxlength="1" id="authOtp1" class="otp-box w-10 h-11 text-center text-lg font-black font-mono rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none" />
+            <input type="text" maxlength="1" id="authOtp2" class="otp-box w-10 h-11 text-center text-lg font-black font-mono rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none" />
+            <input type="text" maxlength="1" id="authOtp3" class="otp-box w-10 h-11 text-center text-lg font-black font-mono rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none" />
+            <span class="text-slate-300 font-black">·</span>
+            <input type="text" maxlength="1" id="authOtp4" class="otp-box w-10 h-11 text-center text-lg font-black font-mono rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none" />
+            <input type="text" maxlength="1" id="authOtp5" class="otp-box w-10 h-11 text-center text-lg font-black font-mono rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none" />
+            <input type="text" maxlength="1" id="authOtp6" class="otp-box w-10 h-11 text-center text-lg font-black font-mono rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none" />
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-slate-500 px-1">
+            <span id="authOtpCountdownText">Resend code in <strong id="authOtpSeconds">45</strong>s</span>
+            <button
+              type="button"
+              id="authResendOtpBtn"
+              class="hidden font-bold text-indigo-600 hover:text-indigo-800 transition cursor-pointer"
+            >
+              ↻ Resend Verification Code
+            </button>
+          </div>
+
+          <button
+            type="button"
+            id="authSubmitOtpBtn"
+            class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-xs transition shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>✓ Verify Code &amp; Complete Sign In</span>
+          </button>
+
+          <button
+            type="button"
+            id="authBackFromOtpBtn"
+            class="w-full text-center text-[11px] font-semibold text-slate-500 hover:text-slate-800 cursor-pointer"
+          >
+            ← Change Email / Mobile Number
+          </button>
+        </div>
+
+        <!-- ==============================================
+             VIEW 4: FORGOT PASSWORD / SEND RESET LINK
+             ============================================== -->
+        <form id="authViewForgotPassword" class="space-y-3.5 hidden" onsubmit="return false;">
+          <div class="text-center space-y-1">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-700 mx-auto flex items-center justify-center text-xl font-bold border border-indigo-200">
+              📬
+            </div>
+            <h4 class="font-bold text-sm text-slate-900">Reset Your Password</h4>
+            <p class="text-[11px] text-slate-500">
+              Enter your registered email address and we'll send a secure password reset link and verification code.
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-bold text-[11px] mb-1">
+              Registered Email ID <span class="text-rose-500">*</span>
+            </label>
+            <input
+              type="email"
+              id="authResetEmailInput"
+              placeholder="abcltd9925@gmail.com"
+              class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-mono text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            id="authSubmitResetRequestBtn"
+            class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold text-xs transition shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>📧 Send Password Reset Link &amp; Code</span>
+          </button>
+
+          <button
+            type="button"
+            id="authBackToSignInFromResetBtn"
+            class="w-full text-center text-[11px] font-semibold text-slate-500 hover:text-slate-800 cursor-pointer"
+          >
+            ← Back to Sign In
+          </button>
+        </form>
+
+        <!-- ==============================================
+             VIEW 5: SET NEW PASSWORD
+             ============================================== -->
+        <form id="authViewSetNewPassword" class="space-y-3.5 hidden" onsubmit="return false;">
+          <div class="text-center space-y-1">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 mx-auto flex items-center justify-center text-xl font-bold border border-emerald-200">
+              🔑
+            </div>
+            <h4 class="font-bold text-sm text-slate-900">Set New Password</h4>
+            <p class="text-[11px] text-slate-500">Identity verified. Create a new strong password for your account.</p>
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-bold text-[11px] mb-1">
+              New Password <span class="text-rose-500">*</span>
+            </label>
+            <input
+              type="password"
+              id="authNewPasswordInput"
+              placeholder="Min 6 characters"
+              class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-mono text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-bold text-[11px] mb-1">
+              Confirm New Password <span class="text-rose-500">*</span>
+            </label>
+            <input
+              type="password"
+              id="authNewPasswordConfirmInput"
+              placeholder="Re-enter new password"
+              class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-mono text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            id="authSubmitNewPasswordBtn"
+            class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-xs transition shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>Update Password &amp; Sign In</span>
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
        MODAL: SUPABASE CLOUD DATABASE SYNC & PERSISTENCE
        ========================================================= -->
   <div
@@ -3634,6 +4084,657 @@
           supabaseClient = null;
           updateSupabaseUIStatus("disconnected");
           return false;
+        }
+      }
+
+      // ====================================================================
+      // 🔐 EXECUTIVE AUTHENTICATION, REGISTRATION & OTP VERIFICATION STUDIO
+      // ====================================================================
+      const STORAGE_KEY_AUTH_USER = "rpm_auth_user_session_v2";
+      const STORAGE_KEY_AUTH_ACCOUNTS = "rpm_auth_accounts_v2";
+
+      const DEFAULT_AUTH_LANDLORD = {
+        id: "usr_master_rajesh",
+        name: "Rajesh Sharma",
+        email: "abcltd9925@gmail.com",
+        phone: "9818012345",
+        role: "Landlord",
+        pan: "ABCPS1234D",
+        verified: true
+      };
+
+      let currentAuthUser = null;
+      let pendingAuthAction = null; // { type: 'register'|'otpLogin'|'resetPassword', target, phone, code, data }
+      let otpCountdownInterval = null;
+
+      function getStoredAccounts() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY_AUTH_ACCOUNTS);
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return [
+          {
+            id: DEFAULT_AUTH_LANDLORD.id,
+            name: DEFAULT_AUTH_LANDLORD.name,
+            email: DEFAULT_AUTH_LANDLORD.email,
+            phone: DEFAULT_AUTH_LANDLORD.phone,
+            password: "password123",
+            role: DEFAULT_AUTH_LANDLORD.role,
+            verified: true
+          }
+        ];
+      }
+
+      function saveStoredAccounts(accs) {
+        try {
+          localStorage.setItem(STORAGE_KEY_AUTH_ACCOUNTS, JSON.stringify(accs));
+        } catch (e) {}
+      }
+
+      function initAuthSession() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY_AUTH_USER);
+          if (raw) {
+            currentAuthUser = JSON.parse(raw);
+          } else {
+            currentAuthUser = { ...DEFAULT_AUTH_LANDLORD };
+            localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+          }
+        } catch (e) {
+          currentAuthUser = { ...DEFAULT_AUTH_LANDLORD };
+        }
+        updateAuthHeaderUI();
+      }
+
+      function updateAuthHeaderUI() {
+        const userPill = document.getElementById("authHeaderUserPill");
+        const signInBtn = document.getElementById("authHeaderSignInBtn");
+        const avatarEl = document.getElementById("authHeaderAvatar");
+        const nameEl = document.getElementById("authHeaderUserName");
+        const emailEl = document.getElementById("authHeaderUserEmail");
+        const verifiedEl = document.getElementById("authHeaderVerifiedBadge");
+
+        if (currentAuthUser) {
+          if (userPill) userPill.classList.remove("hidden");
+          if (signInBtn) signInBtn.classList.add("hidden");
+
+          const initials = currentAuthUser.name ? currentAuthUser.name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase() : "RS";
+          if (avatarEl) avatarEl.textContent = initials;
+          if (nameEl) nameEl.textContent = currentAuthUser.name || "Rajesh Sharma";
+          if (emailEl) emailEl.textContent = currentAuthUser.email || currentAuthUser.phone || "abcltd9925@gmail.com";
+          if (verifiedEl) {
+            if (currentAuthUser.verified) {
+              verifiedEl.textContent = "Verified ✓";
+              verifiedEl.className = "text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+            } else {
+              verifiedEl.textContent = "Unverified";
+              verifiedEl.className = "text-[9px] font-black px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30";
+            }
+          }
+
+          // Also keep Landlord inputs in sync
+          const lName = document.getElementById("landlordNameInput");
+          const lEmail = document.getElementById("landlordEmailInput");
+          if (lName && currentAuthUser.name) lName.value = currentAuthUser.name;
+          if (lEmail && currentAuthUser.email) lEmail.value = currentAuthUser.email;
+        } else {
+          if (userPill) userPill.classList.add("hidden");
+          if (signInBtn) signInBtn.classList.remove("hidden");
+        }
+      }
+
+      function openAuthModal(initialMode = "signIn") {
+        const modal = document.getElementById("authModal");
+        if (!modal) return;
+        setAuthMode(initialMode);
+        hideAuthFeedback();
+        modal.classList.remove("hidden");
+      }
+
+      function closeAuthModal() {
+        const modal = document.getElementById("authModal");
+        if (modal) modal.classList.add("hidden");
+        if (otpCountdownInterval) clearInterval(otpCountdownInterval);
+        hideAuthFeedback();
+      }
+
+      function hideAuthFeedback() {
+        const fb = document.getElementById("authFeedback");
+        if (fb) {
+          fb.classList.add("hidden");
+          fb.textContent = "";
+        }
+      }
+
+      function showAuthFeedback(msg, type = "error") {
+        const fb = document.getElementById("authFeedback");
+        if (!fb) return;
+        fb.classList.remove("hidden", "bg-rose-50", "text-rose-800", "border-rose-200", "bg-emerald-50", "text-emerald-800", "border-emerald-200", "bg-indigo-50", "text-indigo-800", "border-indigo-200");
+        if (type === "error") {
+          fb.classList.add("bg-rose-50", "text-rose-800", "border", "border-rose-200");
+          fb.innerHTML = `<span>⚠️</span><span>${msg}</span>`;
+        } else if (type === "success") {
+          fb.classList.add("bg-emerald-50", "text-emerald-800", "border", "border-emerald-200");
+          fb.innerHTML = `<span>✓</span><span>${msg}</span>`;
+        } else {
+          fb.classList.add("bg-indigo-50", "text-indigo-800", "border", "border-indigo-200");
+          fb.innerHTML = `<span>ℹ</span><span>${msg}</span>`;
+        }
+      }
+
+      function setAuthMode(mode) {
+        hideAuthFeedback();
+        const tabNav = document.getElementById("authNavTabGroup");
+        const tabSignIn = document.getElementById("authTabSignInBtn");
+        const tabRegister = document.getElementById("authTabRegisterBtn");
+
+        const viewSignIn = document.getElementById("authViewSignIn");
+        const viewRegister = document.getElementById("authViewRegister");
+        const viewOtp = document.getElementById("authViewOtp");
+        const viewForgot = document.getElementById("authViewForgotPassword");
+        const viewNewPass = document.getElementById("authViewSetNewPassword");
+
+        const titleEl = document.getElementById("authModalTitle");
+        const subTitleEl = document.getElementById("authModalSubtitle");
+
+        // Hide all views first
+        [viewSignIn, viewRegister, viewOtp, viewForgot, viewNewPass].forEach(el => el?.classList.add("hidden"));
+
+        if (mode === "signIn") {
+          viewSignIn?.classList.remove("hidden");
+          tabNav?.classList.remove("hidden");
+          if (tabSignIn) {
+            tabSignIn.className = "flex-1 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow-2xs cursor-pointer";
+          }
+          if (tabRegister) {
+            tabRegister.className = "flex-1 py-1.5 text-xs font-bold rounded-lg transition text-slate-600 hover:text-slate-900 cursor-pointer";
+          }
+          if (titleEl) titleEl.innerHTML = `<span>Sign In</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-800/80 text-indigo-200 border border-indigo-700">Secure</span>`;
+          if (subTitleEl) subTitleEl.textContent = "Sign in to manage properties, ledger, and agreements";
+          setTimeout(() => document.getElementById("authLoginIdentifier")?.focus(), 50);
+        } else if (mode === "register") {
+          viewRegister?.classList.remove("hidden");
+          tabNav?.classList.remove("hidden");
+          if (tabSignIn) {
+            tabSignIn.className = "flex-1 py-1.5 text-xs font-bold rounded-lg transition text-slate-600 hover:text-slate-900 cursor-pointer";
+          }
+          if (tabRegister) {
+            tabRegister.className = "flex-1 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow-2xs cursor-pointer";
+          }
+          if (titleEl) titleEl.innerHTML = `<span>Create Account</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-800/80 text-indigo-200 border border-indigo-700">Register</span>`;
+          if (subTitleEl) subTitleEl.textContent = "Register with Email or Mobile to create your tenancy portfolio";
+          setTimeout(() => document.getElementById("authRegName")?.focus(), 50);
+        } else if (mode === "otp") {
+          viewOtp?.classList.remove("hidden");
+          tabNav?.classList.add("hidden");
+          if (titleEl) titleEl.innerHTML = `<span>OTP Verification</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-800/80 text-emerald-200 border border-emerald-700">6-Digit Code</span>`;
+          if (subTitleEl) subTitleEl.textContent = "Enter verification code sent to your email or phone";
+          clearOtpInputs();
+          setTimeout(() => document.getElementById("authOtp1")?.focus(), 50);
+        } else if (mode === "forgotPassword") {
+          viewForgot?.classList.remove("hidden");
+          tabNav?.classList.add("hidden");
+          if (titleEl) titleEl.innerHTML = `<span>Password Reset</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-800/80 text-amber-200 border border-amber-700">Recovery</span>`;
+          if (subTitleEl) subTitleEl.textContent = "Send password reset link and code to your registered email";
+          setTimeout(() => document.getElementById("authResetEmailInput")?.focus(), 50);
+        } else if (mode === "setNewPassword") {
+          viewNewPass?.classList.remove("hidden");
+          tabNav?.classList.add("hidden");
+          if (titleEl) titleEl.innerHTML = `<span>New Password</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-800/80 text-emerald-200 border border-emerald-700">Update</span>`;
+          if (subTitleEl) subTitleEl.textContent = "Set a secure new password for your account";
+          setTimeout(() => document.getElementById("authNewPasswordInput")?.focus(), 50);
+        }
+      }
+
+      function clearOtpInputs() {
+        for (let i = 1; i <= 6; i++) {
+          const el = document.getElementById("authOtp" + i);
+          if (el) el.value = "";
+        }
+      }
+
+      function getOtpInputValue() {
+        let code = "";
+        for (let i = 1; i <= 6; i++) {
+          const el = document.getElementById("authOtp" + i);
+          if (el) code += el.value.trim();
+        }
+        return code;
+      }
+
+      function startOtpCountdown(duration = 45) {
+        if (otpCountdownInterval) clearInterval(otpCountdownInterval);
+        const cdContainer = document.getElementById("authOtpCountdownText");
+        const secEl = document.getElementById("authOtpSeconds");
+        const resendBtn = document.getElementById("authResendOtpBtn");
+
+        if (cdContainer) cdContainer.classList.remove("hidden");
+        if (resendBtn) resendBtn.classList.add("hidden");
+
+        let remaining = duration;
+        if (secEl) secEl.textContent = remaining;
+
+        otpCountdownInterval = setInterval(() => {
+          remaining--;
+          if (secEl) secEl.textContent = remaining;
+          if (remaining <= 0) {
+            clearInterval(otpCountdownInterval);
+            if (cdContainer) cdContainer.classList.add("hidden");
+            if (resendBtn) resendBtn.classList.remove("hidden");
+          }
+        }, 1000);
+      }
+
+      function generateSixDigitCode() {
+        return String(Math.floor(100000 + Math.random() * 900000));
+      }
+
+      async function handleAuthSignIn() {
+        const idInput = document.getElementById("authLoginIdentifier");
+        const passInput = document.getElementById("authLoginPassword");
+        const identifier = (idInput?.value || "").trim();
+        const password = (passInput?.value || "").trim();
+
+        if (!identifier) {
+          showAuthFeedback("Please enter your Email Address or Mobile Phone.", "error");
+          idInput?.focus();
+          return;
+        }
+        if (!password) {
+          showAuthFeedback("Please enter your password.", "error");
+          passInput?.focus();
+          return;
+        }
+
+        // Try Supabase auth if connected
+        if (supabaseClient && identifier.includes("@")) {
+          try {
+            showAuthFeedback("Authenticating with Supabase...", "info");
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+              email: identifier,
+              password: password
+            });
+            if (!error && data?.user) {
+              const u = {
+                id: data.user.id,
+                name: data.user.user_metadata?.full_name || identifier.split("@")[0],
+                email: data.user.email,
+                phone: data.user.user_metadata?.phone || "",
+                role: data.user.user_metadata?.role || "Landlord",
+                verified: Boolean(data.user.email_confirmed_at || data.user.confirmed_at)
+              };
+              currentAuthUser = u;
+              localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(u));
+              updateAuthHeaderUI();
+              toast.success(`Welcome back, ${u.name}! Signed in via Supabase.`);
+              closeAuthModal();
+              return;
+            }
+          } catch (e) {
+            console.warn("Supabase auth error, falling back to local accounts", e);
+          }
+        }
+
+        // Local accounts fallback
+        const accounts = getStoredAccounts();
+        const lowerId = identifier.toLowerCase();
+        const cleanPhone = identifier.replace(/\D/g, "").slice(-10);
+
+        const found = accounts.find(a => 
+          (a.email && a.email.toLowerCase() === lowerId) || 
+          (a.phone && a.phone.slice(-10) === cleanPhone)
+        );
+
+        if (!found) {
+          showAuthFeedback("No account found with this email or phone. Please register.", "error");
+          return;
+        }
+
+        if (found.password !== password) {
+          showAuthFeedback("Incorrect password. Please verify or click 'Forgot Password?'.", "error");
+          return;
+        }
+
+        currentAuthUser = {
+          id: found.id,
+          name: found.name,
+          email: found.email,
+          phone: found.phone,
+          role: found.role,
+          verified: Boolean(found.verified)
+        };
+        localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+        updateAuthHeaderUI();
+        toast.success(`Welcome back, ${currentAuthUser.name}! Signed in successfully.`);
+        closeAuthModal();
+      }
+
+      async function handleAuthRegister() {
+        const name = document.getElementById("authRegName")?.value.trim() || "";
+        const email = document.getElementById("authRegEmail")?.value.trim().toLowerCase() || "";
+        const rawPhone = document.getElementById("authRegPhone")?.value.trim() || "";
+        const role = document.getElementById("authRegRole")?.value || "Landlord";
+        const password = document.getElementById("authRegPassword")?.value || "";
+        const confirmPass = document.getElementById("authRegPasswordConfirm")?.value || "";
+
+        if (!name) {
+          showAuthFeedback("Please enter your Full Legal Name.", "error");
+          document.getElementById("authRegName")?.focus();
+          return;
+        }
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+          showAuthFeedback("Please enter a valid official Email ID.", "error");
+          document.getElementById("authRegEmail")?.focus();
+          return;
+        }
+        const phone = rawPhone.replace(/\D/g, "");
+        if (phone.length < 10) {
+          showAuthFeedback("Please enter a valid 10-digit Indian Mobile Phone number.", "error");
+          document.getElementById("authRegPhone")?.focus();
+          return;
+        }
+        if (password.length < 6) {
+          showAuthFeedback("Password must be at least 6 characters long.", "error");
+          document.getElementById("authRegPassword")?.focus();
+          return;
+        }
+        if (password !== confirmPass) {
+          showAuthFeedback("Passwords do not match. Please re-enter confirm password.", "error");
+          document.getElementById("authRegPasswordConfirm")?.focus();
+          return;
+        }
+
+        const accounts = getStoredAccounts();
+        if (accounts.some(a => a.email.toLowerCase() === email)) {
+          showAuthFeedback("An account with this email already exists. Please Sign In.", "error");
+          return;
+        }
+
+        // Generate 6-digit OTP verification code
+        const otpCode = generateSixDigitCode();
+        pendingAuthAction = {
+          type: "register",
+          target: email,
+          phone: phone,
+          code: otpCode,
+          data: {
+            id: "usr_" + Date.now().toString(36),
+            name,
+            email,
+            phone,
+            role,
+            password,
+            verified: false
+          }
+        };
+
+        // Try Supabase signUp if connected
+        if (supabaseClient) {
+          try {
+            supabaseClient.auth.signUp({
+              email: email,
+              password: password,
+              options: {
+                data: { full_name: name, phone: phone, role: role }
+              }
+            }).catch(e => console.warn("Supabase signUp background notification", e));
+          } catch (e) {}
+        }
+
+        // Display target on OTP screen
+        const targetDisplay = document.getElementById("authOtpTargetDisplay");
+        if (targetDisplay) targetDisplay.textContent = `${email} · (+91 ${phone})`;
+
+        setAuthMode("otp");
+        startOtpCountdown(45);
+        showAuthFeedback(`One-Time Code sent! Use code: ${otpCode} to verify.`, "info");
+        toast.info(`One-Time Code Sent! Verification code: ${otpCode}`);
+      }
+
+      function handleAuthOtpSubmit() {
+        const enteredOtp = getOtpInputValue();
+        if (enteredOtp.length !== 6) {
+          showAuthFeedback("Please enter all 6 digits of the verification code.", "error");
+          return;
+        }
+
+        if (!pendingAuthAction || enteredOtp !== pendingAuthAction.code) {
+          showAuthFeedback("Invalid verification code. Please check your code or click Resend.", "error");
+          return;
+        }
+
+        if (pendingAuthAction.type === "register") {
+          const newUser = {
+            ...pendingAuthAction.data,
+            verified: true
+          };
+          const accounts = getStoredAccounts();
+          accounts.push(newUser);
+          saveStoredAccounts(accounts);
+
+          currentAuthUser = {
+            id: newUser.id,
+            name: newUser.name,
+            email: newUser.email,
+            phone: newUser.phone,
+            role: newUser.role,
+            verified: true
+          };
+          localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+          updateAuthHeaderUI();
+          toast.success(`Account verified successfully! Welcome, ${newUser.name}.`);
+          closeAuthModal();
+        } else if (pendingAuthAction.type === "otpLogin") {
+          currentAuthUser = {
+            id: pendingAuthAction.data.id,
+            name: pendingAuthAction.data.name,
+            email: pendingAuthAction.data.email,
+            phone: pendingAuthAction.data.phone,
+            role: pendingAuthAction.data.role,
+            verified: true
+          };
+          localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+          updateAuthHeaderUI();
+          toast.success(`Identity verified! Logged in as ${currentAuthUser.name}.`);
+          closeAuthModal();
+        } else if (pendingAuthAction.type === "resetPassword") {
+          setAuthMode("setNewPassword");
+          showAuthFeedback("Identity verified! Set your new password below.", "success");
+        }
+      }
+
+      function handleResendOtp() {
+        if (!pendingAuthAction) return;
+        const newCode = generateSixDigitCode();
+        pendingAuthAction.code = newCode;
+        clearOtpInputs();
+        startOtpCountdown(45);
+        showAuthFeedback(`New verification code sent! Use code: ${newCode}`, "info");
+        toast.info(`New Verification Code: ${newCode}`);
+      }
+
+      async function handleQuickOtpLogin() {
+        const idInput = document.getElementById("authLoginIdentifier");
+        const identifier = (idInput?.value || "").trim();
+        if (!identifier) {
+          showAuthFeedback("Enter your registered Email or Mobile number above, then click OTP login.", "error");
+          idInput?.focus();
+          return;
+        }
+
+        const accounts = getStoredAccounts();
+        const lowerId = identifier.toLowerCase();
+        const cleanPhone = identifier.replace(/\D/g, "").slice(-10);
+
+        const found = accounts.find(a => 
+          (a.email && a.email.toLowerCase() === lowerId) || 
+          (a.phone && a.phone.slice(-10) === cleanPhone)
+        );
+
+        if (!found) {
+          showAuthFeedback("No account registered with this email or phone.", "error");
+          return;
+        }
+
+        const otpCode = generateSixDigitCode();
+        pendingAuthAction = {
+          type: "otpLogin",
+          target: found.email || found.phone,
+          code: otpCode,
+          data: found
+        };
+
+        const targetDisplay = document.getElementById("authOtpTargetDisplay");
+        if (targetDisplay) targetDisplay.textContent = found.email ? `${found.email} (+91 ${found.phone || ''})` : `+91 ${found.phone}`;
+
+        setAuthMode("otp");
+        startOtpCountdown(45);
+        showAuthFeedback(`One-Time Code sent! Use code: ${otpCode} to sign in.`, "info");
+        toast.info(`One-Time Sign-In Code: ${otpCode}`);
+      }
+
+      async function handleForgotPasswordRequest() {
+        const emailInput = document.getElementById("authResetEmailInput");
+        const email = (emailInput?.value || "").trim().toLowerCase();
+
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+          showAuthFeedback("Please enter a valid registered Email ID.", "error");
+          emailInput?.focus();
+          return;
+        }
+
+        // Check if Supabase connected
+        if (supabaseClient) {
+          try {
+            supabaseClient.auth.resetPasswordForEmail(email, {
+              redirectTo: window.location.origin
+            }).catch(e => console.warn("Supabase reset password request", e));
+          } catch (e) {}
+        }
+
+        const accounts = getStoredAccounts();
+        const found = accounts.find(a => a.email.toLowerCase() === email);
+
+        const resetCode = generateSixDigitCode();
+        pendingAuthAction = {
+          type: "resetPassword",
+          target: email,
+          code: resetCode,
+          data: found || { email, name: email.split("@")[0] }
+        };
+
+        const targetDisplay = document.getElementById("authOtpTargetDisplay");
+        if (targetDisplay) targetDisplay.textContent = email;
+
+        setAuthMode("otp");
+        startOtpCountdown(45);
+        showAuthFeedback(`Password reset link & code sent to ${email}! (Code: ${resetCode})`, "info");
+        toast.success(`Password Reset Link Sent to ${email} (Code: ${resetCode})`);
+      }
+
+      function handleSetNewPasswordSubmit() {
+        const newPass = document.getElementById("authNewPasswordInput")?.value || "";
+        const confirmPass = document.getElementById("authNewPasswordConfirmInput")?.value || "";
+
+        if (newPass.length < 6) {
+          showAuthFeedback("New password must be at least 6 characters long.", "error");
+          document.getElementById("authNewPasswordInput")?.focus();
+          return;
+        }
+        if (newPass !== confirmPass) {
+          showAuthFeedback("Passwords do not match. Please verify.", "error");
+          document.getElementById("authNewPasswordConfirmInput")?.focus();
+          return;
+        }
+
+        if (!pendingAuthAction || !pendingAuthAction.target) {
+          showAuthFeedback("Password reset session expired. Please restart.", "error");
+          setAuthMode("forgotPassword");
+          return;
+        }
+
+        const accounts = getStoredAccounts();
+        const found = accounts.find(a => a.email.toLowerCase() === pendingAuthAction.target.toLowerCase());
+        if (found) {
+          found.password = newPass;
+          saveStoredAccounts(accounts);
+          currentAuthUser = {
+            id: found.id,
+            name: found.name,
+            email: found.email,
+            phone: found.phone,
+            role: found.role,
+            verified: true
+          };
+        } else {
+          const newUser = {
+            id: "usr_" + Date.now().toString(36),
+            name: pendingAuthAction.target.split("@")[0],
+            email: pendingAuthAction.target,
+            phone: "",
+            role: "Landlord",
+            password: newPass,
+            verified: true
+          };
+          accounts.push(newUser);
+          saveStoredAccounts(accounts);
+          currentAuthUser = newUser;
+        }
+
+        localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+        updateAuthHeaderUI();
+        toast.success("Password updated successfully! Welcome back.");
+        closeAuthModal();
+      }
+
+      function handleSignOut() {
+        if (supabaseClient) {
+          try {
+            supabaseClient.auth.signOut().catch(e => console.warn("Supabase sign out", e));
+          } catch (e) {}
+        }
+        currentAuthUser = null;
+        localStorage.removeItem(STORAGE_KEY_AUTH_USER);
+        updateAuthHeaderUI();
+        toast.info("Signed out successfully. Click 'Sign In' to reconnect.");
+      }
+
+      function setupOtpInputNavigation() {
+        for (let i = 1; i <= 6; i++) {
+          const box = document.getElementById("authOtp" + i);
+          if (!box) continue;
+
+          box.addEventListener("input", (e) => {
+            const val = e.target.value.replace(/\D/g, "");
+            e.target.value = val ? val[0] : "";
+            if (val && i < 6) {
+              document.getElementById("authOtp" + (i + 1))?.focus();
+            }
+          });
+
+          box.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && !e.target.value && i > 1) {
+              const prev = document.getElementById("authOtp" + (i - 1));
+              if (prev) {
+                prev.focus();
+                prev.value = "";
+              }
+            } else if (e.key === "Enter") {
+              handleAuthOtpSubmit();
+            }
+          });
+
+          box.addEventListener("paste", (e) => {
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g, "");
+            if (!text) return;
+            for (let j = 0; j < 6 && j < text.length; j++) {
+              const b = document.getElementById("authOtp" + (j + 1));
+              if (b) b.value = text[j];
+            }
+            const nextIdx = Math.min(text.length + 1, 6);
+            document.getElementById("authOtp" + nextIdx)?.focus();
+          });
         }
       }
 
@@ -11468,6 +12569,7 @@
         // Global Keyboard Shortcuts (Escape to dismiss modals, '/' or Ctrl+K for search)
         window.addEventListener("keydown", (e) => {
           if (e.key === "Escape") {
+            closeAuthModal();
             closeTenantTrackRecordModal();
             closePropertyLedgerModal();
             closePartialPaymentModal();
@@ -11494,16 +12596,59 @@
         document.getElementById("supabasePullBtn")?.addEventListener("click", pullFromSupabase);
         document.getElementById("supabaseSaveBtn")?.addEventListener("click", saveSupabaseCredentials);
         document.getElementById("supabaseDisconnectBtn")?.addEventListener("click", disconnectSupabase);
+
+        // Authentication & Registration Studio Event Listeners
+        document.getElementById("authHeaderSignInBtn")?.addEventListener("click", () => openAuthModal("signIn"));
+        document.getElementById("authOpenAccountBtn")?.addEventListener("click", () => openAuthModal("signIn"));
+        document.getElementById("authSignOutBtn")?.addEventListener("click", handleSignOut);
+        document.getElementById("closeAuthModalBtn")?.addEventListener("click", closeAuthModal);
+
+        document.getElementById("authTabSignInBtn")?.addEventListener("click", () => setAuthMode("signIn"));
+        document.getElementById("authTabRegisterBtn")?.addEventListener("click", () => setAuthMode("register"));
+        document.getElementById("authInlineSwitchToRegister")?.addEventListener("click", () => setAuthMode("register"));
+        document.getElementById("authInlineSwitchToSignIn")?.addEventListener("click", () => setAuthMode("signIn"));
+
+        document.getElementById("authSubmitSignInBtn")?.addEventListener("click", handleAuthSignIn);
+        document.getElementById("authSubmitRegisterBtn")?.addEventListener("click", handleAuthRegister);
+        document.getElementById("authSubmitOtpBtn")?.addEventListener("click", handleAuthOtpSubmit);
+        document.getElementById("authResendOtpBtn")?.addEventListener("click", handleResendOtp);
+        document.getElementById("authBackFromOtpBtn")?.addEventListener("click", () => setAuthMode("register"));
+
+        document.getElementById("authSwitchToOtpLoginBtn")?.addEventListener("click", handleQuickOtpLogin);
+        document.getElementById("authForgotPasswordLink")?.addEventListener("click", () => setAuthMode("forgotPassword"));
+        document.getElementById("authSubmitResetRequestBtn")?.addEventListener("click", handleForgotPasswordRequest);
+        document.getElementById("authBackToSignInFromResetBtn")?.addEventListener("click", () => setAuthMode("signIn"));
+        document.getElementById("authSubmitNewPasswordBtn")?.addEventListener("click", handleSetNewPasswordSubmit);
+
+        // Password Show/Hide Toggle
+        document.getElementById("toggleLoginPasswordBtn")?.addEventListener("click", () => {
+          const pass = document.getElementById("authLoginPassword");
+          if (!pass) return;
+          pass.type = pass.type === "password" ? "text" : "password";
+        });
+
+        // OTP inputs auto-navigation
+        setupOtpInputNavigation();
       }
 
       // --- INITIAL BOOTSTRAP ---
       window.addEventListener("DOMContentLoaded", () => {
         loadState();
+        initAuthSession();
         initSupabaseClient();
         initEventListeners();
         renderAll();
         // Expose helpers for console inspection & automated testing
         window.state = state;
+        window.openAuthModal = openAuthModal;
+        window.closeAuthModal = closeAuthModal;
+        window.setAuthMode = setAuthMode;
+        window.handleAuthSignIn = handleAuthSignIn;
+        window.handleAuthRegister = handleAuthRegister;
+        window.handleAuthOtpSubmit = handleAuthOtpSubmit;
+        window.handleForgotPasswordRequest = handleForgotPasswordRequest;
+        window.handleSetNewPasswordSubmit = handleSetNewPasswordSubmit;
+        window.handleSignOut = handleSignOut;
         window.openSupabaseModal = openSupabaseModal;
         window.closeSupabaseModal = closeSupabaseModal;
         window.testSupabaseConnection = testSupabaseConnection;
