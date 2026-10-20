@@ -2575,6 +2575,226 @@
 
     </div>
 
+
+    <!-- =========================================================
+         TENANT SELF-SERVICE PORTAL (TENANT VIEW ONLY MODE)
+         Opened when visiting with ?view=tenant&tenantId=...
+         ========================================================= -->
+    <div id="tenantPortalSection" class="space-y-6 hidden">
+      <!-- Tenant Portal Navigation Top Bar -->
+      <header class="bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-900 text-white p-5 sm:p-6 rounded-3xl shadow-xl border border-indigo-800/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-600/30 text-indigo-300 border border-indigo-400/30 flex items-center justify-center text-xl font-bold shadow-sm">
+            🏠
+          </div>
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Tenant View Only · Verified Tenancy</span>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight">
+              Tenant Self-Service Portal
+            </h1>
+            <p class="text-xs text-indigo-200/80">Manage your rent dues, download official receipts, and chat directly with your landlord.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <!-- Install App Button -->
+          <button
+            type="button"
+            id="tenantPwaInstallBtn"
+            class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition shadow-sm flex items-center gap-1.5 cursor-pointer active:scale-95"
+            title="Add this app to your mobile home screen"
+          >
+            <span>📱 Install / Download App</span>
+          </button>
+          
+          <!-- Exit to Landlord View (for testing/preview) -->
+          <button
+            type="button"
+            id="tenantExitViewBtn"
+            class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition border border-white/20 cursor-pointer"
+          >
+            <span>← Exit to Landlord View</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Tenant Portal Body Grid: 2 Columns -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Left: Tenancy Profile & Payments Hub (6 Cols) -->
+        <div class="lg:col-span-6 space-y-6">
+          
+          <!-- Welcome Profile Card -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-start gap-4">
+              <div id="tpAvatarContainer" class="shrink-0">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white font-black text-xl flex items-center justify-center shadow-md">
+                  T
+                </div>
+              </div>
+              <div class="space-y-1 flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <h2 id="tpTenantName" class="text-lg font-black text-slate-900 truncate">Tenant Name</h2>
+                  <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Active</span>
+                </div>
+                <p class="text-xs font-semibold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg inline-block border border-indigo-100" id="tpUnitName">
+                  Assigned Unit: Flat 101, Sagarpur
+                </p>
+                <p class="text-xs text-slate-500" id="tpContactInfo">
+                  📱 Mobile: 9810112233 · ✉️ Email: tenant@example.com
+                </p>
+              </div>
+            </div>
+
+            <!-- Financials Summary Tiles -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-100">
+              <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Monthly Rent</span>
+                <span id="tpRentAmount" class="text-base font-black text-slate-900 font-mono">₹12,000</span>
+                <span class="text-[10px] text-slate-400 block">Due by 7th monthly</span>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Security Deposit</span>
+                <span id="tpDepositAmount" class="text-base font-black text-emerald-800 font-mono">₹24,000</span>
+                <span class="text-[10px] text-emerald-600 font-semibold block">Refundable</span>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 col-span-2 sm:col-span-1">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Balance Dues</span>
+                <span id="tpBalanceDueBadge" class="text-xs font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 inline-block mt-0.5">
+                  ₹0 Settled ✓
+                </span>
+              </div>
+            </div>
+
+            <!-- Landlord Particulars Box -->
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-indigo-50/40 border border-slate-200 space-y-2">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                <span>🏠 Landlord (Property Owner):</span>
+              </span>
+              <div class="flex items-center justify-between gap-3 text-xs">
+                <div>
+                  <p id="tpLandlordName" class="font-bold text-slate-900 text-sm">Rajesh Sharma</p>
+                  <p id="tpLandlordPhone" class="text-slate-600">📱 +91 98110 02233</p>
+                  <p id="tpLandlordEmail" class="text-slate-500">✉️ abcltd9925@gmail.com</p>
+                </div>
+                <div class="text-right space-y-1">
+                  <span class="text-[10px] text-slate-500 block">UPI for Rent Transfer:</span>
+                  <span class="font-mono font-bold text-xs bg-white px-2 py-1 rounded border border-slate-200 text-slate-900 block select-all">rajesh.sharma@upi</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions: View Receipt and Agreement -->
+            <div class="flex flex-wrap items-center gap-2.5 pt-1">
+              <button
+                type="button"
+                id="tpViewReceiptBtn"
+                class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs transition shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <span>🧾 View Official Rent Receipt</span>
+              </button>
+              <button
+                type="button"
+                id="tpViewAgreementBtn"
+                class="flex-1 px-4 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <span>📄 View Tenancy Agreement</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- PWA Add to Home Screen Instructions Card -->
+          <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-3">
+            <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider flex items-center gap-2">
+              <span class="w-5 h-5 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs">📲</span>
+              <span>How to Download &amp; Add App to Home Screen:</span>
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-600">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                <p class="font-bold text-slate-900 flex items-center gap-1">
+                  <span>🤖 Android (Google Chrome):</span>
+                </p>
+                <p class="text-[11px] text-slate-500">Tap the three vertical dots (⋮) in the top-right corner of Chrome, then select <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong>.</p>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                <p class="font-bold text-slate-900 flex items-center gap-1">
+                  <span>🍎 iPhone / iPad (Safari):</span>
+                </p>
+                <p class="text-[11px] text-slate-500">Tap the <strong>Share</strong> icon (square with up-arrow) at the bottom of Safari, scroll down and tap <strong>"Add to Home Screen"</strong>.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Interactive Real-Time Landlord & Tenant Chat Studio (6 Cols) -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="bg-white rounded-3xl border border-slate-200 shadow-sm flex flex-col h-[680px] overflow-hidden">
+            <!-- Chat Studio Header -->
+            <div class="p-4 bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center justify-center text-lg font-bold">
+                  💬
+                </div>
+                <div>
+                  <h3 class="font-extrabold text-sm text-white flex items-center gap-2">
+                    <span>Chat with Landlord (Rajesh Sharma)</span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  </h3>
+                  <p class="text-[11px] text-slate-400">Direct message channel for rent payments &amp; maintenance</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Action Message Chips -->
+            <div class="px-4 py-2 bg-slate-100 border-b border-slate-200 flex items-center gap-2 overflow-x-auto text-[11px] no-scrollbar">
+              <span class="text-slate-500 font-bold shrink-0">Quick Message:</span>
+              <button type="button" class="tenant-quick-chip px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-300 font-medium shrink-0 cursor-pointer transition">
+                💳 Paid rent for this month via UPI
+              </button>
+              <button type="button" class="tenant-quick-chip px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-300 font-medium shrink-0 cursor-pointer transition">
+                🧾 Please provide updated rent receipt
+              </button>
+              <button type="button" class="tenant-quick-chip px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-300 font-medium shrink-0 cursor-pointer transition">
+                🚰 Maintenance: Plumbing issue
+              </button>
+              <button type="button" class="tenant-quick-chip px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-300 font-medium shrink-0 cursor-pointer transition">
+                ⚡ Maintenance: Electrical issue
+              </button>
+            </div>
+
+            <!-- Messages List Feed -->
+            <div id="tpChatMessageList" class="p-4 overflow-y-auto flex-1 space-y-3 bg-slate-50/60">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <!-- Chat Input Form -->
+            <div class="p-3 bg-white border-t border-slate-200">
+              <form id="tenantPortalChatForm" class="flex items-center gap-2">
+                <input
+                  type="text"
+                  id="tenantPortalChatInput"
+                  placeholder="Type a message to landlord Rajesh Sharma..."
+                  class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  autocomplete="off"
+                />
+                <button
+                  type="submit"
+                  class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition shadow-sm flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
+                >
+                  <span>Send 📤</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- =========================================================
          TAB 6: STATEWISE TENANT POLICE VERIFICATION STUDIO
          Statutory Police Intimation & Verification System
@@ -4627,6 +4847,250 @@
           </button>
         </form>
 
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       MODAL: TENANT REGISTRATION COMPLETE & INVITE SHARE HUB
+       Send Tenant App Download & Chat link via WhatsApp, Email & SMS
+       ========================================================= -->
+  <div
+    id="tenantInviteModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/75 backdrop-blur-xs p-3 sm:p-5 hidden"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-xl w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150 flex flex-col max-h-[95vh]">
+      <!-- Header -->
+      <div class="px-6 py-4 bg-gradient-to-r from-emerald-950 via-teal-900 to-slate-950 text-white flex items-center justify-between border-b border-emerald-800/40">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 flex items-center justify-center text-lg font-bold shrink-0 shadow-sm">
+            📲
+          </div>
+          <div>
+            <h3 class="font-extrabold text-base text-white flex items-center gap-2">
+              <span>Tenant Registered! Send App Link</span>
+              <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 border border-emerald-400/40">1-Click Share</span>
+            </h3>
+            <p class="text-xs text-emerald-200/90 mt-0.5">Invite tenant to download the Tenant View App &amp; start chatting</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="closeTenantInviteModalBtn"
+          class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-5 bg-slate-50/50">
+        <!-- Tenant Summary Card -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3.5">
+          <div id="inviteTenantAvatar" class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white font-black text-sm flex items-center justify-center shrink-0 uppercase shadow-2xs">
+            T
+          </div>
+          <div class="space-y-0.5 flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2">
+              <h4 id="inviteTenantName" class="font-bold text-slate-900 text-sm truncate">Tenant Name</h4>
+              <span id="inviteTenantUnitBadge" class="text-xs px-2.5 py-0.5 rounded-md font-bold bg-indigo-50 text-indigo-700 border border-indigo-100 shrink-0">Flat 101</span>
+            </div>
+            <p class="text-xs text-slate-600 flex items-center gap-2">
+              <span id="inviteTenantMobile">📱 9810112233</span>
+              <span class="text-slate-300">·</span>
+              <span id="inviteTenantEmail">✉️ tenant@example.com</span>
+            </p>
+            <p class="text-xs text-slate-500">
+              Rent: <strong id="inviteTenantRent" class="text-slate-900 font-bold">₹12,000/mo</strong> · Deposit: <span id="inviteTenantDeposit" class="font-bold text-emerald-700 font-mono">₹24,000</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Generated Link Card -->
+        <div class="space-y-1.5">
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+            🔗 Tenant View &amp; Chat App Link
+          </label>
+          <div class="flex items-center gap-2">
+            <input
+              type="text"
+              id="invitePortalUrlInput"
+              readonly
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 text-xs font-mono select-all focus:outline-none"
+            />
+            <button
+              type="button"
+              id="inviteCopyLinkBtn"
+              class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition flex items-center gap-1.5 shrink-0 cursor-pointer shadow-xs active:scale-95"
+            >
+              <span>📋 Copy</span>
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-500">
+            This secure direct link opens the <strong>Tenant Self-Service Portal</strong> with dues, rent receipts, and real-time chat with you.
+          </p>
+        </div>
+
+        <!-- Multi-Channel Instant Send Strip -->
+        <div class="space-y-2.5">
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+            ⚡ Choose Sending Channel:
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- 1. WhatsApp Button -->
+            <button
+              type="button"
+              id="inviteWhatsAppBtn"
+              class="p-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-sm flex flex-col items-center justify-center gap-1.5 cursor-pointer active:scale-95 text-center group"
+            >
+              <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm shadow-2xs group-hover:scale-110 transition">
+                💬
+              </div>
+              <span class="text-sm">Send WhatsApp</span>
+              <span class="text-[10px] text-emerald-100 font-normal">Pre-filled text &amp; link</span>
+            </button>
+
+            <!-- 2. Email Button -->
+            <button
+              type="button"
+              id="inviteEmailBtn"
+              class="p-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition shadow-sm flex flex-col items-center justify-center gap-1.5 cursor-pointer active:scale-95 text-center group"
+            >
+              <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm shadow-2xs group-hover:scale-110 transition">
+                ✉️
+              </div>
+              <span class="text-sm">Send Email</span>
+              <span class="text-[10px] text-indigo-100 font-normal">Direct mailto invite</span>
+            </button>
+
+            <!-- 3. SMS Button -->
+            <button
+              type="button"
+              id="inviteSmsBtn"
+              class="p-3.5 rounded-2xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs transition shadow-sm flex flex-col items-center justify-center gap-1.5 cursor-pointer active:scale-95 text-center group"
+            >
+              <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm shadow-2xs group-hover:scale-110 transition">
+                📱
+              </div>
+              <span class="text-sm">Send SMS</span>
+              <span class="text-[10px] text-slate-300 font-normal">Native mobile SMS</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Preview Button Banner -->
+        <div class="p-3 bg-indigo-50/80 rounded-2xl border border-indigo-200/80 flex items-center justify-between gap-3">
+          <div class="space-y-0.5">
+            <p class="text-xs font-bold text-indigo-950">Want to test the tenant's experience?</p>
+            <p class="text-[11px] text-indigo-700">Preview the Tenant Portal and test real-time chat right now.</p>
+          </div>
+          <button
+            type="button"
+            id="invitePreviewPortalBtn"
+            class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition shadow-2xs shrink-0 cursor-pointer flex items-center gap-1"
+          >
+            <span>👁️ Preview View</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="px-6 py-3.5 bg-white border-t border-slate-200 flex items-center justify-between">
+        <span class="text-xs text-slate-500 font-medium">Tenant can save app on home screen</span>
+        <button
+          type="button"
+          id="closeTenantInviteModalFooterBtn"
+          class="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs font-bold transition cursor-pointer"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: LANDLORD-SIDE CHAT STUDIO DRAWER
+       Direct messaging with specific tenant from Landlord Master
+       ========================================================= -->
+  <div
+    id="landlordChatModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/75 backdrop-blur-xs p-3 sm:p-5 hidden"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-xl w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150 flex flex-col h-[650px] max-h-[92vh]">
+      <!-- Header -->
+      <div class="px-6 py-4 bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div id="landlordChatTenantAvatar" class="w-10 h-10 rounded-2xl bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 flex items-center justify-center text-sm font-black shrink-0">
+            T
+          </div>
+          <div>
+            <h3 class="font-extrabold text-sm text-white flex items-center gap-2">
+              <span id="landlordChatTenantName">Tenant Chat</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </h3>
+            <p id="landlordChatTenantMeta" class="text-[11px] text-slate-400">Unit: Flat 101 · Landlord Messaging</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            id="landlordChatShareInviteBtn"
+            class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold transition cursor-pointer flex items-center gap-1"
+            title="Share download & chat link with this tenant"
+          >
+            <span>📲 Invite</span>
+          </button>
+          <button
+            type="button"
+            id="closeLandlordChatModalBtn"
+            class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Canned Replies for Landlord -->
+      <div class="px-4 py-2 bg-slate-100 border-b border-slate-200 flex items-center gap-2 overflow-x-auto text-[11px] no-scrollbar">
+        <span class="text-slate-500 font-bold shrink-0">Quick Reply:</span>
+        <button type="button" class="landlord-quick-reply px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-300 font-medium shrink-0 cursor-pointer transition">
+          ✅ Payment received, thank you!
+        </button>
+        <button type="button" class="landlord-quick-reply px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-300 font-medium shrink-0 cursor-pointer transition">
+          🛠️ Maintenance technician dispatched.
+        </button>
+        <button type="button" class="landlord-quick-reply px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border border-slate-300 font-medium shrink-0 cursor-pointer transition">
+          📄 Rent receipt is available in your portal.
+        </button>
+      </div>
+
+      <!-- Chat Messages Scroll Container -->
+      <div id="landlordChatMessageList" class="p-4 overflow-y-auto flex-1 space-y-3 bg-slate-50">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- Input Bar -->
+      <div class="p-3 bg-white border-t border-slate-200">
+        <form id="landlordChatForm" class="flex items-center gap-2">
+          <input
+            type="text"
+            id="landlordChatInput"
+            placeholder="Type a message to tenant as Rajesh Sharma (Landlord)..."
+            class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            autocomplete="off"
+          />
+          <button
+            type="submit"
+            class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition shadow-sm flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
+          >
+            <span>Send 📤</span>
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -10020,6 +10484,26 @@
 
               <button
                 type="button"
+                data-action="tm-chat"
+                data-id="${t.id}"
+                class="px-3 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-semibold transition cursor-pointer flex items-center gap-1 shadow-2xs"
+                title="Open live direct chat with this tenant"
+              >
+                <span>💬 Chat</span>
+              </button>
+
+              <button
+                type="button"
+                data-action="tm-invite"
+                data-id="${t.id}"
+                class="px-3 py-2 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 text-xs font-semibold transition cursor-pointer flex items-center gap-1 shadow-2xs"
+                title="Send download & portal access link via WhatsApp, Email or SMS"
+              >
+                <span>📲 Share App</span>
+              </button>
+
+              <button
+                type="button"
                 data-action="tm-police"
                 data-id="${t.id}"
                 class="px-3 py-2 rounded-xl bg-cyan-50 hover:bg-cyan-100 text-cyan-800 border border-cyan-200 text-xs font-semibold transition cursor-pointer flex items-center gap-1 shadow-2xs"
@@ -13692,6 +14176,12 @@
               });
 
               showFeedback(`Tenant "${name}" successfully registered in Tenant Master (${status})!`);
+              const newTenant = state.tenants[0];
+              if (newTenant && status !== "Vacated") {
+                setTimeout(() => {
+                  openTenantInviteModal(newTenant.id);
+                }, 400);
+              }
             }
 
             // Synchronize agreed rent & deposit to property
@@ -14108,6 +14598,16 @@
 
             if (action === "tm-receipt") {
               openRentReceipt(id);
+              return;
+            }
+
+            if (action === "tm-chat") {
+              openLandlordChatModal(id);
+              return;
+            }
+
+            if (action === "tm-invite") {
+              openTenantInviteModal(id);
               return;
             }
 
@@ -15495,9 +15995,567 @@ Statutory Declaration: All above information is true and certified for Police Re
         }
       }
 
+
+      // =========================================================
+      // TENANT INVITE, LIVE CHAT & TENANT VIEW ONLY PORTAL ENGINE
+      // =========================================================
+
+      const STORAGE_KEY_CHATS = "rental_app_chats_v1";
+      let activeChatTenantId = null;
+
+      function generateTenantPortalUrl(tenantId) {
+        let origin = "https://rental-income-app.vercel.app";
+        try {
+          if (window.location && window.location.origin && window.location.origin !== "null") {
+            origin = window.location.origin;
+          }
+        } catch (e) {}
+        const pathname = (window.location && window.location.pathname) || "/";
+        return `${origin}${pathname}?view=tenant&tenantId=${encodeURIComponent(tenantId)}`;
+      }
+
+      function openTenantInviteModal(tenantId) {
+        const tenant = state.tenants.find((t) => t.id === tenantId);
+        if (!tenant) return;
+
+        const modal = document.getElementById("tenantInviteModal");
+        if (!modal) return;
+
+        // Set Tenant particulars
+        const nameEl = document.getElementById("inviteTenantName");
+        const mobileEl = document.getElementById("inviteTenantMobile");
+        const emailEl = document.getElementById("inviteTenantEmail");
+        const unitEl = document.getElementById("inviteTenantUnitBadge");
+        const rentEl = document.getElementById("inviteTenantRent");
+        const depositEl = document.getElementById("inviteTenantDeposit");
+        const avatarEl = document.getElementById("inviteTenantAvatar");
+        const urlInput = document.getElementById("invitePortalUrlInput");
+
+        if (nameEl) nameEl.textContent = tenant.name;
+        if (mobileEl) mobileEl.textContent = `📱 ${tenant.mobile || "N/A"}`;
+        if (emailEl) emailEl.textContent = `✉️ ${tenant.email || "No email"}`;
+        if (unitEl) unitEl.textContent = tenant.unit || "Unassigned";
+        if (rentEl) rentEl.textContent = `${formatINR(tenant.rent)}/mo`;
+        
+        const depositAmt = tenant.deposit || (Number(tenant.rent || 0) * (tenant.depositMonths !== undefined ? Number(tenant.depositMonths) : 2));
+        if (depositEl) depositEl.textContent = formatINR(depositAmt);
+
+        if (avatarEl) {
+          if (tenant.photo) {
+            avatarEl.innerHTML = `<img src="${tenant.photo}" alt="${escapeHtml(tenant.name)}" class="w-full h-full object-cover rounded-xl" />`;
+          } else {
+            avatarEl.textContent = (tenant.name || "T").slice(0, 2).toUpperCase();
+          }
+        }
+
+        const portalUrl = generateTenantPortalUrl(tenant.id);
+        if (urlInput) urlInput.value = portalUrl;
+
+        // Configure Channel Buttons
+        const landlordName = (state.landlord && state.landlord.name) || "Rajesh Sharma";
+        const cleanPhone = (tenant.mobile || "").replace(/[^0-9]/g, "");
+        const intlPhone = cleanPhone.length === 10 ? "91" + cleanPhone : cleanPhone;
+
+        const shareMessage = `Dear ${tenant.name},
+
+Welcome to your rental home at ${tenant.unit || "our property"}!
+Your landlord ${landlordName} has registered your tenancy on the Rental Income Suite.
+
+📱 Access your exclusive Tenant View & Chat App here:
+${portalUrl}
+
+In your Tenant Portal you can:
+• Check rent dues & payment details
+• Download official HRA Rent Receipts
+• View your Tenancy Agreement
+• Chat directly with landlord ${landlordName} for any queries or maintenance
+
+Save or Add to Home Screen for instant 1-tap mobile access!`;
+
+        // 1. WhatsApp Button
+        const waBtn = document.getElementById("inviteWhatsAppBtn");
+        if (waBtn) {
+          waBtn.onclick = () => {
+            const url = `https://wa.me/${intlPhone}?text=${encodeURIComponent(shareMessage)}`;
+            window.open(url, "_blank");
+            if (typeof toast !== 'undefined' && toast.success) {
+              toast.success(`Launching WhatsApp chat with ${tenant.name}...`, "WhatsApp Invite");
+            }
+          };
+        }
+
+        // 2. Email Button
+        const emailBtn = document.getElementById("inviteEmailBtn");
+        if (emailBtn) {
+          emailBtn.onclick = () => {
+            const subject = `Your Rental Home Portal & Landlord Chat App - ${tenant.unit || "Tenancy"}`;
+            const mailtoUrl = `mailto:${encodeURIComponent(tenant.email || "")}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(shareMessage)}`;
+            window.location.href = mailtoUrl;
+            if (typeof toast !== 'undefined' && toast.success) {
+              toast.success(`Launching Email invite for ${tenant.name}...`, "Email Invite");
+            }
+          };
+        }
+
+        // 3. SMS Button
+        const smsBtn = document.getElementById("inviteSmsBtn");
+        if (smsBtn) {
+          smsBtn.onclick = () => {
+            const smsUrl = `sms:${cleanPhone}?body=${encodeURIComponent(shareMessage)}`;
+            window.location.href = smsUrl;
+            if (typeof toast !== 'undefined' && toast.success) {
+              toast.success(`Launching SMS compose for ${tenant.name}...`, "SMS Invite");
+            }
+          };
+        }
+
+        // 4. Copy Link Button
+        const copyBtn = document.getElementById("inviteCopyLinkBtn");
+        if (copyBtn) {
+          copyBtn.onclick = () => {
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(portalUrl).then(() => {
+                if (typeof toast !== 'undefined' && toast.success) {
+                  toast.success("Tenant Portal link copied to clipboard!", "Link Copied");
+                } else {
+                  alert("Tenant Portal link copied to clipboard!");
+                }
+              });
+            } else {
+              urlInput.select();
+              document.execCommand("copy");
+              alert("Tenant Portal link copied to clipboard!");
+            }
+          };
+        }
+
+        // 5. Preview Portal Button
+        const previewBtn = document.getElementById("invitePreviewPortalBtn");
+        if (previewBtn) {
+          previewBtn.onclick = () => {
+            closeTenantInviteModal();
+            enterTenantPortalView(tenant.id);
+          };
+        }
+
+        modal.classList.remove("hidden");
+      }
+
+      function closeTenantInviteModal() {
+        document.getElementById("tenantInviteModal")?.classList.add("hidden");
+      }
+
+      // --- LIVE CHAT ENGINE ---
+      function getTenantChatHistory(tenantId) {
+        state.chats = state.chats || {};
+        if (!state.chats[tenantId]) {
+          const tenant = state.tenants.find((t) => t.id === tenantId);
+          const tName = (tenant && tenant.name) || "Tenant";
+          const lName = (state.landlord && state.landlord.name) || "Rajesh Sharma";
+          // Seed standard initial conversation
+          state.chats[tenantId] = [
+            {
+              id: "msg_1_" + Date.now(),
+              sender: "landlord",
+              senderName: lName,
+              text: `Welcome to your new rental home, ${tName}! You can use this direct chat to reach me regarding rent payments, maintenance requests, or receipt queries.`,
+              timestamp: Date.now() - 3600000,
+              timeStr: "1 hour ago"
+            },
+            {
+              id: "msg_2_" + Date.now(),
+              sender: "tenant",
+              senderName: tName,
+              text: `Thank you, ${lName} ji! Happy to be here. Will reach out if anything is needed.`,
+              timestamp: Date.now() - 1800000,
+              timeStr: "30 mins ago"
+            }
+          ];
+        }
+        return state.chats[tenantId];
+      }
+
+      function sendChatMessage(tenantId, sender, text) {
+        if (!text || !text.trim()) return;
+        state.chats = state.chats || {};
+        state.chats[tenantId] = state.chats[tenantId] || [];
+
+        const tenant = state.tenants.find((t) => t.id === tenantId);
+        const landlordName = (state.landlord && state.landlord.name) || "Rajesh Sharma";
+        const senderName = sender === "landlord" ? landlordName : ((tenant && tenant.name) || "Tenant");
+
+        const newMsg = {
+          id: "msg_" + Date.now() + "_" + Math.random().toString(36).substr(2, 4),
+          sender,
+          senderName,
+          text: text.trim(),
+          timestamp: Date.now(),
+          timeStr: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })
+        };
+
+        state.chats[tenantId].push(newMsg);
+        saveState();
+
+        // Refresh whichever chat view is active
+        renderLandlordChatMessages(tenantId);
+        renderTenantPortalChatMessages(tenantId);
+
+        if (typeof toast !== 'undefined' && toast.success) {
+          toast.success(`Message sent to ${sender === "landlord" ? (tenant?.name || "tenant") : landlordName}`, "Message Sent");
+        }
+      }
+
+      function openLandlordChatModal(tenantId) {
+        const tenant = state.tenants.find((t) => t.id === tenantId);
+        if (!tenant) return;
+
+        activeChatTenantId = tenantId;
+        const modal = document.getElementById("landlordChatModal");
+        if (!modal) return;
+
+        const nameEl = document.getElementById("landlordChatTenantName");
+        const metaEl = document.getElementById("landlordChatTenantMeta");
+        const avatarEl = document.getElementById("landlordChatTenantAvatar");
+
+        if (nameEl) nameEl.textContent = tenant.name;
+        if (metaEl) metaEl.textContent = `Unit: ${tenant.unit || "Unassigned"} · Contact: ${tenant.mobile || "N/A"}`;
+        if (avatarEl) {
+          if (tenant.photo) {
+            avatarEl.innerHTML = `<img src="${tenant.photo}" alt="${escapeHtml(tenant.name)}" class="w-full h-full object-cover rounded-xl" />`;
+          } else {
+            avatarEl.textContent = (tenant.name || "T").slice(0, 2).toUpperCase();
+          }
+        }
+
+        renderLandlordChatMessages(tenantId);
+
+        // Share invite button in chat header
+        const shareBtn = document.getElementById("landlordChatShareInviteBtn");
+        if (shareBtn) {
+          shareBtn.onclick = () => {
+            closeLandlordChatModal();
+            openTenantInviteModal(tenantId);
+          };
+        }
+
+        modal.classList.remove("hidden");
+        const input = document.getElementById("landlordChatInput");
+        if (input) setTimeout(() => input.focus(), 150);
+      }
+
+      function closeLandlordChatModal() {
+        document.getElementById("landlordChatModal")?.classList.add("hidden");
+        activeChatTenantId = null;
+      }
+
+      function renderLandlordChatMessages(tenantId) {
+        const container = document.getElementById("landlordChatMessageList");
+        if (!container) return;
+
+        const messages = getTenantChatHistory(tenantId);
+        container.innerHTML = "";
+
+        if (messages.length === 0) {
+          container.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs font-medium">No messages yet. Send a greeting to this tenant!</div>`;
+          return;
+        }
+
+        messages.forEach((m) => {
+          const isLandlord = m.sender === "landlord";
+          const bubble = document.createElement("div");
+          bubble.className = `flex flex-col ${isLandlord ? "items-end" : "items-start"}`;
+          bubble.innerHTML = `
+            <div class="flex items-center gap-1.5 mb-1 text-[10px] text-slate-500 font-bold">
+              <span>${isLandlord ? "🏠 You (Landlord)" : `👤 ${escapeHtml(m.senderName)}`}</span>
+              <span>·</span>
+              <span class="font-normal font-mono">${m.timeStr}</span>
+            </div>
+            <div class="max-w-[80%] rounded-2xl px-4 py-2.5 text-xs shadow-2xs ${
+              isLandlord
+                ? "bg-indigo-600 text-white rounded-tr-xs"
+                : "bg-white text-slate-900 border border-slate-200 rounded-tl-xs"
+            }">
+              ${escapeHtml(m.text)}
+            </div>
+          `;
+          container.appendChild(bubble);
+        });
+
+        container.scrollTop = container.scrollHeight;
+      }
+
+      // --- TENANT PORTAL (VIEW ONLY MODE) ---
+      function enterTenantPortalView(tenantId) {
+        let tenant = state.tenants.find((t) => t.id === tenantId);
+        if (!tenant && state.tenants.length > 0) {
+          tenant = state.tenants[0];
+        }
+        if (!tenant) {
+          showFeedback("Tenant record not found.", "error");
+          return;
+        }
+
+        activeChatTenantId = tenant.id;
+
+        // Hide Landlord App sections
+        const mainNav = document.getElementById("mainTabNav");
+        const appHeader = document.querySelector("header:not(#tenantPortalSection header)");
+        const tabDashboard = document.getElementById("tabViewDashboard");
+        const tabProps = document.getElementById("tabViewProperties");
+        const tabTenants = document.getElementById("tabViewTenants");
+        const tabAgreements = document.getElementById("tabViewAgreements");
+        const tabReports = document.getElementById("tabViewReports");
+        const tabPolice = document.getElementById("tabViewPolice");
+        const portalSection = document.getElementById("tenantPortalSection");
+
+        if (mainNav) mainNav.classList.add("hidden");
+        if (appHeader) appHeader.classList.add("hidden");
+        if (tabDashboard) tabDashboard.classList.add("hidden");
+        if (tabProps) tabProps.classList.add("hidden");
+        if (tabTenants) tabTenants.classList.add("hidden");
+        if (tabAgreements) tabAgreements.classList.add("hidden");
+        if (tabReports) tabReports.classList.add("hidden");
+        if (tabPolice) tabPolice.classList.add("hidden");
+
+        if (portalSection) portalSection.classList.remove("hidden");
+
+        // Populate Tenant Profile details
+        const nameEl = document.getElementById("tpTenantName");
+        const unitEl = document.getElementById("tpUnitName");
+        const contactEl = document.getElementById("tpContactInfo");
+        const rentEl = document.getElementById("tpRentAmount");
+        const depositEl = document.getElementById("tpDepositAmount");
+        const balEl = document.getElementById("tpBalanceDueBadge");
+        const avatarBox = document.getElementById("tpAvatarContainer");
+
+        if (nameEl) nameEl.textContent = tenant.name;
+        if (unitEl) unitEl.textContent = `Assigned Unit: ${tenant.unit || "Unassigned"}`;
+        if (contactEl) contactEl.textContent = `📱 Mobile: ${tenant.mobile || "N/A"} · ✉️ Email: ${tenant.email || "N/A"}`;
+        if (rentEl) rentEl.textContent = formatINR(tenant.rent);
+        
+        const depositAmt = tenant.deposit || (Number(tenant.rent || 0) * (tenant.depositMonths !== undefined ? Number(tenant.depositMonths) : 2));
+        if (depositEl) depositEl.textContent = formatINR(depositAmt);
+
+        const os = Number(tenant.osAmount) || 0;
+        if (balEl) {
+          if (os > 0) {
+            balEl.textContent = `⚠️ ${formatINR(os)} Due`;
+            balEl.className = "text-xs font-bold px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 border border-rose-200 inline-block mt-0.5";
+          } else {
+            balEl.textContent = "₹0 Settled ✓";
+            balEl.className = "text-xs font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-200 inline-block mt-0.5";
+          }
+        }
+
+        if (avatarBox) {
+          if (tenant.photo) {
+            avatarBox.innerHTML = `<img src="${tenant.photo}" alt="${escapeHtml(tenant.name)}" class="w-16 h-16 rounded-2xl object-cover shadow-md border-2 border-indigo-200" />`;
+          } else {
+            avatarBox.innerHTML = `<div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white font-black text-xl flex items-center justify-center shadow-md">${(tenant.name || "T").slice(0, 2).toUpperCase()}</div>`;
+          }
+        }
+
+        // Landlord particulars
+        const lName = (state.landlord && state.landlord.name) || "Rajesh Sharma";
+        const lPhone = (state.landlord && state.landlord.phone) || "+91 98110 02233";
+        const lEmail = (state.landlord && state.landlord.email) || "abcltd9925@gmail.com";
+        const tpLName = document.getElementById("tpLandlordName");
+        const tpLPhone = document.getElementById("tpLandlordPhone");
+        const tpLEmail = document.getElementById("tpLandlordEmail");
+        if (tpLName) tpLName.textContent = lName;
+        if (tpLPhone) tpLPhone.textContent = `📱 ${lPhone}`;
+        if (tpLEmail) tpLEmail.textContent = `✉️ ${lEmail}`;
+
+        // Render Chat
+        renderTenantPortalChatMessages(tenant.id);
+
+        // Document triggers
+        const viewReceiptBtn = document.getElementById("tpViewReceiptBtn");
+        if (viewReceiptBtn) {
+          viewReceiptBtn.onclick = () => {
+            openRentReceipt(tenant.id);
+          };
+        }
+
+        const viewAgreementBtn = document.getElementById("tpViewAgreementBtn");
+        if (viewAgreementBtn) {
+          viewAgreementBtn.onclick = () => {
+            if (tenant.unit && !tenant.unit.startsWith("Unassigned")) {
+              const prop = state.properties.find(
+                (p) => (p.name || "").trim().toLowerCase() === (tenant.unit || "").trim().toLowerCase()
+              );
+              if (prop) {
+                exitTenantPortalView();
+                switchTab("agreements");
+                populateAgreementStudioFromProperty(prop.id);
+                return;
+              }
+            }
+            exitTenantPortalView();
+            switchTab("agreements");
+          };
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function exitTenantPortalView() {
+        const mainNav = document.getElementById("mainTabNav");
+        const appHeader = document.querySelector("header:not(#tenantPortalSection header)");
+        const portalSection = document.getElementById("tenantPortalSection");
+
+        if (mainNav) mainNav.classList.remove("hidden");
+        if (appHeader) appHeader.classList.remove("hidden");
+        if (portalSection) portalSection.classList.add("hidden");
+
+        // Return to dashboard
+        switchTab("dashboard");
+      }
+
+      function renderTenantPortalChatMessages(tenantId) {
+        const container = document.getElementById("tpChatMessageList");
+        if (!container) return;
+
+        const messages = getTenantChatHistory(tenantId);
+        container.innerHTML = "";
+
+        if (messages.length === 0) {
+          container.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs font-medium">No messages yet. Send a message to your landlord!</div>`;
+          return;
+        }
+
+        messages.forEach((m) => {
+          const isTenant = m.sender === "tenant";
+          const bubble = document.createElement("div");
+          bubble.className = `flex flex-col ${isTenant ? "items-end" : "items-start"}`;
+          bubble.innerHTML = `
+            <div class="flex items-center gap-1.5 mb-1 text-[10px] text-slate-500 font-bold">
+              <span>${isTenant ? "👤 You" : `🏠 Landlord (${escapeHtml(m.senderName)})`}</span>
+              <span>·</span>
+              <span class="font-normal font-mono">${m.timeStr}</span>
+            </div>
+            <div class="max-w-[80%] rounded-2xl px-4 py-2.5 text-xs shadow-2xs ${
+              isTenant
+                ? "bg-indigo-600 text-white rounded-tr-xs"
+                : "bg-white text-slate-900 border border-slate-200 rounded-tl-xs"
+            }">
+              ${escapeHtml(m.text)}
+            </div>
+          `;
+          container.appendChild(bubble);
+        });
+
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function initTenantInviteAndChatEngine() {
+        if (typeof document === 'undefined') return;
+        try {
+          // Close buttons for Invite Modal
+          document.getElementById("closeTenantInviteModalBtn")?.addEventListener("click", closeTenantInviteModal);
+          document.getElementById("closeTenantInviteModalFooterBtn")?.addEventListener("click", closeTenantInviteModal);
+
+          // Close button for Landlord Chat Modal
+          document.getElementById("closeLandlordChatModalBtn")?.addEventListener("click", closeLandlordChatModal);
+
+          // Exit button for Tenant Portal
+          document.getElementById("tenantExitViewBtn")?.addEventListener("click", exitTenantPortalView);
+
+          // Landlord Chat Form submit
+          const landlordForm = document.getElementById("landlordChatForm");
+          if (landlordForm) {
+            landlordForm.addEventListener("submit", (e) => {
+              e.preventDefault();
+              const input = document.getElementById("landlordChatInput");
+              if (!input || !activeChatTenantId) return;
+              sendChatMessage(activeChatTenantId, "landlord", input.value);
+              input.value = "";
+            });
+          }
+
+          // Landlord Quick Canned Replies
+          if (typeof document.querySelectorAll === "function") {
+            document.querySelectorAll(".landlord-quick-reply").forEach((btn) => {
+              btn.addEventListener("click", () => {
+                const text = btn.textContent ? btn.textContent.trim() : "";
+                if (activeChatTenantId && text) {
+                  sendChatMessage(activeChatTenantId, "landlord", text);
+                }
+              });
+            });
+          }
+
+          // Tenant Portal Chat Form submit
+          const tenantForm = document.getElementById("tenantPortalChatForm");
+          if (tenantForm) {
+            tenantForm.addEventListener("submit", (e) => {
+              e.preventDefault();
+              const input = document.getElementById("tenantPortalChatInput");
+              if (!input || !activeChatTenantId) return;
+              sendChatMessage(activeChatTenantId, "tenant", input.value);
+              input.value = "";
+            });
+          }
+
+          // Tenant Portal Quick Message Chips
+          if (typeof document.querySelectorAll === "function") {
+            document.querySelectorAll(".tenant-quick-chip").forEach((btn) => {
+              btn.addEventListener("click", () => {
+                const text = btn.textContent ? btn.textContent.trim() : "";
+                if (activeChatTenantId && text) {
+                  sendChatMessage(activeChatTenantId, "tenant", text);
+                }
+              });
+            });
+          }
+
+          // PWA Install / Download App button
+          let deferredPrompt = null;
+          if (typeof window !== "undefined" && window.addEventListener) {
+            window.addEventListener("beforeinstallprompt", (e) => {
+              e.preventDefault();
+              deferredPrompt = e;
+            });
+          }
+
+          const pwaBtn = document.getElementById("tenantPwaInstallBtn");
+          if (pwaBtn) {
+            pwaBtn.addEventListener("click", () => {
+              if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                  if (choiceResult.outcome === "accepted") {
+                    if (typeof toast !== 'undefined' && toast.success) {
+                      toast.success("Thank you for installing the Tenant App!", "Installed");
+                    }
+                  }
+                  deferredPrompt = null;
+                });
+              } else {
+                alert("To download/install this app on your phone:\n\n• Android (Chrome): Tap ⋮ in top-right -> 'Install app' or 'Add to Home screen'\n• iOS (Safari): Tap Share icon -> 'Add to Home Screen'");
+              }
+            });
+          }
+
+          // URL Query Param Check: ?view=tenant&tenantId=...
+          if (typeof window !== "undefined" && window.location && window.location.search) {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get("view") === "tenant") {
+              const tId = urlParams.get("tenantId") || urlParams.get("id");
+              if (tId) {
+                setTimeout(() => {
+                  enterTenantPortalView(tId);
+                }, 100);
+              }
+            }
+          }
+        } catch (e) {}
+      }
+
       // --- INITIAL BOOTSTRAP ---
       window.addEventListener("DOMContentLoaded", () => {
         initTheme();
+        initTenantInviteAndChatEngine();
         initPoliceVerificationStudio();
         loadState();
         initAuthSession();
@@ -15547,6 +16605,15 @@ Statutory Declaration: All above information is true and certified for Police Re
         window.initTheme = initTheme;
         window.setTheme = setTheme;
         window.toggleTheme = toggleTheme;
+        window.openTenantInviteModal = openTenantInviteModal;
+        window.closeTenantInviteModal = closeTenantInviteModal;
+        window.openLandlordChatModal = openLandlordChatModal;
+        window.closeLandlordChatModal = closeLandlordChatModal;
+        window.enterTenantPortalView = enterTenantPortalView;
+        window.exitTenantPortalView = exitTenantPortalView;
+        window.sendChatMessage = sendChatMessage;
+        window.getTenantChatHistory = getTenantChatHistory;
+        window.generateTenantPortalUrl = generateTenantPortalUrl;
       });
     })();
   </script>
