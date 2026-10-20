@@ -30,6 +30,7 @@ try {
   execSync('node tests/test_tenant_invite_chat.js', { stdio: 'inherit' });
   execSync('node tests/test_gst_invoice_system.js', { stdio: 'inherit' });
   execSync('node tests/test_vercel_supabase_linking.js', { stdio: 'inherit' });
+  execSync('node tests/test_landlord_profile_gst.js', { stdio: 'inherit' });
   console.log('✅ All verification test suites passed 100%!\n');
 } catch (e) {
   console.error('❌ Verification tests failed. Aborting deployment.');

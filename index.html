@@ -5268,7 +5268,392 @@
        MODAL: TENANT REGISTRATION COMPLETE & INVITE SHARE HUB
        Send Tenant App Download & Chat link via WhatsApp, Email & SMS
        ========================================================= -->
-  
+  <!-- =========================================================
+       MODAL: LANDLORD PROFILE & STATUTORY GST INVOICING STUDIO
+       ========================================================= -->
+  <div
+    id="landlordProfileModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-3 sm:p-5 hidden overflow-y-auto"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="landlordProfileModalTitle"
+  >
+    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-2xl w-full my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-150 transition-colors">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-gradient-to-r from-slate-950 via-indigo-950 to-indigo-900 text-white flex items-center justify-between relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-36 h-36 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="flex items-center gap-3 relative z-10">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-700 text-white flex items-center justify-center text-lg font-black shadow-md border border-indigo-400/30">
+            🏢
+          </div>
+          <div>
+            <h3 id="landlordProfileModalTitle" class="font-extrabold text-base tracking-tight text-white flex items-center gap-2">
+              <span>Landlord Profile &amp; Settings</span>
+              <span id="landlordProfileGstActiveBadge" class="text-[10px] font-black px-2 py-0.5 rounded-full bg-indigo-800/80 text-indigo-200 border border-indigo-700">Lessor Identity</span>
+            </h3>
+            <p class="text-[11px] text-slate-300 font-medium">Official Lessor Credentials, Bank Details &amp; GST Invoicing Rules</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="closeLandlordProfileModalBtn"
+          class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition cursor-pointer relative z-10"
+          title="Close"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- After-Login Welcome Banner (revealed when opened after login) -->
+      <div id="landlordProfileWelcomeBanner" class="hidden px-6 py-3 bg-gradient-to-r from-emerald-500/15 via-teal-500/10 to-transparent border-b border-emerald-500/20 flex items-center gap-3 text-xs text-emerald-900 dark:text-emerald-300">
+        <span class="text-base shrink-0">🎉</span>
+        <div>
+          <span class="font-extrabold">Welcome back!</span>
+          <span class="font-medium text-emerald-800/90 dark:text-emerald-200/90">Please review or update your Landlord Profile and GST invoicing settings below.</span>
+        </div>
+      </div>
+
+      <!-- Feedback Area -->
+      <div id="landlordProfileFeedback" class="hidden mx-6 mt-4 p-3 rounded-xl text-xs font-semibold flex items-center gap-2"></div>
+
+      <!-- Form Body with Scroll -->
+      <form id="landlordProfileForm" class="p-6 space-y-6 max-h-[75vh] overflow-y-auto" onsubmit="event.preventDefault(); saveLandlordProfile();">
+        
+        <!-- SECTION 1: Personal & Legal Entity Information -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 pb-1.5 border-b border-slate-200 dark:border-slate-800">
+            <span class="text-xs font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400">1. Lessor Identity &amp; Contact</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Full Legal Name / Lessor Name <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="landlordProfileName"
+                required
+                placeholder="e.g. Rajesh Sharma"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Permanent Account Number (PAN) <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="landlordProfilePan"
+                required
+                maxlength="10"
+                placeholder="ABCPS1234D"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-mono font-bold uppercase focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Official Email Address <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="email"
+                id="landlordProfileEmail"
+                required
+                placeholder="abcltd9925@gmail.com"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-medium lowercase focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Mobile / WhatsApp Number <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="tel"
+                id="landlordProfilePhone"
+                required
+                placeholder="+91 98180 12345"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+              Registered Office / Residence Address
+            </label>
+            <input
+              type="text"
+              id="landlordProfileAddress"
+              placeholder="e.g. D-14, Ground Floor, Hauz Khas Enclave, New Delhi 110016"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+            />
+          </div>
+        </div>
+
+        <!-- SECTION 2: Bank Account Details for Rent Realization -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 pb-1.5 border-b border-slate-200 dark:border-slate-800">
+            <span class="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400">2. Bank Account &amp; UPI Remittance</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Account Holder Name
+              </label>
+              <input
+                type="text"
+                id="landlordProfileAccountHolder"
+                placeholder="Rajesh Sharma"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Bank Name
+              </label>
+              <input
+                type="text"
+                id="landlordProfileBankName"
+                placeholder="e.g. HDFC Bank Ltd"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Account Number
+              </label>
+              <input
+                type="text"
+                id="landlordProfileAccountNumber"
+                placeholder="e.g. 50200012345678"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-mono font-bold focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                IFSC Code
+              </label>
+              <input
+                type="text"
+                id="landlordProfileIfscCode"
+                maxlength="11"
+                placeholder="e.g. HDFC0000240"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-mono font-bold uppercase focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+              UPI ID / VPA (for 1-click QR code payment)
+            </label>
+            <input
+              type="text"
+              id="landlordProfileUpiId"
+              placeholder="e.g. abcltd9925@okhdfcbank"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-mono lowercase focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
+            />
+          </div>
+        </div>
+
+        <!-- SECTION 3: GST INVOICING TICK BOX & ADDITIONAL GST FIELDS -->
+        <div class="p-4 rounded-2xl bg-indigo-50/60 dark:bg-slate-800/80 border border-indigo-200 dark:border-indigo-900/50 space-y-4">
+          
+          <!-- The Tick Box -->
+          <div class="flex items-start gap-3">
+            <div class="flex items-center h-5">
+              <input
+                id="landlordProfileGstToggle"
+                type="checkbox"
+                class="w-5 h-5 text-indigo-600 rounded-md border-slate-300 dark:border-slate-600 focus:ring-indigo-500 cursor-pointer"
+              />
+            </div>
+            <div class="flex-1">
+              <label for="landlordProfileGstToggle" class="text-xs font-extrabold text-slate-900 dark:text-white cursor-pointer select-none flex items-center gap-2">
+                <span>Enable GST Invoicing (Registered Taxable Person under CGST/SGST Act, 2017)</span>
+                <span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-indigo-200/80 dark:bg-indigo-900/80 text-indigo-900 dark:text-indigo-200">Rule 46</span>
+              </label>
+              <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5 leading-relaxed">
+                Tick this box if you are registered under GST and require automated monthly tax invoices with 15-character GSTIN, SAC 997212, and 18% GST (CGST+SGST/IGST).
+              </p>
+            </div>
+          </div>
+
+          <!-- Informative note when GST is unticked -->
+          <div id="landlordProfileGstDisabledNote" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2.5">
+            <span class="text-base">ℹ️</span>
+            <div>
+              <span class="font-bold text-slate-800 dark:text-slate-200">GST Invoicing is disabled.</span>
+              <span>The system will generate standard non-GST rent bills &amp; rent receipts without tax calculations.</span>
+            </div>
+          </div>
+
+          <!-- Additional GST Fields (Shown ONLY when tick box is checked) -->
+          <div id="landlordProfileGstFields" class="hidden pt-3 border-t border-indigo-200/80 dark:border-indigo-800/50 space-y-4 animate-in fade-in duration-200">
+            <div class="flex items-center justify-between pb-1">
+              <span class="text-[11px] font-black uppercase tracking-wider text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
+                <span>📋</span>
+                <span>Statutory GST Registration Particulars</span>
+              </span>
+              <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold">Mandatory for GST Compliance</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
+                  Landlord GSTIN (15 Digits) <span class="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="landlordProfileGstin"
+                  maxlength="15"
+                  placeholder="07AAAAA0000A1Z5"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-indigo-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-mono font-black uppercase tracking-wider focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+                />
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 block">Format: 2 State Code + 10 PAN + 1 Entity + Z + 1 Check</span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
+                  Legal Trade Name (as per GST Registration) <span class="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="landlordProfileTradeName"
+                  placeholder="e.g. ABC Properties &amp; Estates"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-indigo-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-bold focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
+                  Registered State &amp; State Code
+                </label>
+                <select
+                  id="landlordProfileState"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-indigo-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+                >
+                  <option value="07 - Delhi">07 - Delhi</option>
+                  <option value="27 - Maharashtra">27 - Maharashtra</option>
+                  <option value="09 - Uttar Pradesh">09 - Uttar Pradesh</option>
+                  <option value="06 - Haryana">06 - Haryana</option>
+                  <option value="29 - Karnataka">29 - Karnataka</option>
+                  <option value="33 - Tamil Nadu">33 - Tamil Nadu</option>
+                  <option value="19 - West Bengal">19 - West Bengal</option>
+                  <option value="24 - Gujarat">24 - Gujarat</option>
+                  <option value="08 - Rajasthan">08 - Rajasthan</option>
+                  <option value="23 - Madhya Pradesh">23 - Madhya Pradesh</option>
+                  <option value="36 - Telangana">36 - Telangana</option>
+                  <option value="37 - Andhra Pradesh">37 - Andhra Pradesh</option>
+                  <option value="03 - Punjab">03 - Punjab</option>
+                  <option value="05 - Uttarakhand">05 - Uttarakhand</option>
+                  <option value="10 - Bihar">10 - Bihar</option>
+                  <option value="32 - Kerala">32 - Kerala</option>
+                  <option value="30 - Goa">30 - Goa</option>
+                  <option value="21 - Odisha">21 - Odisha</option>
+                  <option value="04 - Chandigarh">04 - Chandigarh</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
+                  Service Accounting Code (SAC)
+                </label>
+                <input
+                  type="text"
+                  id="landlordProfileSacCode"
+                  value="997212"
+                  placeholder="997212"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-indigo-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-mono font-bold focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+                />
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 block">997212: Rental or Leasing Services of Commercial / Residential Properties</span>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
+                  Applicable GST Rate
+                </label>
+                <select
+                  id="landlordProfileGstRate"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-indigo-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-bold focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+                >
+                  <option value="18">18% (9% CGST + 9% SGST / 18% IGST) - Standard Rental</option>
+                  <option value="12">12% (6% CGST + 6% SGST)</option>
+                  <option value="28">28% (14% CGST + 14% SGST)</option>
+                  <option value="5">5% (2.5% CGST + 2.5% SGST)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
+                  Reverse Charge Mechanism (RCM)
+                </label>
+                <select
+                  id="landlordProfileRcm"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-indigo-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-bold focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+                >
+                  <option value="No">No (Normal Forward Charge - Landlord pays GST)</option>
+                  <option value="Yes">Yes (Reverse Charge - Tenant pays GST directly to Govt)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
+                Authorized Signatory Name &amp; Designation
+              </label>
+              <input
+                type="text"
+                id="landlordProfileSignatory"
+                placeholder="e.g. Rajesh Sharma (Managing Director / Authorized Signatory)"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-indigo-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">
+                Standard Invoice Terms &amp; Conditions
+              </label>
+              <input
+                type="text"
+                id="landlordProfileTerms"
+                placeholder="e.g. Subject to Delhi Jurisdiction. Rent due on 1st of every month."
+                class="w-full px-3.5 py-2.5 rounded-xl border border-indigo-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end gap-3">
+          <button
+            type="button"
+            id="cancelLandlordProfileBtn"
+            class="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            id="saveLandlordProfileBtn"
+            class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white text-xs font-extrabold shadow-md shadow-indigo-600/30 transition cursor-pointer flex items-center gap-2 active:scale-95"
+          >
+            <span>💾</span>
+            <span>Save Landlord Profile &amp; GST Settings</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- =========================================================
        MODAL: STATUTORY GST TAX INVOICE (RULE 46 CGST ACT)
        Print-ready, bank-grade official tax invoice
@@ -6899,6 +7284,9 @@
               updateAuthHeaderUI();
               toast.success(`Welcome back, ${u.name}! Signed in via Supabase.`);
               closeAuthModal();
+              setTimeout(() => {
+                if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
+              }, 300);
               return;
             }
           } catch (e) {
@@ -6938,6 +7326,9 @@
         updateAuthHeaderUI();
         toast.success(`Welcome back, ${currentAuthUser.name}! Signed in successfully.`);
         closeAuthModal();
+        setTimeout(() => {
+          if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
+        }, 300);
       }
 
       async function handleAuthRegister() {
@@ -7055,6 +7446,9 @@
           updateAuthHeaderUI();
           toast.success(`Account verified successfully! Welcome, ${newUser.name}.`);
           closeAuthModal();
+          setTimeout(() => {
+            if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
+          }, 300);
         } else if (pendingAuthAction.type === "otpLogin") {
           currentAuthUser = {
             id: pendingAuthAction.data.id,
@@ -7068,6 +7462,9 @@
           updateAuthHeaderUI();
           toast.success(`Identity verified! Logged in as ${currentAuthUser.name}.`);
           closeAuthModal();
+          setTimeout(() => {
+            if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
+          }, 300);
         } else if (pendingAuthAction.type === "resetPassword") {
           setAuthMode("setNewPassword");
           showAuthFeedback("Identity verified! Set your new password below.", "success");
@@ -17394,17 +17791,310 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
         return "Rupees " + inWords(whole) + " Only";
       }
 
+      // ============================================================================
+      // 🏢 LANDLORD PROFILE & STATUTORY GST INVOICING STUDIO
+      // Manages Lessor Identity, Banking & Dynamic GST Invoicing Configuration
+      // ============================================================================
+      const STORAGE_KEY_LANDLORD_PROFILE = "rpm_landlord_profile_v1";
+
       function ensureLandlordGstDefaults() {
         state.landlord = state.landlord || {};
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY_LANDLORD_PROFILE);
+          if (saved) {
+            Object.assign(state.landlord, JSON.parse(saved));
+          }
+        } catch (e) {}
+
         state.landlord.name = state.landlord.name || "Rajesh Sharma";
         state.landlord.pan = state.landlord.pan || "ABCPS1234D";
         state.landlord.email = state.landlord.email || "abcltd9925@gmail.com";
-        state.landlord.phone = state.landlord.phone || "+91 98110 02233";
+        state.landlord.phone = state.landlord.phone || "+91 98180 12345";
+        state.landlord.address = state.landlord.address || "D-14, Ground Floor, Hauz Khas Enclave, New Delhi 110016";
+        state.landlord.bankName = state.landlord.bankName || "HDFC Bank Ltd";
+        state.landlord.accountNumber = state.landlord.accountNumber || "50200012345678";
+        state.landlord.ifscCode = state.landlord.ifscCode || "HDFC0000240";
+        state.landlord.accountHolder = state.landlord.accountHolder || state.landlord.name;
+        state.landlord.upiId = state.landlord.upiId || "abcltd9925@okhdfcbank";
+        
+        // GST Invoicing Settings
+        if (state.landlord.gstEnabled === undefined) {
+          state.landlord.gstEnabled = true; // Default enabled
+        }
         state.landlord.gstin = state.landlord.gstin || "07AAAAA0000A1Z5";
+        state.landlord.tradeName = state.landlord.tradeName || "ABC Properties & Estates";
         state.landlord.state = state.landlord.state || "07 - Delhi";
         state.landlord.sacCode = state.landlord.sacCode || "997212";
-        state.landlord.upiId = state.landlord.upiId || "rajesh.sharma@upi";
+        state.landlord.gstRate = Number(state.landlord.gstRate) || 18;
+        state.landlord.rcm = state.landlord.rcm || "No";
+        state.landlord.authorizedSignatory = state.landlord.authorizedSignatory || state.landlord.name;
+        state.landlord.terms = state.landlord.terms || "Subject to Delhi Jurisdiction. Rent is due on 1st of every month.";
       }
+
+      function openLandlordProfileModal(isAfterLogin = false) {
+        ensureLandlordGstDefaults();
+        const modal = document.getElementById("landlordProfileModal");
+        if (!modal) return;
+
+        // Toggle Welcome Banner
+        const banner = document.getElementById("landlordProfileWelcomeBanner");
+        if (banner) {
+          if (isAfterLogin) banner.classList.remove("hidden");
+          else banner.classList.add("hidden");
+        }
+
+        // Hide previous feedback
+        const fb = document.getElementById("landlordProfileFeedback");
+        if (fb) {
+          fb.classList.add("hidden");
+          fb.textContent = "";
+        }
+
+        // Populate Form Fields
+        const nameInput = document.getElementById("landlordProfileName");
+        const panInput = document.getElementById("landlordProfilePan");
+        const emailInput = document.getElementById("landlordProfileEmail");
+        const phoneInput = document.getElementById("landlordProfilePhone");
+        const addressInput = document.getElementById("landlordProfileAddress");
+
+        const accHolderInput = document.getElementById("landlordProfileAccountHolder");
+        const bankNameInput = document.getElementById("landlordProfileBankName");
+        const accNoInput = document.getElementById("landlordProfileAccountNumber");
+        const ifscInput = document.getElementById("landlordProfileIfscCode");
+        const upiInput = document.getElementById("landlordProfileUpiId");
+
+        const gstToggle = document.getElementById("landlordProfileGstToggle");
+        const gstinInput = document.getElementById("landlordProfileGstin");
+        const tradeNameInput = document.getElementById("landlordProfileTradeName");
+        const stateSelect = document.getElementById("landlordProfileState");
+        const sacInput = document.getElementById("landlordProfileSacCode");
+        const gstRateSelect = document.getElementById("landlordProfileGstRate");
+        const rcmSelect = document.getElementById("landlordProfileRcm");
+        const signatoryInput = document.getElementById("landlordProfileSignatory");
+        const termsInput = document.getElementById("landlordProfileTerms");
+
+        if (nameInput) nameInput.value = state.landlord.name || "";
+        if (panInput) panInput.value = state.landlord.pan || "";
+        if (emailInput) emailInput.value = state.landlord.email || "";
+        if (phoneInput) phoneInput.value = state.landlord.phone || "";
+        if (addressInput) addressInput.value = state.landlord.address || "";
+
+        if (accHolderInput) accHolderInput.value = state.landlord.accountHolder || state.landlord.name || "";
+        if (bankNameInput) bankNameInput.value = state.landlord.bankName || "";
+        if (accNoInput) accNoInput.value = state.landlord.accountNumber || "";
+        if (ifscInput) ifscInput.value = state.landlord.ifscCode || "";
+        if (upiInput) upiInput.value = state.landlord.upiId || "";
+
+        const isGstActive = Boolean(state.landlord.gstEnabled);
+        if (gstToggle) gstToggle.checked = isGstActive;
+
+        if (gstinInput) gstinInput.value = state.landlord.gstin || "";
+        if (tradeNameInput) tradeNameInput.value = state.landlord.tradeName || state.landlord.name || "";
+        if (stateSelect) stateSelect.value = state.landlord.state || "07 - Delhi";
+        if (sacInput) sacInput.value = state.landlord.sacCode || "997212";
+        if (gstRateSelect) gstRateSelect.value = String(state.landlord.gstRate || "18");
+        if (rcmSelect) rcmSelect.value = state.landlord.rcm || "No";
+        if (signatoryInput) signatoryInput.value = state.landlord.authorizedSignatory || state.landlord.name || "";
+        if (termsInput) termsInput.value = state.landlord.terms || "";
+
+        toggleLandlordGstFields(isGstActive);
+
+        modal.classList.remove("hidden");
+      }
+
+      function closeLandlordProfileModal() {
+        const modal = document.getElementById("landlordProfileModal");
+        if (modal) modal.classList.add("hidden");
+      }
+
+      function toggleLandlordGstFields(isTicked) {
+        const fields = document.getElementById("landlordProfileGstFields");
+        const disabledNote = document.getElementById("landlordProfileGstDisabledNote");
+        const badge = document.getElementById("landlordProfileGstActiveBadge");
+
+        if (isTicked) {
+          if (fields) fields.classList.remove("hidden");
+          if (disabledNote) disabledNote.classList.add("hidden");
+          if (badge) {
+            badge.textContent = "GST Invoicing: Active (18%)";
+            badge.className = "text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-700/60";
+          }
+        } else {
+          if (fields) fields.classList.add("hidden");
+          if (disabledNote) disabledNote.classList.remove("hidden");
+          if (badge) {
+            badge.textContent = "GST Invoicing: Off";
+            badge.className = "text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700";
+          }
+        }
+      }
+
+      function showLandlordProfileFeedback(msg, isError = true) {
+        const fb = document.getElementById("landlordProfileFeedback");
+        if (!fb) return;
+        fb.classList.remove("hidden", "bg-rose-50", "text-rose-800", "border-rose-200", "bg-emerald-50", "text-emerald-800", "border-emerald-200", "dark:bg-rose-950/50", "dark:text-rose-300", "dark:border-rose-800", "dark:bg-emerald-950/50", "dark:text-emerald-300", "dark:border-emerald-800");
+        if (isError) {
+          fb.classList.add("bg-rose-50", "text-rose-800", "border", "border-rose-200", "dark:bg-rose-950/50", "dark:text-rose-300", "dark:border-rose-800");
+          fb.innerHTML = `<span>⚠️</span><span>${escapeHtml(msg)}</span>`;
+        } else {
+          fb.classList.add("bg-emerald-50", "text-emerald-800", "border", "border-emerald-200", "dark:bg-emerald-950/50", "dark:text-emerald-300", "dark:border-emerald-800");
+          fb.innerHTML = `<span>✓</span><span>${escapeHtml(msg)}</span>`;
+        }
+      }
+
+      function saveLandlordProfile() {
+        const name = (document.getElementById("landlordProfileName")?.value || "").trim();
+        const pan = (document.getElementById("landlordProfilePan")?.value || "").trim().toUpperCase();
+        const email = (document.getElementById("landlordProfileEmail")?.value || "").trim().toLowerCase();
+        const phone = (document.getElementById("landlordProfilePhone")?.value || "").trim();
+        const address = (document.getElementById("landlordProfileAddress")?.value || "").trim();
+
+        const accountHolder = (document.getElementById("landlordProfileAccountHolder")?.value || "").trim();
+        const bankName = (document.getElementById("landlordProfileBankName")?.value || "").trim();
+        const accountNumber = (document.getElementById("landlordProfileAccountNumber")?.value || "").trim();
+        const ifscCode = (document.getElementById("landlordProfileIfscCode")?.value || "").trim().toUpperCase();
+        const upiId = (document.getElementById("landlordProfileUpiId")?.value || "").trim();
+
+        const isGstTicked = Boolean(document.getElementById("landlordProfileGstToggle")?.checked);
+        const gstin = (document.getElementById("landlordProfileGstin")?.value || "").trim().toUpperCase();
+        const tradeName = (document.getElementById("landlordProfileTradeName")?.value || "").trim();
+        const stateCode = (document.getElementById("landlordProfileState")?.value || "07 - Delhi").trim();
+        const sacCode = (document.getElementById("landlordProfileSacCode")?.value || "997212").trim();
+        const gstRate = Number(document.getElementById("landlordProfileGstRate")?.value) || 18;
+        const rcm = (document.getElementById("landlordProfileRcm")?.value || "No").trim();
+        const signatory = (document.getElementById("landlordProfileSignatory")?.value || "").trim() || name;
+        const terms = (document.getElementById("landlordProfileTerms")?.value || "").trim();
+
+        // Validation
+        if (!name) {
+          showLandlordProfileFeedback("Please enter the Full Legal Name / Lessor Name.");
+          document.getElementById("landlordProfileName")?.focus();
+          return;
+        }
+        if (!pan) {
+          showLandlordProfileFeedback("Please enter the Landlord Permanent Account Number (PAN).");
+          document.getElementById("landlordProfilePan")?.focus();
+          return;
+        }
+        if (pan.length !== 10) {
+          showLandlordProfileFeedback("PAN must be exactly 10 alphanumeric characters (e.g. ABCPS1234D).");
+          document.getElementById("landlordProfilePan")?.focus();
+          return;
+        }
+        if (!email) {
+          showLandlordProfileFeedback("Please enter official email address.");
+          document.getElementById("landlordProfileEmail")?.focus();
+          return;
+        }
+        if (!phone) {
+          showLandlordProfileFeedback("Please enter contact mobile / WhatsApp number.");
+          document.getElementById("landlordProfilePhone")?.focus();
+          return;
+        }
+
+        // Additional GST Validation when GST is ticked
+        if (isGstTicked) {
+          if (!gstin) {
+            showLandlordProfileFeedback("GST Invoicing is enabled: Please provide your 15-digit Landlord GSTIN.");
+            document.getElementById("landlordProfileGstin")?.focus();
+            return;
+          }
+          if (gstin.length !== 15) {
+            showLandlordProfileFeedback("Invalid GSTIN: Must be exactly 15 characters (e.g. 07AAAAA0000A1Z5).");
+            document.getElementById("landlordProfileGstin")?.focus();
+            return;
+          }
+          if (!tradeName) {
+            showLandlordProfileFeedback("Please enter the Legal Trade Name as registered with GST.");
+            document.getElementById("landlordProfileTradeName")?.focus();
+            return;
+          }
+        }
+
+        // Commit to state
+        state.landlord = state.landlord || {};
+        state.landlord.name = name;
+        state.landlord.pan = pan;
+        state.landlord.email = email;
+        state.landlord.phone = phone;
+        state.landlord.address = address;
+        state.landlord.accountHolder = accountHolder || name;
+        state.landlord.bankName = bankName;
+        state.landlord.accountNumber = accountNumber;
+        state.landlord.ifscCode = ifscCode;
+        state.landlord.upiId = upiId;
+
+        state.landlord.gstEnabled = isGstTicked;
+        state.landlord.gstin = isGstTicked ? gstin : "";
+        state.landlord.tradeName = isGstTicked ? tradeName : name;
+        state.landlord.state = stateCode;
+        state.landlord.sacCode = sacCode;
+        state.landlord.gstRate = gstRate;
+        state.landlord.rcm = rcm;
+        state.landlord.authorizedSignatory = signatory;
+        state.landlord.terms = terms;
+
+        // Persist
+        try {
+          localStorage.setItem(STORAGE_KEY_LANDLORD_PROFILE, JSON.stringify(state.landlord));
+        } catch (e) {}
+
+        // Keep Auth session updated
+        if (currentAuthUser) {
+          currentAuthUser.name = name;
+          currentAuthUser.email = email;
+          currentAuthUser.phone = phone;
+          currentAuthUser.pan = pan;
+          try {
+            localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+          } catch (e) {}
+        }
+
+        // Keep Header Inputs in Sync
+        const lName = document.getElementById("landlordNameInput");
+        const lEmail = document.getElementById("landlordEmailInput");
+        const lPan = document.getElementById("landlordPanInput");
+        if (lName) lName.value = name;
+        if (lEmail) lEmail.value = email;
+        if (lPan) lPan.value = pan;
+
+        updateAuthHeaderUI();
+
+        // Push to Supabase if connected
+        if (supabaseClient && typeof pushToSupabase === "function") {
+          pushToSupabase(true).catch(e => console.warn("Supabase background landlord push", e));
+        }
+
+        closeLandlordProfileModal();
+        toast.success(`✓ Landlord Profile & ${isGstTicked ? "GST Invoicing" : "Billing"} settings saved successfully!`);
+        
+        if (typeof renderAll === "function") renderAll();
+      }
+
+      function initLandlordProfileStudio() {
+        document.getElementById("closeLandlordProfileModalBtn")?.addEventListener("click", closeLandlordProfileModal);
+        document.getElementById("cancelLandlordProfileBtn")?.addEventListener("click", closeLandlordProfileModal);
+        
+        const gstToggle = document.getElementById("landlordProfileGstToggle");
+        if (gstToggle) {
+          gstToggle.addEventListener("change", (e) => {
+            toggleLandlordGstFields(e.target.checked);
+          });
+        }
+
+        document.getElementById("authOpenAccountBtn")?.addEventListener("click", () => openLandlordProfileModal(false));
+        document.getElementById("authHeaderUserPill")?.addEventListener("click", (e) => {
+          if (e.target.closest("#authSignOutBtn")) return;
+          openLandlordProfileModal(false);
+        });
+
+        document.getElementById("landlordNameInput")?.addEventListener("dblclick", () => openLandlordProfileModal(false));
+      }
+
+      window.openLandlordProfileModal = openLandlordProfileModal;
+      window.closeLandlordProfileModal = closeLandlordProfileModal;
+      window.saveLandlordProfile = saveLandlordProfile;
+      window.toggleLandlordGstFields = toggleLandlordGstFields;
 
       function generateGstInvoiceForTenant(tenantId, targetMonth) {
         ensureLandlordGstDefaults();
@@ -17421,7 +18111,7 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
           return state.gstInvoices[invoiceId];
         }
 
-        // Generate consecutive invoice number: GST/YY-YY/MMM/UNIT
+        // Generate consecutive invoice number: GST/YY-YY/MMM/UNIT or BILL/...
         const now = new Date();
         const curYear = now.getFullYear();
         const nextYearShort = String(curYear + 1).slice(-2);
@@ -17436,14 +18126,25 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
           else unitCode = tenant.unit.replace(/[^a-zA-Z0-9]/g, "").slice(0, 4).toUpperCase();
         }
 
-        const invoiceNo = "GST/" + fy + "/" + monthPart + "/" + unitCode;
+        const isGstEnabled = state.landlord.gstEnabled !== false;
+        const invoicePrefix = isGstEnabled ? "GST" : "BILL";
+        const invoiceNo = invoicePrefix + "/" + fy + "/" + monthPart + "/" + unitCode;
 
-        // Rent & GST calculation (18% GST: 9% CGST + 9% SGST)
+        // Rent & GST calculation
         const taxableRent = Number(tenant.rent) || 12000;
-        const cgstRate = 9;
-        const sgstRate = 9;
-        const cgstAmount = Math.round((taxableRent * 0.09) * 100) / 100;
-        const sgstAmount = Math.round((taxableRent * 0.09) * 100) / 100;
+        let cgstRate = 0;
+        let sgstRate = 0;
+        let cgstAmount = 0;
+        let sgstAmount = 0;
+
+        if (isGstEnabled) {
+          const totalGstRate = Number(state.landlord.gstRate) || 18;
+          cgstRate = totalGstRate / 2;
+          sgstRate = totalGstRate / 2;
+          cgstAmount = Math.round((taxableRent * (cgstRate / 100)) * 100) / 100;
+          sgstAmount = Math.round((taxableRent * (sgstRate / 100)) * 100) / 100;
+        }
+
         const totalAmount = Math.round((taxableRent + cgstAmount + sgstAmount) * 100) / 100;
 
         // Invoice date is the 1st of the billing month
@@ -18142,6 +18843,7 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         initPoliceVerificationStudio();
         loadState();
         initAuthSession();
+        initLandlordProfileStudio();
         initSupabaseClient();
         fetchVercelSupabaseConfig();
         initEventListeners();
@@ -18150,6 +18852,10 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         window.state = state;
         window.openAuthModal = openAuthModal;
         window.closeAuthModal = closeAuthModal;
+        window.openLandlordProfileModal = openLandlordProfileModal;
+        window.closeLandlordProfileModal = closeLandlordProfileModal;
+        window.saveLandlordProfile = saveLandlordProfile;
+        window.toggleLandlordGstFields = toggleLandlordGstFields;
         window.setAuthMode = setAuthMode;
         window.handleAuthSignIn = handleAuthSignIn;
         window.handleAuthRegister = handleAuthRegister;
@@ -18199,6 +18905,8 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         window.sendChatMessage = sendChatMessage;
         window.getTenantChatHistory = getTenantChatHistory;
         window.generateTenantPortalUrl = generateTenantPortalUrl;
+        window.generateGstInvoiceForTenant = generateGstInvoiceForTenant;
+        window.autoCheckAndGenerateMonthlyGstInvoices = autoCheckAndGenerateMonthlyGstInvoices;
       });
     })();
   </script>
