@@ -16,9 +16,9 @@ import {
 } from '../config/constants.js';
 
 export function loadStoredState() {
-  let properties = SAMPLE_PROPERTIES;
-  let tenants = SAMPLE_TENANTS;
-  let mcdRecords = SAMPLE_MCD;
+  let properties = [];
+  let tenants = [];
+  let mcdRecords = [];
   let landlord = { ...DEFAULT_LANDLORD };
   let ledgerInstallments = {};
 
@@ -29,17 +29,17 @@ export function loadStoredState() {
     const rawLandlord = localStorage.getItem(STORAGE_KEY_LANDLORD);
     const rawInstallments = localStorage.getItem(STORAGE_KEY_LEDGER_INSTALLMENTS);
 
-    if (rawProps) properties = JSON.parse(rawProps);
-    if (rawTenants) tenants = JSON.parse(rawTenants);
-    if (rawMcd) mcdRecords = JSON.parse(rawMcd);
-    if (rawLandlord) landlord = { ...DEFAULT_LANDLORD, ...JSON.parse(rawLandlord) };
-    if (rawInstallments) ledgerInstallments = JSON.parse(rawInstallments);
+    if (rawProps !== null) properties = JSON.parse(rawProps);
+    if (rawTenants !== null) tenants = JSON.parse(rawTenants);
+    if (rawMcd !== null) mcdRecords = JSON.parse(rawMcd);
+    if (rawLandlord !== null) landlord = { ...DEFAULT_LANDLORD, ...JSON.parse(rawLandlord) };
+    if (rawInstallments !== null) ledgerInstallments = JSON.parse(rawInstallments);
   } catch (err) {
-    console.warn("Storage load failed, restoring default fixtures", err);
+    console.warn("Storage load failed, starting with clean defaults", err);
   }
 
-  // Ensure available/unassigned tenant slots exist
-  if (!tenants.some((t) => t.status === "Vacated" || !t.unit || (t.unit || "").toLowerCase().includes("unassigned"))) {
+  // Ensure available/unassigned tenant slots exist if active tenants present
+  if (tenants.length > 0 && !tenants.some((t) => t.status === "Vacated" || !t.unit || (t.unit || "").toLowerCase().includes("unassigned"))) {
     tenants.push({
       id: "ten_unassigned_fallback",
       unit: "Unassigned / Available",
