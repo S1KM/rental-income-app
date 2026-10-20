@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Unified Rental Suite, Real-Time Property Ledger, Multi-Unit Rent Roll & Supabase Cloud Sync",
   "main": "index.html",
+  "type": "module",
   "scripts": {
     "start": "npx serve .",
     "dev": "npx serve ."

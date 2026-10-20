@@ -31,6 +31,27 @@
     body {
       font-family: 'Inter', sans-serif;
     }
+    /* Executive Slate & Indigo Polished Enhancements */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    .hover-lift {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hover-lift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    }
+    @keyframes toastSlideIn {
+      from { transform: translateY(12px) scale(0.96); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .toast-animate-in {
+      animation: toastSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
     .font-serif-title {
       font-family: 'Cinzel', serif;
     }
@@ -178,6 +199,18 @@
           </span>
           <span id="supabaseStatusNavLabel">Supabase Sync</span>
           <span id="supabaseNavDot" class="w-2 h-2 rounded-full bg-slate-400"></span>
+        </button>
+
+        <button
+          id="exportBackupJsonBtn"
+          type="button"
+          class="px-3.5 py-2 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95"
+          title="Export offline local JSON backup of all properties, tenants, and ledger"
+        >
+          <span class="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 text-xs">
+            💾
+          </span>
+          Backup JSON
         </button>
 
         <button
@@ -510,8 +543,8 @@
               <input
                 type="text"
                 id="dashSearchInput"
-                placeholder="Search flat, tenant, phone..."
-                class="w-full pl-8 pr-3 py-1.5 rounded-xl border border-slate-300 text-xs bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs"
+                placeholder="Search flat, tenant, phone... (Press '/' or Ctrl+K)"
+                class="w-full pl-8 pr-14 py-1.5 rounded-xl border border-slate-300 text-xs bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition shadow-2xs"
               />
               <span class="absolute left-2.5 top-2 text-indigo-600 text-xs">
                 <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
@@ -3431,9 +3464,74 @@
         return "₹" + Number(val || 0).toLocaleString("en-IN");
       }
 
+      // --- EXECUTIVE FLOATING TOAST NOTIFICATION ENGINE ---
+      const toast = {
+        show(message, type = "info", duration = 3800) {
+          if (typeof document === "undefined") return;
+          let container = document.getElementById("executiveToastContainer");
+          if (!container) {
+            container = document.createElement("div");
+            container.id = "executiveToastContainer";
+            container.className = "fixed top-5 right-5 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0";
+            document.body.appendChild(container);
+          }
+
+          const toastEl = document.createElement("div");
+          toastEl.className = "pointer-events-auto toast-animate-in flex items-start gap-3 p-3.5 rounded-2xl shadow-xl backdrop-blur-md border text-xs sm:text-sm font-medium " +
+            (type === "success"
+              ? "bg-white/95 text-emerald-950 border-emerald-200/90 shadow-emerald-900/5"
+              : (type === "error"
+                  ? "bg-white/95 text-rose-950 border-rose-200/90 shadow-rose-900/5"
+                  : (type === "warning"
+                      ? "bg-white/95 text-amber-950 border-amber-200/90 shadow-amber-900/5"
+                      : "bg-white/95 text-indigo-950 border-indigo-200/90 shadow-indigo-900/5")));
+
+          const iconHtml = type === "success"
+            ? '<div class="w-6 h-6 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs">✓</div>'
+            : (type === "error"
+                ? '<div class="w-6 h-6 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs">✕</div>'
+                : (type === "warning"
+                    ? '<div class="w-6 h-6 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs">⚠️</div>'
+                    : '<div class="w-6 h-6 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs">ℹ</div>'));
+
+          toastEl.innerHTML = `
+            ${iconHtml}
+            <div class="flex-1 min-w-0 leading-relaxed font-semibold">${escapeHtml(message)}</div>
+            <button type="button" class="shrink-0 text-slate-400 hover:text-slate-700 transition font-bold text-xs p-1 rounded-lg hover:bg-slate-100">✕</button>
+          `;
+
+          const closeBtn = toastEl.querySelector("button");
+          let timer = null;
+          const dismiss = () => {
+            if (timer) clearTimeout(timer);
+            toastEl.classList.add("opacity-0", "scale-95", "translate-x-4");
+            setTimeout(() => {
+              if (toastEl.parentNode) toastEl.parentNode.removeChild(toastEl);
+            }, 300);
+          };
+          if (closeBtn) closeBtn.addEventListener("click", dismiss);
+
+          container.appendChild(toastEl);
+
+          if (duration > 0) {
+            timer = setTimeout(dismiss, duration);
+          }
+        },
+        success(msg) { this.show(msg, "success"); },
+        error(msg) { this.show(msg, "error", 5000); },
+        info(msg) { this.show(msg, "info"); },
+        warning(msg) { this.show(msg, "warning", 4500); }
+      };
+
       function showFeedback(msg, type = "success") {
+        if (type === "error" || type === "danger") {
+          toast.error(msg);
+        } else {
+          toast.success(msg);
+        }
         const banner = document.getElementById("feedbackBanner");
         const text = document.getElementById("feedbackText");
+        if (!banner || !text) return;
         banner.className = `mb-6 px-4 py-3 rounded-xl text-sm font-semibold shadow-sm transition-all flex items-center justify-between ${
           type === "success"
             ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
@@ -11258,6 +11356,54 @@
 
         document.getElementById("addNewInstallmentModeBtn")?.addEventListener("click", setAddInstallmentMode);
         document.getElementById("cancelEditInstallmentBtn")?.addEventListener("click", cancelEditInstallment);
+
+        // Export JSON Offline Backup
+        document.getElementById("exportBackupJsonBtn")?.addEventListener("click", () => {
+          const payload = {
+            appName: "Rental Income & Property Master Suite",
+            version: "3.2.0",
+            exportedAt: new Date().toISOString(),
+            landlord: state.landlord,
+            propertiesCount: state.properties.length,
+            tenantsCount: state.tenants.length,
+            properties: state.properties,
+            tenants: state.tenants,
+            mcdRecords: state.mcdRecords,
+            ledgerInstallments: state.ledgerInstallments
+          };
+          const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          const fname = `Rental_Suite_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+          a.href = url;
+          a.download = fname;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          showFeedback(`✓ Complete JSON backup downloaded: ${fname}`);
+        });
+
+        // Global Keyboard Shortcuts (Escape to dismiss modals, '/' or Ctrl+K for search)
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            closeTenantTrackRecordModal();
+            closePropertyLedgerModal();
+            closePartialPaymentModal();
+            closeRentReceipt();
+            closeLinkTenantModal();
+            closeKpiDetailModal();
+            closeSupabaseModal();
+          } else if ((e.key === "/" || (e.ctrlKey && e.key.toLowerCase() === "k")) && !["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName)) {
+            e.preventDefault();
+            const searchInput = document.getElementById("dashSearchInput");
+            if (searchInput) {
+              switchTab("dashboard");
+              searchInput.focus();
+              searchInput.select();
+            }
+          }
+        });
 
         // Supabase Cloud Sync Modal Event Listeners
         document.getElementById("supabaseSyncModalBtn")?.addEventListener("click", openSupabaseModal);

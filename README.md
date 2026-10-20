@@ -52,9 +52,14 @@ npx serve .
 
 ---
 
-## ✨ Features
+## ✨ Features & Senior Engineering Architecture
+- **Modular Native ES Architecture (`src/`)**: Zero-build step, standards-compliant ES modules (`src/config`, `src/state`, `src/services`, `src/utils`, `src/ui`) for scalable development, testing, and instant static deployment.
+- **Executive Slate & Indigo UI**: Luxury glassmorphism, high-contrast status chips, micro-animated KPI cards, and smooth elevation effects.
+- **Floating Toast Notification Engine**: Non-intrusive, micro-animated feedback for payments, cloud synchronization, and settings updates.
 - **Scroll-Free Track Record & Rent Roll**: Zero horizontal overflow on standard screens with mathematically balanced columns.
 - **Atomic Multi-Entity Payment Updation**: Update payment realization dates, modes, and amounts in-place with instant ledger recalculation.
 - **Bank-Grade Chronological Running Balance**: Automatic calculation of dues, payments, and balances with clear `Due` and `Clear` status badges.
-- **Legal Tenancy Studio**: Instant 11-month Indian Tenancy Agreements and HRA rent receipts with Landlord PAN compliance.
-- **Supabase Cloud Integration**: Two-way data synchronization with automated schema migrations.
+- **Instant JSON Backup & Restore**: One-click local backup download of entire portfolio inventory, tenant ledger, and tax records.
+- **Keyboard Shortcuts**: Press `/` or `Ctrl+K` to search units and tenants instantly; `Esc` to dismiss any modal.
+- **Legal Tenancy Studio**: Instant 11-month Indian Tenancy Agreements and HRA rent receipts with Landlord PAN compliance (`abcltd9925@gmail.com`).
+- **Supabase Cloud Integration**: Two-way data synchronization with automated schema migrations and offline-first fallback.
