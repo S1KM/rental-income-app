@@ -54,10 +54,36 @@ export function updateSupabaseUIStatus(status) {
   }
 }
 
+export function normalizeSupabaseUrl(raw) {
+  if (!raw) return "";
+  let u = String(raw).trim().replace(/^["']|["']$/g, "");
+  const dashMatch = u.match(/supabase\.com\/dashboard\/project\/([a-zA-Z0-9_-]+)/i);
+  if (dashMatch) {
+    return "https://" + dashMatch[1] + ".supabase.co";
+  }
+  if (!/^https?:\/\//i.test(u)) {
+    u = "https://" + u;
+  }
+  u = u.replace(/\/+$/, "");
+  u = u.replace(/\/rest\/v1\/?$/i, "");
+  u = u.replace(/\/rest\/?$/i, "");
+  u = u.replace(/\/settings\/api\/?$/i, "");
+  u = u.replace(/\/+$/, "");
+  return u;
+}
+
+export function normalizeSupabaseKey(raw) {
+  if (!raw) return "";
+  return String(raw).trim().replace(/^["']|["']$/g, "").replace(/\s+/g, "");
+}
+
 export function initSupabaseClient() {
   if (typeof localStorage === 'undefined') return false;
-  const url = (localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || "").trim();
-  const key = (localStorage.getItem(STORAGE_KEY_SUPABASE_KEY) || "").trim();
+  let url = (localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || "").trim();
+  let key = (localStorage.getItem(STORAGE_KEY_SUPABASE_KEY) || "").trim();
+
+  url = normalizeSupabaseUrl(url);
+  key = normalizeSupabaseKey(key);
 
   if (url && key && typeof window !== 'undefined' && window.supabase && typeof window.supabase.createClient === "function") {
     try {
@@ -96,8 +122,11 @@ export async function testSupabaseConnection() {
   if (typeof document === 'undefined') return false;
   const urlInput = document.getElementById("supabaseUrlInput");
   const keyInput = document.getElementById("supabaseKeyInput");
-  const url = (urlInput?.value || "").trim();
-  const key = (keyInput?.value || "").trim();
+  let url = normalizeSupabaseUrl(urlInput?.value || "");
+  let key = normalizeSupabaseKey(keyInput?.value || "");
+
+  if (urlInput && url) urlInput.value = url;
+  if (keyInput && key) keyInput.value = key;
 
   if (!url || !key) {
     showSupabaseFeedback("Please provide both Supabase Project URL and Anon Key.", "error");
@@ -129,9 +158,14 @@ export async function testSupabaseConnection() {
 
 export function saveSupabaseCredentials(onSuccess = null) {
   if (typeof document === 'undefined') return;
-  const url = (document.getElementById("supabaseUrlInput")?.value || "").trim();
-  const key = (document.getElementById("supabaseKeyInput")?.value || "").trim();
+  let url = normalizeSupabaseUrl(document.getElementById("supabaseUrlInput")?.value || "");
+  let key = normalizeSupabaseKey(document.getElementById("supabaseKeyInput")?.value || "");
   const autoSync = document.getElementById("supabaseAutoSyncToggle")?.checked ? "true" : "false";
+
+  const urlInput = document.getElementById("supabaseUrlInput");
+  const keyInput = document.getElementById("supabaseKeyInput");
+  if (urlInput && url) urlInput.value = url;
+  if (keyInput && key) keyInput.value = key;
 
   if (!url || !key) {
     showSupabaseFeedback("Please provide both Supabase URL and Anon Key before saving.", "error");
@@ -170,6 +204,9 @@ export function disconnectSupabase(onDisconnect = null) {
 }
 
 export async function pushToSupabase(state, isSilent = false) {
+  if (!supabaseClient) {
+    initSupabaseClient();
+  }
   if (!supabaseClient) {
     if (!isSilent) {
       showSupabaseFeedback("Supabase is not connected. Enter credentials and click 'Save Credentials'.", "error");

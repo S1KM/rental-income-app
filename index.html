@@ -3022,6 +3022,7 @@
               placeholder="https://xyzcompany.supabase.co"
               class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white font-mono text-xs text-slate-900 shadow-2xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"
             />
+            <p class="text-[10px] text-slate-500 mt-1">Project Settings &rarr; API &rarr; Project URL (Use base URL: <code class="font-mono bg-slate-100 px-1 py-0.2 rounded">https://xyz.supabase.co</code> &mdash; do not include <code class="font-mono bg-slate-100 px-1 py-0.2 rounded">/rest/v1</code> or trailing slashes)</p>
           </div>
 
           <div>
@@ -3589,9 +3590,35 @@
         }
       }
 
+      function normalizeSupabaseUrl(raw) {
+        if (!raw) return "";
+        let u = String(raw).trim().replace(/^["']|["']$/g, "");
+        const dashMatch = u.match(/supabase\.com\/dashboard\/project\/([a-zA-Z0-9_-]+)/i);
+        if (dashMatch) {
+          return "https://" + dashMatch[1] + ".supabase.co";
+        }
+        if (!/^https?:\/\//i.test(u)) {
+          u = "https://" + u;
+        }
+        u = u.replace(/\/+$/, "");
+        u = u.replace(/\/rest\/v1\/?$/i, "");
+        u = u.replace(/\/rest\/?$/i, "");
+        u = u.replace(/\/settings\/api\/?$/i, "");
+        u = u.replace(/\/+$/, "");
+        return u;
+      }
+
+      function normalizeSupabaseKey(raw) {
+        if (!raw) return "";
+        return String(raw).trim().replace(/^["']|["']$/g, "").replace(/\s+/g, "");
+      }
+
       function initSupabaseClient() {
-        const url = (localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || "").trim();
-        const key = (localStorage.getItem(STORAGE_KEY_SUPABASE_KEY) || "").trim();
+        let url = (localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || "").trim();
+        let key = (localStorage.getItem(STORAGE_KEY_SUPABASE_KEY) || "").trim();
+
+        url = normalizeSupabaseUrl(url);
+        key = normalizeSupabaseKey(key);
 
         if (url && key && window.supabase && typeof window.supabase.createClient === "function") {
           try {
@@ -3618,8 +3645,8 @@
         const keyInput = document.getElementById("supabaseKeyInput");
         const autoSyncToggle = document.getElementById("supabaseAutoSyncToggle");
 
-        if (urlInput) urlInput.value = localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || "";
-        if (keyInput) keyInput.value = localStorage.getItem(STORAGE_KEY_SUPABASE_KEY) || "";
+        if (urlInput) urlInput.value = normalizeSupabaseUrl(localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || "");
+        if (keyInput) keyInput.value = normalizeSupabaseKey(localStorage.getItem(STORAGE_KEY_SUPABASE_KEY) || "");
         if (autoSyncToggle) autoSyncToggle.checked = localStorage.getItem(STORAGE_KEY_SUPABASE_AUTOSYNC) === "true";
 
         const fb = document.getElementById("supabaseFeedback");
@@ -3650,8 +3677,11 @@
       async function testSupabaseConnection() {
         const urlInput = document.getElementById("supabaseUrlInput");
         const keyInput = document.getElementById("supabaseKeyInput");
-        const url = (urlInput?.value || "").trim();
-        const key = (keyInput?.value || "").trim();
+        let url = normalizeSupabaseUrl(urlInput?.value || "");
+        let key = normalizeSupabaseKey(keyInput?.value || "");
+
+        if (urlInput && url) urlInput.value = url;
+        if (keyInput && key) keyInput.value = key;
 
         if (!url || !key) {
           showSupabaseFeedback("Please provide both Supabase Project URL and Anon Key.", "error");
@@ -3678,9 +3708,14 @@
       }
 
       function saveSupabaseCredentials() {
-        const url = (document.getElementById("supabaseUrlInput")?.value || "").trim();
-        const key = (document.getElementById("supabaseKeyInput")?.value || "").trim();
+        let url = normalizeSupabaseUrl(document.getElementById("supabaseUrlInput")?.value || "");
+        let key = normalizeSupabaseKey(document.getElementById("supabaseKeyInput")?.value || "");
         const autoSync = document.getElementById("supabaseAutoSyncToggle")?.checked ? "true" : "false";
+
+        const urlInput = document.getElementById("supabaseUrlInput");
+        const keyInput = document.getElementById("supabaseKeyInput");
+        if (urlInput && url) urlInput.value = url;
+        if (keyInput && key) keyInput.value = key;
 
         if (!url || !key) {
           showSupabaseFeedback("Please provide both Supabase URL and Anon Key before saving.", "error");
@@ -3713,6 +3748,9 @@
       }
 
       async function pushToSupabase(isSilent = false) {
+        if (!supabaseClient) {
+          initSupabaseClient();
+        }
         if (!supabaseClient) {
           if (!isSilent) showSupabaseFeedback("Supabase is not connected. Enter credentials and click 'Save Credentials'.", "error");
           return false;
