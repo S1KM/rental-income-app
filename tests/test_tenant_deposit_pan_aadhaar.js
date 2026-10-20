@@ -54,6 +54,20 @@ const requiredElements = [
   "docPreviewDownloadBtn",
   "closeDocPreviewModalBtn",
   "closeDocPreviewModalFooterBtn",
+  "tmPhotoInput",
+  "tmPhotoPreviewContainer",
+  "tmPhotoPreviewImg",
+  "tmPhotoPlaceholder",
+  "tmPhotoTriggerBtn",
+  "tmPhotoUploadBtn",
+  "tmPhotoRemoveBtn",
+  "tmPhotoFileName",
+  "modalTenantPhotoInput",
+  "modalTenantPhotoContainer",
+  "modalTenantPhotoImg",
+  "modalTenantPhotoPlaceholder",
+  "modalTenantPhotoBtn",
+  "modalTenantPhotoRemoveBtn",
   "modalTenantDepositMonths",
   "modalTenantDepositAmount",
   "modalTenantPan",
@@ -319,6 +333,7 @@ context.document.getElementById("tmDepositMonthsInput").value = "2.5";
 context.document.getElementById("tmDepositAmountInput").value = "70000";
 context.document.getElementById("tmPanInput").value = "ABCDE9999F";
 context.document.getElementById("tmAadhaarInput").value = "4455 6677 8899";
+mockWindow.setCurrentTmPhoto("data:image/jpeg;base64,MOCK_PROFILE_PHOTO_DATA");
 mockWindow.setCurrentTmPanDoc({
   name: "pan_rohit.pdf",
   size: 150000,
@@ -341,11 +356,12 @@ assert.strictEqual(registered.name, "Rohit Verma");
 assert.strictEqual(registered.rent, 28000);
 assert.strictEqual(registered.depositMonths, 2.5);
 assert.strictEqual(registered.deposit, 70000);
+assert.strictEqual(registered.photo, "data:image/jpeg;base64,MOCK_PROFILE_PHOTO_DATA", "Tenant profile picture must be saved");
 assert.strictEqual(registered.pan, "ABCDE9999F");
 assert.strictEqual(registered.aadhaar, "4455 6677 8899");
 assert(registered.panDoc && registered.panDoc.name === "pan_rohit.pdf", "PAN Doc must be preserved");
 assert(registered.aadhaarDoc && registered.aadhaarDoc.name === "aadhaar_rohit.jpg", "Aadhaar Doc must be preserved");
-console.log("✓ Tenant registered in state.tenants with full Deposit, PAN, Aadhaar & Docs");
+console.log("✓ Tenant registered in state.tenants with Profile Picture, full Deposit, PAN, Aadhaar & Docs");
 
 // Check property sync
 const matchedProp = mockWindow.state.properties.find(p => p.id === "prop_1");
@@ -362,6 +378,8 @@ assert(renderedCards.length > 0, "Directory cards should be rendered");
 
 const cardHtml = renderedCards[0].innerHTML;
 assert(cardHtml.includes("Rohit Verma"), "Card must include tenant name");
+assert(cardHtml.includes("data:image/jpeg;base64,MOCK_PROFILE_PHOTO_DATA"), "Card must render tenant profile photo image");
+assert(cardHtml.includes("tm-view-photo"), "Card must contain [tm-view-photo] action trigger on profile picture");
 assert(cardHtml.includes("Security Deposit:"), "Card must include Security Deposit label");
 assert(cardHtml.includes("70,000"), "Card must display deposit amount");
 assert(cardHtml.includes("2.5 Mo"), "Card must display deposit months");
@@ -370,7 +388,7 @@ assert(cardHtml.includes("Aadhaar:") && cardHtml.includes("4455 6677 8899"), "Ca
 assert(cardHtml.includes("tm-view-doc"), "Card must contain [📎 View Doc] button");
 assert(cardHtml.includes("tm-edit-tenant"), "Card must contain [✏️ Edit] button");
 
-console.log("✓ Directory card renders complete Security Deposit (₹70,000 / 2.5 Mo), separate PAN & Aadhaar badges with document viewer triggers!");
+console.log("✓ Directory card renders complete Profile Photo avatar, Security Deposit (₹70,000 / 2.5 Mo), separate PAN & Aadhaar badges with document viewer triggers!");
 
 console.log("\n========================================================");
 console.log("🎉 ALL TENANT MASTER TESTS PASSED WITH 100% SUCCESS!");
