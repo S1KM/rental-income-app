@@ -6,13 +6,16 @@ A modern, bank-grade **Rental Income & Multi-Unit Property Ledger Management Web
 
 ## 🚀 Live Deployment on Vercel
 
-### Step 1: Connect to Vercel
-1. Go to [vercel.com/new](https://vercel.com/new) and log in with your GitHub account.
-2. Under **Import Git Repository**, select `Sachin-fin/rental-income-app`.
-3. In Project Settings:
-   - **Framework Preset**: Other (Static / HTML)
-   - **Root Directory**: `./`
-4. Click **Deploy**. Your app will be live with a production `.vercel.app` URL in under 30 seconds!
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FSachin-fin%2Frental-income-app&project-name=rental-income-app&repository-name=rental-income-app)
+
+### Instant 1-Click Auto Import
+Click the button above or visit:  
+👉 **[Auto-Import into Vercel](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FSachin-fin%2Frental-income-app&project-name=rental-income-app&repository-name=rental-income-app)**
+
+1. Sign in with GitHub.
+2. Vercel automatically imports `Sachin-fin/rental-income-app` with the production preset configured.
+3. Click **Deploy**. Your app is live with a production `.vercel.app` domain in ~20 seconds!
+4. From that moment forward, every push to `origin/main` (or running `npm run deploy`) automatically builds and deploys to production on Vercel!
 
 ---
 
