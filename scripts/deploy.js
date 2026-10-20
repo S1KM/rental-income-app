@@ -43,12 +43,22 @@ try {
   console.log('ℹ Working tree clean or already committed, proceeding with push...');
 }
 
-const pushed = run('git push origin main', 'Pushing to GitHub origin/main');
+const pushed = run('git push origin main', 'Pushing to GitHub origin/main (Sachin-fin)');
 if (!pushed) {
   console.error('❌ Git push failed. Please check your GitHub remote or network connection.');
   process.exit(1);
 }
 console.log('✅ Successfully pushed to GitHub (origin/main)!\n');
+
+console.log('▶ Synchronizing with S1KM/rental-income-app...');
+try {
+  execSync('git push s1km main', { stdio: 'inherit' });
+  console.log('✅ Successfully pushed to S1KM/rental-income-app!\n');
+} catch (e) {
+  console.log('ℹ S1KM/rental-income-app is a fork of this repository.');
+  console.log('  👉 1-Click Sync: Open https://github.com/S1KM/rental-income-app and click "Sync fork" -> "Update branch"');
+  console.log('  👉 Or add Sachin-fin as a collaborator at: https://github.com/S1KM/rental-income-app/settings/access\n');
+}
 
 // 3. Vercel Auto-Import & Production Deployment
 console.log('[Step 3/4] Checking Vercel Production Deployment...');
