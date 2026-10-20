@@ -64,5 +64,7 @@ npx serve .
 - **Bank-Grade Chronological Running Balance**: Automatic calculation of dues, payments, and balances with clear `Due` and `Clear` status badges.
 - **Instant JSON Backup & Restore**: One-click local backup download of entire portfolio inventory, tenant ledger, and tax records.
 - **Keyboard Shortcuts**: Press `/` or `Ctrl+K` to search units and tenants instantly; `Esc` to dismiss any modal.
+- **Statewise Police Verification Studio**: Court-compliant statutory verification forms under Section 144 CrPC and State Police Acts. Supports tailored templates for Delhi, Maharashtra (Mumbai PCS), Uttar Pradesh (UP COP / CCTNS), Haryana (HarSamay), Karnataka (Bengaluru KSP), West Bengal, Tamil Nadu, and All-India standards. Features auto-fill from properties and tenants, official police headers, self-attested photo boxes, two local referees, legal statutory declarations, official citizen portal links, and printable counterfoil acknowledgment receipts.
+- **Tenant Master Suite**: Comprehensive tenant profiles with auto-calculated security deposits based on lease duration, separated PAN & Aadhaar identification fields with document attachment viewers (PDF/Image), profile photo uploads, and 1-click action shortcuts (`[👮 Police Form]`, `[Draft Agreement]`, `[🧾 Receipt]`).
 - **Legal Tenancy Studio**: Instant 11-month Indian Tenancy Agreements and HRA rent receipts with Landlord PAN compliance (`abcltd9925@gmail.com`).
 - **Supabase Cloud Integration**: Two-way data synchronization with automated schema migrations and offline-first fallback.

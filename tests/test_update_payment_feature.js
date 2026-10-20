@@ -57,6 +57,8 @@ function createEl(id = '', tag = 'div') {
       }
     },
     closest: function(sel) { return this; },
+    querySelector: function(sel) { return createEl(); },
+    querySelectorAll: function(sel) { return []; },
     focus: function() {},
     dataset: {},
     innerHTML: '',
