@@ -19,25 +19,22 @@ Click the button above or visit:
 
 ---
 
-## ⚡ Supabase Cloud Database Setup
+## ⚡ Permanent Supabase + Vercel Integration
 
-This app features **Offline-First Hybrid Sync**: it works locally via browser storage and connects seamlessly to Supabase PostgreSQL for cloud persistence across devices.
+This application features **zero-touch, permanent cloud linking** powered by Vercel Serverless API (`api/supabase-config.js`) and Supabase PostgreSQL. There are no manual configuration popups or credential prompts required in the UI.
 
-### Step 1: Create your Supabase Project
-1. Go to [supabase.com](https://supabase.com) and create a free project (e.g. `rental-income-db`).
-2. Go to **SQL Editor** in the left sidebar.
-3. Open [`supabase-schema.sql`](./supabase-schema.sql), copy all queries, paste into the SQL Editor, and click **Run**.
-4. Go to **Project Settings** -> **API** to copy:
-   - **Project URL** (`https://xyzcompany.supabase.co`)
-   - **Project API Anon Key** (`eyJhbGciOi...`)
+### Step 1: Initialize Database in Supabase
+1. Create a project at [supabase.com](https://supabase.com).
+2. Open **SQL Editor**, paste all SQL statements from [`supabase-schema.sql`](./supabase-schema.sql), and click **Run**.
+3. Retrieve your **Project URL** and **Anon Key** under **Project Settings** -> **API**.
 
-### Step 2: Connect in the Web App
-1. Open your live app on Vercel or locally.
-2. In the top header, click **⚡ Supabase Sync**.
-3. Paste your **Supabase URL** and **Anon Key**.
-4. Click **Test & Connect**.
-5. Click **⬆️ Push Local Data to Supabase** to upload your inventory and ledger to the cloud!
-6. Enable **Auto-Sync** for background real-time persistence.
+### Step 2: Link Permanently with Vercel
+1. Go to your Vercel Project Dashboard -> **Settings** -> **Environment Variables**.
+2. Add the two environment variables:
+   - `SUPABASE_URL`: `https://your-project-id.supabase.co`
+   - `SUPABASE_ANON_KEY`: `eyJhbGciOi...`
+3. Click **Save** and trigger a redeploy (or simply git push).
+4. **Done!** The application automatically reads these variables on production load via `/api/supabase-config`, establishes permanent cloud database connectivity in the background, and enables continuous auto-sync across all devices and team members with seamless offline-first caching.
 
 ---
 

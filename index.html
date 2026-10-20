@@ -453,21 +453,6 @@
             </div>
           </div>
 
-          <!-- Supabase Cloud Sync Executive Pill -->
-          <button
-            id="supabaseSyncModalBtn"
-            type="button"
-            class="px-4 py-3 rounded-2xl border border-emerald-300/90 bg-emerald-50/80 hover:bg-emerald-100 text-emerald-950 text-xs font-bold transition shadow-2xs flex items-center gap-2.5 cursor-pointer active:scale-95"
-            title="Configure Permanent Supabase Cloud Database Sync"
-          >
-            <span class="w-6 h-6 rounded-lg bg-emerald-200/90 text-emerald-900 flex items-center justify-center shrink-0 text-xs font-black shadow-2xs">
-              ⚡
-            </span>
-            <span id="supabaseStatusNavLabel" class="font-bold tracking-tight">Supabase: Connected</span>
-            <span id="supabaseNavDot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-sm shadow-emerald-500/50"></span>
-          </button>
-
-
           <!-- Dark / Light Theme Toggle Button -->
           <button
             id="themeToggleBtn"
@@ -6551,11 +6536,58 @@
         return String(raw).trim().replace(/^["']|["']$/g, "").replace(/\s+/g, "");
       }
 
-      // Permanent Cloud Configuration (can be pre-configured or synced via modal)
+      // Permanent Cloud Configuration (linked automatically with Vercel or local storage)
       window.SUPABASE_CONFIG = window.SUPABASE_CONFIG || {
         url: "",
         anonKey: ""
       };
+
+      // Permanent Vercel + Supabase integration loader
+      async function fetchVercelSupabaseConfig() {
+        try {
+          if (typeof window === "undefined" || typeof window.fetch !== "function") return false;
+          const resp = await window.fetch("/api/supabase-config", { cache: "no-store" });
+          if (!resp.ok) return false;
+          const data = await resp.json();
+          if (data && data.url && data.anonKey) {
+            const cleanUrl = normalizeSupabaseUrl(data.url);
+            const cleanKey = normalizeSupabaseKey(data.anonKey);
+            window.SUPABASE_CONFIG = {
+              url: cleanUrl,
+              anonKey: cleanKey
+            };
+            // Permanently cache credentials and activate auto-sync
+            localStorage.setItem(STORAGE_KEY_SUPABASE_URL, cleanUrl);
+            localStorage.setItem(STORAGE_KEY_SUPABASE_KEY, cleanKey);
+            localStorage.setItem(STORAGE_KEY_SUPABASE_AUTOSYNC, "true");
+
+            if (window.supabase && typeof window.supabase.createClient === "function") {
+              try {
+                supabaseClient = window.supabase.createClient(cleanUrl, cleanKey);
+                updateSupabaseUIStatus("connected");
+                console.log("⚡ Supabase permanently linked via Vercel integration.");
+                // Background pull if local state is empty
+                if (typeof pullFromSupabase === "function" && typeof state !== "undefined" && state) {
+                  const hasProps = Array.isArray(state.properties) && state.properties.length > 0;
+                  const hasTenants = Array.isArray(state.tenants) && state.tenants.length > 0;
+                  if (!hasProps && !hasTenants) {
+                    pullFromSupabase().then(() => {
+                      if (typeof renderAll === "function") renderAll();
+                    }).catch(e => console.warn("Initial Supabase cloud pull:", e));
+                  }
+                }
+                return true;
+              } catch (e) {
+                console.warn("Error creating client from Vercel config:", e);
+              }
+            }
+          }
+        } catch (e) {
+          // Gracefully continue in offline mode when /api/supabase-config is not available
+        }
+        return false;
+      }
+      window.fetchVercelSupabaseConfig = fetchVercelSupabaseConfig;
 
       function initSupabaseClient() {
         let url = (localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || window.SUPABASE_CONFIG?.url || "").trim();
@@ -6578,6 +6610,10 @@
         } else {
           supabaseClient = null;
           updateSupabaseUIStatus("disconnected");
+          // Attempt automatic link from Vercel configuration if not already configured
+          if (!url || !key) {
+            fetchVercelSupabaseConfig();
+          }
           return false;
         }
       }
@@ -18107,6 +18143,7 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         loadState();
         initAuthSession();
         initSupabaseClient();
+        fetchVercelSupabaseConfig();
         initEventListeners();
         renderAll();
         // Expose helpers for console inspection & automated testing
@@ -18120,6 +18157,7 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         window.handleForgotPasswordRequest = handleForgotPasswordRequest;
         window.handleSetNewPasswordSubmit = handleSetNewPasswordSubmit;
         window.handleSignOut = handleSignOut;
+        window.fetchVercelSupabaseConfig = fetchVercelSupabaseConfig;
         window.openSupabaseModal = openSupabaseModal;
         window.closeSupabaseModal = closeSupabaseModal;
         window.testSupabaseConnection = testSupabaseConnection;
