@@ -406,285 +406,305 @@
   <!-- =========================================================
        MAIN CONTAINER
        ========================================================= -->
-  <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
-    
-    <!-- App Header -->
-    <header class="mb-6 bg-white/95 backdrop-blur-md p-5 sm:p-6 rounded-3xl border border-slate-200/90 shadow-sm relative overflow-hidden transition-all">
-      <!-- Subtle Ambient Glow -->
-      <div class="absolute -top-24 -left-24 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 relative z-10">
-        <!-- Left: Brand Identity & Subtitle -->
-        <div class="flex items-start sm:items-center gap-4">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-slate-900 via-indigo-950 to-indigo-700 flex items-center justify-center text-white shadow-lg shadow-indigo-950/20 border border-indigo-400/30 shrink-0">
-            <svg class="w-7 h-7 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+    <!-- =========================================================
+       UNIFIED STICKY TOP BAR & SLIM NAVIGATION (Combined height <= 96px)
+       ========================================================= -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/90 dark:border-slate-800/90 shadow-2xs transition-all">
+    <div class="max-w-[1600px] mx-auto px-3 sm:px-5">
+      <!-- 1. Unified Sticky Top Bar (Height: 52-54px) -->
+      <div class="flex items-center justify-between h-13 sm:h-14 gap-3">
+        <!-- Left: 36px Icon + Title 18-20px + Small Enterprise Badge -->
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div
+            class="w-9 h-9 rounded-xl bg-gradient-to-tr from-slate-900 via-indigo-950 to-indigo-700 flex items-center justify-center text-white shadow-xs border border-indigo-400/30 shrink-0 cursor-pointer"
+            title="Unified Rental Suite · Property Master &amp; Legal Studio — Centralized inventory, automated rent roll accounting, and instant 11-month Indian Tenancy Agreements."
+          >
+            <svg class="w-5 h-5 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
           </div>
-          <div>
-            <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-slate-900 text-indigo-200 text-[11px] font-bold mb-1 border border-slate-800 shadow-2xs">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>Unified Rental Suite · Property Master &amp; Legal Studio</span>
-            </div>
-            <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
-              <span>Rent &amp; Property Manager</span>
-              <span class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200/80 hidden sm:inline-block">Enterprise Edition</span>
+          <div class="flex items-center gap-2 min-w-0">
+            <h1 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight truncate">
+              Rent &amp; Property Manager
             </h1>
-            <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">Centralized inventory, automated rent roll accounting, and instant 11-month Indian Tenancy Agreements.</p>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-950/80 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800 shrink-0">
+              Enterprise
+            </span>
           </div>
         </div>
 
-        <!-- Right Hub: Executive User Portal & Theme Switcher -->
-        <div class="flex items-center gap-2.5">
+        <!-- Right Hub: Theme Toggle, GST Bell, and Compact User Profile -->
+        <div class="flex items-center gap-2 shrink-0">
           <!-- Hidden inputs preserving DOM ID contracts for scripts and fallback values -->
           <input id="landlordPanInput" type="hidden" value="ABCPS1234D" />
           <input id="landlordNameInput" type="hidden" value="Rajesh Sharma" />
           <input id="landlordEmailInput" type="hidden" value="abcltd9925@gmail.com" />
 
-          <!-- Dark / Light Theme Toggle Button -->
+          <!-- Dark / Light Theme Toggle Button (Icon-only with tooltip) -->
           <button
             id="themeToggleBtn"
             type="button"
-            class="px-3.5 py-2.5 rounded-2xl border border-slate-300/80 bg-white hover:bg-slate-100 text-slate-800 text-xs font-bold transition shadow-2xs flex items-center gap-2 cursor-pointer active:scale-95 group"
+            class="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center transition shadow-2xs cursor-pointer active:scale-95 group"
             title="Toggle Dark / Light Theme (or press Ctrl+D)"
             aria-label="Toggle Dark / Light Theme"
           >
-            <span id="themeIconContainer" class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 border border-indigo-200 transition-transform duration-300 group-hover:rotate-45">
+            <span id="themeIconContainer" class="w-4 h-4 flex items-center justify-center">
               <svg id="themeIconSun" class="w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
               <svg id="themeIconMoon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
             </span>
-            <span id="themeToggleText" class="font-bold text-xs tracking-tight">Dark</span>
+            <span id="themeToggleText" class="sr-only">Dark</span>
           </button>
+
+          <!-- Notification Bell Icon (Shows GST invoice count) -->
+          <button
+            id="headerGstNotificationBtn"
+            type="button"
+            class="relative w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center transition shadow-2xs cursor-pointer"
+            title="Monthly GST Invoices &amp; Alerts"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <span id="headerGstNotificationBadge" class="absolute -top-1 -right-1 min-w-[15px] h-3.5 px-0.5 rounded-full bg-teal-500 text-slate-950 text-[9px] font-black flex items-center justify-center shadow-xs">0</span>
+          </button>
+
           <!-- User Authentication Profile Pill / Sign In Button -->
           <div id="authHeaderContainer" class="flex items-center">
-            <!-- Signed In State -->
-            <div id="authHeaderUserPill" class="flex items-center gap-2.5 bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl px-3.5 py-2 shadow-xs border border-indigo-400/20">
-              <div class="w-8 h-8 rounded-xl bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 flex items-center justify-center font-black text-xs shrink-0 tracking-wider">
-                <span id="authHeaderAvatar">RS</span>
-              </div>
-              <div class="text-left leading-tight hidden sm:block">
-                <div class="flex items-center gap-1.5">
-                  <span id="authHeaderUserName" class="text-xs font-bold text-slate-100 max-w-[120px] truncate">Rajesh Sharma</span>
-                  <span id="authHeaderVerifiedBadge" class="text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Verified ✓</span>
+            <!-- Signed In State (Avatar "RS" + Name + Dropdown menu) -->
+            <div id="authHeaderUserPill" class="relative group">
+              <button
+                type="button"
+                id="authProfileMenuBtn"
+                class="flex items-center gap-2 pl-1 pr-2 py-1 rounded-xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/80 border border-slate-200/90 dark:border-slate-700 transition cursor-pointer"
+                title="Account Menu"
+              >
+                <div class="w-6 h-6 rounded-lg bg-gradient-to-tr from-indigo-600 to-indigo-800 text-white font-black text-[11px] flex items-center justify-center shadow-xs shrink-0">
+                  <span id="authHeaderAvatar">RS</span>
                 </div>
-                <div id="authHeaderUserEmail" class="text-[10px] text-slate-400 font-mono max-w-[140px] truncate">abcltd9925@gmail.com</div>
+                <span id="authHeaderUserName" class="text-xs font-bold text-slate-800 dark:text-slate-100 max-w-[100px] truncate hidden sm:inline">Rajesh Sharma</span>
+                <svg class="w-3 h-3 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+
+              <!-- Profile Dropdown Menu -->
+              <div id="authProfileDropdown" class="hidden group-hover:block hover:block absolute right-0 top-full pt-1.5 z-50 w-64 animate-in fade-in zoom-in-95 duration-100">
+                <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-3 text-left">
+                  <div class="pb-2.5 mb-2 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+                    <div class="min-w-0">
+                      <p class="text-xs font-bold text-slate-900 dark:text-white truncate" id="authDropdownNameDisplay">Rajesh Sharma</p>
+                      <p id="authHeaderUserEmail" class="text-[11px] text-slate-400 font-mono truncate">abcltd9925@gmail.com</p>
+                    </div>
+                    <span id="authHeaderVerifiedBadge" class="text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 shrink-0">Verified ✓</span>
+                  </div>
+                  <div class="space-y-1">
+                    <button
+                      type="button"
+                      id="authOpenAccountBtn"
+                      class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2 transition cursor-pointer"
+                    >
+                      <span>👤 Profile &amp; Landlord Studio</span>
+                    </button>
+                    <button
+                      type="button"
+                      id="authSignOutBtn"
+                      class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 flex items-center gap-2 transition cursor-pointer"
+                    >
+                      <span>🚪 Sign Out</span>
+                    </button>
+                  </div>
+                </div>
               </div>
-              <button
-                type="button"
-                id="authOpenAccountBtn"
-                class="ml-1 px-2 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-[11px] transition cursor-pointer"
-                title="Account Settings"
-              >
-                Profile
-              </button>
-              <button
-                type="button"
-                id="authSignOutBtn"
-                class="p-1.5 rounded-lg hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 transition cursor-pointer"
-                title="Sign Out"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-              </button>
             </div>
 
             <!-- Signed Out State (Hidden by default, shown when signed out) -->
             <button
               type="button"
               id="authHeaderSignInBtn"
-              class="hidden px-4 py-3 rounded-2xl border border-indigo-300/80 bg-indigo-50/90 hover:bg-indigo-100 text-indigo-900 text-xs font-bold transition shadow-2xs flex items-center gap-2 cursor-pointer active:scale-95"
+              class="hidden px-3 py-1 rounded-xl border border-indigo-300 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-900 dark:text-indigo-200 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
               title="Sign in with Email/Phone or Register"
             >
-              <span class="w-6 h-6 rounded-lg bg-indigo-200/90 text-indigo-900 flex items-center justify-center shrink-0 text-xs font-black">
-                👤
-              </span>
-              <span>Sign In / Register</span>
+              <span>👤 Sign In / Register</span>
             </button>
           </div>
         </div>
       </div>
-    </header>
 
-    <!-- Main Navigation Tabs -->
-    <nav aria-label="Main Tabs" class="bg-white/95 dark:bg-slate-900/90 backdrop-blur-md p-1.5 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 shadow-2xs mb-6 flex flex-wrap gap-1.5" id="mainTabNav">
-      <button
-        type="button"
-        data-tab="dashboard"
-        id="tabBtnDashboard"
-        class="tab-btn-active flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-150 flex items-center justify-center gap-2.5 bg-slate-900 text-white shadow-xs dark:bg-white dark:text-slate-950"
-      >
-        <span class="tab-icon-wrap w-6 h-6 rounded-lg bg-white/20 text-white dark:bg-slate-900/15 dark:text-slate-900 flex items-center justify-center shrink-0 transition-colors">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        </span>
-        <span>1. Dashboard</span>
-        <span id="navDashUnitCount" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-white/20 text-white dark:bg-slate-900/15 dark:text-slate-900">0</span>
-      </button>
-      <button
-        type="button"
-        data-tab="properties"
-        id="tabBtnProperties"
-        class="flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-150 flex items-center justify-center gap-2.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60"
-      >
-        <span class="tab-icon-wrap w-6 h-6 rounded-lg bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0 transition-colors">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-        </span>
-        <span>2. Property Master</span>
-        <span id="navPropCount" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">0</span>
-      </button>
-      <button
-        type="button"
-        data-tab="tenants"
-        id="tabBtnTenants"
-        class="flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-150 flex items-center justify-center gap-2.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60"
-      >
-        <span class="tab-icon-wrap w-6 h-6 rounded-lg bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0 transition-colors">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-        </span>
-        <span>3. Tenant Master</span>
-        <span id="navTenantCount" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">0</span>
-      </button>
-      <button
-        type="button"
-        data-tab="agreements"
-        id="tabBtnAgreements"
-        class="flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-150 flex items-center justify-center gap-2.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60"
-      >
-        <span class="tab-icon-wrap w-6 h-6 rounded-lg bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0 transition-colors">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        </span>
-        <span>4. Agreement Studio</span>
-      </button>
-      <button
-        type="button"
-        data-tab="reports"
-        id="tabBtnReports"
-        class="flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-150 flex items-center justify-center gap-2.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60"
-      >
-        <span class="tab-icon-wrap w-6 h-6 rounded-lg bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0 transition-colors">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        </span>
-        <span>5. Reports &amp; Exports</span>
-      </button>
-      <button
-        type="button"
-        data-tab="police"
-        id="tabBtnPolice"
-        class="flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-150 flex items-center justify-center gap-2.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60"
-      >
-        <span class="tab-icon-wrap w-6 h-6 rounded-lg bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0 transition-colors">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-        </span>
-        <span>6. Police Verification</span>
-      </button>
-      <button
-        type="button"
-        data-tab="gst"
-        id="tabBtnGst"
-        class="flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-150 flex items-center justify-center gap-2.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60"
-      >
-        <span class="tab-icon-wrap w-6 h-6 rounded-lg bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0 transition-colors">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"/></svg>
-        </span>
-        <span>7. GST Invoices</span>
-        <span id="navGstInvoiceCount" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">0</span>
-      </button>
-    </nav>
+      <!-- 2. Navigation Tabs: Slim Strip (Height: 38-40px, under top bar, full width, no separate card) -->
+      <nav aria-label="Main Tabs" class="flex items-center gap-1 overflow-x-auto py-1 scrollbar-none border-t border-slate-200/70 dark:border-slate-800/70" id="mainTabNav">
+        <button
+          type="button"
+          data-tab="dashboard"
+          id="tabBtnDashboard"
+          class="tab-btn-active px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150 flex items-center gap-1.5 bg-slate-900 text-white shadow-2xs dark:bg-white dark:text-slate-950 whitespace-nowrap cursor-pointer"
+        >
+          <span class="tab-icon-wrap w-5 h-5 rounded-md bg-white/20 text-white dark:bg-slate-900/15 dark:text-slate-900 flex items-center justify-center shrink-0">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </span>
+          <span>1. Dashboard</span>
+          <span id="navDashUnitCount" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-white/20 text-white dark:bg-slate-900/15 dark:text-slate-900">0</span>
+        </button>
+        <button
+          type="button"
+          data-tab="properties"
+          id="tabBtnProperties"
+          class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60 whitespace-nowrap cursor-pointer"
+        >
+          <span class="tab-icon-wrap w-5 h-5 rounded-md bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </span>
+          <span>2. Property Master</span>
+          <span id="navPropCount" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">0</span>
+        </button>
+        <button
+          type="button"
+          data-tab="tenants"
+          id="tabBtnTenants"
+          class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60 whitespace-nowrap cursor-pointer"
+        >
+          <span class="tab-icon-wrap w-5 h-5 rounded-md bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </span>
+          <span>3. Tenant Master</span>
+          <span id="navTenantCount" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">0</span>
+        </button>
+        <button
+          type="button"
+          data-tab="agreements"
+          id="tabBtnAgreements"
+          class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60 whitespace-nowrap cursor-pointer"
+        >
+          <span class="tab-icon-wrap w-5 h-5 rounded-md bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </span>
+          <span>4. Agreement Studio</span>
+        </button>
+        <button
+          type="button"
+          data-tab="reports"
+          id="tabBtnReports"
+          class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60 whitespace-nowrap cursor-pointer"
+        >
+          <span class="tab-icon-wrap w-5 h-5 rounded-md bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </span>
+          <span>5. Reports &amp; Exports</span>
+        </button>
+        <button
+          type="button"
+          data-tab="police"
+          id="tabBtnPolice"
+          class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60 whitespace-nowrap cursor-pointer"
+        >
+          <span class="tab-icon-wrap w-5 h-5 rounded-md bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </span>
+          <span>6. Police Verification</span>
+        </button>
+        <button
+          type="button"
+          data-tab="gst"
+          id="tabBtnGst"
+          class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60 whitespace-nowrap cursor-pointer"
+        >
+          <span class="tab-icon-wrap w-5 h-5 rounded-md bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 flex items-center justify-center shrink-0">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"/></svg>
+          </span>
+          <span>7. GST Invoices</span>
+          <span id="navGstInvoiceCount" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
 
+  <!-- =========================================================
+       MAIN CONTENT CONTAINER (max-w-[1600px], 8px spacing scale)
+       ========================================================= -->
+  <main class="max-w-[1600px] mx-auto px-3 sm:px-5 py-3 sm:py-3.5">
+    
     <!-- Feedback Message Banner (Shared across tabs) -->
-    <div id="feedbackBanner" class="hidden mb-6 px-4 py-3 rounded-xl text-sm font-medium shadow-sm transition-all flex items-center justify-between">
+    <div id="feedbackBanner" class="hidden mb-3 px-3.5 py-2.5 rounded-xl text-xs font-medium shadow-2xs transition-all flex items-center justify-between">
       <span id="feedbackText"></span>
-      <button type="button" onclick="document.getElementById('feedbackBanner').classList.add('hidden')" class="text-xs opacity-75 hover:opacity-100 ml-4 font-bold">✕</button>
+      <button type="button" onclick="document.getElementById('feedbackBanner').classList.add('hidden')" class="text-xs opacity-75 hover:opacity-100 ml-4 font-bold cursor-pointer">✕</button>
     </div>
 
     <!-- Shared Datalist for Property Master Units & Buildings -->
     <datalist id="propertyMasterUnitsDatalist"></datalist>
     <datalist id="propertyBuildingsDatalist"></datalist>
 
+
     <!-- =========================================================
          TAB 1: DASHBOARD & TENANT-WISE TRACK RECORD
          ========================================================= -->
-    <div id="tabViewDashboard" class="space-y-6">
-      <!-- Start-of-Month Automated GST Invoices Dispatch Banner -->
-      <div id="gstStartOfMonthAlertBanner" class="p-4 sm:p-5 rounded-2xl bg-slate-900 text-white border border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="flex items-start gap-3.5">
-          <div class="w-11 h-11 rounded-xl bg-teal-500/10 text-teal-400 border border-teal-500/20 flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+    <div id="tabViewDashboard" class="space-y-3 sm:space-y-3.5">
+      <!-- 3. Start-of-Month Automated GST Invoices Dispatch Banner (Slim Single-Line Alert Strip) -->
+      <div id="gstStartOfMonthAlertBanner" class="px-3.5 py-2 rounded-xl bg-teal-50 dark:bg-teal-950/30 border border-teal-200/90 dark:border-teal-800/60 shadow-2xs flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-7 h-7 rounded-lg bg-teal-500/15 text-teal-700 dark:text-teal-300 border border-teal-500/25 flex items-center justify-center shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
           </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-teal-500/15 text-teal-300 border border-teal-500/30">
-                Rule 46 CGST Act · Monthly Auto-Billing
-              </span>
-              <span id="gstCurrentBillingMonthTag" class="text-xs font-semibold text-teal-300 font-mono">Oct 2026</span>
-            </div>
-            <h3 class="font-bold text-sm sm:text-base text-white flex items-center gap-2">
-              <span>Start of Month: Monthly GST Invoices Ready</span>
-              <span id="gstAutoGeneratedCountBadge" class="text-xs font-semibold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">23 Invoices</span>
-            </h3>
-            <p class="text-xs text-slate-300 mt-0.5">
-              Statutory 18% GST Tax Invoices (SAC 997212) auto-generated for the 1st of the month. Send directly to all tenants via WhatsApp &amp; Email.
-            </p>
+          <div class="flex items-center gap-2 text-xs truncate">
+            <span id="gstCurrentBillingMonthTag" class="font-bold text-xs font-mono text-teal-800 dark:text-teal-300 shrink-0">Oct 2026</span>
+            <span class="text-slate-400">·</span>
+            <span class="font-bold text-slate-800 dark:text-slate-100 truncate">Monthly GST Invoices Ready</span>
+            <span id="gstAutoGeneratedCountBadge" class="text-[11px] font-bold px-2 py-0.2 rounded-md bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 shrink-0">23 Invoices</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.2 rounded bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 border border-teal-300/40 hidden md:inline shrink-0">Rule 46 CGST</span>
+            <span class="text-slate-400 hover:text-teal-700 dark:hover:text-teal-300 cursor-help shrink-0" title="Statutory 18% GST Tax Invoices (SAC 997212) auto-generated for the 1st of the month. Send directly to all tenants via WhatsApp &amp; Email.">ℹ️</span>
           </div>
         </div>
-        <div class="flex flex-wrap items-center gap-2 shrink-0">
+        <div class="flex items-center gap-1.5 shrink-0 ml-auto">
           <button
             type="button"
             id="gstBannerBatchDispatchBtn"
-            class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition shadow-xs flex items-center gap-2 cursor-pointer active:scale-95"
+            class="px-3 py-1 rounded-lg bg-teal-600 hover:bg-teal-500 text-white font-bold text-[11px] transition shadow-2xs flex items-center gap-1 cursor-pointer active:scale-95 whitespace-nowrap"
           >
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-            <span>Send to All Tenants (WhatsApp &amp; Email)</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            <span>Send to All</span>
           </button>
           <button
             type="button"
             id="gstBannerOpenStudioBtn"
-            class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-slate-100 font-semibold text-xs transition border border-white/15 cursor-pointer flex items-center gap-1.5"
+            class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-[11px] border border-slate-200 dark:border-slate-700 transition cursor-pointer flex items-center gap-1 whitespace-nowrap"
           >
-            <svg class="w-3.5 h-3.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            <span>Review Invoices</span>
+            <span>Review</span>
+          </button>
+          <button
+            type="button"
+            id="gstBannerDismissBtn"
+            class="w-6 h-6 rounded-md hover:bg-teal-200/50 dark:hover:bg-teal-900/50 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 flex items-center justify-center text-xs font-bold transition cursor-pointer"
+            title="Dismiss notification"
+            onclick="document.getElementById('gstStartOfMonthAlertBanner')?.classList.add('hidden')"
+          >
+            ✕
           </button>
         </div>
       </div>
 
-
-
-
-
-      <!-- Upgraded Executive KPI Suite (5 Interactive Cards with Drilldown) -->
-      <section aria-label="Rent and Portfolio KPIs" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-stretch">
+      <!-- 4. Upgraded Executive KPI Suite (5 Compact Cards in 1 Row, Height ~105-115px) -->
+      <section aria-label="Rent and Portfolio KPIs" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 items-stretch">
         <!-- Card 1: Total Units & Occupancy Rate -->
         <div
           id="kpiBoxOccupancy"
           role="button"
           tabindex="0"
           title="Click to view full Unit Occupancy breakdown & assign tenants"
-          class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs hover:shadow-lg hover:-translate-y-1 hover:border-indigo-400 transition-all duration-200 flex flex-col justify-between h-full min-h-[175px] cursor-pointer group"
+          class="bg-white dark:bg-slate-900 rounded-xl p-3 sm:p-3.5 border border-slate-200/90 dark:border-slate-800/90 border-l-4 border-l-indigo-500 shadow-2xs hover:shadow-md hover:-translate-y-0.5 hover:border-indigo-400 transition-all duration-150 flex flex-col justify-between cursor-pointer group"
         >
-          <div class="flex-1 flex flex-col">
-            <div class="flex items-center justify-between gap-1">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 group-hover:text-indigo-600 transition-colors truncate">
-                <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 border border-indigo-200/50 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-2xs">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                </span>
-                Portfolio Inventory
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate">
+              <span class="w-5 h-5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-200/60 dark:border-indigo-800/60">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
               </span>
-              <span id="occupancyRateDisplay" class="text-xs px-2 py-0.5 rounded-full font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 shrink-0 whitespace-nowrap">
-                91.7% Full
-              </span>
-            </div>
-            <p id="totalPropertiesDisplay" class="text-2xl font-black text-slate-900 mt-2 tracking-tight">24 Flats (5 Locations)</p>
-            
-            <!-- Dual-color mini occupancy bar -->
-            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden flex mt-2.5 mb-1">
+              Inventory
+            </span>
+            <span id="occupancyRateDisplay" class="text-[10px] px-1.5 py-0.2 rounded-full font-bold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800 shrink-0 whitespace-nowrap">
+              91.7% Full
+            </span>
+          </div>
+          <div class="my-1.5">
+            <p id="totalPropertiesDisplay" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-none">24 Flats</p>
+            <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden flex mt-2">
               <div id="occProgressBar" class="bg-emerald-500 h-full rounded-l-full transition-all duration-500" style="width: 91.7%"></div>
               <div id="vacProgressBar" class="bg-amber-400 h-full rounded-r-full transition-all duration-500" style="width: 8.3%"></div>
             </div>
           </div>
-          <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between gap-1">
-            <div id="occupancySummaryDisplay" class="text-xs text-slate-600 font-semibold truncate">
-              22 occupied · 2 vacant
-            </div>
-            <span class="text-[11px] font-bold text-indigo-600 group-hover:text-indigo-800 flex items-center gap-0.5 opacity-90 group-hover:opacity-100 shrink-0 whitespace-nowrap">
-              Details &rarr;
-            </span>
+          <div class="flex items-center justify-between text-[11px] pt-1">
+            <span id="occupancySummaryDisplay" class="text-slate-500 dark:text-slate-400 font-medium truncate">22 occ · 2 vac</span>
+            <span class="font-bold text-indigo-600 dark:text-indigo-400 group-hover:underline shrink-0">Details &rarr;</span>
           </div>
         </div>
 
@@ -694,32 +714,28 @@
           role="button"
           tabindex="0"
           title="Click to view Monthly Rent Roll & building-wise revenue share"
-          class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs hover:shadow-lg hover:-translate-y-1 hover:border-blue-400 transition-all duration-200 flex flex-col justify-between h-full min-h-[175px] cursor-pointer group"
+          class="bg-white dark:bg-slate-900 rounded-xl p-3 sm:p-3.5 border border-slate-200/90 dark:border-slate-800/90 border-l-4 border-l-blue-500 shadow-2xs hover:shadow-md hover:-translate-y-0.5 hover:border-blue-400 transition-all duration-150 flex flex-col justify-between cursor-pointer group"
         >
-          <div class="flex-1 flex flex-col">
-            <div class="flex items-center justify-between gap-1">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 group-hover:text-blue-600 transition-colors truncate">
-                <span class="w-6 h-6 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 border border-blue-200/50 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-2xs">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                </span>
-                Contracted Rent Roll
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+              <span class="w-5 h-5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 border border-blue-200/60 dark:border-blue-800/60">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
               </span>
-              <span class="text-xs px-2 py-0.5 rounded-full font-bold bg-blue-50 text-blue-700 border border-blue-200 shrink-0 whitespace-nowrap">
-                Monthly
-              </span>
-            </div>
-            <p id="totalExpectedDisplay" class="text-2xl font-black text-slate-900 mt-2 tracking-tight">₹2,92,000</p>
-            <p id="grossPotentialDisplay" class="text-xs text-slate-500 font-medium mt-1 truncate">
-              Gross Capacity: <strong class="text-slate-800">₹3,16,000/mo</strong>
+              Rent Roll
+            </span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded-full font-bold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800 shrink-0 whitespace-nowrap">
+              Monthly
+            </span>
+          </div>
+          <div class="my-1.5">
+            <p id="totalExpectedDisplay" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-none">₹2,92,000</p>
+            <p id="grossPotentialDisplay" class="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1 truncate">
+              Gross: <strong class="text-slate-700 dark:text-slate-200 font-bold">₹3,16,000/mo</strong>
             </p>
           </div>
-          <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between gap-1">
-            <p id="tenantCountDisplay" class="text-xs text-blue-700 font-semibold truncate">
-              22 active leases
-            </p>
-            <span class="text-[11px] font-bold text-blue-600 group-hover:text-blue-800 flex items-center gap-0.5 opacity-90 group-hover:opacity-100 shrink-0 whitespace-nowrap">
-              Revenue &rarr;
-            </span>
+          <div class="flex items-center justify-between text-[11px] pt-1">
+            <span id="tenantCountDisplay" class="text-blue-700 dark:text-blue-300 font-semibold truncate">22 active leases</span>
+            <span class="font-bold text-blue-600 dark:text-blue-400 group-hover:underline shrink-0">Revenue &rarr;</span>
           </div>
         </div>
 
@@ -729,33 +745,28 @@
           role="button"
           tabindex="0"
           title="Click to view Collections Ledger & settled receipts"
-          class="bg-white rounded-2xl p-4 sm:p-5 border border-emerald-200 shadow-xs hover:shadow-lg hover:-translate-y-1 hover:border-emerald-400 transition-all duration-200 flex flex-col justify-between h-full min-h-[175px] bg-gradient-to-b from-white to-emerald-50/20 cursor-pointer group"
+          class="bg-white dark:bg-slate-900 rounded-xl p-3 sm:p-3.5 border border-slate-200/90 dark:border-slate-800/90 border-l-4 border-l-emerald-500 bg-gradient-to-b from-white to-emerald-50/20 dark:from-slate-900 dark:to-emerald-950/10 shadow-2xs hover:shadow-md hover:-translate-y-0.5 hover:border-emerald-400 transition-all duration-150 flex flex-col justify-between cursor-pointer group"
         >
-          <div class="flex-1 flex flex-col">
-            <div class="flex items-center justify-between gap-1">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-2 group-hover:text-emerald-900 transition-colors truncate">
-                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200/50 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-2xs">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </span>
-                Collected Revenue
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-400 flex items-center gap-1.5 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition-colors truncate">
+              <span class="w-5 h-5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-200/60 dark:border-emerald-800/60">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               </span>
-              <span id="collectionEfficiencyBadge" class="text-xs px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 shrink-0 whitespace-nowrap">
-                91.8% In
-              </span>
-            </div>
-            <p id="totalPaidDisplay" class="text-2xl font-black text-emerald-700 mt-2 tracking-tight">₹2,68,000</p>
-            
-            <div class="w-full bg-emerald-100 h-2 rounded-full overflow-hidden mt-2.5 mb-1">
-              <div id="collectionProgressBar" class="bg-emerald-600 h-full rounded-full transition-all duration-500" style="width: 91.8%"></div>
+              Collected
+            </span>
+            <span id="collectionEfficiencyBadge" class="text-[10px] px-1.5 py-0.2 rounded-full font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800 shrink-0 whitespace-nowrap">
+              91.8% In
+            </span>
+          </div>
+          <div class="my-1.5">
+            <p id="totalPaidDisplay" class="text-xl sm:text-2xl font-black text-emerald-700 dark:text-emerald-400 tracking-tight leading-none">₹2,68,000</p>
+            <div class="w-full bg-emerald-100/60 dark:bg-emerald-950/40 h-1.5 rounded-full overflow-hidden mt-2">
+              <div id="collectionProgressBar" class="bg-emerald-600 dark:bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 91.8%"></div>
             </div>
           </div>
-          <div class="mt-3 pt-2.5 border-t border-emerald-100 flex items-center justify-between gap-1">
-            <p id="paidCountDisplay" class="text-xs text-emerald-800 font-semibold truncate">
-              20 tenants fully settled
-            </p>
-            <span class="text-[11px] font-bold text-emerald-700 group-hover:text-emerald-900 flex items-center gap-0.5 opacity-90 group-hover:opacity-100 shrink-0 whitespace-nowrap">
-              Ledger &rarr;
-            </span>
+          <div class="flex items-center justify-between text-[11px] pt-1">
+            <span id="paidCountDisplay" class="text-emerald-800 dark:text-emerald-300 font-semibold truncate">20 settled</span>
+            <span class="font-bold text-emerald-700 dark:text-emerald-400 group-hover:underline shrink-0">Ledger &rarr;</span>
           </div>
         </div>
 
@@ -765,43 +776,34 @@
           role="button"
           tabindex="0"
           title="Click to inspect Defaulters Watchlist & send reminders"
-          class="bg-white rounded-2xl p-4 sm:p-5 border border-amber-200 shadow-xs hover:shadow-lg hover:-translate-y-1 hover:border-amber-400 transition-all duration-200 flex flex-col justify-between h-full min-h-[175px] bg-gradient-to-b from-white to-amber-50/20 cursor-pointer group"
+          class="bg-white dark:bg-slate-900 rounded-xl p-3 sm:p-3.5 border border-slate-200/90 dark:border-slate-800/90 border-l-4 border-l-amber-500 bg-gradient-to-b from-white to-amber-50/20 dark:from-slate-900 dark:to-amber-950/10 shadow-2xs hover:shadow-md hover:-translate-y-0.5 hover:border-amber-400 transition-all duration-150 flex flex-col justify-between cursor-pointer group"
         >
-          <div class="flex-1 flex flex-col">
-            <div class="flex items-center justify-between gap-1">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-amber-800 flex items-center gap-2 group-hover:text-amber-900 transition-colors truncate">
-                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 border border-amber-200/50 group-hover:bg-amber-600 group-hover:text-white transition-all shadow-2xs">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                </span>
-                Total Overdue (O/S)
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-800 dark:text-amber-400 flex items-center gap-1.5 group-hover:text-amber-900 dark:group-hover:text-amber-300 transition-colors truncate">
+              <span class="w-5 h-5 rounded-md bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-200/60 dark:border-amber-800/60">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
               </span>
-              <span id="overdueCountBadge" class="text-xs px-2 py-0.5 rounded-full font-bold bg-amber-100 text-amber-800 border border-amber-300 shrink-0 whitespace-nowrap">
-                2 Defaulters
-              </span>
-            </div>
-            <div class="flex items-baseline justify-between gap-2 mt-2">
-              <p id="totalPendingDisplay" class="text-2xl font-black text-amber-700 tracking-tight">₹24,000</p>
-              <button
-                type="button"
-                id="dashRemindAllBtn"
-                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 text-[11px] font-bold transition-colors whitespace-nowrap shrink-0 shadow-2xs"
-                title="Send WhatsApp payment reminder to overdue tenants"
-              >
-                <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.088.072.19.014.305-.058.116-.087.188-.173.289l-.26.309c-.087.087-.179.182-.077.357.101.174.449.741.964 1.2 1.056.942 1.579 1.012 1.802 1.098.223.086.353.072.484-.078.13-.15.56-1.144.708-1.346.148-.202.296-.17.496-.098.2.072 1.27.599 1.488.708.217.109.362.163.415.253.053.09.053.52-.091.925z"/></svg>
-                <span>Remind</span>
-              </button>
-            </div>
-            <p class="text-xs text-amber-700 font-medium mt-1 truncate">
-              Immediate follow-up required
-            </p>
-          </div>
-          <div class="mt-3 pt-2.5 border-t border-amber-100 flex items-center justify-between gap-1">
-            <p id="pendingCountDisplay" class="text-xs text-amber-900 font-semibold truncate">
-              2 tenants with balance
-            </p>
-            <span class="text-[11px] font-bold text-amber-700 group-hover:text-amber-900 flex items-center gap-0.5 opacity-90 group-hover:opacity-100 shrink-0 whitespace-nowrap">
-              Defaulters &rarr;
+              Overdue (O/S)
             </span>
+            <span id="overdueCountBadge" class="text-[10px] px-1.5 py-0.2 rounded-full font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300/80 dark:border-amber-800 shrink-0 whitespace-nowrap">
+              2 Defaulters
+            </span>
+          </div>
+          <div class="my-1.5 flex items-baseline justify-between gap-1">
+            <p id="totalPendingDisplay" class="text-xl sm:text-2xl font-black text-amber-700 dark:text-amber-400 tracking-tight leading-none">₹24,000</p>
+            <button
+              type="button"
+              id="dashRemindAllBtn"
+              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 text-[10px] font-bold transition-colors whitespace-nowrap shrink-0 shadow-2xs cursor-pointer"
+              title="Send WhatsApp payment reminder to overdue tenants"
+            >
+              <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.088.072.19.014.305-.058.116-.087.188-.173.289l-.26.309c-.087.087-.179.182-.077.357.101.174.449.741.964 1.2 1.056.942 1.579 1.012 1.802 1.098.223.086.353.072.484-.078.13-.15.56-1.144.708-1.346.148-.202.296-.17.496-.098.2.072 1.27.599 1.488.708.217.109.362.163.415.253.053.09.053.52-.091.925z"/></svg>
+              <span>Remind</span>
+            </button>
+          </div>
+          <div class="flex items-center justify-between text-[11px] pt-1">
+            <span id="pendingCountDisplay" class="text-amber-900 dark:text-amber-300 font-semibold truncate">2 with balance</span>
+            <span class="font-bold text-amber-700 dark:text-amber-400 group-hover:underline shrink-0">Defaulters &rarr;</span>
           </div>
         </div>
 
@@ -811,164 +813,159 @@
           role="button"
           tabindex="0"
           title="Click to view Vacancy Loss analysis & MCD Property Tax audit"
-          class="bg-white rounded-2xl p-4 sm:p-5 border border-purple-200 shadow-xs hover:shadow-lg hover:-translate-y-1 hover:border-purple-400 transition-all duration-200 flex flex-col justify-between h-full min-h-[175px] bg-gradient-to-b from-white to-purple-50/20 cursor-pointer group"
+          class="bg-white dark:bg-slate-900 rounded-xl p-3 sm:p-3.5 border border-slate-200/90 dark:border-slate-800/90 border-l-4 border-l-purple-500 bg-gradient-to-b from-white to-purple-50/20 dark:from-slate-900 dark:to-purple-950/10 shadow-2xs hover:shadow-md hover:-translate-y-0.5 hover:border-purple-400 transition-all duration-150 flex flex-col justify-between cursor-pointer group"
         >
-          <div class="flex-1 flex flex-col">
-            <div class="flex items-center justify-between gap-1">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-purple-800 flex items-center gap-2 group-hover:text-purple-900 transition-colors truncate">
-                <span class="w-6 h-6 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 border border-purple-200/50 group-hover:bg-purple-600 group-hover:text-white transition-all shadow-2xs">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"/></svg>
-                </span>
-                Vacancy &amp; Tax Due
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-purple-800 dark:text-purple-400 flex items-center gap-1.5 group-hover:text-purple-900 dark:group-hover:text-purple-300 transition-colors truncate">
+              <span class="w-5 h-5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 border border-purple-200/60 dark:border-purple-800/60">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"/></svg>
               </span>
-              <span class="text-xs px-2 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800 border border-rose-200 shrink-0 whitespace-nowrap">
-                Loss Alert
-              </span>
-            </div>
-            <p id="vacancyLossDisplay" class="text-2xl font-black text-rose-600 mt-2 tracking-tight">₹24,000 <span class="text-xs font-medium text-slate-500">/mo</span></p>
-            <p id="totalMcdPendingDisplay" class="text-xs font-bold text-purple-800 mt-1 truncate">
-              MCD Tax: ₹18,400 Pending
+              Vacancy &amp; Tax
+            </span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded-full font-bold bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border border-rose-200/80 dark:border-rose-800 shrink-0 whitespace-nowrap">
+              Loss Alert
+            </span>
+          </div>
+          <div class="my-1.5">
+            <p id="vacancyLossDisplay" class="text-xl sm:text-2xl font-black text-rose-600 dark:text-rose-400 tracking-tight leading-none">₹24,000 <span class="text-[10px] font-semibold text-slate-400">/mo</span></p>
+            <p id="totalMcdPendingDisplay" class="text-[11px] font-bold text-purple-800 dark:text-purple-300 mt-1 truncate">
+              MCD Tax: ₹18,400 Due
             </p>
           </div>
-          <div class="mt-3 pt-2.5 border-t border-purple-100 flex items-center justify-between gap-1">
-            <p id="mcdStatusSummaryDisplay" class="text-xs text-purple-700 font-medium truncate">
-              Due: 30 June · 1 Paid, 3 Pending
-            </p>
-            <span class="text-[11px] font-bold text-purple-700 group-hover:text-purple-900 flex items-center gap-0.5 opacity-90 group-hover:opacity-100 shrink-0 whitespace-nowrap">
-              Audit &rarr;
-            </span>
+          <div class="flex items-center justify-between text-[11px] pt-1">
+            <span id="mcdStatusSummaryDisplay" class="text-purple-700 dark:text-purple-400 font-medium truncate">Due: 30 June</span>
+            <span class="font-bold text-purple-700 dark:text-purple-400 group-hover:underline shrink-0">Audit &rarr;</span>
           </div>
         </div>
       </section>
 
       <!-- Vacancy Alert Banner (shown automatically when any unit is vacant) -->
-      <div id="dashVacancyBanner" class="hidden rounded-2xl bg-gradient-to-r from-amber-500/15 via-amber-50 to-orange-50 border border-amber-300 p-5 text-amber-950 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
-        <div class="flex items-center gap-3.5">
-          <span class="p-3 rounded-2xl bg-amber-500 text-white shadow-md animate-bounce shrink-0">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      <div id="dashVacancyBanner" class="hidden rounded-xl bg-gradient-to-r from-amber-500/10 via-amber-50 to-orange-50 dark:from-amber-950/30 dark:via-slate-900 dark:to-orange-950/20 border border-amber-300 dark:border-amber-800 p-3 sm:p-3.5 text-amber-950 dark:text-amber-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 shadow-2xs">
+        <div class="flex items-center gap-2.5">
+          <span class="p-2 rounded-xl bg-amber-500 text-white shadow-xs shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           </span>
           <div>
-            <p class="text-sm font-black text-amber-900" id="dashVacancyBannerTitle">⚠️ 2 Property Units are Currently VACANT</p>
-            <p class="text-xs text-amber-800 mt-0.5" id="dashVacancyBannerSub">Potential monthly rental loss: ₹24,000/mo. Click to assign a tenant from Tenant Master.</p>
+            <p class="text-xs font-bold text-amber-900 dark:text-amber-200" id="dashVacancyBannerTitle">⚠️ 2 Property Units are Currently VACANT</p>
+            <p class="text-[11px] text-amber-800 dark:text-amber-300 mt-0.5" id="dashVacancyBannerSub">Potential monthly rental loss: ₹24,000/mo. Click to assign a tenant from Tenant Master.</p>
           </div>
         </div>
         <button
           type="button"
           id="dashVacancyBannerActionBtn"
-          class="px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs flex items-center justify-center gap-1.5 shrink-0"
+          class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs flex items-center justify-center gap-1 shrink-0 cursor-pointer"
         >
           <span>+ Assign Tenant Now</span>
           <span>&rarr;</span>
         </button>
       </div>
 
-      <!-- Main Tenant Rent Roll & Track Record Intelligence Section -->
-      <section class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
-        <!-- Section Header -->
-        <div class="p-5 sm:p-6 border-b border-slate-200/80 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center shadow-xs shrink-0">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+      <!-- 5. Main Tenant Rent Roll & Track Record Intelligence Section -->
+      <section class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 shadow-2xs overflow-hidden">
+        
+        <!-- Header Row (Single Line, Height ~40px) -->
+        <div class="px-3.5 sm:px-4 py-2 border-b border-slate-200/80 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-850 flex flex-wrap md:flex-nowrap items-center justify-between gap-2.5">
+          <!-- Left: Title + Badge + Info Tooltip -->
+          <div class="flex items-center gap-2 shrink-0">
+            <div class="w-7 h-7 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center shadow-2xs shrink-0">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
             </div>
-            <div>
-              <div class="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
-                <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight whitespace-nowrap">Tenant-Wise Track Record &amp; Rent Roll</h2>
-                <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-2xs whitespace-nowrap">Live Ledger View</span>
-              </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 whitespace-nowrap">
-                Detailed tracking of lease progress, payment regularity, security deposits, dues aging, and one-click WhatsApp ledger statements.
-              </p>
-            </div>
+            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight whitespace-nowrap">Tenant Rent Roll</h2>
+            <span class="text-[10px] font-bold px-2 py-0.2 rounded-full bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300/60 dark:border-slate-700 whitespace-nowrap">Live Ledger</span>
+            <span class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-help text-xs" title="Detailed tracking of lease progress, payment regularity, security deposits, dues aging, and one-click WhatsApp ledger statements.">ℹ️</span>
           </div>
 
-          <!-- Controls: Search, View Mode Switcher & Sorting -->
-          <div class="flex flex-wrap items-center gap-2 shrink-0">
-            <!-- Search Input -->
-            <div class="relative min-w-[240px]">
+          <!-- Right Controls: Search, Sort, View Toggle -->
+          <div class="flex items-center gap-2 shrink-0 w-full md:w-auto">
+            <!-- Search Input (260-300px) -->
+            <div class="relative flex-1 md:w-72">
               <input
                 type="text"
                 id="dashSearchInput"
                 placeholder="Search flat, tenant, phone... (/)"
-                class="w-full pl-8 pr-12 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 dark:focus:ring-indigo-500/20 focus:border-slate-900 dark:focus:border-indigo-400 transition shadow-2xs"
+                class="w-full pl-7 pr-11 py-1 rounded-lg border border-slate-300 dark:border-slate-700 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 dark:focus:ring-indigo-500 shadow-2xs"
               />
-              <span class="absolute left-2.5 top-2 text-slate-400">
+              <span class="absolute left-2 top-1.5 text-slate-400">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
               </span>
-              <kbd class="absolute right-2 top-1.5 text-[9px] font-mono px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 text-slate-400 bg-slate-50 dark:bg-slate-800 pointer-events-none">Ctrl K</kbd>
+              <kbd class="absolute right-1.5 top-1 text-[9px] font-mono px-1 py-0.2 rounded border border-slate-200 dark:border-slate-700 text-slate-400 bg-slate-50 dark:bg-slate-800 pointer-events-none">Ctrl K</kbd>
             </div>
 
-            <!-- Sort By Dropdown -->
+            <!-- Sort Dropdown -->
             <select
               id="dashSortSelect"
-              class="px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-semibold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 dark:focus:ring-indigo-500/20 shadow-2xs cursor-pointer"
+              class="py-1 px-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:outline-none shadow-2xs cursor-pointer shrink-0"
             >
-              <option value="unit">Sort: Flat Number</option>
-              <option value="rent-desc">Sort: Rent (High to Low)</option>
-              <option value="os-desc">Sort: Overdue Dues First</option>
-              <option value="expiry">Sort: Lease Expiry Soon</option>
+              <option value="unit">Sort: Flat #</option>
+              <option value="rent-desc">Sort: Rent (High)</option>
+              <option value="os-desc">Sort: Overdue First</option>
+              <option value="expiry">Sort: Expiry Soon</option>
             </select>
 
-            <!-- Table vs Cards View Toggle -->
-            <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs">
+            <!-- Table / Cards Toggle -->
+            <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-2xs shrink-0">
               <button
                 type="button"
                 id="dashViewTableBtn"
-                class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-white dark:bg-slate-900 text-slate-950 dark:text-white shadow-2xs whitespace-nowrap cursor-pointer"
-                title="Switch to detailed Table Track Record View"
+                class="px-2.5 py-1 rounded-md text-[11px] font-bold transition flex items-center gap-1 bg-white dark:bg-slate-900 text-slate-950 dark:text-white shadow-2xs whitespace-nowrap cursor-pointer"
+                title="Switch to Table View"
               >
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 4h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <span class="whitespace-nowrap">Table View</span>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 4h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>Table</span>
               </button>
               <button
                 type="button"
                 id="dashViewCardsBtn"
-                class="px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white whitespace-nowrap cursor-pointer"
-                title="Switch to Visual Cards View"
+                class="px-2.5 py-1 rounded-md text-[11px] font-medium transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white whitespace-nowrap cursor-pointer"
+                title="Switch to Cards View"
               >
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-                <span class="whitespace-nowrap">Cards View</span>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                <span>Cards</span>
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Filter Pills Bar -->
-        <div class="px-5 sm:px-6 py-3 border-b border-slate-200/80 bg-white flex flex-wrap items-center justify-between gap-3">
-          <div id="filterBtnGroup" class="flex flex-wrap items-center gap-1.5">
-            <button type="button" data-filter="all" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-xs whitespace-nowrap transition cursor-pointer">
-              All Units (<span id="filterAllCount">0</span>)
+        <!-- Filter Row (Single Line, Height ~36px): Status Chips + Vertical Divider + Location Chips -->
+        <div class="px-3.5 sm:px-4 py-1.5 border-b border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-slate-900 flex items-center gap-2 overflow-x-auto scrollbar-none text-xs">
+          <!-- Status Chips Group -->
+          <div id="filterBtnGroup" class="flex items-center gap-1 shrink-0">
+            <button type="button" data-filter="all" class="h-7 px-2.5 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-2xs whitespace-nowrap transition cursor-pointer flex items-center">
+              All (<span id="filterAllCount">0</span>)
             </button>
-            <button type="button" data-filter="occupied" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 border border-slate-200 bg-white whitespace-nowrap transition cursor-pointer">
+            <button type="button" data-filter="occupied" class="h-7 px-2.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 whitespace-nowrap transition cursor-pointer flex items-center gap-1">
               🟢 Occupied (<span id="filterOccupiedCount">0</span>)
             </button>
-            <button type="button" data-filter="vacant" id="filterVacantBtn" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-amber-900 bg-amber-50 border border-amber-300 hover:bg-amber-100 flex items-center gap-1.5 whitespace-nowrap transition cursor-pointer">
-              <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
-              <span class="whitespace-nowrap">⚠️ Vacant Units (<span id="filterVacantCount">0</span>)</span>
+            <button type="button" data-filter="vacant" id="filterVacantBtn" class="h-7 px-2.5 rounded-lg text-xs font-bold text-amber-900 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/60 flex items-center gap-1 whitespace-nowrap transition cursor-pointer">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
+              <span>⚠️ Vacant (<span id="filterVacantCount">0</span>)</span>
             </button>
-            <button type="button" data-filter="os" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 border border-slate-200 bg-white whitespace-nowrap transition cursor-pointer">
-              🚨 Overdue O/S (<span id="filterOsCount">0</span>)
+            <button type="button" data-filter="os" class="h-7 px-2.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 whitespace-nowrap transition cursor-pointer flex items-center gap-1">
+              🚨 Overdue (<span id="filterOsCount">0</span>)
             </button>
-            <button type="button" data-filter="expiring" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 border border-slate-200 bg-white whitespace-nowrap transition cursor-pointer">
-              ⏳ Expiring Soon (<span id="filterExpiringCount">0</span>)
+            <button type="button" data-filter="expiring" class="h-7 px-2.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 whitespace-nowrap transition cursor-pointer flex items-center gap-1">
+              ⏳ Expiring (<span id="filterExpiringCount">0</span>)
             </button>
-            <button type="button" data-filter="paid" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 border border-slate-200 bg-white whitespace-nowrap transition cursor-pointer">
-              ✅ Fully Settled (<span id="filterPaidCount">0</span>)
+            <button type="button" data-filter="paid" class="h-7 px-2.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 whitespace-nowrap transition cursor-pointer flex items-center gap-1">
+              ✅ Settled (<span id="filterPaidCount">0</span>)
             </button>
           </div>
-        </div>
 
-        <!-- Location Filter Pills Bar -->
-        <div class="px-5 sm:px-6 py-2.5 bg-slate-100/60 border-b border-slate-200/80 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div class="flex items-center gap-2 whitespace-nowrap overflow-x-auto py-0.5">
-            <span class="font-bold text-slate-500 whitespace-nowrap flex items-center gap-1"><span>📍</span> Location:</span>
-            <div id="dashLocationFilterGroup" class="flex items-center gap-1.5 whitespace-nowrap"></div>
+          <!-- Vertical Divider -->
+          <div class="h-4 w-px bg-slate-200 dark:bg-slate-700 shrink-0 mx-1"></div>
+
+          <!-- Location Filter Chips Group -->
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[11px] font-bold text-slate-400 whitespace-nowrap">📍 Loc:</span>
+            <div id="dashLocationFilterGroup" class="flex items-center gap-1 shrink-0"></div>
+            <span id="dashActiveLocationBadge" class="hidden sm:inline text-[10px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800 px-2 py-0.5 rounded-full whitespace-nowrap shrink-0">All Locations</span>
           </div>
-          <span id="dashActiveLocationBadge" class="text-[11px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200/80 px-3 py-1 rounded-full whitespace-nowrap shadow-2xs">All Locations</span>
         </div>
 
         <!-- Dynamic Tenant Rent Roll & Track Record Container -->
         <div id="tenantListContainer"></div>
       </section>
+
 
     </div>
 
@@ -1709,6 +1706,101 @@
               <p class="text-[11px] text-indigo-800 mt-1.5 leading-snug">
                 Option 2 provides complete legal protection: 21 statutory clauses, Annexure-I inventory, parking rights, maintenance, and registration terms.
               </p>
+            </div>
+
+            <!-- Landlord (Lessor / Property Owner) Profile & Particulars (Directly Viewable & Editable) -->
+            <div id="studioLandlordSection" class="bg-indigo-50/70 border border-indigo-200 rounded-2xl p-4 space-y-3 shadow-2xs">
+              <div class="flex items-center justify-between pb-2 border-b border-indigo-200">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">👤</span>
+                  <div>
+                    <h3 class="text-xs font-black text-indigo-950 uppercase tracking-wider">Landlord (Lessor) Particulars</h3>
+                    <p class="text-[11px] text-indigo-700">View and edit all landlord identity, PAN, contact and banking details.</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  id="studioOpenFullLandlordProfileBtn"
+                  class="text-[11px] font-bold text-indigo-700 bg-white border border-indigo-200 px-2.5 py-1 rounded-lg hover:bg-indigo-50 transition cursor-pointer shadow-2xs"
+                  title="Open full statutory GST and bank account settings"
+                >
+                  ⚙️ Full Landlord Profile
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="studioLandlordNameInput" class="block text-xs font-bold text-slate-700 mb-1">Landlord Full Legal Name *</label>
+                  <input
+                    id="studioLandlordNameInput"
+                    type="text"
+                    required
+                    placeholder="e.g. Rajesh Sharma"
+                    value="Rajesh Sharma"
+                    class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                  />
+                </div>
+                <div>
+                  <label for="studioLandlordFatherInput" class="block text-xs font-bold text-slate-700 mb-1">Father's / Husband's Name *</label>
+                  <input
+                    id="studioLandlordFatherInput"
+                    type="text"
+                    placeholder="Father's or spouse name"
+                    value="Late Sh. O.P. Sharma"
+                    class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                  />
+                </div>
+                <div>
+                  <label for="studioLandlordPanInput" class="block text-xs font-bold text-slate-700 mb-1">Landlord PAN Number *</label>
+                  <input
+                    id="studioLandlordPanInput"
+                    type="text"
+                    maxlength="10"
+                    placeholder="e.g. ABCPS1234D"
+                    value="ABCPS1234D"
+                    class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 uppercase focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                  />
+                </div>
+                <div>
+                  <label for="studioLandlordPhoneInput" class="block text-xs font-bold text-slate-700 mb-1">Mobile / Phone Number *</label>
+                  <input
+                    id="studioLandlordPhoneInput"
+                    type="tel"
+                    placeholder="e.g. +91 98110 02233"
+                    value="+91 98110 02233"
+                    class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                  />
+                </div>
+                <div class="sm:col-span-2">
+                  <label for="studioLandlordEmailInput" class="block text-xs font-bold text-slate-700 mb-1">Email Address *</label>
+                  <input
+                    id="studioLandlordEmailInput"
+                    type="email"
+                    placeholder="e.g. landlord@example.com"
+                    value="abcltd9925@gmail.com"
+                    class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                  />
+                </div>
+                <div class="sm:col-span-2">
+                  <label for="studioLandlordAddressInput" class="block text-xs font-bold text-slate-700 mb-1">Permanent Residential Address *</label>
+                  <textarea
+                    id="studioLandlordAddressInput"
+                    rows="2"
+                    placeholder="Complete permanent residential address of landlord"
+                    class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white leading-relaxed"
+                  >A-42, Hauz Khas Enclave, New Delhi - 110016</textarea>
+                </div>
+                <div class="sm:col-span-2">
+                  <label for="studioLandlordUpiInput" class="block text-xs font-bold text-slate-700 mb-1">UPI ID for Rent Receiving</label>
+                  <input
+                    id="studioLandlordUpiInput"
+                    type="text"
+                    placeholder="e.g. rajesh.sharma@upi"
+                    value="rajesh.sharma@upi"
+                    class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                  />
+                </div>
+              </div>
             </div>
 
             <!-- Property Selector from Property Master -->
@@ -2652,6 +2744,16 @@
             <span>📱 Install / Download App</span>
           </button>
           
+          <!-- View & Edit Agreement in Landlord View -->
+          <button
+            type="button"
+            id="tpAgreementLandlordEditTopBtn"
+            class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition shadow-sm border border-indigo-400/40 flex items-center gap-1.5 cursor-pointer active:scale-95"
+            title="Switch to Landlord View to view and edit agreement terms & landlord profile"
+          >
+            <span>📄 View &amp; Edit Agreement</span>
+          </button>
+
           <!-- Exit to Landlord View (for testing/preview) -->
           <button
             type="button"
@@ -2662,6 +2764,11 @@
           </button>
         </div>
       </header>
+
+      <!-- Rent Reminder Auto-Notification Banner -->
+      <div id="tpRentReminderBannerContainer" class="transition-all">
+        <!-- Injected dynamically if rent is unpaid (reminder) or paid (settled) -->
+      </div>
 
       <!-- Tenant Portal Body Grid: 2 Columns -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -2682,9 +2789,14 @@
                   <h2 id="tpTenantName" class="text-lg font-black text-slate-900 truncate">Tenant Name</h2>
                   <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Active</span>
                 </div>
-                <p class="text-xs font-semibold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg inline-block border border-indigo-100" id="tpUnitName">
-                  Assigned Unit: Flat 101, Sagarpur
-                </p>
+                <div class="flex flex-wrap items-center gap-2">
+                  <p class="text-xs font-semibold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg inline-block border border-indigo-100" id="tpUnitName">
+                    Assigned Unit: Flat 101, Sagarpur
+                  </p>
+                  <a href="javascript:void(0)" id="tpTenantAgreementLink" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1 rounded-lg border border-indigo-200 flex items-center gap-1 transition" title="Open Landlord View to inspect and edit agreement">
+                    <span>📄 Agreement (Edit as Landlord)</span>
+                  </a>
+                </div>
                 <p class="text-xs text-slate-500" id="tpContactInfo">
                   📱 Mobile: 9810112233 · ✉️ Email: tenant@example.com
                 </p>
@@ -2742,10 +2854,79 @@
                 type="button"
                 id="tpViewAgreementBtn"
                 class="flex-1 px-4 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer"
+                title="Open Landlord View to inspect and edit agreement & landlord details"
               >
-                <span>📄 View Tenancy Agreement</span>
+                <span>📄 View &amp; Edit Agreement (Landlord View)</span>
               </button>
             </div>
+
+          <!-- Tenant Portal: Official Statement of Accounts & Rent Ledger -->
+          <div id="tpLedgerCard" class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-800 flex items-center justify-center text-xs font-black">📒</span>
+                  <h3 class="text-xs font-black text-slate-900 uppercase tracking-wider">Statement of Accounts &amp; Rent Ledger</h3>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-0.5">Itemized billing cycles, payment credits, transaction references &amp; running dues balance.</p>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <button type="button" id="tpLedgerFilterAll" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white transition cursor-pointer">All Cycles</button>
+                <button type="button" id="tpLedgerFilterPending" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">Unsettled Only</button>
+              </div>
+            </div>
+
+            <!-- Summary Counters -->
+            <div class="grid grid-cols-3 gap-3">
+              <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Total Billed</span>
+                <span id="tpLedgerTotalBilled" class="text-sm sm:text-base font-black text-slate-900 font-mono">₹0</span>
+              </div>
+              <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-200">
+                <span class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Total Paid</span>
+                <span id="tpLedgerTotalPaid" class="text-sm sm:text-base font-black text-emerald-800 font-mono">₹0</span>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200" id="tpLedgerBalanceDueBox">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Balance Due</span>
+                <span id="tpLedgerBalanceDue" class="text-sm sm:text-base font-black text-slate-900 font-mono">₹0</span>
+              </div>
+            </div>
+
+            <!-- Ledger Statement Table -->
+            <div class="overflow-x-auto rounded-xl border border-slate-200" id="tpLedgerTableContainer">
+              <table class="min-w-full text-xs text-left">
+                <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px] tracking-wider">
+                  <tr>
+                    <th class="py-2.5 px-3">Billing Cycle</th>
+                    <th class="py-2.5 px-3">Due Date</th>
+                    <th class="py-2.5 px-3 text-right">Rent Due</th>
+                    <th class="py-2.5 px-3 text-right">Paid</th>
+                    <th class="py-2.5 px-3">Payment Ref / Mode</th>
+                    <th class="py-2.5 px-3 text-center">Status</th>
+                    <th class="py-2.5 px-3 text-right">Balance Due</th>
+                  </tr>
+                </thead>
+                <tbody id="tpLedgerTableBody" class="divide-y divide-slate-100 bg-white">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Footer note and link to full landlord ledger -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1 text-xs">
+              <div class="text-slate-500 flex items-center gap-1.5 text-[11px]">
+                <span>💡</span>
+                <span>FIFO settlement: payments apply automatically to the earliest overdue cycle.</span>
+              </div>
+              <button
+                type="button"
+                id="tpOpenFullLedgerBtn"
+                class="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs border border-indigo-200 transition cursor-pointer flex items-center justify-center gap-1 shrink-0"
+              >
+                <span>📊 Open Detailed Landlord Ledger</span>
+              </button>
+            </div>
+          </div>
 
           <!-- Tenant Portal: Official GST Tax Invoices Card -->
           <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-3">
@@ -3921,6 +4102,7 @@
           <!-- Rendered dynamically -->
         </div>
       </div>
+  </main>
     </div>
 
     <!-- =========================================================
@@ -8373,13 +8555,13 @@
           if (t === tabId) {
             view.classList.remove("hidden");
             btn.className =
-              `tab-btn-active flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-150 flex items-center justify-center gap-2.5 ${tabTheme[t].active}`;
-            if (iconSpan) iconSpan.className = `tab-icon-wrap w-6 h-6 rounded-lg ${tabTheme[t].iconActive} flex items-center justify-center shrink-0 transition-colors`;
+              `tab-btn-active px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150 flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-2xs ${tabTheme[t].active}`;
+            if (iconSpan) iconSpan.className = `tab-icon-wrap w-5 h-5 rounded-md ${tabTheme[t].iconActive} flex items-center justify-center shrink-0 transition-colors`;
           } else {
             view.classList.add("hidden");
             btn.className =
-              "flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-150 flex items-center justify-center gap-2.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60";
-            if (iconSpan) iconSpan.className = `tab-icon-wrap w-6 h-6 rounded-lg ${tabTheme[t].iconInactive} flex items-center justify-center shrink-0 transition-colors`;
+              "px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 flex items-center gap-1.5 text-slate-600 hover:text-slate-950 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60 whitespace-nowrap cursor-pointer";
+            if (iconSpan) iconSpan.className = `tab-icon-wrap w-5 h-5 rounded-md ${tabTheme[t].iconInactive} flex items-center justify-center shrink-0 transition-colors`;
           }
         });
 
@@ -12027,6 +12209,24 @@
         const select = document.getElementById("studioPropertySelect");
         if (select) select.value = prop.id;
 
+        // Auto-fill Landlord fields from state.landlord
+        const l = state.landlord || {};
+        const slName = document.getElementById("studioLandlordNameInput");
+        const slPan = document.getElementById("studioLandlordPanInput");
+        const slFather = document.getElementById("studioLandlordFatherInput");
+        const slPhone = document.getElementById("studioLandlordPhoneInput");
+        const slEmail = document.getElementById("studioLandlordEmailInput");
+        const slAddress = document.getElementById("studioLandlordAddressInput");
+        const slUpi = document.getElementById("studioLandlordUpiInput");
+
+        if (slName) slName.value = l.name || "Rajesh Sharma";
+        if (slPan) slPan.value = l.pan || "ABCPS1234D";
+        if (slFather) slFather.value = l.fatherName || document.getElementById("studioOwnerFatherInput")?.value || "Late Sh. O.P. Sharma";
+        if (slPhone) slPhone.value = l.phone || "+91 98110 02233";
+        if (slEmail) slEmail.value = l.email || "abcltd9925@gmail.com";
+        if (slAddress) slAddress.value = l.address || document.getElementById("studioOwnerAddressInput")?.value || "A-42, Hauz Khas Enclave, New Delhi - 110016";
+        if (slUpi) slUpi.value = l.upi || l.upiId || "rajesh.sharma@upi";
+
         // Auto-fill property fields
         document.getElementById("studioAddressInput").value = prop.address || "";
         document.getElementById("studioTypeInput").value = prop.type || "2 BHK Residential Flat";
@@ -12134,8 +12334,37 @@
           }
         }
 
-        const landlordName = (document.getElementById("landlordNameInput")?.value || state.landlord.name || "Rajesh Sharma").trim();
-        const landlordPan = (document.getElementById("landlordPanInput")?.value || state.landlord.pan || "ABCPS1234D").trim();
+        // Landlord particulars from Studio Landlord Inputs
+        const studioLName = document.getElementById("studioLandlordNameInput")?.value;
+        const studioLPan = document.getElementById("studioLandlordPanInput")?.value;
+        const studioLFather = document.getElementById("studioLandlordFatherInput")?.value;
+        const studioLAddress = document.getElementById("studioLandlordAddressInput")?.value;
+        const studioLPhone = document.getElementById("studioLandlordPhoneInput")?.value;
+        const studioLEmail = document.getElementById("studioLandlordEmailInput")?.value;
+        const studioLUpi = document.getElementById("studioLandlordUpiInput")?.value;
+
+        if (studioLName && state.landlord) state.landlord.name = studioLName.trim();
+        if (studioLPan && state.landlord) state.landlord.pan = studioLPan.trim().toUpperCase();
+        if (studioLFather && state.landlord) state.landlord.fatherName = studioLFather.trim();
+        if (studioLAddress && state.landlord) state.landlord.address = studioLAddress.trim();
+        if (studioLPhone && state.landlord) state.landlord.phone = studioLPhone.trim();
+        if (studioLEmail && state.landlord) state.landlord.email = studioLEmail.trim().toLowerCase();
+        if (studioLUpi && state.landlord) state.landlord.upi = studioLUpi.trim();
+
+        const landlordName = (studioLName || document.getElementById("landlordNameInput")?.value || state.landlord?.name || "Rajesh Sharma").trim();
+        const landlordPan = (studioLPan || document.getElementById("landlordPanInput")?.value || state.landlord?.pan || "ABCPS1234D").trim();
+        const ownerFather = (studioLFather || document.getElementById("studioOwnerFatherInput")?.value || state.landlord?.fatherName || "Late Sh. O.P. Sharma").trim();
+        const ownerAddress = (studioLAddress || document.getElementById("studioOwnerAddressInput")?.value || state.landlord?.address || "A-42, Hauz Khas Enclave, New Delhi - 110016").trim();
+
+        // Keep hidden inputs in sync
+        const lNameHidden = document.getElementById("landlordNameInput");
+        if (lNameHidden && landlordName) lNameHidden.value = landlordName;
+        const lPanHidden = document.getElementById("landlordPanInput");
+        if (lPanHidden && landlordPan) lPanHidden.value = landlordPan;
+        const ofHidden = document.getElementById("studioOwnerFatherInput");
+        if (ofHidden && ownerFather) ofHidden.value = ownerFather;
+        const oaHidden = document.getElementById("studioOwnerAddressInput");
+        if (oaHidden && ownerAddress) oaHidden.value = ownerAddress;
 
         const selectedPropId = document.getElementById("studioPropertySelect")?.value;
         const prop = state.properties.find((p) => p.id === selectedPropId);
@@ -12168,8 +12397,7 @@
           }
         }
 
-        const ownerFather = document.getElementById("studioOwnerFatherInput")?.value.trim() || "Late Sh. O.P. Sharma";
-        const ownerAddress = document.getElementById("studioOwnerAddressInput")?.value.trim() || "A-42, Hauz Khas Enclave, New Delhi - 110016";
+        // ownerFather and ownerAddress already computed from studioLandlord inputs / defaults above
         const tenantFather = document.getElementById("studioTenantFatherInput")?.value.trim() || "Sh. K.L. Khanna";
         const tenantWork = document.getElementById("studioTenantWorkInput")?.value.trim() || "DLF Cyber City, Building 10, Gurugram, Haryana";
         const tenantPermAddress = document.getElementById("studioTenantPermAddressInput")?.value.trim() || "H.No. 142, Sector 14, Chandigarh - 160014";
@@ -16040,6 +16268,13 @@
         // Agreement Studio inputs live binding
         [
           "studioTemplateSelect",
+          "studioLandlordNameInput",
+          "studioLandlordFatherInput",
+          "studioLandlordPanInput",
+          "studioLandlordPhoneInput",
+          "studioLandlordEmailInput",
+          "studioLandlordAddressInput",
+          "studioLandlordUpiInput",
           "studioAddressInput",
           "studioTypeInput",
           "studioMeterInput",
@@ -17729,6 +17964,302 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
       }
 
       // --- TENANT PORTAL (VIEW ONLY MODE) ---
+
+      // --- AUDIO CHIME FOR PAYMENT REMINDER NOTIFICATION ---
+      function playPaymentReminderChime() {
+        try {
+          if (typeof window === "undefined") return;
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          const ctx = new AudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+          osc.frequency.setValueAtTime(880, ctx.currentTime + 0.15); // A5
+          gain.gain.setValueAtTime(0.12, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.45);
+        } catch (e) {}
+      }
+
+      // --- AUTO-NOTIFICATION RENT REMINDER BANNER RENDERER ---
+      function renderTenantPortalRentReminder(tenant, prop) {
+        const container = document.getElementById("tpRentReminderBannerContainer");
+        if (!container) return;
+
+        const os = Math.max(0, Number(tenant.osAmount) || 0);
+        const lName = (state.landlord && state.landlord.name) || "Rajesh Sharma";
+        const lUpi = (state.landlord && (state.landlord.upi || state.landlord.upiId)) || "rajesh.sharma@upi";
+        const unitName = tenant.unit || "Your Rental Unit";
+
+        if (os > 0) {
+          // Play auto notification tone and show toast alert
+          if (typeof playPaymentReminderChime === "function") {
+            playPaymentReminderChime();
+          }
+          if (typeof showToast === "function") {
+            showToast("🔔 Rent Reminder: Outstanding dues of " + formatINR(os) + " pending for " + unitName + ". Please clear via UPI.", "warning");
+          }
+
+          container.innerHTML = `
+            <div id="tpRentReminderBanner" class="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-rose-950 via-slate-900 to-rose-900 border-2 border-rose-500/70 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="flex items-start gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 border border-rose-500/40 flex items-center justify-center text-2xl shrink-0 shadow-inner">
+                  🔔
+                </div>
+                <div class="space-y-1">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-rose-600 text-white text-[10px] font-black uppercase tracking-wider shadow-xs animate-pulse">
+                      ⚠️ Urgent Payment Reminder
+                    </span>
+                    <span class="text-xs text-rose-300 font-bold">Due by 5th of Month</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-black text-white">
+                    Rent Payment Pending for ${escapeHtml(unitName)}: <span class="text-rose-400 font-mono underline decoration-rose-500/60">${formatINR(os)} Due</span>
+                  </h2>
+                  <p class="text-xs text-slate-300 max-w-2xl leading-relaxed">
+                    Dear <strong class="text-white">${escapeHtml(tenant.name)}</strong>, your monthly rent payment of <strong class="text-rose-300 font-mono">${formatINR(os)}</strong> is unpaid. Please transfer via UPI below to maintain an unblemished tenancy record.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+                <button
+                  type="button"
+                  id="tpQuickPayUpiBtn"
+                  class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition shadow-md flex items-center gap-1.5 cursor-pointer active:scale-95"
+                  title="Copy UPI ID to clipboard"
+                >
+                  <span>📋 Copy UPI ID (${escapeHtml(lUpi)})</span>
+                </button>
+                <button
+                  type="button"
+                  id="tpNotifyLandlordPaidBtn"
+                  class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition shadow-md flex items-center gap-1.5 cursor-pointer active:scale-95"
+                  title="Notify landlord via live chat"
+                >
+                  <span>💬 Notify Landlord / I Paid</span>
+                </button>
+              </div>
+            </div>
+          `;
+
+          const upiBtn = document.getElementById("tpQuickPayUpiBtn");
+          if (upiBtn) {
+            upiBtn.onclick = () => {
+              if (typeof navigator !== "undefined" && navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(lUpi).then(() => {
+                  if (typeof showToast === "function") {
+                    showToast("✅ Landlord UPI ID (" + lUpi + ") copied! Open GPay / PhonePe / Paytm to complete transfer of " + formatINR(os), "success");
+                  }
+                }).catch(() => {
+                  if (typeof prompt === "function") prompt("Landlord UPI ID for rent transfer:", lUpi);
+                });
+              } else if (typeof prompt === "function") {
+                prompt("Landlord UPI ID for rent transfer:", lUpi);
+              }
+            };
+          }
+
+          const notifyBtn = document.getElementById("tpNotifyLandlordPaidBtn");
+          if (notifyBtn) {
+            notifyBtn.onclick = () => {
+              const chatInput = document.getElementById("tenantPortalChatInput");
+              if (chatInput) {
+                chatInput.value = "Hello " + lName + ", I have completed the rent transfer of " + formatINR(os) + " for " + unitName + " via UPI. Please verify and issue the official rent receipt.";
+                if (chatInput.scrollIntoView) chatInput.scrollIntoView({ behavior: "smooth", block: "center" });
+                if (chatInput.focus) chatInput.focus();
+                if (typeof showToast === "function") {
+                  showToast("Message pre-filled in chat! Tap 'Send' to notify your landlord.", "info");
+                }
+              }
+            };
+          }
+        } else {
+          // Zero Dues Settled Banner
+          container.innerHTML = `
+            <div id="tpRentReminderBanner" class="p-4 rounded-3xl bg-gradient-to-r from-emerald-950/80 via-slate-900 to-emerald-950/80 border border-emerald-500/40 text-white shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-xl shrink-0">
+                  ✅
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-black uppercase tracking-wider">
+                      All Rent Dues Cleared ✓
+                    </span>
+                    <span class="text-xs text-emerald-300 font-bold font-mono">Current Balance: ₹0</span>
+                  </div>
+                  <p class="text-xs text-slate-300 mt-0.5">
+                    Thank you <strong class="text-white">${escapeHtml(tenant.name)}</strong>! All rent cycles for <strong class="text-indigo-200">${escapeHtml(unitName)}</strong> are paid in full.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                id="tpBannerViewReceiptBtn"
+                class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition border border-white/20 flex items-center gap-1.5 cursor-pointer shrink-0"
+              >
+                <span>🧾 View Latest Receipt</span>
+              </button>
+            </div>
+          `;
+
+          const receiptBtn = document.getElementById("tpBannerViewReceiptBtn");
+          if (receiptBtn) {
+            receiptBtn.onclick = () => {
+              if (typeof openRentReceipt === "function") openRentReceipt(tenant.id);
+            };
+          }
+        }
+      }
+
+      // --- TENANT PORTAL STATEMENT OF ACCOUNTS & RENT LEDGER RENDERER ---
+      function renderTenantPortalLedger(tenant, prop, showPendingOnly = false) {
+        const propId = prop ? prop.id : (state.properties && state.properties.length > 0 ? state.properties[0].id : null);
+        let ledgerData = null;
+        if (typeof generatePropertyLedgerData === "function") {
+          ledgerData = generatePropertyLedgerData(propId, tenant);
+        }
+
+        const totalBilledEl = document.getElementById("tpLedgerTotalBilled");
+        const totalPaidEl = document.getElementById("tpLedgerTotalPaid");
+        const balanceDueEl = document.getElementById("tpLedgerBalanceDue");
+        const balanceDueBox = document.getElementById("tpLedgerBalanceDueBox");
+        const tbody = document.getElementById("tpLedgerTableBody");
+
+        if (!ledgerData || !Array.isArray(ledgerData.rows) || ledgerData.rows.length === 0) {
+          if (totalBilledEl) totalBilledEl.textContent = formatINR(0);
+          if (totalPaidEl) totalPaidEl.textContent = formatINR(0);
+          if (balanceDueEl) balanceDueEl.textContent = formatINR(0);
+          if (tbody) {
+            tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-400 text-xs">No ledger history available for this unit yet.</td></tr>';
+          }
+          return;
+        }
+
+        if (totalBilledEl) totalBilledEl.textContent = formatINR(ledgerData.totalBilled);
+        if (totalPaidEl) totalPaidEl.textContent = formatINR(ledgerData.totalReceived);
+        if (balanceDueEl) {
+          const bal = Number(ledgerData.currentBalance) || 0;
+          if (bal > 0) {
+            balanceDueEl.textContent = "⚠️ " + formatINR(bal) + " Due";
+            balanceDueEl.className = "text-sm sm:text-base font-black text-rose-700 font-mono";
+            if (balanceDueBox) balanceDueBox.className = "p-3 bg-rose-50 rounded-2xl border border-rose-200";
+          } else {
+            balanceDueEl.textContent = "₹0 Settled ✓";
+            balanceDueEl.className = "text-sm sm:text-base font-black text-emerald-800 font-mono";
+            if (balanceDueBox) balanceDueBox.className = "p-3 bg-emerald-50 rounded-2xl border border-emerald-200";
+          }
+        }
+
+        if (!tbody) return;
+
+        let displayRows = ledgerData.rows;
+        if (showPendingOnly) {
+          displayRows = ledgerData.rows.filter(r => r.status !== "Paid" || (Number(r.balanceDue) || 0) > 0);
+        }
+
+        if (displayRows.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-emerald-700 font-bold text-xs bg-emerald-50/40">✓ No unsettled cycles! All rent cycles are fully paid.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = "";
+        displayRows.forEach((r, idx) => {
+          const tr = document.createElement("tr");
+          tr.className = idx % 2 === 0 ? "bg-white hover:bg-indigo-50/30 transition" : "bg-slate-50/60 hover:bg-indigo-50/30 transition";
+
+          let statusBadge = "";
+          if (r.status === "Paid") {
+            statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Paid ✓</span>';
+          } else if (r.status === "Partial") {
+            statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">Partial ⏳</span>';
+          } else {
+            statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">Overdue ⚠️</span>';
+          }
+
+          let payInfo = escapeHtml(r.receivedDate);
+          if (r.paymentMode && r.paymentMode !== "Payment Awaited") {
+            payInfo += ' · <span class="font-mono text-slate-500">' + escapeHtml(r.paymentMode) + '</span>';
+          }
+
+          tr.innerHTML = `
+            <td class="py-3 px-3 font-bold text-slate-900">${escapeHtml(r.cycle)}</td>
+            <td class="py-3 px-3 text-slate-500 font-mono text-[11px]">${escapeHtml(r.dueDate || "05th")}</td>
+            <td class="py-3 px-3 text-right font-bold text-slate-800 font-mono">${formatINR(r.dueAmount)}</td>
+            <td class="py-3 px-3 text-right font-bold text-emerald-700 font-mono">${formatINR(r.receivedAmount)}</td>
+            <td class="py-3 px-3 text-slate-600 text-[11px]">${payInfo}</td>
+            <td class="py-3 px-3 text-center">${statusBadge}</td>
+            <td class="py-3 px-3 text-right font-bold font-mono ${Number(r.balanceDue) > 0 ? "text-rose-700" : "text-emerald-700"}">
+              ${formatINR(r.balanceDue)}
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        // Toggle buttons active state
+        const btnAll = document.getElementById("tpLedgerFilterAll");
+        const btnPending = document.getElementById("tpLedgerFilterPending");
+        if (btnAll && btnPending) {
+          if (showPendingOnly) {
+            btnAll.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer";
+            btnPending.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white transition cursor-pointer";
+          } else {
+            btnAll.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white transition cursor-pointer";
+            btnPending.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer";
+          }
+          btnAll.onclick = () => renderTenantPortalLedger(tenant, prop, false);
+          btnPending.onclick = () => renderTenantPortalLedger(tenant, prop, true);
+        }
+      }
+
+      // --- NAVIGATE TO LANDLORD AGREEMENT VIEW & EDIT EVERYTHING ---
+      function navigateToLandlordAgreementView(tenant) {
+        exitTenantPortalView();
+        switchTab("agreements");
+
+        let targetProp = null;
+        if (tenant && tenant.unit && !tenant.unit.startsWith("Unassigned")) {
+          targetProp = state.properties.find(
+            (p) => (p.name || "").trim().toLowerCase() === (tenant.unit || "").trim().toLowerCase()
+          );
+        }
+        if (!targetProp && state.properties.length > 0) {
+          targetProp = state.properties[0];
+        }
+
+        if (targetProp && typeof populateAgreementStudioFromProperty === "function") {
+          populateAgreementStudioFromProperty(targetProp.id);
+        }
+
+        const landlordSec = document.getElementById("studioLandlordSection");
+        if (landlordSec) {
+          if (landlordSec.scrollIntoView) {
+            landlordSec.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          if (landlordSec.classList) {
+            landlordSec.classList.add("ring-4", "ring-indigo-400", "transition-all");
+            setTimeout(() => {
+              landlordSec.classList.remove("ring-4", "ring-indigo-400");
+            }, 3000);
+          }
+        }
+
+        const nameInput = document.getElementById("studioLandlordNameInput");
+        if (nameInput && nameInput.focus) {
+          setTimeout(() => nameInput.focus(), 250);
+        }
+
+        if (typeof showToast === "function") {
+          showToast("Switched to Landlord View: Rental Agreement Studio opened. You can view & edit all landlord details and terms.", "info");
+        }
+      }
+
       function enterTenantPortalView(tenantId) {
         let tenant = state.tenants.find((t) => t.id === tenantId);
         if (!tenant && state.tenants.length > 0) {
@@ -17822,26 +18353,57 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
           };
         }
 
-        const viewAgreementBtn = document.getElementById("tpViewAgreementBtn");
-        if (viewAgreementBtn) {
-          viewAgreementBtn.onclick = () => {
-            if (tenant.unit && !tenant.unit.startsWith("Unassigned")) {
-              const prop = state.properties.find(
-                (p) => (p.name || "").trim().toLowerCase() === (tenant.unit || "").trim().toLowerCase()
-              );
-              if (prop) {
-                exitTenantPortalView();
-                switchTab("agreements");
-                populateAgreementStudioFromProperty(prop.id);
-                return;
-              }
-            }
+        // Find property unit for this tenant
+        const prop = (tenant.unit && !tenant.unit.startsWith("Unassigned"))
+          ? state.properties.find((p) => (p.name || "").trim().toLowerCase() === (tenant.unit || "").trim().toLowerCase())
+          : (state.properties && state.properties.length > 0 ? state.properties[0] : null);
+
+        // Render Ledger in Tenant Portal
+        if (typeof renderTenantPortalLedger === "function") {
+          renderTenantPortalLedger(tenant, prop);
+        }
+
+        // Render Rent Reminder Auto Notification Banner
+        if (typeof renderTenantPortalRentReminder === "function") {
+          renderTenantPortalRentReminder(tenant, prop);
+        }
+
+        // Wire Agreement navigation buttons (Switch to Landlord View & Edit Everything)
+        const navToAgreement = () => {
+          if (typeof navigateToLandlordAgreementView === "function") {
+            navigateToLandlordAgreementView(tenant);
+          } else {
             exitTenantPortalView();
             switchTab("agreements");
+            if (prop && typeof populateAgreementStudioFromProperty === "function") {
+              populateAgreementStudioFromProperty(prop.id);
+            }
+          }
+        };
+
+        const viewAgreementBtn = document.getElementById("tpViewAgreementBtn");
+        if (viewAgreementBtn) viewAgreementBtn.onclick = navToAgreement;
+
+        const topAgreementBtn = document.getElementById("tpAgreementLandlordEditTopBtn");
+        if (topAgreementBtn) topAgreementBtn.onclick = navToAgreement;
+
+        const tenantAgreementLink = document.getElementById("tpTenantAgreementLink");
+        if (tenantAgreementLink) tenantAgreementLink.onclick = navToAgreement;
+
+        const openFullLedgerBtn = document.getElementById("tpOpenFullLedgerBtn");
+        if (openFullLedgerBtn) {
+          openFullLedgerBtn.onclick = () => {
+            exitTenantPortalView();
+            switchTab("reports");
+            if (typeof showToast === "function") {
+              showToast("Opened Landlord Reports & Full Financial Ledger", "info");
+            }
           };
         }
 
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (typeof window !== "undefined" && window.scrollTo) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       }
 
       function exitTenantPortalView() {
