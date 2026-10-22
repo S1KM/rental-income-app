@@ -124,13 +124,20 @@ const requiredFunctions = [
   "closeBatchGstDispatchModal",
   "renderGstTab",
   "renderTenantPortalGstInvoices",
-  "initGstEngine"
+  "initGstEngine",
+  "printGstInvoice",
+  "printGstRegister"
 ];
 
 requiredFunctions.forEach((fn) => {
   assert.ok(htmlContent.includes(`function ${fn}`), `Missing GST engine function: "${fn}"`);
 });
 console.log(`✓ All ${requiredFunctions.length} GST engine functions verified in source code!`);
+
+// Verify @media print rules so printing/saving as PDF is never blank
+assert.ok(htmlContent.includes("body.print-gst-invoice #gstInvoicePrintArea"), "Must include @media print rule for GST invoice");
+assert.ok(htmlContent.includes("body.print-gst-register #gstTableViewContainer"), "Must include @media print rule for GST register table");
+console.log("✓ GST Invoice & Register @media print stylesheet rules verified!");
 
 // 5. Test GST logic & Calculation in sandboxed VM
 console.log("Testing GST Tax Invoice calculations, auto-generation and multi-channel dispatch in isolated VM...");
@@ -316,6 +323,21 @@ assert.ok(invMetaNo.startsWith("GST/"), "Modal should display generated GST invo
 vm.runInContext("closeGstInvoiceModal()", ctx);
 assert.strictEqual(modalEl.classList.contains("hidden"), true, "Modal should be hidden after closeGstInvoiceModal");
 console.log("✓ Official Rule 46 Tax Invoice Modal open/close verified!");
+
+// Test 9: Print GST Invoice and Register
+let hadClassOnInvoicePrint = false;
+let hadClassOnRegisterPrint = false;
+sandbox.window.print = () => {
+  hadClassOnInvoicePrint = sandbox.document.body.classList.contains("print-gst-invoice");
+  hadClassOnRegisterPrint = sandbox.document.body.classList.contains("print-gst-register");
+};
+vm.runInContext("printGstInvoice('inv_oct_2026_t1')", ctx);
+assert.strictEqual(hadClassOnInvoicePrint, true, "Body must have print-gst-invoice class when printing invoice");
+console.log("✓ Print GST Invoice triggering and body print class verified!");
+
+vm.runInContext("printGstRegister()", ctx);
+assert.strictEqual(hadClassOnRegisterPrint, true, "Body must have print-gst-register class when printing register");
+console.log("✓ Print GST Register triggering and body print class verified!");
 
 console.log("\n=======================================================");
 console.log("🎉 ALL GST TAX INVOICE SYSTEM TESTS PASSED 100%!");
