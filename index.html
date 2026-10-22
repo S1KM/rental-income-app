@@ -3751,269 +3751,208 @@
          TAB 7: GST TAX INVOICES & MONTHLY DISPATCH STUDIO
          Statutory Rule 46 CGST Act Compliance & Multi-Channel Dispatch
          ========================================================= -->
-    <div id="tabViewGst" class="space-y-6 hidden">
-      <!-- =========================================================
-           HERO BANNER: EXECUTIVE INDIAN GST TAX INVOICE SUITE
-           ========================================================= -->
-      <div class="relative overflow-hidden rounded-2xl bg-slate-900 text-white border border-slate-800 shadow-xs p-6 sm:p-7 transition-all">
-        <!-- Subtle Background Glows -->
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-teal-500/15 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <!-- =========================================================
+         TAB 7: GST TAX INVOICES & MONTHLY DISPATCH STUDIO (COMPACT FIT-TO-SCREEN VIEW)
+         Statutory Rule 46 CGST Act Compliance & Multi-Channel Dispatch
+         ========================================================= -->
+    <div id="tabViewGst" class="space-y-2.5 hidden">
+      <!-- 1. SLIM EXECUTIVE CONTROL HEADER BAR -->
+      <div class="relative overflow-hidden rounded-2xl bg-slate-900 text-white border border-slate-800 shadow-sm px-4 py-2.5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3">
+        <!-- Ambient Glow -->
+        <div class="absolute -top-16 -right-16 w-64 h-64 bg-teal-500/15 rounded-full blur-2xl pointer-events-none"></div>
 
-        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div class="space-y-3 max-w-3xl">
-            <!-- Statutory Compliance Badge Strip -->
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/20 text-teal-300 text-[11px] font-black border border-teal-400/30 shadow-2xs backdrop-blur-md">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Rule 46 CGST Act, 2017 Compliant</span>
-              </span>
-              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-200 text-[11px] font-bold border border-indigo-400/30">
-                <span>SAC 997212</span>
-                <span class="text-indigo-400 font-normal">· Real Estate Rental Services</span>
-              </span>
-              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold border border-emerald-400/30">
-                <span>18% GST (CGST 9% + SGST 9%)</span>
-              </span>
-            </div>
-
-            <!-- Title & Subtitle -->
-            <div>
-              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight flex flex-wrap items-center gap-3">
-                <span>Monthly GST Tax Invoice Studio</span>
-                <span class="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 shadow-sm">
-                  Enterprise Tax Hub
-                </span>
-              </h2>
-              <p class="text-xs sm:text-sm text-slate-300 font-medium mt-1 leading-relaxed">
-                Automated monthly statutory tax billing for commercial &amp; residential tenancies on the 1st of every month. Direct 1-click delivery to tenants via WhatsApp &amp; Email with real-time dispatch audit.
-              </p>
-            </div>
+        <!-- Left: Title & Statutory Badges -->
+        <div class="relative z-10 flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-400/30 flex items-center justify-center text-sm shrink-0">
+            🏛️
           </div>
+          <div class="flex items-center gap-2 truncate">
+            <h2 class="text-xs sm:text-sm font-black text-white tracking-tight truncate">Monthly GST Tax Invoice Studio</h2>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 text-[10px] font-bold border border-teal-400/30 shrink-0">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Rule 46 CGST</span>
+            </span>
+            <span class="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-200 text-[10px] font-bold border border-indigo-400/30 shrink-0">
+              <span>SAC 997212</span>
+            </span>
+            <span class="hidden lg:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-400/30 shrink-0">
+              <span>18% GST</span>
+            </span>
+          </div>
+        </div>
 
-          <!-- Controls: Month Switcher & Mass Action Hub -->
-          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
-            <!-- Billing Month Selector Pill -->
-            <div class="bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20 shadow-inner flex items-center gap-2">
-              <span class="text-xs text-slate-300 font-bold pl-2 flex items-center gap-1.5">
-                <svg class="w-3.5 h-3.5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <span>Cycle:</span>
-              </span>
-              <select
-                id="gstMonthSelect"
-                class="px-3.5 py-2 rounded-xl bg-slate-900/90 text-teal-300 text-xs font-bold font-mono border border-teal-400/40 focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer shadow-xs"
-              >
-                <option value="Oct 2026" selected>Oct 2026 (Current)</option>
-                <option value="Nov 2026">Nov 2026</option>
-                <option value="Sep 2026">Sep 2026</option>
-                <option value="Aug 2026">Aug 2026</option>
-                <option value="Jul 2026">Jul 2026</option>
-              </select>
-            </div>
-
-            <!-- Mass Send Trigger -->
-            <button
-              type="button"
-              id="gstBatchDispatchBtn"
-              class="px-4 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95"
-              title="Send all monthly invoices to tenants via WhatsApp and Email"
+        <!-- Right Controls: Cycle Selector & Mass Dispatch Button -->
+        <div class="relative z-10 flex items-center gap-2 shrink-0 ml-auto">
+          <div class="bg-white/10 dark:bg-slate-800/80 p-0.5 rounded-xl border border-white/15 flex items-center gap-1">
+            <span class="text-[11px] text-slate-300 font-bold pl-1.5 flex items-center gap-1">
+              <span>Cycle:</span>
+            </span>
+            <select
+              id="gstMonthSelect"
+              class="px-2 py-1 rounded-lg bg-slate-900 text-teal-300 text-xs font-bold font-mono border border-teal-400/40 focus:outline-none focus:ring-1 focus:ring-teal-400 cursor-pointer"
             >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-              <span>Dispatch Invoices (All Tenants)</span>
-            </button>
+              <option value="Oct 2026" selected>Oct 2026 (Current)</option>
+              <option value="Nov 2026">Nov 2026</option>
+              <option value="Sep 2026">Sep 2026</option>
+              <option value="Aug 2026">Aug 2026</option>
+              <option value="Jul 2026">Jul 2026</option>
+            </select>
           </div>
+
+          <button
+            type="button"
+            id="gstBatchDispatchBtn"
+            class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-teal-400 to-emerald-500 hover:from-teal-300 hover:to-emerald-400 text-slate-950 font-black text-xs transition shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
+            title="Send all monthly invoices to active tenants via WhatsApp and Email"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            <span>Dispatch (All Tenants)</span>
+          </button>
         </div>
       </div>
 
-      <!-- =========================================================
-           4 EXECUTIVE KPI TILES WITH DYNAMIC PROGRESSION
-           ========================================================= -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
+      <!-- 2. COMPACT SINGLE-ROW KPI BAR -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 items-stretch">
         <!-- KPI 1: Invoices Generated -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Invoices Generated</span>
-            <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-base shadow-2xs group-hover:scale-105 transition-transform">
-              <svg class="w-5 h-5 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between">
+          <div>
+            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Invoices Billed</span>
+            <div class="flex items-baseline gap-1.5 mt-0.5">
+              <span id="gstKpiTotalInvoices" class="text-xl font-black text-slate-900 dark:text-white font-mono">23</span>
+              <span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.2 rounded-md border border-emerald-200 dark:border-emerald-800">100% Billed</span>
             </div>
           </div>
-          <div class="mt-4">
-            <div class="flex items-baseline gap-2">
-              <span id="gstKpiTotalInvoices" class="text-3xl font-black text-slate-900 dark:text-white font-mono">23</span>
-              <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">100% Billed</span>
-            </div>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Active tenancies billed for month</p>
+          <div class="w-7 h-7 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 border border-teal-100 dark:border-teal-800 flex items-center justify-center text-xs shrink-0">
+            🧾
           </div>
         </div>
 
-        <!-- KPI 2: Taxable Rental Turnover -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Taxable Rent Base</span>
-            <div class="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800 flex items-center justify-center text-base shadow-2xs group-hover:scale-110 transition-transform">
-              🏢
-            </div>
+        <!-- KPI 2: Taxable Rent Base -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between">
+          <div>
+            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Taxable Rent Base</span>
+            <span id="gstKpiTaxableAmount" class="text-xl font-black text-slate-900 dark:text-white font-mono block mt-0.5">₹2,84,000</span>
           </div>
-          <div class="mt-4">
-            <div class="flex items-baseline gap-2">
-              <span id="gstKpiTaxableAmount" class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono">₹2,84,000</span>
-            </div>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Base rental turnover before GST</p>
+          <div class="w-7 h-7 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800 flex items-center justify-center text-xs shrink-0">
+            🏢
           </div>
         </div>
 
         <!-- KPI 3: Total GST Output Tax -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total GST (18%)</span>
-            <div class="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800 flex items-center justify-center text-base shadow-2xs group-hover:scale-110 transition-transform">
-              ⚖️
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between">
+          <div>
+            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Total GST (18%)</span>
+            <div class="flex items-baseline gap-1.5 mt-0.5">
+              <span id="gstKpiTotalGst" class="text-xl font-black text-emerald-700 dark:text-emerald-400 font-mono">₹51,120</span>
+              <span id="gstKpiSplit" class="text-[9px] font-medium text-slate-500 dark:text-slate-400 hidden xl:inline">CGST 9% + SGST 9%</span>
             </div>
           </div>
-          <div class="mt-4">
-            <div class="flex items-baseline gap-2">
-              <span id="gstKpiTotalGst" class="text-2xl sm:text-3xl font-black text-emerald-700 dark:text-emerald-400 font-mono">₹51,120</span>
-            </div>
-            <p id="gstKpiSplit" class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">CGST 9% (₹25,560) + SGST 9% (₹25,560)</p>
+          <div class="w-7 h-7 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800 flex items-center justify-center text-xs shrink-0">
+            ⚖️
           </div>
         </div>
 
-        <!-- KPI 4: Multi-Channel Dispatch Rate & Progress Bar -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+        <!-- KPI 4: Multi-Channel Dispatch Progress -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col justify-between">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Delivery Progress</span>
-            <div class="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border border-purple-100 dark:border-purple-800 flex items-center justify-center text-base shadow-2xs group-hover:scale-110 transition-transform">
-              📲
+            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Delivery</span>
+            <div class="flex items-center gap-1.5">
+              <span id="gstKpiDispatchedCount" class="text-xs font-black text-purple-700 dark:text-purple-400 font-mono">0 / 23</span>
+              <span id="gstDispatchPercentBadge" class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800">0% Sent</span>
             </div>
           </div>
-          <div class="mt-4 space-y-2">
-            <div class="flex items-baseline justify-between">
-              <span id="gstKpiDispatchedCount" class="text-2xl sm:text-3xl font-black text-purple-700 dark:text-purple-400 font-mono">0 / 23</span>
-              <span id="gstDispatchPercentBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300">0% Sent</span>
-            </div>
-            <!-- Interactive Progress Bar -->
-            <div class="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-              <div id="gstDispatchProgressBar" class="h-full rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 transition-all duration-300" style="width: 0%;"></div>
-            </div>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500">Delivered via WhatsApp &amp; Email</p>
+          <div class="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mt-1.5">
+            <div id="gstDispatchProgressBar" class="h-full rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 transition-all duration-300" style="width: 0%;"></div>
           </div>
         </div>
       </div>
 
-      <!-- =========================================================
-           LANDLORD STATUTORY GST COMPLIANCE PROFILE (EXPANDABLE)
-           ========================================================= -->
-      <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
-          <div class="flex items-center gap-3.5">
-            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-teal-600 to-emerald-600 text-white flex items-center justify-center text-lg font-bold shadow-sm">
-              🏛️
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Landlord (Supplier) Statutory GST Profile</h3>
-                <span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">Verified Taxpayer ✓</span>
-              </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Printed on every Form GST INV-1 Tax Invoice issued to tenants</p>
-            </div>
+      <!-- 3. SLIM LANDLORD STATUTORY PROFILE BAR (COLLAPSIBLE DRAWER) -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl px-3.5 py-2 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2">
+        <div id="gstLandlordSummaryGrid" class="flex flex-wrap items-center justify-between gap-2.5 text-xs">
+          <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-slate-700 dark:text-slate-300">
+            <span class="inline-flex items-center gap-1 text-[11px] font-extrabold text-slate-900 dark:text-white">
+              <span>🏛️ Supplier:</span>
+              <span id="gstSupplierNameDisplay" class="font-bold">Rajesh Sharma</span>
+            </span>
+            <span class="text-slate-300 dark:text-slate-600">·</span>
+            <span id="gstSupplierPanDisplay" class="text-[11px] font-mono text-slate-500 dark:text-slate-400">PAN: ABCPS1234D</span>
+            <span class="text-slate-300 dark:text-slate-600">·</span>
+            <span class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-teal-800 dark:text-teal-300 bg-teal-50/80 dark:bg-teal-950/40 px-2 py-0.5 rounded-md border border-teal-200 dark:border-teal-800/60">
+              <span>GSTIN:</span>
+              <span id="gstSupplierGstinDisplay">07AAAAA0000A1Z5</span>
+              <button type="button" onclick="navigator.clipboard.writeText('07AAAAA0000A1Z5'); if(typeof toast!=='undefined') toast.success('GSTIN copied!');" class="text-[9px] font-bold text-teal-700 hover:text-teal-900 dark:text-teal-400 cursor-pointer ml-0.5" title="Copy GSTIN">📋</button>
+            </span>
+            <span class="text-slate-300 dark:text-slate-600 hidden md:inline">·</span>
+            <span class="text-[11px] text-slate-500 dark:text-slate-400 hidden md:inline">SAC: <strong id="gstSacCodeDisplay" class="font-mono text-slate-800 dark:text-white">997212</strong> (18% GST)</span>
+            <span class="text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hidden lg:inline">Verified Taxpayer ✓</span>
           </div>
+
           <button
             type="button"
             id="gstToggleSettingsBtn"
-            class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:border-teal-400 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
+            class="px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-teal-400 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-[11px] font-bold transition flex items-center gap-1 cursor-pointer shrink-0 ml-auto"
           >
-            <span>⚙️ Edit Statutory GST Profile</span>
+            <span>⚙️ Edit Profile</span>
           </button>
         </div>
 
-        <!-- 4 Credential Cards Grid -->
-        <div id="gstLandlordSummaryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
-            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Landlord Legal Entity</span>
-            <span id="gstSupplierNameDisplay" class="font-bold text-slate-900 dark:text-white text-sm block">Rajesh Sharma</span>
-            <span id="gstSupplierPanDisplay" class="text-[11px] font-mono text-slate-500 dark:text-slate-400">PAN: ABCPS1234D</span>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-teal-50/50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800/50 space-y-1">
-            <span class="text-[10px] font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider block">Landlord GSTIN (15 Digits)</span>
-            <div class="flex items-center justify-between">
-              <span id="gstSupplierGstinDisplay" class="font-mono font-black text-teal-900 dark:text-teal-300 text-sm">07AAAAA0000A1Z5</span>
-              <button type="button" onclick="navigator.clipboard.writeText('07AAAAA0000A1Z5'); if(typeof toast!=='undefined') toast.success('GSTIN copied!');" class="text-[10px] font-bold text-teal-700 hover:text-teal-900 dark:text-teal-400 cursor-pointer" title="Copy GSTIN">Copy</button>
-            </div>
-            <span class="text-[11px] text-slate-500 dark:text-slate-400 block">State Jurisdiction: 07 - Delhi</span>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
-            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Service Code (SAC)</span>
-            <span id="gstSacCodeDisplay" class="font-mono font-bold text-slate-900 dark:text-white text-sm block">997212</span>
-            <span class="text-[11px] text-slate-500 dark:text-slate-400 block">Rental / Leasing of Real Estate</span>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
-            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">GST Tax Calculation</span>
-            <span class="font-mono font-bold text-emerald-800 dark:text-emerald-400 text-sm block">18% Standard GST</span>
-            <span class="text-[11px] text-slate-500 dark:text-slate-400 block">CGST 9.0% + SGST 9.0%</span>
-          </div>
-        </div>
-
         <!-- Editable Landlord GST Form (Collapsed by default) -->
-        <div id="gstSettingsDrawer" class="hidden p-5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-4 animate-in fade-in duration-150">
-          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
-            <h4 class="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">Update Landlord GST Details</h4>
-            <span class="text-[11px] text-slate-400">Updates will reflect on all generated invoices</span>
+        <div id="gstSettingsDrawer" class="hidden p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-2.5 animate-in fade-in duration-150">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-1.5">
+            <h4 class="font-bold text-[11px] uppercase tracking-wider text-slate-700 dark:text-slate-300">Update Landlord GST Details</h4>
+            <span class="text-[10px] text-slate-400">Updates reflect on all generated invoices</span>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
             <div>
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Landlord / Entity Name</label>
-              <input type="text" id="gstSettingsName" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-teal-500 focus:outline-none" value="Rajesh Sharma" />
+              <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">Landlord Name</label>
+              <input type="text" id="gstSettingsName" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-1 focus:ring-teal-500 focus:outline-none" value="Rajesh Sharma" />
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Landlord GSTIN (15 Digits)</label>
-              <input type="text" id="gstSettingsGstin" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 text-xs font-mono uppercase bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-teal-500 focus:outline-none" value="07AAAAA0000A1Z5" maxlength="15" />
+              <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">GSTIN (15 Digits)</label>
+              <input type="text" id="gstSettingsGstin" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-xs font-mono uppercase bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-1 focus:ring-teal-500 focus:outline-none" value="07AAAAA0000A1Z5" maxlength="15" />
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Landlord PAN</label>
-              <input type="text" id="gstSettingsPan" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 text-xs font-mono uppercase bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-teal-500 focus:outline-none" value="ABCPS1234D" maxlength="10" />
+              <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">Landlord PAN</label>
+              <input type="text" id="gstSettingsPan" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-xs font-mono uppercase bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-1 focus:ring-teal-500 focus:outline-none" value="ABCPS1234D" maxlength="10" />
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Supplier State &amp; Code</label>
-              <input type="text" id="gstSettingsState" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-teal-500 focus:outline-none" value="07 - Delhi" />
+              <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">Supplier State</label>
+              <input type="text" id="gstSettingsState" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-1 focus:ring-teal-500 focus:outline-none" value="07 - Delhi" />
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Service SAC Code</label>
-              <input type="text" id="gstSettingsSac" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 text-xs font-mono bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-teal-500 focus:outline-none" value="997212" />
+              <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">SAC Code</label>
+              <input type="text" id="gstSettingsSac" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-xs font-mono bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-1 focus:ring-teal-500 focus:outline-none" value="997212" />
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">UPI ID for Rent Settlement</label>
-              <input type="text" id="gstSettingsUpi" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 text-xs font-mono bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-teal-500 focus:outline-none" value="rajesh.sharma@upi" />
+              <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">UPI ID for Rent</label>
+              <input type="text" id="gstSettingsUpi" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-xs font-mono bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-1 focus:ring-teal-500 focus:outline-none" value="rajesh.sharma@upi" />
             </div>
           </div>
-          <div class="flex justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
-            <button type="button" id="gstCancelSettingsBtn" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer">Cancel</button>
-            <button type="button" id="gstSaveSettingsBtn" class="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold cursor-pointer shadow-xs active:scale-95">Save GST Settings</button>
+          <div class="flex justify-end gap-2 pt-1 border-t border-slate-200 dark:border-slate-700">
+            <button type="button" id="gstCancelSettingsBtn" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer">Cancel</button>
+            <button type="button" id="gstSaveSettingsBtn" class="px-4 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold cursor-pointer shadow-xs active:scale-95">Save GST Settings</button>
           </div>
         </div>
       </div>
 
-      <!-- =========================================================
-           REDESIGNED MONTHLY INVOICES REGISTER (TABLE & CARD VIEWS)
-           ========================================================= -->
-      <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-        <!-- Interactive Toolbar -->
-        <div class="p-5 bg-slate-50/80 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <!-- 4. INVOICES REGISTER (FIT-TO-PAGE WITH SCROLLABLE TABLE BODY) -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+        <!-- Interactive Toolbar (Compact single line) -->
+        <div class="px-3.5 py-2 bg-slate-50/90 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-2.5">
           <!-- Left: Title, Month Badge & View Toggle -->
-          <div class="flex flex-wrap items-center gap-3">
-            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white flex items-center gap-2">
-              <span>Monthly GST Invoices Register</span>
-              <span id="gstRegisterMonthBadge" class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-800">Oct 2026</span>
+          <div class="flex items-center gap-2">
+            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
+              <span>Invoices Register</span>
+              <span id="gstRegisterMonthBadge" class="text-[10px] px-2 py-0.2 rounded-full font-bold bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-800 font-mono">Oct 2026</span>
             </h3>
 
             <!-- View Switcher (Table vs Card Grid) -->
-            <div class="inline-flex p-1 rounded-xl bg-slate-200/80 dark:bg-slate-700/80 border border-slate-300/80 dark:border-slate-600 text-xs font-bold">
+            <div class="inline-flex p-0.5 rounded-lg bg-slate-200/80 dark:bg-slate-700/80 border border-slate-300/80 dark:border-slate-600 text-xs font-bold">
               <button
                 type="button"
                 id="gstViewModeTableBtn"
-                class="px-3 py-1 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs cursor-pointer flex items-center gap-1"
+                class="px-2.5 py-0.5 rounded-md bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs cursor-pointer flex items-center gap-1 text-[11px] transition"
                 title="Table View"
               >
                 <span>☰ Table</span>
@@ -4021,7 +3960,7 @@
               <button
                 type="button"
                 id="gstViewModeCardsBtn"
-                class="px-3 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer flex items-center gap-1"
+                class="px-2.5 py-0.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer flex items-center gap-1 text-[11px] transition"
                 title="Cards Grid View"
               >
                 <span>⊞ Cards</span>
@@ -4030,22 +3969,22 @@
           </div>
 
           <!-- Right: Search, Filter & Quick Action Buttons -->
-          <div class="flex flex-wrap items-center gap-2.5">
+          <div class="flex items-center gap-2">
             <!-- Search Input -->
             <div class="relative">
               <input
                 type="text"
                 id="gstInvoiceSearchInput"
-                placeholder="Search tenant, unit, invoice..."
-                class="pl-9 pr-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-600 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 w-48 sm:w-60"
+                placeholder="Search tenant, unit..."
+                class="pl-7 pr-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-600 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-teal-500 w-36 sm:w-48 shadow-2xs transition"
               />
-              <span class="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+              <span class="absolute left-2 top-1.5 text-slate-400 text-[11px]">🔍</span>
             </div>
 
             <!-- Status Filter -->
             <select
               id="gstStatusFilter"
-              class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-white font-bold focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
+              class="px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-600 text-xs bg-white dark:bg-slate-900 text-slate-800 dark:text-white font-bold focus:outline-none focus:ring-1 focus:ring-teal-500 cursor-pointer shadow-2xs transition"
             >
               <option value="all">All Invoices</option>
               <option value="pending">⏳ Pending Send</option>
@@ -4056,10 +3995,10 @@
             <button
               type="button"
               id="gstAutoRegenerateBtn"
-              class="px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
+              class="px-2.5 py-1 rounded-lg bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white text-[11px] font-bold transition flex items-center gap-1 cursor-pointer shadow-xs active:scale-95"
               title="Ensure all active tenants have current month invoices generated"
             >
-              <span>⚡ Generate Missing</span>
+              <span>⚡ Missing</span>
             </button>
 
             <!-- Print Register Button -->
@@ -4067,7 +4006,7 @@
               type="button"
               id="gstPrintRegisterBtn"
               onclick="window.print()"
-              class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+              class="px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 text-[11px] font-bold transition flex items-center gap-1 cursor-pointer shadow-2xs"
               title="Print Monthly GST Register"
             >
               <span>🖨️ Print</span>
@@ -4075,20 +4014,20 @@
           </div>
         </div>
 
-        <!-- 1. Table View Container -->
-        <div id="gstTableViewContainer" class="overflow-x-auto">
+        <!-- 1. Table View Container with constrained internal height -->
+        <div id="gstTableViewContainer" class="overflow-x-auto max-h-[calc(100vh-275px)] overflow-y-auto">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-slate-700">
+            <thead class="sticky top-0 z-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-slate-700 select-none shadow-2xs">
               <tr>
-                <th class="py-3 px-4">Invoice No</th>
-                <th class="py-3 px-4">Invoice Date</th>
-                <th class="py-3 px-4">Tenant &amp; Unit</th>
-                <th class="py-3 px-4 text-right">Taxable Rent</th>
-                <th class="py-3 px-4 text-right">CGST (9%)</th>
-                <th class="py-3 px-4 text-right">SGST (9%)</th>
-                <th class="py-3 px-4 text-right">Total Invoice</th>
-                <th class="py-3 px-4 text-center">Dispatch Status</th>
-                <th class="py-3 px-4 text-right">Actions</th>
+                <th class="py-2 px-3 font-bold">Invoice No</th>
+                <th class="py-2 px-3 font-bold">Date</th>
+                <th class="py-2 px-3 font-bold">Tenant &amp; Unit</th>
+                <th class="py-2 px-3 text-right font-bold">Taxable Rent</th>
+                <th class="py-2 px-3 text-right font-bold">CGST (9%)</th>
+                <th class="py-2 px-3 text-right font-bold">SGST (9%)</th>
+                <th class="py-2 px-3 text-right font-bold">Total Invoice</th>
+                <th class="py-2 px-3 text-center font-bold">Status</th>
+                <th class="py-2 px-3 text-right font-bold">Actions</th>
               </tr>
             </thead>
             <tbody id="gstInvoicesTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 font-medium">
@@ -4097,13 +4036,13 @@
           </table>
         </div>
 
-        <!-- 2. Responsive Card Grid View (Hidden by default, shown when cards toggle clicked) -->
-        <div id="gstCardsViewContainer" class="hidden p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- 2. Responsive Card Grid View -->
+        <div id="gstCardsViewContainer" class="hidden p-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[calc(100vh-275px)] overflow-y-auto">
           <!-- Rendered dynamically -->
         </div>
       </div>
-  </main>
     </div>
+  </main>
 
     <!-- =========================================================
        HRA RENT RECEIPT MODAL
@@ -18161,7 +18100,7 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
 
         let displayRows = ledgerData.rows;
         if (showPendingOnly) {
-          displayRows = ledgerData.rows.filter(r => r.status !== "Paid" || (Number(r.balanceDue) || 0) > 0);
+          displayRows = ledgerData.rows.filter(r => r.status !== "Paid");
         }
 
         if (displayRows.length === 0) {
@@ -18195,8 +18134,8 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
             <td class="py-3 px-3 text-right font-bold text-emerald-700 font-mono">${formatINR(r.receivedAmount)}</td>
             <td class="py-3 px-3 text-slate-600 text-[11px]">${payInfo}</td>
             <td class="py-3 px-3 text-center">${statusBadge}</td>
-            <td class="py-3 px-3 text-right font-bold font-mono ${Number(r.balanceDue) > 0 ? "text-rose-700" : "text-emerald-700"}">
-              ${formatINR(r.balanceDue)}
+            <td class="py-3 px-3 text-right font-bold font-mono ${Number(r.runningBalance) > 0 ? "text-rose-700" : "text-emerald-700"}">
+              ${formatINR(Math.max(0, Number(r.runningBalance) || 0))}
             </td>
           `;
           tbody.appendChild(tr);
@@ -19213,7 +19152,7 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         renderGstTab(inv.billingMonth);
       }
 
-      function renderGstTab(selectedMonth) {
+                  function renderGstTab(selectedMonth) {
         const month = selectedMonth || document.getElementById("gstMonthSelect")?.value || getEffectiveBillingMonth();
         ensureLandlordGstDefaults();
 
@@ -19234,11 +19173,19 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         const totalGst = cgstTotal + sgstTotal;
         const dispatchedCount = invoices.filter((inv) => inv.dispatchedChannels && inv.dispatchedChannels.length > 0).length;
         const dispatchPercent = totalCount > 0 ? Math.round((dispatchedCount / totalCount) * 100) : 0;
+        const pendingCount = totalCount - dispatchedCount;
 
-        document.getElementById("gstKpiTotalInvoices").textContent = totalCount;
-        document.getElementById("gstKpiTaxableAmount").textContent = "₹" + totalTaxable.toLocaleString("en-IN");
-        document.getElementById("gstKpiTotalGst").textContent = "₹" + totalGst.toLocaleString("en-IN");
-        document.getElementById("gstKpiDispatchedCount").textContent = dispatchedCount + " / " + totalCount;
+        const totalInvoicesEl = document.getElementById("gstKpiTotalInvoices");
+        if (totalInvoicesEl) totalInvoicesEl.textContent = totalCount;
+
+        const taxableAmountEl = document.getElementById("gstKpiTaxableAmount");
+        if (taxableAmountEl) taxableAmountEl.textContent = "₹" + totalTaxable.toLocaleString("en-IN");
+
+        const totalGstEl = document.getElementById("gstKpiTotalGst");
+        if (totalGstEl) totalGstEl.textContent = "₹" + totalGst.toLocaleString("en-IN");
+
+        const dispatchedCountEl = document.getElementById("gstKpiDispatchedCount");
+        if (dispatchedCountEl) dispatchedCountEl.textContent = dispatchedCount + " / " + totalCount;
 
         const splitEl = document.getElementById("gstKpiSplit");
         if (splitEl) {
@@ -19252,10 +19199,25 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         if (pBar) pBar.style.width = dispatchPercent + "%";
 
         // Landlord Profile Display
-        document.getElementById("gstSupplierNameDisplay").textContent = state.landlord.name || "Rajesh Sharma";
-        document.getElementById("gstSupplierPanDisplay").textContent = "PAN: " + (state.landlord.pan || "ABCPS1234D");
-        document.getElementById("gstSupplierGstinDisplay").textContent = state.landlord.gstin || "07AAAAA0000A1Z5";
-        document.getElementById("gstSacCodeDisplay").textContent = state.landlord.sacCode || "997212";
+        const supNameEl = document.getElementById("gstSupplierNameDisplay");
+        if (supNameEl) supNameEl.textContent = state.landlord?.name || "Rajesh Sharma";
+
+        const supPanEl = document.getElementById("gstSupplierPanDisplay");
+        if (supPanEl) supPanEl.textContent = "PAN: " + (state.landlord?.pan || "ABCPS1234D");
+
+        const supGstinEl = document.getElementById("gstSupplierGstinDisplay");
+        if (supGstinEl) supGstinEl.textContent = state.landlord?.gstin || "07AAAAA0000A1Z5";
+
+        const sacCodeEl = document.getElementById("gstSacCodeDisplay");
+        if (sacCodeEl) sacCodeEl.textContent = state.landlord?.sacCode || "997212";
+
+        // Update status filter option counts
+        const statusFilterEl = document.getElementById("gstStatusFilter");
+        if (statusFilterEl && statusFilterEl.options && statusFilterEl.options.length >= 3) {
+          statusFilterEl.options[0].text = `All Invoices (${totalCount})`;
+          statusFilterEl.options[1].text = `⏳ Pending Send (${pendingCount})`;
+          statusFilterEl.options[2].text = `✅ Dispatched (${dispatchedCount})`;
+        }
 
         // Render Invoices Table
         const tbody = document.getElementById("gstInvoicesTableBody");
@@ -19266,8 +19228,35 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         if (cardsGrid) cardsGrid.innerHTML = "";
 
         if (invoices.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="9" class="text-center py-12 text-slate-400">No GST Invoices found for this billing cycle.</td></tr>';
-          if (cardsGrid) cardsGrid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400 text-xs">No GST Invoices found for this billing cycle.</div>';
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="9" class="py-8 text-center">
+                <div class="max-w-xs mx-auto space-y-2">
+                  <div class="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-800 flex items-center justify-center text-lg mx-auto shadow-2xs">
+                    🏛️
+                  </div>
+                  <h4 class="font-extrabold text-xs text-slate-800 dark:text-white">No GST Invoices for ${escapeHtml(month)}</h4>
+                  <p class="text-[11px] text-slate-500 dark:text-slate-400">
+                    Auto-generated on 1st of month for active tenancies.
+                  </p>
+                  <button
+                    type="button"
+                    onclick="document.getElementById('gstAutoRegenerateBtn')?.click()"
+                    class="px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-[11px] font-bold transition shadow-2xs cursor-pointer"
+                  >
+                    ⚡ Generate Invoices
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+          if (cardsGrid) {
+            cardsGrid.innerHTML = `
+              <div class="col-span-full py-8 text-center text-xs text-slate-400">
+                No GST Invoices found for ${escapeHtml(month)}. Click [⚡ Missing] to generate.
+              </div>
+            `;
+          }
           return;
         }
 
@@ -19286,41 +19275,83 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
           return true;
         });
 
+        if (filtered.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="9" class="py-8 text-center text-slate-400 text-xs">
+                No invoices match the selected filter.
+              </td>
+            </tr>
+          `;
+          if (cardsGrid) {
+            cardsGrid.innerHTML = `
+              <div class="col-span-full py-8 text-center text-slate-400 text-xs">
+                No invoices match the selected filter.
+              </div>
+            `;
+          }
+          return;
+        }
+
+        function getTenantInitials(name) {
+          if (!name) return "TN";
+          const parts = name.trim().split(/\s+/);
+          if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+          return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+        }
+
         filtered.forEach((inv) => {
           const isWa = inv.dispatchedChannels && inv.dispatchedChannels.includes("whatsapp");
           const isEmail = inv.dispatchedChannels && inv.dispatchedChannels.includes("email");
+          const initials = getTenantInitials(inv.tenantName);
 
-          // 1. Table Row
+          // 1. Table Row (Compact py-2 px-3)
           const tr = document.createElement("tr");
-          tr.className = "hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors";
+          tr.className = "hover:bg-teal-50/40 dark:hover:bg-slate-800/60 transition-colors group";
           tr.innerHTML = `
-            <td class="py-3.5 px-4 font-mono font-bold text-teal-800 dark:text-teal-300">${inv.invoiceNo}</td>
-            <td class="py-3.5 px-4 font-mono text-slate-600 dark:text-slate-400">${inv.invoiceDate}</td>
-            <td class="py-3.5 px-4">
-              <div class="font-bold text-slate-900 dark:text-white">${escapeHtml(inv.tenantName)}</div>
-              <div class="text-[11px] text-slate-500 dark:text-slate-400">${escapeHtml(inv.tenantUnit)}</div>
+            <td class="py-2 px-3 whitespace-nowrap">
+              <span class="inline-flex items-center font-mono font-bold text-[11px] text-teal-800 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 px-2 py-0.5 rounded border border-teal-200/80 dark:border-teal-800/80">
+                ${inv.invoiceNo}
+              </span>
             </td>
-            <td class="py-3.5 px-4 text-right font-mono text-slate-900 dark:text-white">${formatGstCurrency(inv.taxableRent)}</td>
-            <td class="py-3.5 px-4 text-right font-mono text-slate-600 dark:text-slate-400">${formatGstCurrency(inv.cgstAmount)}</td>
-            <td class="py-3.5 px-4 text-right font-mono text-slate-600 dark:text-slate-400">${formatGstCurrency(inv.sgstAmount)}</td>
-            <td class="py-3.5 px-4 text-right font-mono font-black text-teal-900 dark:text-teal-300">
-              <span class="bg-teal-50 dark:bg-teal-950/60 text-teal-900 dark:text-teal-200 px-2 py-0.5 rounded border border-teal-200 dark:border-teal-800">${formatGstCurrency(inv.totalAmount)}</span>
+            <td class="py-2 px-3 font-mono text-slate-600 dark:text-slate-400 text-[11px] whitespace-nowrap">
+              ${inv.invoiceDate}
             </td>
-            <td class="py-3.5 px-4 text-center">
-              <div class="flex items-center justify-center gap-1.5 flex-wrap">
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                  isWa ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border-emerald-300" : "bg-slate-100 dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700"
-                }">💬 WA</span>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                  isEmail ? "bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 border-indigo-300" : "bg-slate-100 dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700"
-                }">✉️ Email</span>
+            <td class="py-2 px-3">
+              <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-teal-600 to-indigo-600 text-white font-bold text-[9px] flex items-center justify-center shrink-0 shadow-2xs">
+                  ${initials}
+                </div>
+                <div class="min-w-0">
+                  <div class="font-bold text-slate-900 dark:text-white text-xs truncate">${escapeHtml(inv.tenantName)}</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400 truncate flex items-center gap-0.5">
+                    <span>🏢</span>
+                    <span>${escapeHtml(inv.tenantUnit)}</span>
+                  </div>
+                </div>
               </div>
             </td>
-            <td class="py-3.5 px-4 text-right">
-              <div class="flex items-center justify-end gap-1.5">
+            <td class="py-2 px-3 text-right font-mono font-bold text-slate-900 dark:text-white text-xs whitespace-nowrap">${formatGstCurrency(inv.taxableRent)}</td>
+            <td class="py-2 px-3 text-right font-mono text-slate-600 dark:text-slate-400 text-xs whitespace-nowrap">${formatGstCurrency(inv.cgstAmount)}</td>
+            <td class="py-2 px-3 text-right font-mono text-slate-600 dark:text-slate-400 text-xs whitespace-nowrap">${formatGstCurrency(inv.sgstAmount)}</td>
+            <td class="py-2 px-3 text-right font-mono font-black text-xs whitespace-nowrap">
+              <span class="inline-block bg-teal-50 dark:bg-teal-950/70 text-teal-900 dark:text-teal-200 px-2 py-0.5 rounded border border-teal-300 dark:border-teal-700 font-bold">${formatGstCurrency(inv.totalAmount)}</span>
+            </td>
+            <td class="py-2 px-3 text-center whitespace-nowrap">
+              <div class="flex items-center justify-center gap-1">
+                <span class="text-[9px] font-bold px-1.5 py-0.2 rounded-full border ${
+                  isWa ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700" : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700"
+                }">WA ${isWa ? "✓" : "—"}</span>
+                <span class="text-[9px] font-bold px-1.5 py-0.2 rounded-full border ${
+                  isEmail ? "bg-indigo-100 dark:bg-indigo-950/80 text-indigo-800 dark:text-indigo-300 border-indigo-300 dark:border-indigo-700" : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700"
+                }">Email ${isEmail ? "✓" : "—"}</span>
+              </div>
+            </td>
+            <td class="py-2 px-3 text-right whitespace-nowrap">
+              <div class="flex items-center justify-end gap-1">
                 <button
                   type="button"
-                  class="gst-row-view-btn px-2.5 py-1 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 font-bold text-[11px] transition cursor-pointer"
+                  class="gst-row-view-btn px-2 py-1 rounded-md bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/50 dark:hover:bg-teal-900/60 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-800 font-bold text-[10px] transition cursor-pointer"
                   data-invoice-id="${inv.id}"
                   title="View &amp; Print Official Tax Invoice"
                 >
@@ -19328,15 +19359,15 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
                 </button>
                 <button
                   type="button"
-                  class="gst-row-wa-btn px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] transition cursor-pointer shadow-2xs"
+                  class="gst-row-wa-btn px-2 py-1 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] transition cursor-pointer shadow-2xs active:scale-95"
                   data-invoice-id="${inv.id}"
                   title="Send via WhatsApp"
                 >
-                  💬 Send
+                  💬 WA
                 </button>
                 <button
                   type="button"
-                  class="gst-row-email-btn px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] transition cursor-pointer shadow-2xs"
+                  class="gst-row-email-btn px-2 py-1 rounded-md bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[10px] transition cursor-pointer shadow-2xs active:scale-95"
                   data-invoice-id="${inv.id}"
                   title="Send via Email"
                 >
@@ -19347,42 +19378,82 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
           `;
           tbody.appendChild(tr);
 
-          // 2. Card View Item
+          // 2. Card View Item (Compact)
           if (cardsGrid) {
             const card = document.createElement("div");
-            card.className = "bg-white dark:bg-slate-800/80 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-xs space-y-3";
+            card.className = "bg-white dark:bg-slate-800/90 rounded-xl p-3 border border-slate-200 dark:border-slate-700/80 shadow-2xs hover:shadow-xs transition-all space-y-2.5 flex flex-col justify-between";
             card.innerHTML = `
-              <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-700 pb-2.5">
-                <div>
-                  <h4 class="font-black text-sm text-slate-900 dark:text-white">${escapeHtml(inv.tenantName)}</h4>
-                  <p class="text-[11px] text-slate-500 dark:text-slate-400">${escapeHtml(inv.tenantUnit)}</p>
+              <div class="space-y-2">
+                <!-- Card Header -->
+                <div class="flex items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-700/80 pb-2">
+                  <div class="flex items-center gap-2 min-w-0">
+                    <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-teal-600 to-indigo-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0">
+                      ${initials}
+                    </div>
+                    <div class="min-w-0">
+                      <h4 class="font-black text-xs text-slate-900 dark:text-white truncate">${escapeHtml(inv.tenantName)}</h4>
+                      <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate flex items-center gap-0.5">
+                        <span>🏢</span>
+                        <span>${escapeHtml(inv.tenantUnit)}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <span class="font-mono font-bold text-[10px] text-teal-800 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 px-1.5 py-0.2 rounded border border-teal-200 dark:border-teal-800 shrink-0">${inv.invoiceNo}</span>
                 </div>
-                <span class="font-mono font-bold text-[11px] text-teal-800 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 px-2 py-0.5 rounded border border-teal-200 dark:border-teal-800">${inv.invoiceNo}</span>
+
+                <!-- Financial Breakdown -->
+                <div class="grid grid-cols-2 gap-1.5 text-xs">
+                  <div class="p-1.5 bg-slate-50 dark:bg-slate-900/80 rounded-lg">
+                    <span class="text-[8px] text-slate-400 uppercase font-bold block">Taxable Rent</span>
+                    <span class="font-mono font-bold text-slate-900 dark:text-white text-[11px]">${formatGstCurrency(inv.taxableRent)}</span>
+                  </div>
+                  <div class="p-1.5 bg-slate-50 dark:bg-slate-900/80 rounded-lg">
+                    <span class="text-[8px] text-slate-400 uppercase font-bold block">GST (18%)</span>
+                    <span class="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-[11px]">${formatGstCurrency(inv.cgstAmount + inv.sgstAmount)}</span>
+                  </div>
+                  <div class="col-span-2 px-2 py-1 bg-teal-50/70 dark:bg-teal-950/50 rounded-lg border border-teal-200/80 dark:border-teal-800 flex items-center justify-between">
+                    <span class="text-[9px] text-teal-800 dark:text-teal-300 uppercase font-black">Total</span>
+                    <span class="font-mono font-black text-teal-900 dark:text-teal-200 text-xs">${formatGstCurrency(inv.totalAmount)}</span>
+                  </div>
+                </div>
+
+                <!-- Status Row -->
+                <div class="flex items-center justify-between text-[10px]">
+                  <span class="text-slate-400 font-mono text-[9px]">${inv.invoiceDate}</span>
+                  <div class="flex items-center gap-1">
+                    <span class="text-[9px] font-bold px-1.5 py-0.2 rounded-full border ${
+                      isWa ? "bg-emerald-100 text-emerald-800 border-emerald-300" : "bg-slate-100 text-slate-400 border-slate-200"
+                    }">WA ${isWa ? "✓" : "—"}</span>
+                    <span class="text-[9px] font-bold px-1.5 py-0.2 rounded-full border ${
+                      isEmail ? "bg-indigo-100 text-indigo-800 border-indigo-300" : "bg-slate-100 text-slate-400 border-slate-200"
+                    }">Email ${isEmail ? "✓" : "—"}</span>
+                  </div>
+                </div>
               </div>
-              <div class="grid grid-cols-2 gap-2 text-xs">
-                <div class="p-2 bg-slate-50 dark:bg-slate-900 rounded-xl">
-                  <span class="text-[9px] text-slate-400 uppercase font-bold block">Taxable Rent</span>
-                  <span class="font-mono font-bold text-slate-900 dark:text-white">${formatGstCurrency(inv.taxableRent)}</span>
-                </div>
-                <div class="p-2 bg-teal-50/50 dark:bg-teal-950/40 rounded-xl">
-                  <span class="text-[9px] text-teal-600 uppercase font-bold block">Total with 18% GST</span>
-                  <span class="font-mono font-black text-teal-900 dark:text-teal-200">${formatGstCurrency(inv.totalAmount)}</span>
-                </div>
-              </div>
-              <div class="flex items-center justify-between pt-1">
-                <div class="flex items-center gap-1">
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                    isWa ? "bg-emerald-100 text-emerald-800 border-emerald-300" : "bg-slate-100 text-slate-400 border-slate-200"
-                  }">WA</span>
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                    isEmail ? "bg-indigo-100 text-indigo-800 border-indigo-300" : "bg-slate-100 text-slate-400 border-slate-200"
-                  }">Email</span>
-                </div>
-                <div class="flex items-center gap-1.5">
-                  <button type="button" class="gst-row-view-btn px-2.5 py-1 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 font-bold text-xs" data-invoice-id="${inv.id}">👁️</button>
-                  <button type="button" class="gst-row-wa-btn px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs" data-invoice-id="${inv.id}">💬 WA</button>
-                  <button type="button" class="gst-row-email-btn px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs" data-invoice-id="${inv.id}">✉️ Email</button>
-                </div>
+
+              <!-- Actions Footer -->
+              <div class="flex items-center gap-1.5 pt-1.5 border-t border-slate-100 dark:border-slate-700/80">
+                <button
+                  type="button"
+                  class="gst-row-view-btn flex-1 py-1 rounded-lg bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-800 font-bold text-[10px] transition cursor-pointer"
+                  data-invoice-id="${inv.id}"
+                >
+                  👁️ View
+                </button>
+                <button
+                  type="button"
+                  class="gst-row-wa-btn px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] transition cursor-pointer shadow-2xs active:scale-95"
+                  data-invoice-id="${inv.id}"
+                >
+                  💬 WA
+                </button>
+                <button
+                  type="button"
+                  class="gst-row-email-btn px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[10px] transition cursor-pointer shadow-2xs active:scale-95"
+                  data-invoice-id="${inv.id}"
+                >
+                  ✉️ Email
+                </button>
               </div>
             `;
             cardsGrid.appendChild(card);
@@ -19558,8 +19629,8 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         cardsBtn?.addEventListener("click", () => {
           tableContainer?.classList.add("hidden");
           cardsContainer?.classList.remove("hidden");
-          cardsBtn.className = "px-3 py-1 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs cursor-pointer flex items-center gap-1";
-          tableBtn.className = "px-3 py-1 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer flex items-center gap-1";
+          cardsBtn.className = "px-2.5 py-0.5 rounded-md bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs cursor-pointer flex items-center gap-1 text-[11px] transition";
+          tableBtn.className = "px-2.5 py-0.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer flex items-center gap-1 text-[11px] transition";
         });
 
         document.getElementById("tabBtnGst")?.addEventListener("click", () => {

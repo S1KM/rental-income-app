@@ -172,9 +172,9 @@ vm.runInContext(`
       totalReceived: 90000,
       currentBalance: (tenant && tenant.osAmount) || 15000,
       rows: [
-        { cycle: 'Apr 2026', dueDate: '05-Apr-2026', dueAmount: 15000, receivedDate: '03-Apr-2026', receivedAmount: 15000, paymentMode: 'UPI (UPI/2604/77102)', status: 'Paid', balanceDue: 0 },
-        { cycle: 'May 2026', dueDate: '05-May-2026', dueAmount: 15000, receivedDate: '04-May-2026', receivedAmount: 15000, paymentMode: 'UPI (UPI/2605/88219)', status: 'Paid', balanceDue: 0 },
-        { cycle: 'Oct 2026', dueDate: '05-Oct-2026', dueAmount: 15000, receivedDate: 'Unpaid / Pending', receivedAmount: 0, paymentMode: 'Payment Awaited', status: 'Overdue', balanceDue: 15000 }
+        { cycle: 'Apr 2026', dueDate: '05-Apr-2026', dueAmount: 15000, receivedDate: '03-Apr-2026', receivedAmount: 15000, paymentMode: 'UPI (UPI/2604/77102)', status: 'Paid', runningBalance: 0 },
+        { cycle: 'May 2026', dueDate: '05-May-2026', dueAmount: 15000, receivedDate: '04-May-2026', receivedAmount: 15000, paymentMode: 'UPI (UPI/2605/88219)', status: 'Paid', runningBalance: 0 },
+        { cycle: 'Oct 2026', dueDate: '05-Oct-2026', dueAmount: 15000, receivedDate: 'Unpaid / Pending', receivedAmount: 0, paymentMode: 'Payment Awaited', status: 'Overdue', runningBalance: 15000 }
       ]
     };
   }
