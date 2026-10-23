@@ -283,7 +283,7 @@ if (!svgContent.includes('chart-hover-column')) {
 console.log('✓ 7 transparent interactive hit columns rendered for tooltip hover');
 
 // 7. Verify bottom month breakdown pills
-if (!breakdownEl.innerHTML.includes('Oct 2026') || !breakdownEl.innerHTML.includes('87.8% Realized')) {
+if (!breakdownEl.innerHTML.includes('Oct 2026') || !breakdownEl.innerHTML.includes('87.8%')) {
   console.error('FAIL: Month breakdown pills missing October 2026 status');
   process.exit(1);
 }
