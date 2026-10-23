@@ -1071,7 +1071,7 @@
 
             <!-- Compact Monthwise Cards -->
             <div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-              <div id="dashChartMonthBreakdown" class="grid grid-cols-7 gap-1 sm:gap-1.5">
+              <div id="dashChartMonthBreakdown" class="grid grid-cols-7 gap-0.5 sm:gap-1">
                 <!-- Dynamically populated month mini-cards -->
               </div>
             </div>
@@ -11261,36 +11261,38 @@
           breakdownEl.innerHTML = data.map((d, i) => {
             const isFull = d.rate >= 99.9;
             const rateBadge = isFull
-              ? `<span class="px-1.5 py-0.2 rounded-full text-[8.5px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300/60 dark:border-emerald-800">100% Realized</span>`
-              : `<span class="px-1.5 py-0.2 rounded-full text-[8.5px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-300/60 dark:border-amber-800">${d.rate}% Realized</span>`;
+              ? `<span class="px-1 py-0.2 rounded text-[7px] sm:text-[7.5px] font-black bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300/60 leading-none shrink-0" title="${d.cycle} • 100% Realized">100%</span>`
+              : `<span class="px-1 py-0.2 rounded text-[7px] sm:text-[7.5px] font-black bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-300/60 leading-none shrink-0" title="${d.cycle} • ${d.rate}% Realized">${d.rate}%</span>`;
 
             return `
               <div
                 data-month-chip-index="${i}"
-                class="relative p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-gradient-to-b from-white to-slate-50/70 dark:from-slate-800/90 dark:to-slate-850 hover:to-white dark:hover:to-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between group overflow-hidden"
+                data-cycle="${d.cycle}"
+                title="${d.cycle} — ${isFull ? '100% Realized' : d.rate + '% Realized'} (Plan: ${formatINR(d.planned)}, Actual: ${formatINR(d.actual)})"
+                class="relative p-1 sm:p-1.5 rounded-lg border border-slate-200/90 dark:border-slate-800 bg-gradient-to-b from-white to-slate-50/70 dark:from-slate-800/90 dark:to-slate-850 hover:to-white dark:hover:to-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between group overflow-hidden min-w-0"
               >
                 <!-- Top indicator stripe -->
                 <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${isFull ? 'from-emerald-500 to-teal-400' : 'from-amber-500 to-rose-400'} opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
                 <!-- Header: Month name & Realization badge -->
-                <div class="flex items-center justify-between gap-1 mb-1">
-                  <span class="text-[10px] font-black text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition truncate">${d.shortMonth} 2026</span>
+                <div class="flex items-center justify-between gap-0.5 mb-0.5 leading-none min-w-0">
+                  <span class="text-[8px] sm:text-[8.5px] font-black text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition truncate">${d.shortMonth}</span>
                   ${rateBadge}
                 </div>
 
                 <!-- Hero Realized vs Target Amount -->
-                <div class="my-0.5">
-                  <div class="text-[11px] font-black text-slate-900 dark:text-white tracking-tight truncate">
+                <div class="my-0.5 min-w-0">
+                  <div class="text-[9px] sm:text-[10px] font-black text-slate-900 dark:text-white tracking-tight truncate leading-tight" title="Actual: ${formatINR(d.actual)}">
                     ${formatINR(d.actual)}
                   </div>
-                  <div class="text-[9px] font-medium text-slate-400 dark:text-slate-500 flex items-center justify-between mt-0.5">
-                    <span>Plan:</span>
-                    <span>${formatINR(d.planned)}</span>
+                  <div class="text-[7.5px] sm:text-[8px] font-medium text-slate-400 dark:text-slate-500 flex items-center justify-between gap-0.5 leading-tight whitespace-nowrap overflow-hidden mt-0.5">
+                    <span class="shrink-0">Plan:</span>
+                    <span class="font-bold text-slate-600 dark:text-slate-300 truncate">${formatINR(d.planned)}</span>
                   </div>
                 </div>
 
                 <!-- Micro Progress Track -->
-                <div class="w-full h-1 rounded-full bg-slate-100 dark:bg-slate-750 overflow-hidden my-1">
+                <div class="w-full h-0.5 sm:h-1 rounded-full bg-slate-100 dark:bg-slate-750 overflow-hidden my-0.5">
                   <div
                     class="h-full rounded-full transition-all duration-300 ${isFull ? 'bg-gradient-to-r from-emerald-500 to-teal-400' : 'bg-gradient-to-r from-amber-500 to-rose-400'}"
                     style="width: ${Math.min(100, d.rate)}%"
@@ -11298,16 +11300,16 @@
                 </div>
 
                 <!-- Footer Status Tag -->
-                <div class="pt-0.5 border-t border-slate-100 dark:border-slate-750 text-[9px]">
+                <div class="pt-0.5 border-t border-slate-100 dark:border-slate-750 text-[7px] sm:text-[7.5px] leading-tight min-w-0">
                   ${d.shortfall > 0 ? `
-                    <div class="flex items-center justify-between text-rose-600 dark:text-rose-400 font-bold truncate">
-                      <span>Due:</span>
-                      <span>${formatINR(d.shortfall)}</span>
+                    <div class="flex items-center justify-between text-rose-600 dark:text-rose-400 font-bold whitespace-nowrap gap-0.5 overflow-hidden">
+                      <span class="shrink-0">Due:</span>
+                      <span class="font-black truncate">${formatINR(d.shortfall)}</span>
                     </div>
                   ` : `
-                    <div class="flex items-center justify-between text-emerald-600 dark:text-emerald-400 font-bold truncate">
-                      <span>Status:</span>
-                      <span class="flex items-center gap-0.5">Settled ✓</span>
+                    <div class="flex items-center justify-between text-emerald-600 dark:text-emerald-400 font-bold whitespace-nowrap gap-0.5 overflow-hidden">
+                      <span class="text-slate-400 dark:text-slate-500 font-medium shrink-0">Status:</span>
+                      <span class="font-black truncate flex items-center gap-0.5">Settled ✓</span>
                     </div>
                   `}
                 </div>
