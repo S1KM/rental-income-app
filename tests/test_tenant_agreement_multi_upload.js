@@ -60,6 +60,14 @@ assert(
 );
 console.log("✓ 'Agreements' dedicated section with signed copy for future reference verified in Tenant Registration Form!");
 
+// Verify docPreviewModal has higher z-index than tenantAgreementDocsModal (z-[80] vs z-50)
+assert(
+  htmlContent.includes('id="docPreviewModal"') &&
+  (htmlContent.includes('z-[80]') || htmlContent.includes('z-index: 80')),
+  "docPreviewModal must have higher z-index (z-[80]) so document preview displays on top of tenantAgreementDocsModal"
+);
+console.log("✓ docPreviewModal z-index verified higher (z-[80]) than tenantAgreementDocsModal (z-50)!");
+
 // 2. Multi-file attributes and supported formats check
 assert(
   htmlContent.includes('id="tmAgreementDocsInput" class="hidden" multiple') ||
