@@ -19776,6 +19776,18 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
       function closeGstInvoiceModal() {
         document.getElementById("gstInvoiceModal")?.classList.add("hidden");
         activeGstInvoiceId = null;
+        try {
+          if (typeof window !== "undefined" && window.history && window.history.replaceState && window.location) {
+            const url = new URL(window.location.href);
+            if (url.searchParams.has("view") && url.searchParams.get("view") === "gst-invoice") {
+              url.searchParams.delete("view");
+              url.searchParams.delete("invoiceId");
+              url.searchParams.delete("id");
+              const cleanUrl = url.pathname + (url.search ? url.search : "") + (url.hash || "");
+              window.history.replaceState({}, document.title, cleanUrl);
+            }
+          }
+        } catch (e) {}
       }
 
       function printGstInvoice(invoiceId) {
@@ -20337,6 +20349,9 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
       function initGstEngine() {
         if (typeof document === 'undefined') return;
 
+        // Ensure GST invoice modal is explicitly closed on initialization
+        document.getElementById("gstInvoiceModal")?.classList.add("hidden");
+
         // Auto generate on start of month
         autoCheckAndGenerateMonthlyGstInvoices();
 
@@ -20442,6 +20457,15 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get("view") === "gst-invoice") {
               const invId = urlParams.get("invoiceId") || urlParams.get("id");
+              // Clear query parameters from address bar immediately so subsequent page refreshes load normally
+              if (window.history && window.history.replaceState) {
+                const url = new URL(window.location.href);
+                url.searchParams.delete("view");
+                url.searchParams.delete("invoiceId");
+                url.searchParams.delete("id");
+                const cleanUrl = url.pathname + (url.search ? url.search : "") + (url.hash || "");
+                window.history.replaceState({}, document.title, cleanUrl);
+              }
               if (invId) {
                 setTimeout(() => openGstInvoiceModal(invId), 200);
               }
