@@ -2590,57 +2590,57 @@
     <!-- =========================================================
          TAB 5: EXECUTIVE REPORTS & EXPORTS (EXCEL / PDF)
          ========================================================= -->
-    <div id="tabViewReports" class="hidden space-y-6">
+    <div id="tabViewReports" class="hidden space-y-4">
 
-      <!-- Executive Reports Header Strip -->
-      <section class="bg-slate-900 text-white rounded-2xl p-6 sm:p-7 shadow-xs border border-slate-800 relative overflow-hidden">
-        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div class="space-y-2 max-w-2xl">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[11px] font-bold tracking-wider uppercase border border-cyan-400/30 flex items-center gap-1.5">
+      <!-- Executive Reports Header Strip (Optimized Compact) -->
+      <section class="bg-slate-900 text-white rounded-2xl px-4 py-3 sm:px-5 sm:py-3.5 shadow-xs border border-slate-800 relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div class="space-y-1 max-w-xl">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-bold tracking-wider uppercase border border-cyan-400/30 flex items-center gap-1">
                 <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                Financial &amp; Operations Intelligence
+                Operations Intelligence
               </span>
-              <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-200 text-[11px] font-semibold border border-white/10">
+              <span class="px-2 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-semibold border border-white/10">
                 Audited Statements
               </span>
             </div>
-            <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white">
+            <h2 class="text-base sm:text-lg font-black tracking-tight text-white leading-tight">
               Executive Rental Reports &amp; Statements Hub
             </h2>
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Generate, preview, filter, and export formal portfolio rent rolls, revenue collections, overdue defaulter aging rosters, and municipal tax compliance in Microsoft Excel (.xlsx / .csv) and print-ready PDF formats.
+            <p class="text-[11px] sm:text-xs text-slate-300 leading-snug">
+              Export portfolio rent rolls, collections, overdue defaulter rosters, and tax compliance in Excel &amp; PDF.
             </p>
           </div>
 
           <!-- Master Export Toolbar -->
-          <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
             <button
               type="button"
               id="reportExportExcelBtn"
-              class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-md flex items-center gap-2"
+              class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95"
               title="Export current table to Microsoft Excel compatible CSV file"
             >
-              <svg class="w-4 h-4 text-emerald-200" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm1.8 14.8l-1.6-2.5-1.6 2.5h-1.8l2.5-3.7-2.4-3.6h1.8l1.5 2.4 1.5-2.4h1.8l-2.4 3.6 2.5 3.7h-1.8zM13 9V3.5L18.5 9H13z"/></svg>
+              <svg class="w-3.5 h-3.5 text-emerald-200" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm1.8 14.8l-1.6-2.5-1.6 2.5h-1.8l2.5-3.7-2.4-3.6h1.8l1.5 2.4 1.5-2.4h1.8l-2.4 3.6 2.5 3.7h-1.8zM13 9V3.5L18.5 9H13z"/></svg>
               <span>Export to Excel</span>
             </button>
             <button
               type="button"
               id="reportExportPdfBtn"
-              class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-white text-xs font-bold transition border border-slate-700 flex items-center gap-2 cursor-pointer"
+              class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-white text-xs font-bold transition border border-slate-700 flex items-center gap-1.5 cursor-pointer active:scale-95"
               title="Print formal report or save directly as PDF"
             >
-              <svg class="w-4 h-4 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              <svg class="w-3.5 h-3.5 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
               <span>Export PDF / Print</span>
             </button>
             <button
               type="button"
               id="reportCopyClipboardBtn"
-              class="px-3.5 py-2.5 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition shadow-xs flex items-center gap-1.5 backdrop-blur-xs"
+              class="px-3 py-1.5 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition shadow-xs flex items-center gap-1.5 backdrop-blur-xs cursor-pointer active:scale-95"
               title="Copy table data formatted for spreadsheet paste"
             >
-              <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+              <svg class="w-3.5 h-3.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
               <span>Copy TSV</span>
             </button>
           </div>
