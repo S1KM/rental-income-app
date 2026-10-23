@@ -7271,7 +7271,7 @@
           rent: 24000,
           osAmount: 0,
           status: "Active",
-          startDate: "2026-05-01",
+          startDate: "2026-04-01",
           endDate: "2027-03-31",
           tenantIdNumber: "Aadhaar: 4891-2019-3312"
         },
@@ -7297,7 +7297,7 @@
           rent: 18000,
           osAmount: 0,
           status: "Active",
-          startDate: "2026-08-01",
+          startDate: "2026-04-01",
           endDate: "2027-06-30",
           tenantIdNumber: "Aadhaar: 7712-4019-8821"
         },
@@ -9080,9 +9080,65 @@
         };
       }
 
+      function parseLeaseStartYearMonth(startDateStr) {
+        if (!startDateStr || typeof startDateStr !== "string") return null;
+        const cleaned = startDateStr.replace(/^term\s*:\s*/i, "").trim();
+        const ymd = cleaned.match(/^(\d{4})-(\d{1,2})/);
+        if (ymd) {
+          const y = parseInt(ymd[1], 10);
+          const m = parseInt(ymd[2], 10);
+          return y * 100 + m;
+        }
+        const mmm = cleaned.match(/(?:(\d{1,2})[-\s])?([A-Za-z]{3})[-\s](\d{4})/);
+        if (mmm) {
+          const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+          const mIdx = months.indexOf(mmm[2].toLowerCase());
+          if (mIdx !== -1) {
+            const y = parseInt(mmm[3], 10);
+            return y * 100 + (mIdx + 1);
+          }
+        }
+        const d = new Date(cleaned);
+        if (!isNaN(d.getTime())) {
+          return d.getFullYear() * 100 + (d.getMonth() + 1);
+        }
+        return null;
+      }
+
+      function getCycleYearMonthKey(cycleStr) {
+        const parts = (cycleStr || "").trim().split(/\s+/);
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const mIdx = months.indexOf(parts[0]);
+        const y = parseInt(parts[1], 10) || 2026;
+        return mIdx !== -1 ? y * 100 + (mIdx + 1) : 202604;
+      }
+
       function computeTenantScore(tenant) {
         const os = Number(tenant.osAmount) || 0;
         const rent = Number(tenant.rent) || 12000;
+        const startYm = parseLeaseStartYearMonth(tenant.startDate);
+        const monthsList = [
+          { month: "May", ym: 202605 },
+          { month: "Jun", ym: 202606 },
+          { month: "Jul", ym: 202607 },
+          { month: "Aug", ym: 202608 },
+          { month: "Sep", ym: 202609 },
+          { month: "Oct", ym: 202610 }
+        ];
+
+        const historyDots = monthsList.map((m) => {
+          if (startYm && m.ym < startYm) {
+            return { month: m.month, status: "unleased" };
+          }
+          if (os === 0) {
+            return { month: m.month, status: "paid" };
+          } else if (os <= rent) {
+            return { month: m.month, status: m.month === "Oct" ? "due" : "paid" };
+          } else {
+            return { month: m.month, status: (m.month === "Oct" || m.month === "Sep" || m.month === "Aug") ? "due" : "paid" };
+          }
+        });
+
         if (os === 0) {
           return {
             score: "5.0",
@@ -9090,14 +9146,7 @@
             badgeColor: "emerald",
             badgeText: "⭐ 100% On-Time · ₹0 Dues",
             statusLabel: "Settled",
-            historyDots: [
-              { month: "May", status: "paid" },
-              { month: "Jun", status: "paid" },
-              { month: "Jul", status: "paid" },
-              { month: "Aug", status: "paid" },
-              { month: "Sep", status: "paid" },
-              { month: "Oct", status: "paid" }
-            ]
+            historyDots
           };
         } else if (os <= rent) {
           return {
@@ -9106,14 +9155,7 @@
             badgeColor: "amber",
             badgeText: `⚠️ 1 Mo Due (${formatINR(os)})`,
             statusLabel: "Partial Due",
-            historyDots: [
-              { month: "May", status: "paid" },
-              { month: "Jun", status: "paid" },
-              { month: "Jul", status: "paid" },
-              { month: "Aug", status: "paid" },
-              { month: "Sep", status: "paid" },
-              { month: "Oct", status: "due" }
-            ]
+            historyDots
           };
         } else {
           return {
@@ -9122,14 +9164,7 @@
             badgeColor: "rose",
             badgeText: `🚨 Defaulter (${formatINR(os)})`,
             statusLabel: "Severe Dues",
-            historyDots: [
-              { month: "May", status: "paid" },
-              { month: "Jun", status: "paid" },
-              { month: "Jul", status: "paid" },
-              { month: "Aug", status: "due" },
-              { month: "Sep", status: "due" },
-              { month: "Oct", status: "due" }
-            ]
+            historyDots
           };
         }
       }
@@ -9359,14 +9394,53 @@
           { cycle: "Oct 2026", dueDate: "05-Oct-2026", payDate: "05-Oct-2026", ref: "UPI/2610/55120" }
         ];
 
+        // Helper to parse lease start year-month key (e.g. "2026-10-20" or "Term: 2026-10-20" -> 202610)
+        function parseTenantYmKey(dateStr) {
+          if (!dateStr || typeof dateStr !== "string") return null;
+          const cleaned = dateStr.replace(/^term\s*:\s*/i, "").trim();
+          const ymd = cleaned.match(/^(\d{4})-(\d{1,2})/);
+          if (ymd) return parseInt(ymd[1], 10) * 100 + parseInt(ymd[2], 10);
+          const mmm = cleaned.match(/(?:(\d{1,2})[-\s])?([A-Za-z]{3})[-\s](\d{4})/);
+          if (mmm) {
+            const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+            const mIdx = months.indexOf(mmm[2].toLowerCase());
+            if (mIdx !== -1) return parseInt(mmm[3], 10) * 100 + (mIdx + 1);
+          }
+          const d = new Date(cleaned);
+          if (!isNaN(d.getTime())) return d.getFullYear() * 100 + (d.getMonth() + 1);
+          return null;
+        }
+
+        function parseCycleYmKey(cycleStr) {
+          const parts = (cycleStr || "").trim().split(/\s+/);
+          const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+          const mIdx = months.indexOf(parts[0]);
+          const y = parseInt(parts[1], 10) || 2026;
+          return mIdx !== -1 ? y * 100 + (mIdx + 1) : 202604;
+        }
+
+        // Filter cycles so we only bill/settle cycles on or after the lease commencement
+        const startYm = parseTenantYmKey(tenant.startDate);
+        const endYm = parseTenantYmKey(tenant.endDate);
+
+        let activeCycles = cycleDefinitions;
+        if (startYm) {
+          activeCycles = activeCycles.filter((c) => {
+            const cYm = parseCycleYmKey(c.cycle);
+            if (cYm < startYm) return false;
+            if (endYm && cYm > endYm) return false;
+            return true;
+          });
+        }
+
         let runningBal = 0;
         let totalBilled = 0;
         let totalReceived = 0;
         const rows = [];
 
-        cycleDefinitions.forEach((c, idx) => {
-          const isLatest = (idx === cycleDefinitions.length - 1);
-          const isPenultimate = (idx === cycleDefinitions.length - 2);
+        activeCycles.forEach((c, idx) => {
+          const isLatest = (idx === activeCycles.length - 1);
+          const isPenultimate = (idx === activeCycles.length - 2);
           const dueAmount = rent;
           const instKey = (prop.id || "") + "_" + c.cycle;
 
@@ -10898,7 +10972,7 @@
             });
           }
 
-          if (occupiedUnitsInCycle === 0) {
+          if (occupiedUnitsInCycle === 0 && (!Array.isArray(state.properties) || state.properties.length === 0)) {
             occupiedUnitsInCycle = Math.min(activeTenantCount, totalProperties);
           }
 
@@ -21676,6 +21750,9 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         window.getMonthlyCollectionTotals = getMonthlyCollectionTotals;
         window.renderDashboardCollectionChart = renderDashboardCollectionChart;
         window.setPolicePageView = setPolicePageView;
+        window.state = state;
+        window.computeTenantScore = computeTenantScore;
+        window.parseLeaseStartYearMonth = parseLeaseStartYearMonth;
       });
     })();
   </script>
