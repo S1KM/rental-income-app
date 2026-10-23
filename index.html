@@ -962,81 +962,143 @@
       </div>
 
       <!-- 4b. Monthwise Collection Trajectory: Planned vs Actual Collection Line Chart -->
-      <section id="dashCollectionChartSection" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 shadow-2xs overflow-hidden transition-all duration-200">
-        <!-- Header: Title + Legend + Summary KPI Badges -->
-        <div class="px-3.5 sm:px-4 py-2.5 border-b border-slate-200/80 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-850 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3">
-          <!-- Left: Title & Subtitle -->
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-indigo-600 to-emerald-500 text-white flex items-center justify-center shadow-2xs shrink-0">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
+      <section id="dashCollectionChartSection" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 shadow-xs overflow-hidden transition-all duration-200">
+        <!-- Top Bar: Header with Title, Live Status & Interactive Legend -->
+        <div class="px-4 py-3 border-b border-slate-200/80 dark:border-slate-800/80 bg-gradient-to-r from-slate-50/90 via-white to-slate-50/90 dark:from-slate-850 dark:via-slate-900 dark:to-slate-850 flex flex-wrap md:flex-nowrap items-center justify-between gap-3">
+          <!-- Left: Icon + Title & Subtitle -->
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-emerald-500 text-white flex items-center justify-center shadow-xs shrink-0 ring-4 ring-indigo-50 dark:ring-indigo-950/50">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
             </div>
             <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight whitespace-nowrap">Monthly Collection Trajectory</h2>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-300/60 dark:border-emerald-800 whitespace-nowrap">Live Realization</span>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white tracking-tight">Monthly Collection Trajectory</h2>
+                <span class="inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 shadow-2xs">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  FY 2026-27 Live
+                </span>
               </div>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Planned Contracted Target vs. Actual Payments Received across FY 2026-27</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Planned contracted rent targets vs. actual realization across 7 tenancy cycles</p>
             </div>
           </div>
 
-          <!-- Center: Interactive Legend -->
-          <div class="flex items-center gap-4 text-xs font-semibold shrink-0">
-            <div class="flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400">
-              <span class="w-3.5 h-0.5 border-t-2 border-dashed border-indigo-500 inline-block"></span>
-              <span class="w-2 h-2 rounded-full bg-indigo-500 inline-block"></span>
-              <span>Planned Collection</span>
+          <!-- Right: Interactive Legend -->
+          <div class="flex items-center gap-2 bg-slate-100/80 dark:bg-slate-800/80 p-1.5 rounded-xl border border-slate-200/70 dark:border-slate-700/70 shrink-0 text-xs font-semibold">
+            <div class="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 shadow-2xs text-indigo-600 dark:text-indigo-400 border border-slate-200/60 dark:border-slate-750">
+              <span class="w-4 h-0.5 border-t-2 border-dashed border-indigo-500 inline-block"></span>
+              <span class="text-[11px] font-bold">Planned Target</span>
             </div>
-            <div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-              <span class="w-3.5 h-1 bg-emerald-500 rounded-full inline-block"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-emerald-200 dark:ring-emerald-900 inline-block"></span>
-              <span>Actual Realized</span>
+            <div class="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 shadow-2xs text-emerald-600 dark:text-emerald-400 border border-slate-200/60 dark:border-slate-750">
+              <span class="w-4 h-1 bg-emerald-500 rounded-full inline-block shadow-xs"></span>
+              <span class="text-[11px] font-bold">Actual Realized</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Executive Summary KPI Cards Strip -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 p-3 sm:p-4 bg-slate-50/50 dark:bg-slate-850/50 border-b border-slate-200/70 dark:border-slate-800/70">
+          <!-- 1. Planned Target -->
+          <div class="p-3 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs flex items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold text-indigo-600 dark:text-indigo-400">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                Planned Target
+              </div>
+              <div id="chartTotalPlanned" class="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight mt-0.5">₹0</div>
+              <div class="text-[10px] text-slate-400 dark:text-slate-500">Contracted baseline (7 cycles)</div>
+            </div>
+            <div class="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-100 dark:border-indigo-900/60">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
             </div>
           </div>
 
-          <!-- Right: Summary Badges -->
-          <div class="flex items-center gap-2 shrink-0">
-            <div class="px-2.5 py-1 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200/70 dark:border-indigo-800/70 text-right">
-              <span class="block text-[9px] uppercase tracking-wider font-bold text-indigo-500 dark:text-indigo-400">Planned Target</span>
-              <span id="chartTotalPlanned" class="text-xs sm:text-sm font-extrabold text-indigo-700 dark:text-indigo-300">₹0</span>
+          <!-- 2. Actual Realized -->
+          <div class="p-3 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs flex items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold text-emerald-600 dark:text-emerald-400">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                Actual Realized
+              </div>
+              <div id="chartTotalActual" class="text-base sm:text-lg font-black text-emerald-600 dark:text-emerald-400 tracking-tight mt-0.5">₹0</div>
+              <div class="text-[10px] text-slate-400 dark:text-slate-500">Credited to bank accounts</div>
             </div>
-            <div class="px-2.5 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/70 dark:border-emerald-800/70 text-right">
-              <span class="block text-[9px] uppercase tracking-wider font-bold text-emerald-500 dark:text-emerald-400">Actual Realized</span>
-              <span id="chartTotalActual" class="text-xs sm:text-sm font-extrabold text-emerald-700 dark:text-emerald-300">₹0</span>
+            <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-100 dark:border-emerald-900/60">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
-            <div class="px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-right">
-              <span class="block text-[9px] uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400">Realization</span>
-              <span id="chartOverallRate" class="text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-100">0%</span>
+          </div>
+
+          <!-- 3. Overall Realization Rate -->
+          <div class="p-3 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs flex items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold text-slate-600 dark:text-slate-300">
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
+                Collection Rate
+              </div>
+              <div id="chartOverallRate" class="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight mt-0.5">0%</div>
+              <div class="text-[10px] text-slate-400 dark:text-slate-500">Realization vs contracted target</div>
+            </div>
+            <div class="w-9 h-9 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0 border border-teal-100 dark:border-teal-900/60">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            </div>
+          </div>
+
+          <!-- 4. Outstanding Shortfall -->
+          <div class="p-3 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs flex items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold text-amber-600 dark:text-amber-400">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                Outstanding Due
+              </div>
+              <div id="chartTotalShortfall" class="text-base sm:text-lg font-black text-amber-600 dark:text-amber-400 tracking-tight mt-0.5">₹0</div>
+              <div class="text-[10px] text-slate-400 dark:text-slate-500">Overdue across current cycle</div>
+            </div>
+            <div class="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-100 dark:border-amber-900/60">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
             </div>
           </div>
         </div>
 
         <!-- Chart Canvas Body (Interactive SVG with Glassmorphism Tooltip) -->
-        <div class="p-3 sm:p-4 bg-white dark:bg-slate-900">
+        <div class="p-3 sm:p-5 bg-white dark:bg-slate-900">
           <div class="relative w-full overflow-hidden" id="dashCollectionChartWrapper">
-            <!-- Floating Dynamic Tooltip -->
+            <!-- Floating Dynamic Glassmorphism Tooltip -->
             <div
               id="dashChartTooltip"
-              class="hidden absolute z-30 pointer-events-none -translate-x-1/2 -translate-y-full mb-3 px-3 py-2 rounded-xl bg-slate-900/95 dark:bg-slate-950/95 text-white shadow-xl backdrop-blur-md border border-slate-700/80 text-xs transition-all duration-75"
+              class="hidden absolute z-30 pointer-events-none -translate-x-1/2 -translate-y-full mb-3 px-3.5 py-2.5 rounded-2xl bg-slate-900/95 dark:bg-slate-950/95 text-white shadow-2xl backdrop-blur-xl border border-slate-700/80 text-xs transition-all duration-75 min-w-[200px]"
               style="top: 0; left: 0;"
             >
-              <div class="flex items-center gap-1.5 font-bold border-b border-slate-700 pb-1 mb-1.5 text-slate-200">
-                <span>📅</span>
-                <span id="chartTooltipMonth">Oct 2026</span>
+              <div class="flex items-center justify-between gap-2 border-b border-slate-700/70 pb-1.5 mb-2">
+                <div class="flex items-center gap-1.5 font-bold text-slate-100 text-xs">
+                  <span class="text-indigo-400">📅</span>
+                  <span id="chartTooltipMonth">Oct 2026</span>
+                </div>
+                <span id="chartTooltipStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">✓ Settled</span>
               </div>
-              <div class="space-y-1 text-[11px]">
+              <div class="space-y-1.5 text-[11px]">
                 <div class="flex items-center justify-between gap-4">
-                  <span class="text-indigo-300 font-medium flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-indigo-400 inline-block"></span> Planned:</span>
-                  <span id="chartTooltipPlanned" class="font-bold text-indigo-200">₹0</span>
+                  <span class="text-indigo-300 font-medium flex items-center gap-1.5">
+                    <span class="w-2 h-0.5 border-t border-dashed border-indigo-400 inline-block"></span>
+                    Planned Target:
+                  </span>
+                  <span id="chartTooltipPlanned" class="font-extrabold text-indigo-200">₹0</span>
                 </div>
                 <div class="flex items-center justify-between gap-4">
-                  <span class="text-emerald-300 font-medium flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span> Actual:</span>
-                  <span id="chartTooltipActual" class="font-bold text-emerald-200">₹0</span>
+                  <span class="text-emerald-300 font-medium flex items-center gap-1.5">
+                    <span class="w-2 h-1 bg-emerald-400 rounded-full inline-block"></span>
+                    Actual Realized:
+                  </span>
+                  <span id="chartTooltipActual" class="font-extrabold text-emerald-200">₹0</span>
                 </div>
-                <div class="flex items-center justify-between gap-4">
-                  <span class="text-slate-400 font-medium">Realization:</span>
-                  <span id="chartTooltipRate" class="font-bold text-white">0%</span>
+                <div class="pt-1">
+                  <div class="flex items-center justify-between text-[10px] text-slate-300 mb-0.5">
+                    <span>Realization:</span>
+                    <span id="chartTooltipRate" class="font-bold text-white">0%</span>
+                  </div>
+                  <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                    <div id="chartTooltipProgressBar" class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400" style="width: 100%"></div>
+                  </div>
                 </div>
-                <div id="chartTooltipDiffRow" class="pt-1 border-t border-slate-800 flex items-center justify-between gap-4 font-semibold">
+                <div id="chartTooltipDiffRow" class="pt-1.5 border-t border-slate-800 flex items-center justify-between gap-4 font-semibold">
                   <span id="chartTooltipDiffLabel" class="text-amber-400 text-[10px]">Shortfall:</span>
                   <span id="chartTooltipDiffValue" class="text-amber-300 text-[11px]">₹0</span>
                 </div>
@@ -1045,17 +1107,30 @@
               <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-slate-900 dark:border-t-slate-950"></div>
             </div>
 
-            <!-- Responsive Pure SVG Line Chart -->
-            <div class="w-full h-52 sm:h-64">
-              <svg id="dashCollectionChartSvg" class="w-full h-full select-none" viewBox="0 0 880 260" preserveAspectRatio="none">
+            <!-- Responsive SVG Line Chart -->
+            <div class="w-full h-56 sm:h-72">
+              <svg id="dashCollectionChartSvg" class="w-full h-full select-none" viewBox="0 0 960 280" preserveAspectRatio="none">
                 <!-- SVG dynamically rendered by renderDashboardCollectionChart() -->
               </svg>
             </div>
           </div>
 
-          <!-- Bottom Monthwise KPI Breakdown Pills -->
-          <div id="dashChartMonthBreakdown" class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-            <!-- Dynamically populated month mini-cards -->
+          <!-- Bottom Monthwise KPI Breakdown Cards -->
+          <div class="mt-4 pt-3.5 border-t border-slate-100 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2.5 px-0.5">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Month-by-Month Realization Breakdown</span>
+                <span class="text-[10px] text-slate-400 dark:text-slate-500 hidden sm:inline">(Hover any card or chart column to inspect)</span>
+              </div>
+              <div class="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                <span>7 FY Cycles</span>
+                <span class="text-slate-300 dark:text-slate-600">&bull;</span>
+                <span class="text-slate-500 dark:text-slate-400">Apr '26 &ndash; Oct '26</span>
+              </div>
+            </div>
+            <div id="dashChartMonthBreakdown" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
+              <!-- Dynamically populated month mini-cards -->
+            </div>
           </div>
         </div>
       </section>
@@ -10810,6 +10885,7 @@
         const totalPlannedEl = document.getElementById("chartTotalPlanned");
         const totalActualEl = document.getElementById("chartTotalActual");
         const overallRateEl = document.getElementById("chartOverallRate");
+        const totalShortfallEl = document.getElementById("chartTotalShortfall");
         const tooltipEl = document.getElementById("dashChartTooltip");
 
         if (!svgEl) return;
@@ -10818,18 +10894,20 @@
         const totalPlanned = data.reduce((acc, d) => acc + d.planned, 0);
         const totalActual = data.reduce((acc, d) => acc + d.actual, 0);
         const overallRate = totalPlanned > 0 ? ((totalActual / totalPlanned) * 100).toFixed(1) : "100.0";
+        const totalShortfall = Math.max(0, totalPlanned - totalActual);
 
         if (totalPlannedEl) totalPlannedEl.textContent = formatINR(totalPlanned);
         if (totalActualEl) totalActualEl.textContent = formatINR(totalActual);
         if (overallRateEl) overallRateEl.textContent = `${overallRate}%`;
+        if (totalShortfallEl) totalShortfallEl.textContent = formatINR(totalShortfall);
 
-        // Chart SVG Dimensions
-        const width = 880;
-        const height = 260;
-        const leftMargin = 80;
-        const rightMargin = 40;
-        const topMargin = 28;
-        const bottomMargin = 210; // baseline Y
+        // Chart SVG Dimensions (Clean 960 x 280 viewport)
+        const width = 960;
+        const height = 280;
+        const leftMargin = 85;
+        const rightMargin = 45;
+        const topMargin = 32;
+        const bottomMargin = 225; // baseline Y
         const chartHeight = bottomMargin - topMargin;
         const chartWidth = width - leftMargin - rightMargin;
 
@@ -10889,8 +10967,8 @@
           const label = val >= 100000 ? `₹${(val / 100000).toFixed(1)}L` : (val > 0 ? `₹${(val / 1000).toFixed(0)}k` : "₹0");
           gridHtml += `
             <g class="chart-grid-line">
-              <line x1="${leftMargin}" y1="${y.toFixed(1)}" x2="${(width - rightMargin).toFixed(1)}" y2="${y.toFixed(1)}" stroke="currentColor" class="text-slate-200 dark:text-slate-800" stroke-width="1" stroke-dasharray="${s === 0 ? '0' : '4 4'}" />
-              <text x="${leftMargin - 12}" y="${(y + 4).toFixed(1)}" text-anchor="end" class="text-[11px] font-semibold fill-slate-400 dark:fill-slate-500">${label}</text>
+              <line x1="${leftMargin}" y1="${y.toFixed(1)}" x2="${(width - rightMargin).toFixed(1)}" y2="${y.toFixed(1)}" stroke="currentColor" class="text-slate-200/90 dark:text-slate-800/80" stroke-width="${s === 0 ? '1.5' : '1'}" stroke-dasharray="${s === 0 ? '0' : '3 3'}" />
+              <text x="${leftMargin - 14}" y="${(y + 4).toFixed(1)}" text-anchor="end" class="text-[11px] font-bold fill-slate-400 dark:fill-slate-500 font-mono tracking-tight">${label}</text>
             </g>
           `;
         }
@@ -10899,17 +10977,21 @@
         svgEl.innerHTML = `
           <defs>
             <linearGradient id="chartActualAreaGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#10b981" stop-opacity="0.28" />
-              <stop offset="85%" stop-color="#10b981" stop-opacity="0.02" />
+              <stop offset="0%" stop-color="#10b981" stop-opacity="0.32" />
+              <stop offset="60%" stop-color="#059669" stop-opacity="0.10" />
               <stop offset="100%" stop-color="#10b981" stop-opacity="0.0" />
             </linearGradient>
             <linearGradient id="chartPlannedAreaGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#6366f1" stop-opacity="0.14" />
-              <stop offset="85%" stop-color="#6366f1" stop-opacity="0.01" />
+              <stop offset="0%" stop-color="#6366f1" stop-opacity="0.12" />
+              <stop offset="70%" stop-color="#6366f1" stop-opacity="0.02" />
               <stop offset="100%" stop-color="#6366f1" stop-opacity="0.0" />
             </linearGradient>
+            <linearGradient id="chartHoverBandGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6366f1" stop-opacity="0.08" />
+              <stop offset="100%" stop-color="#6366f1" stop-opacity="0.01" />
+            </linearGradient>
             <filter id="chartGlowEmerald" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#10b981" flood-opacity="0.4"/>
+              <feDropShadow dx="0" dy="2.5" stdDeviation="3.5" flood-color="#10b981" flood-opacity="0.45"/>
             </filter>
             <filter id="chartGlowIndigo" x="-20%" y="-20%" width="140%" height="140%">
               <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#6366f1" flood-opacity="0.35"/>
@@ -10929,8 +11011,9 @@
           <!-- Actual Realized Line (Emerald Solid) -->
           <path d="${actualLinePath}" fill="none" stroke="#10b981" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#chartGlowEmerald)" />
 
-          <!-- Dynamic Vertical Guideline -->
-          <line id="dashChartHoverGuide" x1="0" y1="${topMargin}" x2="0" y2="${bottomMargin}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3" opacity="0" class="transition-opacity duration-150 pointer-events-none" />
+          <!-- Dynamic Vertical Highlight Band & Guideline -->
+          <rect id="dashChartHoverBand" x="0" y="${topMargin}" width="${stepX.toFixed(1)}" height="${chartHeight}" fill="url(#chartHoverBandGrad)" rx="8" opacity="0" class="transition-opacity duration-150 pointer-events-none" />
+          <line id="dashChartHoverGuide" x1="0" y1="${topMargin}" x2="0" y2="${bottomMargin}" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3 3" opacity="0" class="transition-opacity duration-150 pointer-events-none" />
 
           <!-- Planned Data Nodes -->
           <g id="dashChartPlannedNodes">
@@ -10964,13 +11047,13 @@
             `).join("")}
           </g>
 
-          <!-- X-Axis Labels -->
+          <!-- X-Axis Month Badges & Labels -->
           <g>
             ${data.map((d, i) => {
               const x = leftMargin + i * stepX;
               return `
-                <text x="${x.toFixed(1)}" y="232" text-anchor="middle" class="text-[12px] font-bold fill-slate-700 dark:fill-slate-300 pointer-events-none">${d.shortMonth}</text>
-                <text x="${x.toFixed(1)}" y="246" text-anchor="middle" class="text-[10px] font-medium fill-slate-400 dark:fill-slate-500 pointer-events-none">'26</text>
+                <text x="${x.toFixed(1)}" y="250" text-anchor="middle" class="text-[12px] font-extrabold fill-slate-700 dark:fill-slate-300 pointer-events-none tracking-tight">${d.shortMonth}</text>
+                <text x="${x.toFixed(1)}" y="265" text-anchor="middle" class="text-[10px] font-semibold fill-slate-400 dark:fill-slate-500 pointer-events-none">'26</text>
               `;
             }).join("")}
           </g>
@@ -10984,9 +11067,9 @@
                 <rect
                   data-chart-index="${i}"
                   x="${colX}"
-                  y="${topMargin - 10}"
+                  y="${topMargin - 15}"
                   width="${colW.toFixed(1)}"
-                  height="${(chartHeight + 40).toFixed(1)}"
+                  height="${(chartHeight + 45).toFixed(1)}"
                   fill="transparent"
                   class="cursor-pointer chart-hover-column"
                 />
@@ -10995,41 +11078,58 @@
           </g>
         `;
 
-        // Render Bottom Month Breakdown Pills
+        // Render Bottom Month Breakdown Cards
         if (breakdownEl) {
           breakdownEl.innerHTML = data.map((d, i) => {
             const isFull = d.rate >= 99.9;
             const rateBadge = isFull
-              ? `<span class="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">100% Realized</span>`
-              : `<span class="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300">${d.rate}% Realized</span>`;
+              ? `<span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300/60 dark:border-emerald-800">100% Realized</span>`
+              : `<span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-300/60 dark:border-amber-800">${d.rate}% Realized</span>`;
 
             return `
               <div
                 data-month-chip-index="${i}"
-                class="p-2.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850 hover:bg-white dark:hover:bg-slate-800 transition cursor-pointer flex flex-col justify-between shadow-2xs group"
+                class="relative p-3 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-gradient-to-b from-white to-slate-50/70 dark:from-slate-800/90 dark:to-slate-850 hover:to-white dark:hover:to-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between group overflow-hidden"
               >
-                <div class="flex items-center justify-between gap-1 mb-1">
-                  <span class="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition">${d.shortMonth} 2026</span>
+                <!-- Top indicator stripe -->
+                <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${isFull ? 'from-emerald-500 to-teal-400' : 'from-amber-500 to-rose-400'} opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                <!-- Header: Month name & Realization badge -->
+                <div class="flex items-center justify-between gap-1 mb-1.5">
+                  <span class="text-xs font-black text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition">${d.shortMonth} 2026</span>
                   ${rateBadge}
                 </div>
-                <div class="text-[11px] space-y-0.5">
-                  <div class="flex items-center justify-between text-slate-500 dark:text-slate-400">
-                    <span>Recv:</span>
-                    <span class="font-bold text-emerald-600 dark:text-emerald-400">${formatINR(d.actual)}</span>
+
+                <!-- Hero Realized vs Target Amount -->
+                <div class="my-1">
+                  <div class="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight">
+                    ${formatINR(d.actual)}
                   </div>
-                  <div class="flex items-center justify-between text-slate-400 dark:text-slate-500 text-[10px]">
-                    <span>Plan:</span>
+                  <div class="text-[10px] font-medium text-slate-400 dark:text-slate-500 flex items-center justify-between mt-0.5">
+                    <span>Target:</span>
                     <span>${formatINR(d.planned)}</span>
                   </div>
+                </div>
+
+                <!-- Micro Progress Track -->
+                <div class="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-750 overflow-hidden my-1.5">
+                  <div
+                    class="h-full rounded-full transition-all duration-300 ${isFull ? 'bg-gradient-to-r from-emerald-500 to-teal-400' : 'bg-gradient-to-r from-amber-500 to-rose-400'}"
+                    style="width: ${Math.min(100, d.rate)}%"
+                  ></div>
+                </div>
+
+                <!-- Footer Status Tag -->
+                <div class="pt-1 border-t border-slate-100 dark:border-slate-750 text-[10px]">
                   ${d.shortfall > 0 ? `
-                    <div class="flex items-center justify-between text-rose-600 dark:text-rose-400 font-semibold text-[10px] pt-0.5 border-t border-slate-200/60 dark:border-slate-700/60">
+                    <div class="flex items-center justify-between text-rose-600 dark:text-rose-400 font-bold">
                       <span>Due:</span>
                       <span>${formatINR(d.shortfall)}</span>
                     </div>
                   ` : `
-                    <div class="flex items-center justify-between text-emerald-600 dark:text-emerald-400 font-semibold text-[10px] pt-0.5 border-t border-slate-200/60 dark:border-slate-700/60">
+                    <div class="flex items-center justify-between text-emerald-600 dark:text-emerald-400 font-bold">
                       <span>Status:</span>
-                      <span>Settled ✓</span>
+                      <span class="flex items-center gap-0.5">Settled ✓</span>
                     </div>
                   `}
                 </div>
@@ -11041,6 +11141,7 @@
         // Tooltip Interactivity Helper
         const wrapper = document.getElementById("dashCollectionChartWrapper");
         const guide = document.getElementById("dashChartHoverGuide");
+        const hoverBand = document.getElementById("dashChartHoverBand");
 
         function showTooltipForIndex(index) {
           if (!tooltipEl || !data[index]) return;
@@ -11052,6 +11153,8 @@
           const pEl = document.getElementById("chartTooltipPlanned");
           const aEl = document.getElementById("chartTooltipActual");
           const rEl = document.getElementById("chartTooltipRate");
+          const statusBadge = document.getElementById("chartTooltipStatusBadge");
+          const progressBar = document.getElementById("chartTooltipProgressBar");
           const diffRow = document.getElementById("chartTooltipDiffRow");
           const diffLabel = document.getElementById("chartTooltipDiffLabel");
           const diffVal = document.getElementById("chartTooltipDiffValue");
@@ -11060,6 +11163,21 @@
           if (pEl) pEl.textContent = formatINR(d.planned);
           if (aEl) aEl.textContent = formatINR(d.actual);
           if (rEl) rEl.textContent = `${d.rate}%`;
+
+          if (statusBadge) {
+            if (d.shortfall > 0) {
+              statusBadge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30";
+              statusBadge.textContent = "⏳ Shortfall";
+            } else {
+              statusBadge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+              statusBadge.textContent = "✓ Settled";
+            }
+          }
+
+          if (progressBar) {
+            progressBar.style.width = `${Math.min(100, d.rate)}%`;
+            progressBar.className = `h-full rounded-full ${d.rate >= 99.9 ? 'bg-gradient-to-r from-emerald-500 to-teal-400' : 'bg-gradient-to-r from-amber-500 to-rose-400'}`;
+          }
 
           if (diffRow && diffLabel && diffVal) {
             if (d.shortfall > 0) {
@@ -11085,11 +11203,15 @@
             tooltipEl.classList.remove("hidden");
           }
 
-          // Move guideline and highlight nodes
+          // Move guideline & highlight band
           if (guide) {
             guide.setAttribute("x1", ap.x.toFixed(1));
             guide.setAttribute("x2", ap.x.toFixed(1));
             guide.setAttribute("opacity", "1");
+          }
+          if (hoverBand) {
+            hoverBand.setAttribute("x", (ap.x - stepX / 2).toFixed(1));
+            hoverBand.setAttribute("opacity", "1");
           }
 
           // Highlight specific nodes
@@ -11105,11 +11227,26 @@
               aNode.setAttribute("stroke-width", idx === index ? "3.5" : "2.5");
             }
           });
+
+          // Highlight corresponding month card
+          if (breakdownEl && typeof breakdownEl.querySelectorAll === "function") {
+            const chips = breakdownEl.querySelectorAll("[data-month-chip-index]");
+            if (chips && chips.forEach) {
+              chips.forEach((c, idx) => {
+                if (idx === index) {
+                  c.classList.add("ring-2", "ring-indigo-500", "dark:ring-indigo-400", "shadow-md");
+                } else {
+                  c.classList.remove("ring-2", "ring-indigo-500", "dark:ring-indigo-400", "shadow-md");
+                }
+              });
+            }
+          }
         }
 
         function hideTooltip() {
           if (tooltipEl) tooltipEl.classList.add("hidden");
           if (guide) guide.setAttribute("opacity", "0");
+          if (hoverBand) hoverBand.setAttribute("opacity", "0");
           data.forEach((_, idx) => {
             const pNode = document.getElementById(`chartPlannedNode_${idx}`);
             const aNode = document.getElementById(`chartActualNode_${idx}`);
@@ -11122,6 +11259,15 @@
               aNode.setAttribute("stroke-width", "2.5");
             }
           });
+
+          if (breakdownEl && typeof breakdownEl.querySelectorAll === "function") {
+            const chips = breakdownEl.querySelectorAll("[data-month-chip-index]");
+            if (chips && chips.forEach) {
+              chips.forEach((c) => {
+                c.classList.remove("ring-2", "ring-indigo-500", "dark:ring-indigo-400", "shadow-md");
+              });
+            }
+          }
         }
 
         // Attach event listeners to SVG hover columns
