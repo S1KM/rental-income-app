@@ -11928,6 +11928,15 @@
                         >
                           Agreement &rarr;
                         </button>
+                        <button
+                          type="button"
+                          data-action="dash-delete-property"
+                          data-id="${p.id}"
+                          class="p-1 rounded-lg text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition shrink-0 cursor-pointer active:scale-95"
+                          title="Delete property '${escapeHtml(p.name)}' from Property Master"
+                        >
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -12102,10 +12111,19 @@
                           type="button"
                           data-action="dash-vacate-tenant"
                           data-id="${t.id}"
-                          class="p-1 rounded-lg text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition shrink-0 cursor-pointer active:scale-95"
+                          class="p-1 rounded-lg text-slate-400 hover:text-amber-700 hover:bg-amber-50 transition shrink-0 cursor-pointer active:scale-95"
                           title="Vacate tenant from unit"
                         >
                           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        </button>
+                        <button
+                          type="button"
+                          data-action="dash-delete-tenant"
+                          data-id="${t.id}"
+                          class="p-1 rounded-lg text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition shrink-0 cursor-pointer active:scale-95"
+                          title="Delete tenant '${escapeHtml(t.name)}' from Tenant Master"
+                        >
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                         </button>
                       </div>
                     </td>
@@ -12229,14 +12247,25 @@
                     >
                       <span>+ Link / Assign Tenant</span>
                     </button>
-                    <button
-                      type="button"
-                      data-action="dash-open-prop-agreement"
-                      data-id="${p.id}"
-                      class="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition whitespace-nowrap active:scale-95 cursor-pointer"
-                    >
-                      Draft Agreement &rarr;
-                    </button>
+                    <div class="flex items-center gap-1">
+                      <button
+                        type="button"
+                        data-action="dash-open-prop-agreement"
+                        data-id="${p.id}"
+                        class="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition whitespace-nowrap active:scale-95 cursor-pointer"
+                      >
+                        Draft Agreement &rarr;
+                      </button>
+                      <button
+                        type="button"
+                        data-action="dash-delete-property"
+                        data-id="${p.id}"
+                        class="p-2 rounded-xl text-slate-400 hover:text-rose-700 hover:bg-rose-50 transition shrink-0 cursor-pointer active:scale-95"
+                        title="Delete property '${escapeHtml(p.name)}' from Property Master"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                      </button>
+                    </div>
                   </div>
                 `;
                 cardsGrid.appendChild(card);
@@ -12378,10 +12407,19 @@
                         type="button"
                         data-action="dash-vacate-tenant"
                         data-id="${t.id}"
-                        class="p-1.5 rounded-xl text-slate-400 hover:text-rose-700 hover:bg-rose-50 text-xs font-bold transition shrink-0 active:scale-95 cursor-pointer"
+                        class="p-1.5 rounded-xl text-slate-400 hover:text-amber-700 hover:bg-amber-50 text-xs font-bold transition shrink-0 active:scale-95 cursor-pointer"
                         title="Vacate tenant from unit"
                       >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                      </button>
+                      <button
+                        type="button"
+                        data-action="dash-delete-tenant"
+                        data-id="${t.id}"
+                        class="p-1.5 rounded-xl text-slate-400 hover:text-rose-700 hover:bg-rose-50 text-xs font-bold transition shrink-0 active:scale-95 cursor-pointer"
+                        title="Delete tenant '${escapeHtml(t.name)}' from Tenant Master"
+                      >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                       </button>
                     </div>
                   </div>
@@ -12621,6 +12659,17 @@
                 >
                   <span>${isCollapsed ? `▼ Show All ${flatsList.length} Flats` : `▲ Collapse (${flatsList.length})`}</span>
                 </button>
+
+                <button
+                  type="button"
+                  data-action="pm-delete-building"
+                  data-building="${escapeHtml(bName)}"
+                  class="px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95"
+                  title="Delete entire building '${escapeHtml(bName)}' and all its registered flats from Property Master"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                  <span>Delete Building</span>
+                </button>
               </div>
             </div>
 
@@ -12753,10 +12802,11 @@
                                 type="button"
                                 data-action="pm-delete"
                                 data-id="${p.id}"
-                                class="p-1 text-slate-300 hover:text-rose-600 transition"
-                                title="Remove Flat"
+                                class="px-2.5 py-1 rounded-lg border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition flex items-center gap-1 shadow-2xs cursor-pointer active:scale-95"
+                                title="Delete property '${escapeHtml(p.name)}' from Property Master"
                               >
-                                ✕
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                <span>Delete</span>
                               </button>
                             </div>
                           </div>
@@ -13608,10 +13658,11 @@
                 type="button"
                 data-action="tm-delete"
                 data-id="${t.id}"
-                class="px-2.5 py-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 text-xs font-bold transition cursor-pointer"
-                title="Delete Tenant Profile"
+                class="px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-95"
+                title="Permanently delete tenant profile '${escapeHtml(t.name)}' from Tenant Master"
               >
-                ✕
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                <span>Delete Tenant</span>
               </button>
             </div>
           `;
@@ -16664,10 +16715,54 @@
             populateAgreementStudioFromProperty(id);
             return;
           }
+          if (action === "dash-delete-property") {
+            const prop = state.properties.find((p) => p.id === id);
+            if (!prop) return;
+            if (
+              confirm(
+                `Are you sure you want to permanently delete property "${prop.name}" from Property Master?`
+              )
+            ) {
+              state.tenants.forEach((t) => {
+                if ((t.unit || "").trim().toLowerCase() === (prop.name || "").trim().toLowerCase()) {
+                  t.unit = "Unassigned / Available";
+                  t.status = "Vacated";
+                }
+              });
+              if (state.ledgerInstallments) {
+                Object.keys(state.ledgerInstallments).forEach((key) => {
+                  if (key.startsWith(`${prop.id}_`)) {
+                    delete state.ledgerInstallments[key];
+                  }
+                });
+              }
+              state.properties = state.properties.filter((p) => p.id !== id);
+              saveState();
+              renderAll();
+              showFeedback(`Property "${prop.name}" deleted from Property Master.`);
+            }
+            return;
+          }
 
           // Handle 1-click vacate tenant directly from Dashboard
           if (action === "dash-vacate-tenant") {
             vacateTenant(id);
+            return;
+          }
+
+          if (action === "dash-delete-tenant") {
+            const tenant = state.tenants.find((t) => t.id === id);
+            if (!tenant) return;
+            if (
+              confirm(
+                `Are you sure you want to permanently delete tenant "${tenant.name}" from Tenant Master?\n\nThis property (${tenant.unit || "N/A"}) will become VACANT on the Dashboard.`
+              )
+            ) {
+              state.tenants = state.tenants.filter((t) => t.id !== id);
+              saveState();
+              renderAll();
+              showFeedback(`Tenant "${tenant.name}" deleted from Tenant Master.`);
+            }
             return;
           }
 
@@ -16727,11 +16822,15 @@
             saveState();
             renderAll();
           } else if (action === "delete-tenant") {
-            if (confirm(`Remove tenant ${tenant.name} from rent roll?`)) {
+            if (
+              confirm(
+                `Are you sure you want to permanently delete tenant "${tenant.name}" from Tenant Master?\n\nThis property (${tenant.unit || "N/A"}) will become VACANT on the Dashboard.`
+              )
+            ) {
               state.tenants = state.tenants.filter((t) => t.id !== id);
               saveState();
               renderAll();
-              showFeedback("Tenant removed.");
+              showFeedback(`Tenant "${tenant.name}" deleted from Tenant Master.`);
             }
           } else if (action === "open-agreement") {
             // Find property in master
@@ -17008,13 +17107,70 @@
             openLinkTenantModal(id);
           } else if (action === "pm-vacate-tenant") {
             vacateProperty(id);
+          } else if (action === "pm-delete-building") {
+            const bName = btn.getAttribute("data-building");
+            if (!bName) return;
+            const flatsInBuilding = state.properties.filter(
+              (p) => (p.building || "").trim().toLowerCase() === bName.trim().toLowerCase()
+            );
+            if (
+              confirm(
+                `Are you sure you want to permanently delete building "${bName}" and all ${flatsInBuilding.length} flats registered under it from Property Master?\n\nAny tenants assigned to these units will be set to Unassigned.`
+              )
+            ) {
+              const flatNames = new Set(flatsInBuilding.map((p) => (p.name || "").trim().toLowerCase()));
+              const flatIds = new Set(flatsInBuilding.map((p) => p.id));
+              // Unlink tenants
+              state.tenants.forEach((t) => {
+                if (flatNames.has((t.unit || "").trim().toLowerCase())) {
+                  t.unit = "Unassigned / Available";
+                  t.status = "Vacated";
+                }
+              });
+              // Clean up ledger installments
+              if (state.ledgerInstallments) {
+                Object.keys(state.ledgerInstallments).forEach((key) => {
+                  for (const fId of flatIds) {
+                    if (key.startsWith(`${fId}_`)) {
+                      delete state.ledgerInstallments[key];
+                      break;
+                    }
+                  }
+                });
+              }
+              state.properties = state.properties.filter(
+                (p) => (p.building || "").trim().toLowerCase() !== bName.trim().toLowerCase()
+              );
+              state.collapsedBuildings.delete(bName);
+              saveState();
+              renderAll();
+              showFeedback(`Building "${bName}" and its flats were deleted from Property Master.`);
+            }
           } else if (action === "pm-delete") {
             const prop = state.properties.find((p) => p.id === id);
-            if (confirm(`Remove property "${prop ? prop.name : ""}" from Master?`)) {
+            if (!prop) return;
+            if (
+              confirm(
+                `Are you sure you want to permanently delete property "${prop.name}" from Property Master?\n\nIf a tenant is currently occupying this unit, their unit status will be unlinked.`
+              )
+            ) {
+              state.tenants.forEach((t) => {
+                if ((t.unit || "").trim().toLowerCase() === (prop.name || "").trim().toLowerCase()) {
+                  t.unit = "Unassigned / Available";
+                  t.status = "Vacated";
+                }
+              });
+              if (state.ledgerInstallments) {
+                Object.keys(state.ledgerInstallments).forEach((key) => {
+                  if (key.startsWith(`${prop.id}_`)) {
+                    delete state.ledgerInstallments[key];
+                  }
+                });
+              }
               state.properties = state.properties.filter((p) => p.id !== id);
               saveState();
               renderAll();
-              showFeedback("Property removed from Master.");
+              showFeedback(`Property "${prop.name}" deleted from Property Master.`);
             }
           }
         });
@@ -17861,11 +18017,15 @@
             if (action === "tm-delete") {
               const tenant = state.tenants.find((t) => t.id === id);
               if (!tenant) return;
-              if (confirm(`Permanently remove tenant "${tenant.name}" from Tenant Master?`)) {
+              if (
+                confirm(
+                  `Are you sure you want to permanently delete tenant "${tenant.name}" from Tenant Master?\n\nIf this tenant is currently occupying a property (${tenant.unit || "N/A"}), that property will become VACANT on the Dashboard.`
+                )
+              ) {
                 state.tenants = state.tenants.filter((t) => t.id !== id);
                 saveState();
                 renderAll();
-                showFeedback(`Tenant "${tenant.name}" removed from Master.`);
+                showFeedback(`Tenant "${tenant.name}" deleted from Tenant Master.`);
               }
               return;
             }
