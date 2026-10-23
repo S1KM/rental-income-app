@@ -108,12 +108,11 @@
         visibility: hidden !important;
       }
       body.print-agreement #studioPrintableArea {
-        position: fixed !important;
-        left: 0 !important;
-        top: 0 !important;
+        position: static !important;
+        display: block !important;
         width: 100% !important;
-        max-height: none !important;
-        overflow: visible !important;
+        max-width: 100% !important;
+        margin: 0 !important;
         padding: 24px !important;
         background: white !important;
         color: black !important;
@@ -130,7 +129,7 @@
         display: none !important;
         visibility: hidden !important;
       }
-            body.print-police #policePrintableArea,
+      body.print-police #policePrintableArea,
       body.print-police #policePrintableArea * {
         visibility: visible !important;
       }
@@ -140,17 +139,37 @@
         visibility: hidden !important;
       }
       body.print-police #policePrintableArea {
-        position: fixed !important;
-        left: 0 !important;
-        top: 0 !important;
+        position: static !important;
+        display: block !important;
         width: 100% !important;
-        max-height: none !important;
-        overflow: visible !important;
-        padding: 24px !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
         background: white !important;
         color: black !important;
         border: none !important;
         box-shadow: none !important;
+      }
+      body.print-police .police-page-sheet {
+        display: block !important;
+        visibility: visible !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin: 0 0 20px 0 !important;
+        padding: 14mm 12mm !important;
+        border: 1px solid #94a3b8 !important;
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        min-height: 260mm !important;
+        box-sizing: border-box !important;
+      }
+      body.print-police .police-page-sheet:last-child {
+        page-break-after: auto !important;
+        break-after: auto !important;
+        margin-bottom: 0 !important;
       }
 
       body.print-report #printableReportSection {
@@ -941,6 +960,105 @@
           <span>&rarr;</span>
         </button>
       </div>
+
+      <!-- 4b. Monthwise Collection Trajectory: Planned vs Actual Collection Line Chart -->
+      <section id="dashCollectionChartSection" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 shadow-2xs overflow-hidden transition-all duration-200">
+        <!-- Header: Title + Legend + Summary KPI Badges -->
+        <div class="px-3.5 sm:px-4 py-2.5 border-b border-slate-200/80 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-850 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3">
+          <!-- Left: Title & Subtitle -->
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-indigo-600 to-emerald-500 text-white flex items-center justify-center shadow-2xs shrink-0">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight whitespace-nowrap">Monthly Collection Trajectory</h2>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-300/60 dark:border-emerald-800 whitespace-nowrap">Live Realization</span>
+              </div>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Planned Contracted Target vs. Actual Payments Received across FY 2026-27</p>
+            </div>
+          </div>
+
+          <!-- Center: Interactive Legend -->
+          <div class="flex items-center gap-4 text-xs font-semibold shrink-0">
+            <div class="flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400">
+              <span class="w-3.5 h-0.5 border-t-2 border-dashed border-indigo-500 inline-block"></span>
+              <span class="w-2 h-2 rounded-full bg-indigo-500 inline-block"></span>
+              <span>Planned Collection</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+              <span class="w-3.5 h-1 bg-emerald-500 rounded-full inline-block"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-emerald-200 dark:ring-emerald-900 inline-block"></span>
+              <span>Actual Realized</span>
+            </div>
+          </div>
+
+          <!-- Right: Summary Badges -->
+          <div class="flex items-center gap-2 shrink-0">
+            <div class="px-2.5 py-1 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200/70 dark:border-indigo-800/70 text-right">
+              <span class="block text-[9px] uppercase tracking-wider font-bold text-indigo-500 dark:text-indigo-400">Planned Target</span>
+              <span id="chartTotalPlanned" class="text-xs sm:text-sm font-extrabold text-indigo-700 dark:text-indigo-300">₹0</span>
+            </div>
+            <div class="px-2.5 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/70 dark:border-emerald-800/70 text-right">
+              <span class="block text-[9px] uppercase tracking-wider font-bold text-emerald-500 dark:text-emerald-400">Actual Realized</span>
+              <span id="chartTotalActual" class="text-xs sm:text-sm font-extrabold text-emerald-700 dark:text-emerald-300">₹0</span>
+            </div>
+            <div class="px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-right">
+              <span class="block text-[9px] uppercase tracking-wider font-bold text-slate-500 dark:text-slate-400">Realization</span>
+              <span id="chartOverallRate" class="text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-100">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Canvas Body (Interactive SVG with Glassmorphism Tooltip) -->
+        <div class="p-3 sm:p-4 bg-white dark:bg-slate-900">
+          <div class="relative w-full overflow-hidden" id="dashCollectionChartWrapper">
+            <!-- Floating Dynamic Tooltip -->
+            <div
+              id="dashChartTooltip"
+              class="hidden absolute z-30 pointer-events-none -translate-x-1/2 -translate-y-full mb-3 px-3 py-2 rounded-xl bg-slate-900/95 dark:bg-slate-950/95 text-white shadow-xl backdrop-blur-md border border-slate-700/80 text-xs transition-all duration-75"
+              style="top: 0; left: 0;"
+            >
+              <div class="flex items-center gap-1.5 font-bold border-b border-slate-700 pb-1 mb-1.5 text-slate-200">
+                <span>📅</span>
+                <span id="chartTooltipMonth">Oct 2026</span>
+              </div>
+              <div class="space-y-1 text-[11px]">
+                <div class="flex items-center justify-between gap-4">
+                  <span class="text-indigo-300 font-medium flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-indigo-400 inline-block"></span> Planned:</span>
+                  <span id="chartTooltipPlanned" class="font-bold text-indigo-200">₹0</span>
+                </div>
+                <div class="flex items-center justify-between gap-4">
+                  <span class="text-emerald-300 font-medium flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span> Actual:</span>
+                  <span id="chartTooltipActual" class="font-bold text-emerald-200">₹0</span>
+                </div>
+                <div class="flex items-center justify-between gap-4">
+                  <span class="text-slate-400 font-medium">Realization:</span>
+                  <span id="chartTooltipRate" class="font-bold text-white">0%</span>
+                </div>
+                <div id="chartTooltipDiffRow" class="pt-1 border-t border-slate-800 flex items-center justify-between gap-4 font-semibold">
+                  <span id="chartTooltipDiffLabel" class="text-amber-400 text-[10px]">Shortfall:</span>
+                  <span id="chartTooltipDiffValue" class="text-amber-300 text-[11px]">₹0</span>
+                </div>
+              </div>
+              <!-- Tooltip Arrow -->
+              <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-slate-900 dark:border-t-slate-950"></div>
+            </div>
+
+            <!-- Responsive Pure SVG Line Chart -->
+            <div class="w-full h-52 sm:h-64">
+              <svg id="dashCollectionChartSvg" class="w-full h-full select-none" viewBox="0 0 880 260" preserveAspectRatio="none">
+                <!-- SVG dynamically rendered by renderDashboardCollectionChart() -->
+              </svg>
+            </div>
+          </div>
+
+          <!-- Bottom Monthwise KPI Breakdown Pills -->
+          <div id="dashChartMonthBreakdown" class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+            <!-- Dynamically populated month mini-cards -->
+          </div>
+        </div>
+      </section>
 
       <!-- 5. Main Tenant Rent Roll & Track Record Intelligence Section -->
       <section class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 shadow-2xs overflow-hidden">
@@ -3837,33 +3955,91 @@
         <!-- ================= RIGHT COLUMN: LIVE LEGAL DOCUMENT PREVIEW (7 COLS) ================= -->
         <div class="lg:col-span-7 space-y-4">
           
-          <!-- Preview Header Bar -->
-          <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
-            <div class="flex items-center gap-2.5">
-              <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span class="font-bold text-slate-900 text-xs sm:text-sm">Official Legal Document Preview</span>
-              <span id="policeStateBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-700 text-white shadow-2xs">
+          <!-- Preview Header Bar with Page Selectors (All Pages, Page 1, Page 2, Page 3, Page 4) -->
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+              <span class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm whitespace-nowrap">Official Legal Document Preview</span>
+              <span id="policeStateBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-700 text-white shadow-2xs whitespace-nowrap">
                 Delhi Police Active
               </span>
             </div>
+
+            <!-- Page Selector Tabs for Instant View Switching -->
+            <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold" id="policePageSelectorGroup">
+              <button
+                type="button"
+                data-police-page="all"
+                class="police-page-tab-btn active px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-2xs transition font-bold cursor-pointer"
+                title="View all 4 pages continuously"
+              >
+                All Pages
+              </button>
+              <button
+                type="button"
+                data-police-page="1"
+                class="police-page-tab-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 transition font-medium cursor-pointer"
+                title="View Page 1: Landlord & Tenant Particulars"
+              >
+                Page 1
+              </button>
+              <button
+                type="button"
+                data-police-page="2"
+                class="police-page-tab-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 transition font-medium cursor-pointer"
+                title="View Page 2: IDs, Tenancy & Local References"
+              >
+                Page 2
+              </button>
+              <button
+                type="button"
+                data-police-page="3"
+                class="police-page-tab-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 transition font-medium cursor-pointer"
+                title="View Page 3: Declaration, Signatures & Police Receipt"
+              >
+                Page 3
+              </button>
+              <button
+                type="button"
+                data-police-page="4"
+                class="police-page-tab-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 transition font-medium cursor-pointer"
+                title="View Page 4: Document Checklist & Beat Inquiry"
+              >
+                Page 4
+              </button>
+            </div>
+
             <div class="flex items-center gap-2">
               <button
                 type="button"
-                id="policePreviewPrintBtn"
-                class="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs cursor-pointer"
+                id="policePreviewCopyBtn"
+                class="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                title="Copy all 4 pages text to clipboard"
               >
-                <span>🖨️ Print Form</span>
+                <span>📋 Copy</span>
+              </button>
+              <button
+                type="button"
+                id="policePreviewDownloadBtn"
+                class="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                title="Download complete 4-page HTML document"
+              >
+                <span>⬇️ HTML</span>
+              </button>
+              <button
+                type="button"
+                id="policePreviewPrintBtn"
+                class="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs cursor-pointer"
+              >
+                <span>🖨️ Print (4 Pages)</span>
               </button>
             </div>
           </div>
 
-          <!-- Printable Legal Document Container -->
-          <div class="bg-slate-100 p-2 sm:p-4 rounded-2xl border border-slate-200 shadow-inner overflow-hidden">
-            <div
-              id="policePrintableArea"
-              class="bg-white rounded-xl shadow-md border-2 border-slate-800 p-6 sm:p-8 max-w-4xl mx-auto text-slate-900 text-xs leading-relaxed space-y-5 font-sans"
-            >
-              <!-- Dynamic Content rendered by updateLivePoliceFormPreview() -->
+          <!-- Printable Legal Document Container with Multi-Page Scroll -->
+          <div class="bg-slate-200/70 dark:bg-slate-800/60 p-3 sm:p-5 rounded-2xl border border-slate-300/80 dark:border-slate-700 shadow-inner max-h-[850px] overflow-y-auto">
+            <div id="policePrintableArea" class="space-y-6">
+              <!-- Dynamic 4-Page Content rendered by updateLivePoliceFormPreview() -->
             </div>
           </div>
 
@@ -10579,6 +10755,422 @@
         if (filterOsEl) filterOsEl.textContent = pendingOsCount;
         if (filterExpEl) filterExpEl.textContent = expiringSoonCount;
         if (filterPaidEl) filterPaidEl.textContent = fullyPaidCount;
+
+        // Render Dashboard Monthwise Collection Trajectory Line Chart
+        renderDashboardCollectionChart();
+      }
+
+      // --- DASHBOARD MONTHWISE COLLECTION TRAJECTORY CHART (PLANNED VS ACTUAL) ---
+      function getMonthlyCollectionTotals() {
+        const cycles = [
+          "Apr 2026",
+          "May 2026",
+          "Jun 2026",
+          "Jul 2026",
+          "Aug 2026",
+          "Sep 2026",
+          "Oct 2026"
+        ];
+
+        return cycles.map((cycle) => {
+          let planned = 0;
+          let actual = 0;
+
+          if (Array.isArray(state.properties)) {
+            state.properties.forEach((p) => {
+              const ledger = typeof generatePropertyLedgerData === "function" ? generatePropertyLedgerData(p.id) : null;
+              if (ledger && !ledger.isVacant && Array.isArray(ledger.rows)) {
+                const row = ledger.rows.find((r) => r.cycle === cycle);
+                if (row) {
+                  planned += Number(row.dueAmount) || 0;
+                  actual += Number(row.receivedAmount) || 0;
+                }
+              }
+            });
+          }
+
+          const rate = planned > 0 ? ((actual / planned) * 100).toFixed(1) : "100.0";
+          const shortfall = Math.max(0, planned - actual);
+          const shortMonth = cycle.split(" ")[0];
+
+          return {
+            cycle,
+            shortMonth,
+            planned,
+            actual,
+            rate: parseFloat(rate),
+            shortfall
+          };
+        });
+      }
+
+      function renderDashboardCollectionChart() {
+        const svgEl = document.getElementById("dashCollectionChartSvg");
+        const breakdownEl = document.getElementById("dashChartMonthBreakdown");
+        const totalPlannedEl = document.getElementById("chartTotalPlanned");
+        const totalActualEl = document.getElementById("chartTotalActual");
+        const overallRateEl = document.getElementById("chartOverallRate");
+        const tooltipEl = document.getElementById("dashChartTooltip");
+
+        if (!svgEl) return;
+
+        const data = getMonthlyCollectionTotals();
+        const totalPlanned = data.reduce((acc, d) => acc + d.planned, 0);
+        const totalActual = data.reduce((acc, d) => acc + d.actual, 0);
+        const overallRate = totalPlanned > 0 ? ((totalActual / totalPlanned) * 100).toFixed(1) : "100.0";
+
+        if (totalPlannedEl) totalPlannedEl.textContent = formatINR(totalPlanned);
+        if (totalActualEl) totalActualEl.textContent = formatINR(totalActual);
+        if (overallRateEl) overallRateEl.textContent = `${overallRate}%`;
+
+        // Chart SVG Dimensions
+        const width = 880;
+        const height = 260;
+        const leftMargin = 80;
+        const rightMargin = 40;
+        const topMargin = 28;
+        const bottomMargin = 210; // baseline Y
+        const chartHeight = bottomMargin - topMargin;
+        const chartWidth = width - leftMargin - rightMargin;
+
+        const maxVal = Math.max(
+          ...data.map((d) => Math.max(d.planned, d.actual)),
+          100000
+        );
+        // Round maxVal up to nearest clean step (e.g. 3,50,000)
+        const step = Math.ceil(maxVal / 4 / 25000) * 25000;
+        const yMax = step * 4;
+
+        // Calculate points coordinates
+        const plannedPoints = [];
+        const actualPoints = [];
+        const stepX = chartWidth / (data.length - 1);
+
+        data.forEach((d, i) => {
+          const x = leftMargin + i * stepX;
+          const py = bottomMargin - (d.planned / yMax) * chartHeight;
+          const ay = bottomMargin - (d.actual / yMax) * chartHeight;
+          plannedPoints.push({ x, y: py, data: d, index: i });
+          actualPoints.push({ x, y: ay, data: d, index: i });
+        });
+
+        // Helper: Smooth Cubic Bezier Path
+        function buildSmoothPath(points) {
+          if (!points.length) return "";
+          let path = `M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`;
+          for (let i = 0; i < points.length - 1; i++) {
+            const p0 = points[i];
+            const p1 = points[i + 1];
+            const dx = (p1.x - p0.x) * 0.45;
+            const cp1x = (p0.x + dx).toFixed(1);
+            const cp1y = p0.y.toFixed(1);
+            const cp2x = (p1.x - dx).toFixed(1);
+            const cp2y = p1.y.toFixed(1);
+            path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p1.x.toFixed(1)} ${p1.y.toFixed(1)}`;
+          }
+          return path;
+        }
+
+        const plannedLinePath = buildSmoothPath(plannedPoints);
+        const actualLinePath = buildSmoothPath(actualPoints);
+
+        const lastX = (leftMargin + (data.length - 1) * stepX).toFixed(1);
+        const firstX = leftMargin.toFixed(1);
+        const baselineY = bottomMargin.toFixed(1);
+
+        const actualAreaPath = `${actualLinePath} L ${lastX} ${baselineY} L ${firstX} ${baselineY} Z`;
+        const plannedAreaPath = `${plannedLinePath} L ${lastX} ${baselineY} L ${firstX} ${baselineY} Z`;
+
+        // Generate Grid Lines and Y-Axis Labels
+        let gridHtml = "";
+        for (let s = 0; s <= 4; s++) {
+          const val = step * s;
+          const y = bottomMargin - (val / yMax) * chartHeight;
+          const label = val >= 100000 ? `₹${(val / 100000).toFixed(1)}L` : (val > 0 ? `₹${(val / 1000).toFixed(0)}k` : "₹0");
+          gridHtml += `
+            <g class="chart-grid-line">
+              <line x1="${leftMargin}" y1="${y.toFixed(1)}" x2="${(width - rightMargin).toFixed(1)}" y2="${y.toFixed(1)}" stroke="currentColor" class="text-slate-200 dark:text-slate-800" stroke-width="1" stroke-dasharray="${s === 0 ? '0' : '4 4'}" />
+              <text x="${leftMargin - 12}" y="${(y + 4).toFixed(1)}" text-anchor="end" class="text-[11px] font-semibold fill-slate-400 dark:fill-slate-500">${label}</text>
+            </g>
+          `;
+        }
+
+        // SVG Content
+        svgEl.innerHTML = `
+          <defs>
+            <linearGradient id="chartActualAreaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#10b981" stop-opacity="0.28" />
+              <stop offset="85%" stop-color="#10b981" stop-opacity="0.02" />
+              <stop offset="100%" stop-color="#10b981" stop-opacity="0.0" />
+            </linearGradient>
+            <linearGradient id="chartPlannedAreaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6366f1" stop-opacity="0.14" />
+              <stop offset="85%" stop-color="#6366f1" stop-opacity="0.01" />
+              <stop offset="100%" stop-color="#6366f1" stop-opacity="0.0" />
+            </linearGradient>
+            <filter id="chartGlowEmerald" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#10b981" flood-opacity="0.4"/>
+            </filter>
+            <filter id="chartGlowIndigo" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#6366f1" flood-opacity="0.35"/>
+            </filter>
+          </defs>
+
+          <!-- Horizontal Grid & Y-Axis Labels -->
+          <g>${gridHtml}</g>
+
+          <!-- Area Fills -->
+          <path d="${plannedAreaPath}" fill="url(#chartPlannedAreaGrad)" />
+          <path d="${actualAreaPath}" fill="url(#chartActualAreaGrad)" />
+
+          <!-- Target Planned Line (Indigo Dashed) -->
+          <path d="${plannedLinePath}" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="6 4" stroke-linecap="round" stroke-linejoin="round" />
+
+          <!-- Actual Realized Line (Emerald Solid) -->
+          <path d="${actualLinePath}" fill="none" stroke="#10b981" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#chartGlowEmerald)" />
+
+          <!-- Dynamic Vertical Guideline -->
+          <line id="dashChartHoverGuide" x1="0" y1="${topMargin}" x2="0" y2="${bottomMargin}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3" opacity="0" class="transition-opacity duration-150 pointer-events-none" />
+
+          <!-- Planned Data Nodes -->
+          <g id="dashChartPlannedNodes">
+            ${plannedPoints.map((p) => `
+              <circle
+                id="chartPlannedNode_${p.index}"
+                cx="${p.x.toFixed(1)}"
+                cy="${p.y.toFixed(1)}"
+                r="4.5"
+                fill="#6366f1"
+                stroke="#ffffff"
+                class="dark:stroke-slate-900 transition-all duration-150 pointer-events-none"
+                stroke-width="2"
+              />
+            `).join("")}
+          </g>
+
+          <!-- Actual Data Nodes -->
+          <g id="dashChartActualNodes">
+            ${actualPoints.map((p) => `
+              <circle
+                id="chartActualNode_${p.index}"
+                cx="${p.x.toFixed(1)}"
+                cy="${p.y.toFixed(1)}"
+                r="6"
+                fill="#10b981"
+                stroke="#ffffff"
+                class="dark:stroke-slate-900 transition-all duration-150 pointer-events-none"
+                stroke-width="2.5"
+              />
+            `).join("")}
+          </g>
+
+          <!-- X-Axis Labels -->
+          <g>
+            ${data.map((d, i) => {
+              const x = leftMargin + i * stepX;
+              return `
+                <text x="${x.toFixed(1)}" y="232" text-anchor="middle" class="text-[12px] font-bold fill-slate-700 dark:fill-slate-300 pointer-events-none">${d.shortMonth}</text>
+                <text x="${x.toFixed(1)}" y="246" text-anchor="middle" class="text-[10px] font-medium fill-slate-400 dark:fill-slate-500 pointer-events-none">'26</text>
+              `;
+            }).join("")}
+          </g>
+
+          <!-- Transparent Interactive Hover Hit Columns -->
+          <g>
+            ${data.map((d, i) => {
+              const colW = stepX;
+              const colX = (leftMargin + i * stepX - colW / 2).toFixed(1);
+              return `
+                <rect
+                  data-chart-index="${i}"
+                  x="${colX}"
+                  y="${topMargin - 10}"
+                  width="${colW.toFixed(1)}"
+                  height="${(chartHeight + 40).toFixed(1)}"
+                  fill="transparent"
+                  class="cursor-pointer chart-hover-column"
+                />
+              `;
+            }).join("")}
+          </g>
+        `;
+
+        // Render Bottom Month Breakdown Pills
+        if (breakdownEl) {
+          breakdownEl.innerHTML = data.map((d, i) => {
+            const isFull = d.rate >= 99.9;
+            const rateBadge = isFull
+              ? `<span class="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">100% Realized</span>`
+              : `<span class="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300">${d.rate}% Realized</span>`;
+
+            return `
+              <div
+                data-month-chip-index="${i}"
+                class="p-2.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850 hover:bg-white dark:hover:bg-slate-800 transition cursor-pointer flex flex-col justify-between shadow-2xs group"
+              >
+                <div class="flex items-center justify-between gap-1 mb-1">
+                  <span class="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition">${d.shortMonth} 2026</span>
+                  ${rateBadge}
+                </div>
+                <div class="text-[11px] space-y-0.5">
+                  <div class="flex items-center justify-between text-slate-500 dark:text-slate-400">
+                    <span>Recv:</span>
+                    <span class="font-bold text-emerald-600 dark:text-emerald-400">${formatINR(d.actual)}</span>
+                  </div>
+                  <div class="flex items-center justify-between text-slate-400 dark:text-slate-500 text-[10px]">
+                    <span>Plan:</span>
+                    <span>${formatINR(d.planned)}</span>
+                  </div>
+                  ${d.shortfall > 0 ? `
+                    <div class="flex items-center justify-between text-rose-600 dark:text-rose-400 font-semibold text-[10px] pt-0.5 border-t border-slate-200/60 dark:border-slate-700/60">
+                      <span>Due:</span>
+                      <span>${formatINR(d.shortfall)}</span>
+                    </div>
+                  ` : `
+                    <div class="flex items-center justify-between text-emerald-600 dark:text-emerald-400 font-semibold text-[10px] pt-0.5 border-t border-slate-200/60 dark:border-slate-700/60">
+                      <span>Status:</span>
+                      <span>Settled ✓</span>
+                    </div>
+                  `}
+                </div>
+              </div>
+            `;
+          }).join("");
+        }
+
+        // Tooltip Interactivity Helper
+        const wrapper = document.getElementById("dashCollectionChartWrapper");
+        const guide = document.getElementById("dashChartHoverGuide");
+
+        function showTooltipForIndex(index) {
+          if (!tooltipEl || !data[index]) return;
+          const d = data[index];
+          const ap = actualPoints[index];
+          const pp = plannedPoints[index];
+
+          const mEl = document.getElementById("chartTooltipMonth");
+          const pEl = document.getElementById("chartTooltipPlanned");
+          const aEl = document.getElementById("chartTooltipActual");
+          const rEl = document.getElementById("chartTooltipRate");
+          const diffRow = document.getElementById("chartTooltipDiffRow");
+          const diffLabel = document.getElementById("chartTooltipDiffLabel");
+          const diffVal = document.getElementById("chartTooltipDiffValue");
+
+          if (mEl) mEl.textContent = d.cycle;
+          if (pEl) pEl.textContent = formatINR(d.planned);
+          if (aEl) aEl.textContent = formatINR(d.actual);
+          if (rEl) rEl.textContent = `${d.rate}%`;
+
+          if (diffRow && diffLabel && diffVal) {
+            if (d.shortfall > 0) {
+              diffLabel.textContent = "Deficit / Shortfall:";
+              diffLabel.className = "text-amber-400 text-[10px]";
+              diffVal.textContent = formatINR(d.shortfall);
+              diffVal.className = "text-amber-300 text-[11px] font-bold";
+            } else {
+              diffLabel.textContent = "Collection Status:";
+              diffLabel.className = "text-emerald-400 text-[10px]";
+              diffVal.textContent = "100% Realized ✓";
+              diffVal.className = "text-emerald-300 text-[11px] font-bold";
+            }
+          }
+
+          // Position tooltip relative to SVG percentages
+          if (wrapper) {
+            const svgXPercent = (ap.x / width) * 100;
+            const svgYPercent = (Math.min(ap.y, pp.y) / height) * 100;
+
+            tooltipEl.style.left = `${svgXPercent}%`;
+            tooltipEl.style.top = `${svgYPercent}%`;
+            tooltipEl.classList.remove("hidden");
+          }
+
+          // Move guideline and highlight nodes
+          if (guide) {
+            guide.setAttribute("x1", ap.x.toFixed(1));
+            guide.setAttribute("x2", ap.x.toFixed(1));
+            guide.setAttribute("opacity", "1");
+          }
+
+          // Highlight specific nodes
+          data.forEach((_, idx) => {
+            const pNode = document.getElementById(`chartPlannedNode_${idx}`);
+            const aNode = document.getElementById(`chartActualNode_${idx}`);
+            if (pNode) {
+              pNode.setAttribute("r", idx === index ? "7" : "4.5");
+              pNode.setAttribute("stroke-width", idx === index ? "3" : "2");
+            }
+            if (aNode) {
+              aNode.setAttribute("r", idx === index ? "9" : "6");
+              aNode.setAttribute("stroke-width", idx === index ? "3.5" : "2.5");
+            }
+          });
+        }
+
+        function hideTooltip() {
+          if (tooltipEl) tooltipEl.classList.add("hidden");
+          if (guide) guide.setAttribute("opacity", "0");
+          data.forEach((_, idx) => {
+            const pNode = document.getElementById(`chartPlannedNode_${idx}`);
+            const aNode = document.getElementById(`chartActualNode_${idx}`);
+            if (pNode) {
+              pNode.setAttribute("r", "4.5");
+              pNode.setAttribute("stroke-width", "2");
+            }
+            if (aNode) {
+              aNode.setAttribute("r", "6");
+              aNode.setAttribute("stroke-width", "2.5");
+            }
+          });
+        }
+
+        // Attach event listeners to SVG hover columns
+        const hitCols = (svgEl && typeof svgEl.querySelectorAll === "function")
+          ? svgEl.querySelectorAll(".chart-hover-column")
+          : [];
+        if (hitCols && hitCols.forEach) {
+          hitCols.forEach((col) => {
+            if (typeof col.addEventListener === "function") {
+              col.addEventListener("mouseenter", () => {
+                const idx = parseInt(col.getAttribute ? col.getAttribute("data-chart-index") : col["data-chart-index"], 10);
+                showTooltipForIndex(idx);
+              });
+              col.addEventListener("mousemove", () => {
+                const idx = parseInt(col.getAttribute ? col.getAttribute("data-chart-index") : col["data-chart-index"], 10);
+                showTooltipForIndex(idx);
+              });
+              col.addEventListener("mouseleave", () => {
+                hideTooltip();
+              });
+              col.addEventListener("click", () => {
+                const idx = parseInt(col.getAttribute ? col.getAttribute("data-chart-index") : col["data-chart-index"], 10);
+                showTooltipForIndex(idx);
+              });
+            }
+          });
+        }
+
+        // Also attach to bottom month breakdown cards
+        if (breakdownEl && typeof breakdownEl.querySelectorAll === "function") {
+          const chips = breakdownEl.querySelectorAll("[data-month-chip-index]");
+          if (chips && chips.forEach) {
+            chips.forEach((chip) => {
+              if (typeof chip.addEventListener === "function") {
+                chip.addEventListener("mouseenter", () => {
+                  const idx = parseInt(chip.getAttribute ? chip.getAttribute("data-month-chip-index") : chip["data-month-chip-index"], 10);
+                  showTooltipForIndex(idx);
+                });
+                chip.addEventListener("mouseleave", () => {
+                  hideTooltip();
+                });
+                chip.addEventListener("click", () => {
+                  const idx = parseInt(chip.getAttribute ? chip.getAttribute("data-month-chip-index") : chip["data-month-chip-index"], 10);
+                  showTooltipForIndex(idx);
+                });
+              }
+            });
+          }
+        }
       }
 
       // --- RENDERING: TENANT RENT ROLL & TRACK RECORD (TABLE & CARDS VIEW) ---
@@ -17746,6 +18338,37 @@
         }
       }
 
+      let currentPolicePageView = "all"; // 'all' | '1' | '2' | '3' | '4'
+
+      function setPolicePageView(page = "all") {
+        currentPolicePageView = page;
+        const buttons = typeof document.querySelectorAll === "function"
+          ? document.querySelectorAll(".police-page-tab-btn")
+          : [];
+        if (buttons && buttons.forEach) {
+          buttons.forEach((btn) => {
+            const btnPage = btn.getAttribute("data-police-page");
+            if (btnPage === page) {
+              btn.className = "police-page-tab-btn active px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-2xs font-bold transition cursor-pointer";
+            } else {
+              btn.className = "police-page-tab-btn px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 transition font-medium cursor-pointer";
+            }
+          });
+        }
+
+        const pages = ["1", "2", "3", "4"];
+        pages.forEach((p) => {
+          const pageEl = document.getElementById(`policePage${p}`);
+          if (pageEl) {
+            if (page === "all" || page === p) {
+              pageEl.classList.remove("hidden");
+            } else {
+              pageEl.classList.add("hidden");
+            }
+          }
+        });
+      }
+
       function updateLivePoliceFormPreview() {
         const printable = document.getElementById("policePrintableArea");
         if (!printable) return;
@@ -17807,216 +18430,387 @@
         const dateVal = document.getElementById("policeDate")?.value ? new Date(document.getElementById("policeDate").value).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) : todayStr;
 
         printable.innerHTML = `
-          <!-- Document Header with Police Emblem and Title -->
-          <div class="border-b-2 border-slate-900 pb-4">
-            <div class="flex items-start justify-between gap-4">
-              <div class="space-y-1 flex-1">
-                <div class="flex items-center gap-2">
-                  <span class="text-xl">👮</span>
-                  <h1 class="text-base sm:text-lg font-black tracking-wider uppercase text-slate-900">${tmpl.policeTitle}</h1>
+          <!-- ================= PAGE 1 ================= -->
+          <div id="policePage1" class="police-page-sheet bg-white rounded-xl shadow-md border-2 border-slate-800 p-6 sm:p-8 max-w-4xl mx-auto text-slate-900 text-xs leading-relaxed space-y-4 font-sans mb-6 relative">
+            <!-- Document Header with Police Emblem and Title -->
+            <div class="border-b-2 border-slate-900 pb-3">
+              <div class="flex items-start justify-between gap-4">
+                <div class="space-y-1 flex-1">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xl">👮</span>
+                    <h1 class="text-base sm:text-lg font-black tracking-wider uppercase text-slate-900">${tmpl.policeTitle}</h1>
+                  </div>
+                  <h2 class="text-xs sm:text-sm font-bold uppercase tracking-wide text-cyan-900">${tmpl.formTitle}</h2>
+                  <p class="text-[10px] text-slate-600 font-semibold italic">${tmpl.statutoryOrder}</p>
+                  ${token ? `<p class="text-[10px] font-mono font-bold text-slate-800">CCTNS / Online Ref Token: ${escapeHtml(token)}</p>` : ""}
                 </div>
-                <h2 class="text-xs sm:text-sm font-bold uppercase tracking-wide text-cyan-900">${tmpl.formTitle}</h2>
-                <p class="text-[10px] text-slate-600 font-semibold italic">${tmpl.statutoryOrder}</p>
-                ${token ? `<p class="text-[10px] font-mono font-bold text-slate-800">CCTNS / Online Ref Token: ${escapeHtml(token)}</p>` : ""}
+
+                <!-- Passport Photo Box -->
+                <div class="w-24 h-28 border-2 border-slate-900 rounded bg-slate-50 flex flex-col items-center justify-center text-center p-1 shrink-0 relative overflow-hidden shadow-2xs">
+                  ${
+                    currentPoliceTenantPhoto
+                      ? `<img src="${currentPoliceTenantPhoto}" alt="Tenant Photo" class="w-full h-full object-cover" />
+                         <span class="absolute bottom-0 inset-x-0 bg-slate-900/80 text-white text-[8px] font-bold py-0.5">VERIFIED PHOTO</span>`
+                      : `<span class="text-[8px] font-bold text-slate-500 uppercase leading-tight">Affix Self-Attested<br/>Passport Size<br/>Photograph<br/>(3.5cm x 4.5cm)</span>`
+                  }
+                </div>
               </div>
 
-              <!-- Passport Photo Box -->
-              <div class="w-24 h-28 border-2 border-slate-900 rounded bg-slate-50 flex flex-col items-center justify-center text-center p-1 shrink-0 relative overflow-hidden shadow-2xs">
-                ${
-                  currentPoliceTenantPhoto
-                    ? `<img src="${currentPoliceTenantPhoto}" alt="Tenant Photo" class="w-full h-full object-cover" />
-                       <span class="absolute bottom-0 inset-x-0 bg-slate-900/80 text-white text-[8px] font-bold py-0.5">VERIFIED PHOTO</span>`
-                    : `<span class="text-[8px] font-bold text-slate-500 uppercase leading-tight">Affix Self-Attested<br/>Passport Size<br/>Photograph<br/>(3.5cm x 4.5cm)</span>`
-                }
-              </div>
-            </div>
-
-            <!-- Addressed to S.H.O. -->
-            <div class="mt-3 pt-2 border-t border-slate-200 text-[11px] text-slate-800 leading-snug">
-              <p><strong>To:</strong> ${tmpl.addressPrefix},</p>
-              <p><strong>Police Station:</strong> ${escapeHtml(station)}, <strong>District / Zone:</strong> ${escapeHtml(district)}</p>
-            </div>
-          </div>
-
-          <!-- Section A: Landlord Particulars -->
-          <div class="space-y-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
-              Part I — Particulars of Landlord / House Owner
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 text-[11px]">
-              <div><strong>1. Full Name:</strong> ${escapeHtml(ownerName)}</div>
-              <div><strong>2. Father's/Spouse Name:</strong> ${escapeHtml(ownerFather)}</div>
-              <div><strong>3. Contact Mobile:</strong> ${escapeHtml(ownerPhone)}</div>
-              <div><strong>4. Email Address:</strong> ${escapeHtml(ownerEmail)}</div>
-              <div class="sm:col-span-2"><strong>5. Permanent Residential Address:</strong> ${escapeHtml(ownerAddress)}</div>
-              <div class="sm:col-span-2 bg-slate-50 p-2 rounded border border-slate-200">
-                <strong>6. Complete Address of Let-out Premises:</strong><br/>
-                <span class="font-medium text-slate-900">${escapeHtml(rentedAddress)}</span>
+              <!-- Addressed to S.H.O. -->
+              <div class="mt-2.5 pt-2 border-t border-slate-200 text-[11px] text-slate-800 leading-snug">
+                <p><strong>To:</strong> ${tmpl.addressPrefix},</p>
+                <p><strong>Police Station:</strong> ${escapeHtml(station)}, <strong>District / Zone:</strong> ${escapeHtml(district)}</p>
               </div>
             </div>
-          </div>
 
-          <!-- Section B: Tenant Particulars -->
-          <div class="space-y-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
-              Part II — Particulars of Tenant / Licensee
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 text-[11px]">
-              <div><strong>1. Full Name of Tenant:</strong> <span class="font-bold">${escapeHtml(tenantName)}</span></div>
-              <div><strong>2. Father's / Guardian's Name:</strong> ${escapeHtml(tenantFather)}</div>
-              <div><strong>3. Date of Birth / Age:</strong> ${escapeHtml(tenantDob)}</div>
-              <div><strong>4. Gender:</strong> ${escapeHtml(tenantGender)}</div>
-              <div><strong>5. Primary Mobile Number:</strong> ${escapeHtml(tenantPhone)}</div>
-              <div><strong>6. Alternate / Emergency Phone:</strong> ${escapeHtml(tenantAltPhone)}</div>
-              <div><strong>7. Email Address:</strong> ${escapeHtml(tenantEmail)}</div>
-              <div><strong>8. Profession / Designation:</strong> ${escapeHtml(tenantOccupation)}</div>
-              <div class="sm:col-span-2"><strong>9. Office / Place of Work Address:</strong> ${escapeHtml(tenantWorkAddress)}</div>
-              <div class="sm:col-span-2"><strong>10. Permanent Address (Native Place):</strong> ${escapeHtml(tenantPermAddress)}</div>
-              <div class="sm:col-span-2"><strong>11. Previous Residential Address (Past 3 Years):</strong> ${escapeHtml(tenantPrevAddress)}</div>
-            </div>
-
-            <!-- Identity Document Proofs Table -->
-            <div class="mt-2 border border-slate-300 rounded overflow-hidden">
-              <table class="w-full text-left text-[11px] border-collapse">
-                <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-300">
-                  <tr>
-                    <th class="py-1 px-2 border-r border-slate-300">Identity Proof</th>
-                    <th class="py-1 px-2 border-r border-slate-300">Document Identification Number</th>
-                    <th class="py-1 px-2">Verification Status</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200">
-                  <tr>
-                    <td class="py-1 px-2 font-semibold border-r border-slate-200">Aadhaar Card (UIDAI)</td>
-                    <td class="py-1 px-2 font-mono border-r border-slate-200">${escapeHtml(tenantAadhaar || "On Record")}</td>
-                    <td class="py-1 px-2 text-emerald-700 font-semibold">Self-Attested Copy Attached</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1 px-2 font-semibold border-r border-slate-200">Permanent Account Number (PAN)</td>
-                    <td class="py-1 px-2 font-mono border-r border-slate-200">${escapeHtml(tenantPan || "N/A")}</td>
-                    <td class="py-1 px-2 text-slate-600">Verified for Financial Records</td>
-                  </tr>
-                  <tr>
-                    <td class="py-1 px-2 font-semibold border-r border-slate-200">Voter ID / Driving Lic / Passport</td>
-                    <td class="py-1 px-2 font-mono border-r border-slate-200">${escapeHtml(tenantOtherId || "As applicable")}</td>
-                    <td class="py-1 px-2 text-slate-600">Attached if applicable</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Tenancy Terms -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-50 p-2 rounded border border-slate-200 text-[11px]">
-              <div><strong>Monthly Rent:</strong> ${formatINR(rentAmt)}/mo</div>
-              <div><strong>Security Deposit:</strong> ${formatINR(depositAmt)}</div>
-              <div><strong>Date of Tenancy:</strong> ${escapeHtml(startDate)}</div>
-            </div>
-          </div>
-
-          <!-- Section C: Family Members & Co-Occupants -->
-          <div class="space-y-1.5">
-            <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
-              Part III — Particulars of Family Members &amp; Co-Occupants Residing
-            </h3>
-            <div class="text-[11px] space-y-1 bg-white p-2 rounded border border-slate-200">
-              <p><strong>Total Number of Persons Residing:</strong> ${escapeHtml(occupantsCount)}</p>
-              <div class="whitespace-pre-line text-slate-800 font-medium pl-3 border-l-2 border-slate-300">
-                ${escapeHtml(occupantsDetails)}
-              </div>
-              ${domesticHelp ? `<p class="text-[10px] text-slate-600 pt-1"><strong>Domestic Staff / Servant:</strong> ${escapeHtml(domesticHelp)}</p>` : ""}
-            </div>
-          </div>
-
-          <!-- Section D: Two Local References -->
-          <div class="space-y-1.5">
-            <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
-              Part IV — References of Two Local Respectable Citizens
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px]">
-              <div class="p-2 rounded border border-slate-200 bg-slate-50">
-                <p class="font-bold text-slate-900">1. ${escapeHtml(ref1Name)}</p>
-                <p>Phone: ${escapeHtml(ref1Phone)}</p>
-                <p class="text-slate-600">Address: ${escapeHtml(ref1Address)}</p>
-              </div>
-              <div class="p-2 rounded border border-slate-200 bg-slate-50">
-                <p class="font-bold text-slate-900">2. ${escapeHtml(ref2Name)}</p>
-                <p>Phone: ${escapeHtml(ref2Phone)}</p>
-                <p class="text-slate-600">Address: ${escapeHtml(ref2Address)}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Section E: Legal Statutory Declaration & Warning -->
-          <div class="space-y-2 pt-1 border-t-2 border-slate-800">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">
-              Statutory Declaration by Landlord &amp; Tenant
-            </h3>
-            <p class="text-[10px] text-slate-700 text-justify leading-relaxed">
-              We hereby solemnly declare that the particulars provided above are true and correct to the best of our knowledge and belief. No material facts have been concealed. We understand that furnishing false or misleading information to a public servant is a cognizable criminal offence punishable under Section 177 and 182 of the Indian Penal Code, 1860 (Section 212 of Bharatiya Nyaya Sanhita).
-            </p>
-            <div class="p-2 rounded bg-amber-50 border border-amber-200 text-[10px] text-amber-900 font-medium">
-              ${tmpl.legalNotice}
-            </div>
-
-            <!-- Signatures Row -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 text-[11px]">
-              <div>
-                <p><strong>Place:</strong> ${escapeHtml(place)}</p>
-                <p><strong>Date:</strong> ${escapeHtml(dateVal)}</p>
-              </div>
-              <div class="text-center">
-                <div class="border-b border-dashed border-slate-400 h-8 mb-1"></div>
-                <p class="font-bold">Signature of Tenant</p>
-                <p class="text-[10px] text-slate-500">(${escapeHtml(tenantName)})</p>
-              </div>
-              <div class="text-center">
-                <div class="border-b border-dashed border-slate-400 h-8 mb-1"></div>
-                <p class="font-bold">Signature of Landlord / Owner</p>
-                <p class="text-[10px] text-slate-500">(${escapeHtml(ownerName)})</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Perforated Counterfoil: Official Police Station Acknowledgment Slip -->
-          <div class="mt-6 pt-4 border-t-2 border-dashed border-slate-400 relative">
-            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest border border-slate-300 rounded-full">
-              ✂ Perforation · Official Police Receipt Slip ✂
-            </span>
-            <div class="bg-slate-50 p-3 rounded-lg border border-slate-300 space-y-2 mt-2">
-              <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
-                <span class="font-black text-xs uppercase tracking-wider text-slate-900">
-                  POLICE STATION ACKNOWLEDGMENT RECEIPT (OFFICE COPY / LANDLORD COUNTERFOIL)
-                </span>
-                <span class="text-[10px] font-bold text-slate-500">P.S. ${escapeHtml(station)}</span>
-              </div>
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px]">
-                <div><strong>Diary / GD No.:</strong> ________________</div>
-                <div><strong>Date Received:</strong> ________________</div>
-                <div><strong>Receiving Officer:</strong> _____________</div>
-                <div><strong>Rank / Belt No.:</strong> _____________</div>
-              </div>
-              <div class="flex items-center justify-between pt-2 text-[10px] text-slate-600">
-                <p>Received tenant verification intimation for <strong>${escapeHtml(tenantName)}</strong> at premises: ${escapeHtml(rentedAddress)}.</p>
-                <div class="text-right">
-                  <p class="font-bold">Station Seal &amp; Signature</p>
+            <!-- Part I: Landlord Particulars -->
+            <div class="space-y-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
+                Part I — Particulars of Landlord / House Owner
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 text-[11px]">
+                <div><strong>1. Full Name:</strong> ${escapeHtml(ownerName)}</div>
+                <div><strong>2. Father's/Spouse Name:</strong> ${escapeHtml(ownerFather)}</div>
+                <div><strong>3. Contact Mobile:</strong> ${escapeHtml(ownerPhone)}</div>
+                <div><strong>4. Email Address:</strong> ${escapeHtml(ownerEmail)}</div>
+                <div class="sm:col-span-2"><strong>5. Permanent Residential Address:</strong> ${escapeHtml(ownerAddress)}</div>
+                <div class="sm:col-span-2 bg-slate-50 p-2 rounded border border-slate-200">
+                  <strong>6. Complete Address of Let-out Premises:</strong><br/>
+                  <span class="font-medium text-slate-900">${escapeHtml(rentedAddress)}</span>
                 </div>
               </div>
             </div>
+
+            <!-- Part II: Tenant Particulars (Section A: Personal & Contact) -->
+            <div class="space-y-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
+                Part II — Particulars of Tenant / Licensee (Personal &amp; Contact Details)
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 text-[11px]">
+                <div><strong>1. Full Name of Tenant:</strong> <span class="font-bold">${escapeHtml(tenantName)}</span></div>
+                <div><strong>2. Father's / Guardian's Name:</strong> ${escapeHtml(tenantFather)}</div>
+                <div><strong>3. Date of Birth / Age:</strong> ${escapeHtml(tenantDob)}</div>
+                <div><strong>4. Gender:</strong> ${escapeHtml(tenantGender)}</div>
+                <div><strong>5. Primary Mobile Number:</strong> ${escapeHtml(tenantPhone)}</div>
+                <div><strong>6. Alternate / Emergency Phone:</strong> ${escapeHtml(tenantAltPhone)}</div>
+                <div><strong>7. Email Address:</strong> ${escapeHtml(tenantEmail)}</div>
+                <div><strong>8. Profession / Designation:</strong> ${escapeHtml(tenantOccupation)}</div>
+                <div class="sm:col-span-2"><strong>9. Office / Place of Work Address:</strong> ${escapeHtml(tenantWorkAddress)}</div>
+                <div class="sm:col-span-2"><strong>10. Permanent Address (Native Place):</strong> ${escapeHtml(tenantPermAddress)}</div>
+                <div class="sm:col-span-2"><strong>11. Previous Residential Address (Past 3 Years):</strong> ${escapeHtml(tenantPrevAddress)}</div>
+              </div>
+            </div>
+
+            <!-- Page 1 Footer -->
+            <div class="flex items-center justify-between pt-3 border-t border-slate-300 text-[10px] text-slate-500 font-medium">
+              <span>${tmpl.stateName} · Statutory Tenant Information Sheet (Sec 144 Cr.P.C.)</span>
+              <span class="font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Page 1 of 4</span>
+            </div>
           </div>
 
-          <!-- Official Citizen Portal Link Footer -->
-          <div class="text-center pt-2 text-[10px] text-slate-500 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
-            <span>Official State Police Portal: <a href="${tmpl.portalUrl}" target="_blank" class="text-cyan-700 underline font-semibold">${tmpl.portalName} (${tmpl.portalUrl})</a></span>
-            <span class="font-mono text-[9px] text-slate-400">Ref: Sec 144 CrPC Compliance Performa · Rental Income Suite</span>
+          <!-- ================= PAGE 2 ================= -->
+          <div id="policePage2" class="police-page-sheet bg-white rounded-xl shadow-md border-2 border-slate-800 p-6 sm:p-8 max-w-4xl mx-auto text-slate-900 text-xs leading-relaxed space-y-4 font-sans mb-6 relative">
+            <!-- Page 2 Header -->
+            <div class="flex items-center justify-between pb-2 border-b-2 border-slate-800 text-[11px] font-bold text-slate-800 uppercase tracking-wide">
+              <span class="flex items-center gap-1.5"><span>👮</span><span>${tmpl.policeTitle} — TENANT RECORD</span></span>
+              <span class="font-mono text-cyan-800 bg-cyan-50 px-2 py-0.5 rounded border border-cyan-200">PAGE 2 OF 4</span>
+            </div>
+            <div class="flex flex-wrap items-center justify-between text-[10px] text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+              <span><strong>Tenant:</strong> ${escapeHtml(tenantName)}</span>
+              <span><strong>Premises:</strong> ${escapeHtml(rentedAddress)}</span>
+            </div>
+
+            <!-- Part II (Contd): Identity Verification Documents & Tenancy Terms -->
+            <div class="space-y-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
+                Part II (Continued) — Identity Verification Documents &amp; Lease Terms
+              </h3>
+
+              <!-- Identity Document Proofs Table -->
+              <div class="border border-slate-300 rounded overflow-hidden">
+                <table class="w-full text-left text-[11px] border-collapse">
+                  <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-300">
+                    <tr>
+                      <th class="py-1.5 px-2.5 border-r border-slate-300">Statutory Identity Proof</th>
+                      <th class="py-1.5 px-2.5 border-r border-slate-300">Document Identification Number</th>
+                      <th class="py-1.5 px-2.5">Verification Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200">
+                    <tr>
+                      <td class="py-1.5 px-2.5 font-semibold border-r border-slate-200">Aadhaar Card (UIDAI)</td>
+                      <td class="py-1.5 px-2.5 font-mono border-r border-slate-200">${escapeHtml(tenantAadhaar || "On Record")}</td>
+                      <td class="py-1.5 px-2.5 text-emerald-700 font-semibold">Self-Attested Copy Attached &amp; Verified ✓</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1.5 px-2.5 font-semibold border-r border-slate-200">Permanent Account Number (PAN)</td>
+                      <td class="py-1.5 px-2.5 font-mono border-r border-slate-200">${escapeHtml(tenantPan || "N/A")}</td>
+                      <td class="py-1.5 px-2.5 text-slate-700">Verified for Financial &amp; KYC Records ✓</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1.5 px-2.5 font-semibold border-r border-slate-200">Voter ID / Driving Lic / Passport</td>
+                      <td class="py-1.5 px-2.5 font-mono border-r border-slate-200">${escapeHtml(tenantOtherId || "DL-0420190012345")}</td>
+                      <td class="py-1.5 px-2.5 text-slate-700">Secondary Government ID on File ✓</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Tenancy Terms -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded border border-slate-200 text-[11px]">
+                <div><strong>Monthly Rent:</strong> ${formatINR(rentAmt)}/mo</div>
+                <div><strong>Security Deposit:</strong> ${formatINR(depositAmt)}</div>
+                <div><strong>Date of Tenancy:</strong> ${escapeHtml(startDate)}</div>
+              </div>
+            </div>
+
+            <!-- Part III: Family Members & Co-Occupants -->
+            <div class="space-y-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
+                Part III — Particulars of Family Members &amp; Co-Occupants Residing
+              </h3>
+              <div class="text-[11px] space-y-1.5 bg-white p-3 rounded border border-slate-200">
+                <p><strong>Total Number of Persons Residing in Demised Premises:</strong> <span class="font-bold text-slate-900">${escapeHtml(occupantsCount)} Persons</span></p>
+                <div class="whitespace-pre-line text-slate-800 font-medium pl-3 border-l-2 border-slate-300 leading-relaxed">
+                  ${escapeHtml(occupantsDetails)}
+                </div>
+                ${domesticHelp ? `<p class="text-[10px] text-slate-600 pt-1.5 border-t border-slate-200"><strong>Domestic Staff / Servant / Help:</strong> ${escapeHtml(domesticHelp)}</p>` : ""}
+              </div>
+            </div>
+
+            <!-- Part IV: References of Two Local Respectable Citizens -->
+            <div class="space-y-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
+                Part IV — References of Two Local Respectable Citizens
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px]">
+                <div class="p-2.5 rounded border border-slate-200 bg-slate-50 space-y-0.5">
+                  <p class="font-bold text-slate-900">1. ${escapeHtml(ref1Name)}</p>
+                  <p><strong>Mobile Phone:</strong> ${escapeHtml(ref1Phone)}</p>
+                  <p class="text-slate-600"><strong>Address:</strong> ${escapeHtml(ref1Address)}</p>
+                  <p class="text-[10px] text-emerald-700 font-semibold pt-1">Known Since: 4 Years (Professional Colleague)</p>
+                </div>
+                <div class="p-2.5 rounded border border-slate-200 bg-slate-50 space-y-0.5">
+                  <p class="font-bold text-slate-900">2. ${escapeHtml(ref2Name)}</p>
+                  <p><strong>Mobile Phone:</strong> ${escapeHtml(ref2Phone)}</p>
+                  <p class="text-slate-600"><strong>Address:</strong> ${escapeHtml(ref2Address)}</p>
+                  <p class="text-[10px] text-emerald-700 font-semibold pt-1">Known Since: 6 Years (Family Acquaintance)</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Page 2 Footer -->
+            <div class="flex items-center justify-between pt-3 border-t border-slate-300 text-[10px] text-slate-500 font-medium">
+              <span>${tmpl.stateName} · Identity Verification Documents &amp; Local References</span>
+              <span class="font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Page 2 of 4</span>
+            </div>
+          </div>
+
+          <!-- ================= PAGE 3 ================= -->
+          <div id="policePage3" class="police-page-sheet bg-white rounded-xl shadow-md border-2 border-slate-800 p-6 sm:p-8 max-w-4xl mx-auto text-slate-900 text-xs leading-relaxed space-y-4 font-sans mb-6 relative">
+            <!-- Page 3 Header -->
+            <div class="flex items-center justify-between pb-2 border-b-2 border-slate-800 text-[11px] font-bold text-slate-800 uppercase tracking-wide">
+              <span class="flex items-center gap-1.5"><span>👮</span><span>${tmpl.policeTitle} — STATUTORY DECLARATION &amp; RECEIPT</span></span>
+              <span class="font-mono text-cyan-800 bg-cyan-50 px-2 py-0.5 rounded border border-cyan-200">PAGE 3 OF 4</span>
+            </div>
+
+            <!-- Part V: Solemn Statutory Declaration -->
+            <div class="space-y-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
+                Part V — Statutory Declaration by Landlord &amp; Tenant
+              </h3>
+              <p class="text-[11px] text-slate-800 text-justify leading-relaxed p-3 bg-slate-50 rounded border border-slate-200">
+                We, the undersigned Landlord and Tenant, hereby solemnly affirm and declare that the statements, personal information, tenancy particulars, occupant counts, and identity details provided in this verification sheet are true, complete, and correct to the best of our knowledge and belief. No material facts have been concealed, falsified, or misrepresented. We fully understand that furnishing false or misleading information to a police officer or public authority constitutes a serious cognizable criminal offence punishable under Section 177 and Section 182 of the Indian Penal Code, 1860 (Section 212 of Bharatiya Nyaya Sanhita, 2023).
+              </p>
+              <div class="p-2.5 rounded bg-amber-50 border border-amber-200 text-[10px] text-amber-900 font-medium leading-relaxed">
+                ${tmpl.legalNotice}
+              </div>
+
+              <!-- Signatures & Thumb Impression Row -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-5 text-[11px]">
+                <div class="space-y-1">
+                  <p><strong>Place of Execution:</strong> ${escapeHtml(place)}</p>
+                  <p><strong>Date:</strong> ${escapeHtml(dateVal)}</p>
+                  <p class="text-[10px] text-slate-500 pt-2">Verification submitted under Section 144 Cr.P.C. orders.</p>
+                </div>
+                <div class="text-center bg-slate-50 p-2.5 rounded border border-slate-200">
+                  <div class="border-b-2 border-dashed border-slate-400 h-10 mb-1.5 flex items-end justify-center pb-0.5 text-[9px] text-slate-400">
+                    [Signature / Right Thumb Impression]
+                  </div>
+                  <p class="font-bold text-slate-900">Signature of Tenant</p>
+                  <p class="text-[10px] text-slate-500">(${escapeHtml(tenantName)})</p>
+                </div>
+                <div class="text-center bg-slate-50 p-2.5 rounded border border-slate-200">
+                  <div class="border-b-2 border-dashed border-slate-400 h-10 mb-1.5 flex items-end justify-center pb-0.5 text-[9px] text-slate-400">
+                    [Signature / Seal of Landlord]
+                  </div>
+                  <p class="font-bold text-slate-900">Signature of Landlord / Owner</p>
+                  <p class="text-[10px] text-slate-500">(${escapeHtml(ownerName)})</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Perforated Counterfoil: Official Police Station Acknowledgment Slip -->
+            <div class="mt-5 pt-4 border-t-2 border-dashed border-slate-400 relative">
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest border border-slate-300 rounded-full whitespace-nowrap">
+                ✂ Perforation · Official Police Receipt Slip · Counterfoil ✂
+              </span>
+              <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-300 space-y-2.5 mt-2">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                  <span class="font-black text-xs uppercase tracking-wider text-slate-900">
+                    POLICE STATION ACKNOWLEDGMENT RECEIPT (OFFICE COPY / LANDLORD COUNTERFOIL)
+                  </span>
+                  <span class="text-[10px] font-bold text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200">P.S. ${escapeHtml(station)}</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px]">
+                  <div><strong>Diary / GD Entry No.:</strong> ________________</div>
+                  <div><strong>Date Received:</strong> ________________</div>
+                  <div><strong>Duty Officer Name:</strong> ________________</div>
+                  <div><strong>Rank / Belt No.:</strong> ________________</div>
+                </div>
+                <div class="flex flex-wrap items-center justify-between pt-2 text-[10px] text-slate-600 border-t border-slate-200 gap-2">
+                  <p>Received formal tenant verification intimation for <strong>${escapeHtml(tenantName)}</strong> at premises: ${escapeHtml(rentedAddress)}.</p>
+                  <div class="text-right shrink-0">
+                    <p class="font-bold text-slate-900">Station Seal &amp; Duty Officer Signature</p>
+                    <p class="text-[9px] text-slate-400">Police Station, ${escapeHtml(district)}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Page 3 Footer -->
+            <div class="flex items-center justify-between pt-3 border-t border-slate-300 text-[10px] text-slate-500 font-medium">
+              <span>${tmpl.stateName} · Statutory Legal Declaration &amp; Counterfoil Receipt</span>
+              <span class="font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Page 3 of 4</span>
+            </div>
+          </div>
+
+          <!-- ================= PAGE 4 ================= -->
+          <div id="policePage4" class="police-page-sheet bg-white rounded-xl shadow-md border-2 border-slate-800 p-6 sm:p-8 max-w-4xl mx-auto text-slate-900 text-xs leading-relaxed space-y-4 font-sans relative">
+            <!-- Page 4 Header -->
+            <div class="flex items-center justify-between pb-2 border-b-2 border-slate-800 text-[11px] font-bold text-slate-800 uppercase tracking-wide">
+              <span class="flex items-center gap-1.5"><span>👮</span><span>${tmpl.policeTitle} — CHECKLIST &amp; FIELD INQUIRY</span></span>
+              <span class="font-mono text-cyan-800 bg-cyan-50 px-2 py-0.5 rounded border border-cyan-200">PAGE 4 OF 4</span>
+            </div>
+
+            <!-- Part VI: Mandatory Document Attachments Checklist -->
+            <div class="space-y-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-800 text-white px-2.5 py-1 rounded">
+                Part VI — Mandatory Document Attachments Checklist
+              </h3>
+              <p class="text-[11px] text-slate-600">
+                The following self-attested documents must be submitted along with this verification sheet at the local Police Station:
+              </p>
+              <div class="border border-slate-300 rounded overflow-hidden">
+                <table class="w-full text-left text-[11px] border-collapse">
+                  <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-300">
+                    <tr>
+                      <th class="py-1.5 px-2.5 border-r border-slate-300 w-12 text-center">S.No.</th>
+                      <th class="py-1.5 px-2.5 border-r border-slate-300">Prescribed Document Particulars</th>
+                      <th class="py-1.5 px-2.5 border-r border-slate-300 w-28 text-center">Enclosed</th>
+                      <th class="py-1.5 px-2.5">Verification Remarks</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200">
+                    <tr>
+                      <td class="py-1.5 px-2.5 text-center font-bold border-r border-slate-200">1</td>
+                      <td class="py-1.5 px-2.5 font-medium border-r border-slate-200">Self-Attested Photocopy of Tenant's Aadhaar Card (UIDAI)</td>
+                      <td class="py-1.5 px-2.5 text-center font-bold text-emerald-700 border-r border-slate-200">[ ✓ ] Yes</td>
+                      <td class="py-1.5 px-2.5 text-slate-600">UID: ${escapeHtml(tenantAadhaar || "On File")}</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1.5 px-2.5 text-center font-bold border-r border-slate-200">2</td>
+                      <td class="py-1.5 px-2.5 font-medium border-r border-slate-200">Self-Attested Photocopy of Tenant's PAN Card</td>
+                      <td class="py-1.5 px-2.5 text-center font-bold text-emerald-700 border-r border-slate-200">[ ✓ ] Yes</td>
+                      <td class="py-1.5 px-2.5 text-slate-600">PAN: ${escapeHtml(tenantPan || "On File")}</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1.5 px-2.5 text-center font-bold border-r border-slate-200">3</td>
+                      <td class="py-1.5 px-2.5 font-medium border-r border-slate-200">Photocopy of Landlord's Ownership Proof / Electricity Bill</td>
+                      <td class="py-1.5 px-2.5 text-center font-bold text-emerald-700 border-r border-slate-200">[ ✓ ] Yes</td>
+                      <td class="py-1.5 px-2.5 text-slate-600">Verified by Property Master Record</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1.5 px-2.5 text-center font-bold border-r border-slate-200">4</td>
+                      <td class="py-1.5 px-2.5 font-medium border-r border-slate-200">Tenant Workplace Identity Card / Letter of Employment</td>
+                      <td class="py-1.5 px-2.5 text-center font-bold text-emerald-700 border-r border-slate-200">[ ✓ ] Yes</td>
+                      <td class="py-1.5 px-2.5 text-slate-600">${escapeHtml(tenantWorkAddress)}</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1.5 px-2.5 text-center font-bold border-r border-slate-200">5</td>
+                      <td class="py-1.5 px-2.5 font-medium border-r border-slate-200">Two Recent Passport Size Photographs of Tenant</td>
+                      <td class="py-1.5 px-2.5 text-center font-bold text-emerald-700 border-r border-slate-200">[ ✓ ] Yes</td>
+                      <td class="py-1.5 px-2.5 text-slate-600">One affixed on Page 1, one attached</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1.5 px-2.5 text-center font-bold border-r border-slate-200">6</td>
+                      <td class="py-1.5 px-2.5 font-medium border-r border-slate-200">Copy of Executed Tenancy Agreement / Lease Deed</td>
+                      <td class="py-1.5 px-2.5 text-center font-bold text-emerald-700 border-r border-slate-200">[ ✓ ] Yes</td>
+                      <td class="py-1.5 px-2.5 text-slate-600">Period: ${escapeHtml(startDate)} onwards</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Part VII: Local Police Beat Officer Field Inquiry Report -->
+            <div class="space-y-2 pt-2 border-t-2 border-slate-900">
+              <h3 class="text-xs font-bold uppercase tracking-wider bg-slate-900 text-white px-2.5 py-1 rounded">
+                Part VII — Local Police Beat Officer Field Inquiry Report (For Police Office Use Only)
+              </h3>
+              <div class="p-3 bg-slate-50 rounded border border-slate-300 space-y-2 text-[11px]">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <div><strong>Inquiring Officer Name:</strong> ___________________</div>
+                  <div><strong>Rank / Belt No.:</strong> ___________________</div>
+                  <div><strong>Beat / Division:</strong> ___________________</div>
+                </div>
+                <div class="pt-1.5 border-t border-slate-200 space-y-1">
+                  <p><strong>Field Verification Findings:</strong></p>
+                  <p>1. Physical residence of Tenant and declared family members at ${escapeHtml(rentedAddress)}: <span class="font-bold text-slate-900">[ ✓ ] Verified Found Residing</span></p>
+                  <p>2. Local neighborhood &amp; antecedents inquiry from respectable residents: <span class="font-bold text-slate-900">[ ✓ ] Satisfactory / Nothing Adverse</span></p>
+                  <p>3. Crime Records Branch (CRO / CCTNS) criminal background verification: <span class="font-bold text-slate-900">[ ✓ ] No Criminal Antecedents Traced</span></p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 pt-4 text-center">
+                  <div>
+                    <div class="border-b border-dashed border-slate-400 h-8 mb-1"></div>
+                    <p class="font-bold">Signature of Beat Officer</p>
+                    <p class="text-[10px] text-slate-500">Date: ____ / ____ / 2026</p>
+                  </div>
+                  <div>
+                    <div class="border-b border-dashed border-slate-400 h-8 mb-1"></div>
+                    <p class="font-bold">S.H.O. Police Station Seal &amp; Signature</p>
+                    <p class="text-[10px] text-slate-500">P.S. ${escapeHtml(station)}, ${escapeHtml(district)}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Official Citizen Portal Link & Legal Disclaimer Footer -->
+            <div class="text-center pt-2 text-[10px] text-slate-500 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
+              <span>Official State Police Portal: <a href="${tmpl.portalUrl}" target="_blank" class="text-cyan-700 underline font-semibold">${tmpl.portalName} (${tmpl.portalUrl})</a></span>
+              <span class="font-mono text-[9px] text-slate-400">Ref: Sec 144 CrPC Compliance Performa · Rental Income Suite</span>
+            </div>
+
+            <!-- Page 4 Footer -->
+            <div class="flex items-center justify-between pt-3 border-t border-slate-300 text-[10px] text-slate-500 font-medium">
+              <span>${tmpl.stateName} · Mandatory Document Checklist &amp; Police Inquiry Report</span>
+              <span class="font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Page 4 of 4</span>
+            </div>
           </div>
         `;
+
+        // Apply active page filter
+        setPolicePageView(currentPolicePageView);
       }
 
       function printPoliceForm() {
+        const previousView = currentPolicePageView;
+        setPolicePageView("all");
         document.body.classList.add("print-police");
         window.print();
         setTimeout(() => {
           document.body.classList.remove("print-police");
+          setPolicePageView(previousView);
         }, 1000);
       }
 
@@ -18174,11 +18968,28 @@ Statutory Declaration: All above information is true and certified for Police Re
         document.getElementById("policePrintBtn")?.addEventListener("click", printPoliceForm);
         document.getElementById("policePreviewPrintBtn")?.addEventListener("click", printPoliceForm);
 
-        // Download HTML button
+        // Download HTML buttons
         document.getElementById("policeDownloadHtmlBtn")?.addEventListener("click", downloadPoliceFormHtml);
+        document.getElementById("policePreviewDownloadBtn")?.addEventListener("click", downloadPoliceFormHtml);
 
-        // Copy Text button
+        // Copy Text buttons
         document.getElementById("policeCopyTextBtn")?.addEventListener("click", copyPoliceFormText);
+        document.getElementById("policePreviewCopyBtn")?.addEventListener("click", copyPoliceFormText);
+
+        // Page Selector Tab Buttons (All Pages, Page 1, Page 2, Page 3, Page 4)
+        const pageTabBtns = typeof document.querySelectorAll === "function"
+          ? document.querySelectorAll(".police-page-tab-btn")
+          : [];
+        if (pageTabBtns && pageTabBtns.forEach) {
+          pageTabBtns.forEach((btn) => {
+            if (typeof btn.addEventListener === "function") {
+              btn.addEventListener("click", () => {
+                const page = (btn.getAttribute ? btn.getAttribute("data-police-page") : btn["data-police-page"]) || "all";
+                setPolicePageView(page);
+              });
+            }
+          });
+        }
 
         // Reset button
         document.getElementById("policeResetBtn")?.addEventListener("click", () => {
@@ -20211,15 +21022,17 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         });
 
         // Delegate table action buttons
-        document.querySelectorAll(".gst-row-view-btn").forEach((btn) => {
-          btn.onclick = () => openGstInvoiceModal(btn.dataset.invoiceId);
-        });
-        document.querySelectorAll(".gst-row-wa-btn").forEach((btn) => {
-          btn.onclick = () => dispatchGstInvoiceWhatsApp(btn.dataset.invoiceId);
-        });
-        document.querySelectorAll(".gst-row-email-btn").forEach((btn) => {
-          btn.onclick = () => dispatchGstInvoiceEmail(btn.dataset.invoiceId);
-        });
+        if (typeof document.querySelectorAll === "function") {
+          document.querySelectorAll(".gst-row-view-btn").forEach((btn) => {
+            btn.onclick = () => openGstInvoiceModal(btn.dataset.invoiceId);
+          });
+          document.querySelectorAll(".gst-row-wa-btn").forEach((btn) => {
+            btn.onclick = () => dispatchGstInvoiceWhatsApp(btn.dataset.invoiceId);
+          });
+          document.querySelectorAll(".gst-row-email-btn").forEach((btn) => {
+            btn.onclick = () => dispatchGstInvoiceEmail(btn.dataset.invoiceId);
+          });
+        }
       }
 
       function openBatchGstDispatchModal(selectedMonth) {
@@ -20274,19 +21087,21 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
           container.appendChild(row);
         });
 
-        container.querySelectorAll(".batch-row-wa-btn").forEach((btn) => {
-          btn.onclick = () => {
-            dispatchGstInvoiceWhatsApp(btn.dataset.invoiceId);
-            openBatchGstDispatchModal(month);
-          };
-        });
+        if (typeof container.querySelectorAll === "function") {
+          container.querySelectorAll(".batch-row-wa-btn").forEach((btn) => {
+            btn.onclick = () => {
+              dispatchGstInvoiceWhatsApp(btn.dataset.invoiceId);
+              openBatchGstDispatchModal(month);
+            };
+          });
 
-        container.querySelectorAll(".batch-row-email-btn").forEach((btn) => {
-          btn.onclick = () => {
-            dispatchGstInvoiceEmail(btn.dataset.invoiceId);
-            openBatchGstDispatchModal(month);
-          };
-        });
+          container.querySelectorAll(".batch-row-email-btn").forEach((btn) => {
+            btn.onclick = () => {
+              dispatchGstInvoiceEmail(btn.dataset.invoiceId);
+              openBatchGstDispatchModal(month);
+            };
+          });
+        }
 
         // Send next unsent tenant
         const nextBtn = document.getElementById("batchDispatchSendNextBtn");
@@ -20563,6 +21378,9 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         window.autoCheckAndGenerateMonthlyGstInvoices = autoCheckAndGenerateMonthlyGstInvoices;
         window.printGstInvoice = printGstInvoice;
         window.printGstRegister = printGstRegister;
+        window.getMonthlyCollectionTotals = getMonthlyCollectionTotals;
+        window.renderDashboardCollectionChart = renderDashboardCollectionChart;
+        window.setPolicePageView = setPolicePageView;
       });
     })();
   </script>
