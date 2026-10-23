@@ -1647,23 +1647,52 @@
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Signed Rent Agreement Copies Attachment (Multi-File: PDF / Image / Doc) -->
-            <div class="pt-2 border-t border-slate-100">
+          <!-- Dedicated Box: Agreements (Upload & Keep Signed Copy of Agreement for Future Reference) -->
+          <div class="sm:col-span-1 lg:col-span-2 p-4 rounded-2xl border border-blue-200 bg-blue-50/50 dark:bg-slate-800/80 dark:border-blue-900/50 space-y-3 shadow-2xs">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-blue-100 dark:border-slate-700/80 pb-2.5">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm shadow-xs font-bold">
+                  📑
+                </span>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <label class="text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">
+                      Agreements
+                    </label>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300 border border-blue-200 dark:border-blue-700">
+                      Signed Copy Reference
+                    </span>
+                  </div>
+                  <p class="text-[11px] text-slate-500 dark:text-slate-400">
+                    Upload &amp; keep signed copy of agreement for future reference (legal, disputes &amp; recordkeeping)
+                  </p>
+                </div>
+              </div>
+              <span id="tmAgreementDocsCountLabel" class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 shadow-2xs">
+                0 agreement files attached
+              </span>
+            </div>
+
+            <!-- Upload Action & Format Note -->
+            <div>
               <input type="file" id="tmAgreementDocsInput" class="hidden" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,application/pdf,image/*,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-              <div id="tmAgreementDocsEmptyState" class="flex flex-wrap items-center gap-2">
+              <div id="tmAgreementDocsEmptyState" class="flex flex-wrap items-center gap-2.5">
                 <button
                   type="button"
                   id="tmAgreementDocsUploadBtn"
-                  class="px-3 py-1.5 rounded-xl border border-blue-200 bg-blue-50/80 hover:bg-blue-100 text-blue-800 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition flex items-center gap-2 cursor-pointer shadow-xs active:scale-95"
                 >
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                  <span>Attach Signed Copy Agreement (Multiple Files)</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                  <span>+ Upload Signed Agreement (Multiple Files)</span>
                 </button>
-                <span id="tmAgreementDocsCountLabel" class="text-[11px] text-slate-400">PDF, Images (.jpg, .png), Word (.doc, .docx) up to 15MB</span>
+                <span class="text-[11px] text-slate-500 dark:text-slate-400">Supports PDF, Images (JPG, PNG), Word (.doc, .docx) up to 15MB each</span>
               </div>
-              <div id="tmAgreementDocsChipsContainer" class="flex flex-wrap gap-1.5 pt-1.5"></div>
             </div>
+
+            <!-- Uploaded Agreement Chips List Container -->
+            <div id="tmAgreementDocsChipsContainer" class="flex flex-wrap gap-2 pt-0.5"></div>
           </div>
 
           <!-- Tenancy Status -->
@@ -4371,6 +4400,34 @@
               <button type="button" id="modalAutoFillDatesBtn" class="text-[10px] text-indigo-600 font-bold hover:underline">Auto-fill 11 Mo</button>
             </div>
             <input id="modalTenantEnd" type="date" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-indigo-500" />
+          </div>
+
+          <!-- Agreements Box: Signed Copy of Agreement for Future Reference -->
+          <div class="sm:col-span-2 p-3.5 rounded-2xl border border-blue-200 bg-blue-50/50 dark:bg-slate-800/80 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-bold">📑</span>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <label class="text-xs font-bold text-slate-800 dark:text-white">Agreements</label>
+                    <span class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 border border-blue-200">Signed Copy</span>
+                  </div>
+                  <p class="text-[11px] text-slate-500">Keep signed copy of agreement for future reference</p>
+                </div>
+              </div>
+              <span id="modalTenantAgreementsCountLabel" class="text-[10px] text-blue-700 dark:text-blue-300 font-bold px-2 py-0.5 rounded-full bg-blue-100/70 border border-blue-200">
+                0 files
+              </span>
+            </div>
+            <input type="file" id="modalTenantAgreementsInput" class="hidden" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,application/pdf,image/*,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" id="modalTenantAgreementsBtn" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs active:scale-95">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span>+ Upload Signed Agreement</span>
+              </button>
+              <span class="text-[11px] text-slate-400">PDF, Images, Word (.doc, .docx) up to 15MB</span>
+            </div>
+            <div id="modalTenantAgreementsChips" class="flex flex-wrap gap-1.5 pt-0.5"></div>
           </div>
         </div>
 
@@ -11910,25 +11967,25 @@
         container.innerHTML = "";
 
         if (!currentTmAgreementDocs || currentTmAgreementDocs.length === 0) {
-          if (countLabel) countLabel.textContent = "PDF, Images (.jpg, .png), Word (.doc, .docx) up to 15MB";
+          if (countLabel) countLabel.textContent = "0 agreement files attached";
           return;
         }
 
         if (countLabel) {
-          countLabel.textContent = `${currentTmAgreementDocs.length} agreement file(s) attached`;
+          countLabel.textContent = `${currentTmAgreementDocs.length} agreement file(s) attached for reference`;
         }
 
         currentTmAgreementDocs.forEach((doc, idx) => {
           const typeInfo = getDocTypeInfo(doc.name, doc.type);
           const chip = document.createElement("div");
-          chip.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-200 text-xs text-blue-950 shadow-2xs";
+          chip.className = "inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-800 text-xs text-blue-950 dark:text-blue-200 shadow-2xs hover:border-blue-400 transition";
           chip.innerHTML = `
-            <span class="text-xs">${typeInfo.icon}</span>
-            <span class="font-bold text-[10px] px-1 py-0.2 rounded border ${typeInfo.badgeClass}">${typeInfo.label}</span>
-            <span class="font-semibold max-w-[140px] truncate" title="${escapeHtml(doc.name)}">${escapeHtml(doc.name)}</span>
-            <span class="text-[10px] text-blue-700">(${formatDocSize(doc.size)})</span>
-            <button type="button" data-idx="${idx}" class="tm-chip-preview-btn ml-1 hover:text-blue-700 font-bold text-xs cursor-pointer" title="Preview / Download">👁️</button>
-            <button type="button" data-idx="${idx}" class="tm-chip-remove-btn hover:text-rose-600 font-bold text-xs cursor-pointer ml-0.5" title="Remove attachment">✕</button>
+            <span class="text-sm">${typeInfo.icon}</span>
+            <span class="font-bold text-[10px] px-1.5 py-0.2 rounded border ${typeInfo.badgeClass}">${typeInfo.label}</span>
+            <span class="font-bold max-w-[150px] truncate" title="${escapeHtml(doc.name)}">${escapeHtml(doc.name)}</span>
+            <span class="text-[10px] text-blue-600 dark:text-blue-400 font-mono">(${formatDocSize(doc.size)})</span>
+            <button type="button" data-idx="${idx}" class="tm-chip-preview-btn ml-1 px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-bold text-[11px] hover:bg-blue-100 transition cursor-pointer" title="Preview / Download">👁️ View</button>
+            <button type="button" data-idx="${idx}" class="tm-chip-remove-btn p-1 rounded hover:bg-rose-50 text-slate-400 hover:text-rose-600 font-bold text-xs transition cursor-pointer ml-0.5" title="Remove attachment">✕</button>
           `;
 
           chip.querySelector(".tm-chip-preview-btn")?.addEventListener("click", () => {
@@ -11945,6 +12002,55 @@
           container.appendChild(chip);
         });
       }
+
+      // Modal Tenant Agreements state & renderer
+      let currentModalAgreementDocs = [];
+      window.setCurrentModalAgreementDocs = (docs) => { currentModalAgreementDocs = Array.isArray(docs) ? docs : []; };
+      window.getCurrentModalAgreementDocs = () => currentModalAgreementDocs;
+
+      function renderModalAgreementChips() {
+        const container = document.getElementById("modalTenantAgreementsChips");
+        const countLabel = document.getElementById("modalTenantAgreementsCountLabel");
+        if (!container) return;
+        container.innerHTML = "";
+
+        if (!currentModalAgreementDocs || currentModalAgreementDocs.length === 0) {
+          if (countLabel) countLabel.textContent = "0 files";
+          return;
+        }
+
+        if (countLabel) {
+          countLabel.textContent = `${currentModalAgreementDocs.length} file(s) attached`;
+        }
+
+        currentModalAgreementDocs.forEach((doc, idx) => {
+          const typeInfo = getDocTypeInfo(doc.name, doc.type);
+          const chip = document.createElement("div");
+          chip.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-blue-200 text-xs text-blue-950 shadow-2xs";
+          chip.innerHTML = `
+            <span class="text-xs">${typeInfo.icon}</span>
+            <span class="font-bold text-[10px] px-1 py-0.2 rounded border ${typeInfo.badgeClass}">${typeInfo.label}</span>
+            <span class="font-semibold max-w-[130px] truncate" title="${escapeHtml(doc.name)}">${escapeHtml(doc.name)}</span>
+            <span class="text-[10px] text-blue-700">(${formatDocSize(doc.size)})</span>
+            <button type="button" data-idx="${idx}" class="modal-chip-preview-btn ml-1 text-blue-700 hover:underline font-bold text-[11px] cursor-pointer" title="Preview / Download">View</button>
+            <button type="button" data-idx="${idx}" class="modal-chip-remove-btn text-rose-500 hover:text-rose-700 font-bold text-xs cursor-pointer ml-1" title="Remove attachment">✕</button>
+          `;
+
+          chip.querySelector(".modal-chip-preview-btn")?.addEventListener("click", () => {
+            const tenantName = document.getElementById("modalTenantName")?.value || "Tenant";
+            openDocPreviewModal(`Signed Agreement — ${doc.name}`, `Attached to ${tenantName}'s Record`, doc);
+          });
+
+          chip.querySelector(".modal-chip-remove-btn")?.addEventListener("click", () => {
+            currentModalAgreementDocs.splice(idx, 1);
+            renderModalAgreementChips();
+            showFeedback(`Removed "${doc.name}" from attachments.`);
+          });
+
+          container.appendChild(chip);
+        });
+      }
+      window.renderModalAgreementChips = renderModalAgreementChips;
 
       function openTenantAgreementsModal(tenantId) {
         const modal = document.getElementById("tenantAgreementDocsModal");
@@ -12108,6 +12214,9 @@
             if (targetMode === "form") {
               currentTmAgreementDocs.push(docObj);
               renderTmAgreementChips();
+            } else if (targetMode === "modalForm") {
+              currentModalAgreementDocs.push(docObj);
+              renderModalAgreementChips();
             } else if (targetMode === "modal" && activeAgreementsTenantId) {
               const tenant = state.tenants.find((t) => t.id === activeAgreementsTenantId);
               if (tenant) {
@@ -13212,6 +13321,8 @@
           currentModalAadhaarDoc = existingTenant.aadhaarDoc || null;
           updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, currentModalPanDoc);
           updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, currentModalAadhaarDoc);
+          currentModalAgreementDocs = Array.isArray(existingTenant.agreementDocs) ? existingTenant.agreementDocs.slice() : [];
+          renderModalAgreementChips();
         } else {
           // Property is VACANT: show unassigned tenants first and pre-fill the first unassigned tenant!
           if (vacateBtn) vacateBtn.classList.add("hidden");
@@ -13239,6 +13350,8 @@
             currentModalAadhaarDoc = firstUnassigned.aadhaarDoc || null;
             updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, currentModalPanDoc);
             updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, currentModalAadhaarDoc);
+            currentModalAgreementDocs = Array.isArray(firstUnassigned.agreementDocs) ? firstUnassigned.agreementDocs.slice() : [];
+            renderModalAgreementChips();
           } else {
             if (modalSelect) modalSelect.value = "new";
             document.getElementById("modalTenantName").value = "";
@@ -13262,6 +13375,8 @@
             currentModalAadhaarDoc = null;
             updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, null);
             updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, null);
+            currentModalAgreementDocs = [];
+            renderModalAgreementChips();
           }
 
           // Pre-fill 11 month dates
@@ -15989,6 +16104,8 @@
               currentModalAadhaarDoc = null;
               updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, null);
               updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, null);
+              currentModalAgreementDocs = [];
+              renderModalAgreementChips();
             } else {
               const selectedTenant = state.tenants.find((t) => t.id === val);
               if (selectedTenant) {
@@ -16015,6 +16132,8 @@
                 currentModalAadhaarDoc = selectedTenant.aadhaarDoc || null;
                 updateDocChipUI("modalTenantPanDocChip", "modalTenantPanDocEmpty", "modalTenantPanDocName", null, currentModalPanDoc);
                 updateDocChipUI("modalTenantAadhaarDocChip", "modalTenantAadhaarDocEmpty", "modalTenantAadhaarDocName", null, currentModalAadhaarDoc);
+                currentModalAgreementDocs = Array.isArray(selectedTenant.agreementDocs) ? selectedTenant.agreementDocs.slice() : [];
+                renderModalAgreementChips();
               }
             }
           });
@@ -16083,6 +16202,9 @@
               targetTenant.panDoc = currentModalPanDoc;
               targetTenant.aadhaar = aadhaar;
               targetTenant.aadhaarDoc = currentModalAadhaarDoc;
+              if (currentModalAgreementDocs && currentModalAgreementDocs.length > 0) {
+                targetTenant.agreementDocs = currentModalAgreementDocs;
+              }
               targetTenant.osAmount = os;
               targetTenant.startDate = startDate;
               targetTenant.endDate = endDate;
@@ -16104,6 +16226,7 @@
                 panDoc: currentModalPanDoc,
                 aadhaar,
                 aadhaarDoc: currentModalAadhaarDoc,
+                agreementDocs: currentModalAgreementDocs || [],
                 osAmount: os,
                 status: "Active",
                 startDate,
@@ -16117,6 +16240,8 @@
 
             saveState();
             renderAll();
+            currentModalAgreementDocs = [];
+            renderModalAgreementChips();
             closeLinkTenantModal();
             showFeedback(`Tenant "${name}" successfully linked to "${prop.name}"!`);
           });
@@ -16515,6 +16640,17 @@
         document.getElementById("modalTenantAadhaarDocPreviewBtn")?.addEventListener("click", () => {
           const tenantName = document.getElementById("modalTenantName")?.value || "Tenant";
           openDocPreviewModal(`Aadhaar Card Document — ${tenantName}`, "Tenant Identity Verification", currentModalAadhaarDoc);
+        });
+
+        // Link Tenant Modal: Agreements Signed Copy Upload Listeners
+        document.getElementById("modalTenantAgreementsBtn")?.addEventListener("click", () => {
+          document.getElementById("modalTenantAgreementsInput")?.click();
+        });
+        document.getElementById("modalTenantAgreementsInput")?.addEventListener("change", (e) => {
+          if (e.target.files && e.target.files.length > 0) {
+            handleAgreementFilesUpload(e.target.files, "modalForm");
+            e.target.value = "";
+          }
         });
 
         // Document Viewer Modal Close buttons

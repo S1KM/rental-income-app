@@ -28,7 +28,13 @@ const requiredElements = [
   "agreementsBrowseBtn",
   "agreementsFileListContainer",
   "tenantAgreementFooterSummary",
-  "closeAgreementDocsModalFooterBtn"
+  "closeAgreementDocsModalFooterBtn",
+
+  // Link / Manage Tenant Modal Agreements elements
+  "modalTenantAgreementsInput",
+  "modalTenantAgreementsBtn",
+  "modalTenantAgreementsChips",
+  "modalTenantAgreementsCountLabel"
 ];
 
 let missing = 0;
@@ -44,6 +50,15 @@ if (missing > 0) {
   process.exit(1);
 }
 console.log(`✓ All ${requiredElements.length} required Signed Agreement DOM IDs verified in HTML!`);
+
+// Verify "Agreements" option label and "keep the signed copy of agreement for future reference" text in form
+assert(
+  htmlContent.includes("Agreements") &&
+  htmlContent.includes("Signed Copy Reference") &&
+  (htmlContent.includes("future reference") || htmlContent.includes("future legal")),
+  "Tenant Registration Form must have prominent 'Agreements' option for keeping signed copies for future reference"
+);
+console.log("✓ 'Agreements' dedicated section with signed copy for future reference verified in Tenant Registration Form!");
 
 // 2. Multi-file attributes and supported formats check
 assert(
@@ -336,6 +351,17 @@ assert(renderedCards.includes("Signed Copy:"), "Tenant card must display 'Signed
 assert(renderedCards.includes("data-action=\"tm-view-agreements\"") || renderedCards.includes("data-action=\"tm-upload-agreements\""), "Tenant card must have agreement action triggers");
 assert(renderedCards.includes("Signed Copy (1)") || renderedCards.includes("Signed Copy (+)"), "Action button row must include Signed Copy button");
 console.log("✓ Tenant card renders Signed Copy badge and [📑 Signed Copy] action button!");
+
+// 9. Link / Manage Tenant Modal Agreements Option
+console.log("\n--- Testing Link / Manage Tenant Modal Agreements Option ---");
+mockWindow.setCurrentModalAgreementDocs([testPdfDoc, testWordDoc]);
+mockWindow.renderModalAgreementChips();
+
+const modalChipsContainer = mockDoc.getElementById("modalTenantAgreementsChips");
+assert(modalChipsContainer.children.length === 2, `Expected 2 chips in link modal, found ${modalChipsContainer.children.length}`);
+assert(modalChipsContainer.children[0].innerHTML.includes("Lease_Agreement_2026.pdf"), "Modal chip 1 must contain PDF name");
+assert(modalChipsContainer.children[1].innerHTML.includes("Tenancy_Contract_Final.docx"), "Modal chip 2 must contain Word name");
+console.log("✓ Link / Manage Tenant Modal 'Agreements' option successfully renders signed copy chips!");
 
 console.log("\n========================================================");
 console.log("🎉 ALL SIGNED AGREEMENT MULTI-UPLOAD TESTS PASSED 100%!");
