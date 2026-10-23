@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "echo 'Build complete: Static assets ready'",
+    "test": "node scripts/run_all_tests.cjs",
     "start": "npx serve .",
     "dev": "npx serve .",
     "deploy": "node scripts/deploy.js"
