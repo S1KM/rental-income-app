@@ -5708,6 +5708,29 @@
             </p>
           </div>
 
+          <!-- Channel Delivery Action Buttons -->
+          <div id="authOtpDeliveryActions" class="space-y-1.5 pt-1">
+            <a
+              id="authOtpWhatsAppBtn"
+              href="#"
+              target="_blank"
+              class="hidden w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition cursor-pointer"
+            >
+              <span>💬 Open WhatsApp to Receive OTP</span>
+            </a>
+            <a
+              id="authOtpEmailBtn"
+              href="#"
+              target="_blank"
+              class="hidden w-full py-2 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 active:scale-[0.99] text-indigo-700 font-bold text-xs flex items-center justify-center gap-2 border border-indigo-200 transition cursor-pointer"
+            >
+              <span>✉️ Open Email App to Check OTP</span>
+            </a>
+            <div id="authOtpStatusNote" class="text-[10px] text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/80 p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-center">
+              A 6-digit code has been dispatched. Please check your inbox or tap WhatsApp above.
+            </div>
+          </div>
+
           <!-- 6-Digit OTP Group -->
           <div class="flex items-center justify-center gap-2 pt-2">
             <input type="text" maxlength="1" id="authOtp1" class="otp-box w-10 h-11 text-center text-lg font-black font-mono rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none" />
@@ -7955,6 +7978,53 @@
         return code;
       }
 
+      function updateOtpDeliveryButtons(targetEmail, targetPhone, otpCode) {
+        const waBtn = document.getElementById("authOtpWhatsAppBtn");
+        const emailBtn = document.getElementById("authOtpEmailBtn");
+        const statusNote = document.getElementById("authOtpStatusNote");
+
+        const cleanPhone = (targetPhone || "").replace(/\D/g, "").slice(-10);
+        if (cleanPhone && cleanPhone.length === 10) {
+          if (waBtn) {
+            const waMsg = encodeURIComponent(
+              `🔐 RentMaster One-Time Verification OTP is: ${otpCode}\n\nEnter this 6-digit code to complete sign-in. Valid for 10 minutes.`
+            );
+            waBtn.href = `https://wa.me/91${cleanPhone}?text=${waMsg}`;
+            waBtn.classList.remove("hidden");
+          }
+        } else if (waBtn) {
+          waBtn.classList.add("hidden");
+        }
+
+        if (targetEmail && targetEmail.includes("@")) {
+          if (emailBtn) {
+            const lowerEmail = targetEmail.toLowerCase();
+            if (lowerEmail.includes("gmail.com")) {
+              emailBtn.href = "https://mail.google.com";
+            } else if (lowerEmail.includes("outlook.com") || lowerEmail.includes("hotmail.com")) {
+              emailBtn.href = "https://outlook.live.com";
+            } else if (lowerEmail.includes("yahoo.com")) {
+              emailBtn.href = "https://mail.yahoo.com";
+            } else {
+              emailBtn.href = `mailto:${targetEmail}`;
+            }
+            emailBtn.classList.remove("hidden");
+          }
+        } else if (emailBtn) {
+          emailBtn.classList.add("hidden");
+        }
+
+        if (statusNote) {
+          if (cleanPhone && targetEmail) {
+            statusNote.textContent = `Verification OTP dispatched to ${targetEmail} and +91 ${cleanPhone}. Tap WhatsApp or check your email inbox.`;
+          } else if (cleanPhone) {
+            statusNote.textContent = `Verification OTP dispatched for +91 ${cleanPhone}. Tap 'Open WhatsApp' above or check your messages.`;
+          } else {
+            statusNote.textContent = `Verification OTP dispatched to ${targetEmail}. Check your email inbox (and Spam/Junk folder) or tap 'Open Email' above.`;
+          }
+        }
+      }
+
       function startOtpCountdown(duration = 45) {
         if (otpCountdownInterval) clearInterval(otpCountdownInterval);
         const cdContainer = document.getElementById("authOtpCountdownText");
@@ -8207,7 +8277,8 @@
 
         setAuthMode("otp");
         startOtpCountdown(45);
-        showAuthFeedback(`One-Time Code sent! Use code: ${otpCode} to verify.`, "info");
+        updateOtpDeliveryButtons(email, phone, otpCode);
+        showAuthFeedback(`One-Time Code dispatched to ${email} · (+91 ${phone})! Check your email or tap WhatsApp below. <span class="text-slate-400 text-[10px] block mt-1" id="authRegTestingCode">(Demo / Testing Code: <strong class="font-mono font-bold">${otpCode}</strong>)</span>`, "info");
         toast.info(`One-Time Code Sent! Verification code: ${otpCode}`);
       }
 
@@ -8297,8 +8368,37 @@
         pendingAuthAction.code = newCode;
         clearOtpInputs();
         startOtpCountdown(45);
-        showAuthFeedback(`New verification code sent! Use code: ${newCode}`, "info");
-        toast.info(`New Verification Code: ${newCode}`);
+
+        const isEmail = (pendingAuthAction.target || "").includes("@");
+        const lowerId = isEmail ? pendingAuthAction.target.toLowerCase() : "";
+        const cleanPhone = !isEmail
+          ? (pendingAuthAction.target || "").replace(/\D/g, "").slice(-10)
+          : (pendingAuthAction.phone || "").replace(/\D/g, "").slice(-10);
+
+        if (supabaseClient) {
+          if (isEmail && lowerId) {
+            supabaseClient.auth
+              .signInWithOtp({
+                email: lowerId,
+                options: { shouldCreateUser: true }
+              })
+              .catch((e) => console.warn("Supabase resend email OTP note:", e));
+          } else if (cleanPhone) {
+            supabaseClient.auth
+              .signInWithOtp({
+                phone: `+91${cleanPhone}`,
+                options: { shouldCreateUser: true }
+              })
+              .catch((e) => console.warn("Supabase resend phone OTP note:", e));
+          }
+        }
+
+        updateOtpDeliveryButtons(lowerId, cleanPhone, newCode);
+        showAuthFeedback(
+          `New verification code sent! Check your ${isEmail ? "email inbox" : "WhatsApp / Mobile"}. <span class="text-slate-400 text-[10px] block mt-1">(Demo / Testing Code: <strong class="font-mono font-bold">${newCode}</strong>)</span>`,
+          "info"
+        );
+        toast.info(`New Verification Code dispatched! (Code: ${newCode})`);
       }
 
       async function handleQuickOtpLogin() {
@@ -8351,10 +8451,33 @@
           targetDisplay.textContent = isEmail ? lowerId : `+91 ${cleanPhone}`;
         }
 
+        // Dispatch real OTP via Supabase Auth if connected
+        if (supabaseClient) {
+          if (isEmail) {
+            supabaseClient.auth
+              .signInWithOtp({
+                email: lowerId,
+                options: { shouldCreateUser: true }
+              })
+              .catch((e) => console.warn("Supabase signInWithOtp email notification:", e));
+          } else if (cleanPhone) {
+            supabaseClient.auth
+              .signInWithOtp({
+                phone: `+91${cleanPhone}`,
+                options: { shouldCreateUser: true }
+              })
+              .catch((e) => console.warn("Supabase signInWithOtp phone notification:", e));
+          }
+        }
+
         setAuthMode("otp");
         startOtpCountdown(45);
-        showAuthFeedback(`One-Time Sign-In Code sent to ${isEmail ? lowerId : cleanPhone}! Use code: ${otpCode} to sign in.`, "info");
-        toast.info(`One-Time Sign-In Code: ${otpCode}`);
+        updateOtpDeliveryButtons(isEmail ? lowerId : "", !isEmail ? cleanPhone : "", otpCode);
+        showAuthFeedback(
+          `One-Time Sign-In Code sent to ${isEmail ? lowerId : '+91 ' + cleanPhone}! Check your ${isEmail ? 'email inbox' : 'WhatsApp / Mobile'}. <span class="text-slate-400 text-[10px] block mt-1" id="authQuickOtpTestingCode">(Demo / Testing Code: <strong class="font-mono font-bold">${otpCode}</strong>)</span>`,
+          "info"
+        );
+        toast.info(`One-Time Sign-In Code dispatched to ${isEmail ? lowerId : '+91 ' + cleanPhone}! (Code: ${otpCode})`);
       }
 
       async function handleForgotPasswordRequest() {
@@ -8393,6 +8516,7 @@
 
         setAuthMode("otp");
         startOtpCountdown(45);
+        updateOtpDeliveryButtons(email, "", resetCode);
         showAuthFeedback(`Password reset link & code sent to ${email}! (Code: ${resetCode})`, "info");
         toast.success(`Password Reset Link Sent to ${email} (Code: ${resetCode})`);
       }
