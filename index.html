@@ -2507,6 +2507,65 @@
               </div>
             </div>
 
+            <!-- Section 5: Custom Rental Clauses & Special Terms -->
+            <div id="customClausesSection" class="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-2xs">⚖️</span>
+                  <div>
+                    <h3 class="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
+                      <span>Custom Rental Clauses</span>
+                      <span id="customClausesCountBadge" class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">0 Custom Clauses</span>
+                    </h3>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Add bespoke legal covenants, pet restrictions, lock-in terms, or special tenant duties.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Pre-composed Clause Suggestions -->
+              <div>
+                <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-1">⚡ Quick Preset Clauses (Click to insert &amp; customize):</span>
+                <div class="flex flex-wrap gap-1.5" id="presetClausesContainer">
+                  <button type="button" class="preset-clause-btn text-[10px] font-semibold px-2 py-1 rounded-md bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 transition cursor-pointer" data-preset="pet">🐾 Pet Policy</button>
+                  <button type="button" class="preset-clause-btn text-[10px] font-semibold px-2 py-1 rounded-md bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 transition cursor-pointer" data-preset="lockin">🔒 6-Month Lock-in</button>
+                  <button type="button" class="preset-clause-btn text-[10px] font-semibold px-2 py-1 rounded-md bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 transition cursor-pointer" data-preset="paint">🎨 Painting &amp; Repair</button>
+                  <button type="button" class="preset-clause-btn text-[10px] font-semibold px-2 py-1 rounded-md bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 transition cursor-pointer" data-preset="late">⏱️ Late Rent Fine</button>
+                  <button type="button" class="preset-clause-btn text-[10px] font-semibold px-2 py-1 rounded-md bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 transition cursor-pointer" data-preset="commercial">🚫 No Commercial Use</button>
+                  <button type="button" class="preset-clause-btn text-[10px] font-semibold px-2 py-1 rounded-md bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 transition cursor-pointer" data-preset="sublet">👥 No Subletting</button>
+                </div>
+              </div>
+
+              <!-- Clause Input Card -->
+              <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-2">
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <label for="newClauseInput" class="text-[11px] font-bold text-slate-700 dark:text-slate-300">Add New Rental Clause</label>
+                    <span class="text-[9px] text-slate-400">Numbered sequentially in legal deed</span>
+                  </div>
+                  <textarea
+                    id="newClauseInput"
+                    rows="2"
+                    placeholder="e.g. PET RESTRICTION: No dogs, cats, or other animals shall be kept in the Demised Premises without explicit prior written consent of the Owner."
+                    class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1.5 focus:ring-indigo-500 transition shadow-2xs placeholder:text-slate-400 placeholder:text-[11px] leading-relaxed"
+                  ></textarea>
+                </div>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-[10px] text-slate-500 dark:text-slate-400">Appears immediately in the live deed preview &amp; print PDF.</span>
+                  <button
+                    type="button"
+                    id="addCustomClauseBtn"
+                    class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition shadow-2xs flex items-center gap-1.5 cursor-pointer shrink-0"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    <span>+ Add Clause</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- List of Active Custom Clauses in Form -->
+              <div id="customClausesList" class="space-y-2"></div>
+            </div>
+
             <!-- Action Buttons -->
             <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center gap-2">
               <button
@@ -2694,6 +2753,9 @@
                     </li>
                   </ol>
 
+                  <!-- Additional Custom Rental Clauses (Option 2) -->
+                  <ol start="22" id="preview2CustomClausesList" class="list-decimal list-outside pl-4 space-y-3 mt-3 hidden"></ol>
+
                   <!-- ANNEXURE-I -->
                   <div class="mt-8 pt-6 border-t-2 border-slate-900 bg-slate-50/80 p-5 rounded-xl border border-slate-300">
                     <h4 class="font-black text-center text-sm uppercase tracking-widest text-slate-950 font-serif-title mb-3">
@@ -2840,6 +2902,9 @@
                       <strong id="previewEscalationRate">10% (Ten Percent)</strong> on the existing rental amount.
                     </li>
                   </ol>
+
+                  <!-- Additional Custom Rental Clauses (Option 1) -->
+                  <ol start="9" id="preview1CustomClausesList" class="list-decimal list-outside pl-4 space-y-2.5 mt-2.5 hidden"></ol>
 
                   <p class="pt-4">
                     IN WITNESS WHEREOF, the First Party and the Second Party have signed this Agreement on the day, month, and year first above written in the presence of the witnesses.
@@ -7169,6 +7234,7 @@
       const STORAGE_KEY_SUPABASE_URL = "rpm_supabase_url";
       const STORAGE_KEY_SUPABASE_KEY = "rpm_supabase_key";
       const STORAGE_KEY_SUPABASE_AUTOSYNC = "rpm_supabase_autosync";
+      const STORAGE_KEY_AGREEMENT_CUSTOM_CLAUSES = "rpm_agreement_custom_clauses_v1";
 
       // --- HELPER: UNIFIED DATE FORMATTER (DD-MMM-YYYY) ---
       function formatLedgerDate(dStr) {
@@ -7465,7 +7531,8 @@
         ledgerInstallments: {}, // custom recorded partial/full payments: { "propId_Oct 2026": [ { id, date, amount, mode, ref } ] }
         activePartialPayPropId: null,
         activePartialPayCycle: null,
-        editingInstallmentIndex: null
+        editingInstallmentIndex: null,
+        customAgreementClauses: []
       };
 
       // --- UTILITY: NUMBER TO INDIAN RUPEE WORDS ---
@@ -8999,6 +9066,9 @@
           state.mcdRecords = storedMcd ? JSON.parse(storedMcd) : JSON.parse(JSON.stringify(SAMPLE_MCD));
           state.ledgerInstallments = storedInstallments ? JSON.parse(storedInstallments) : {};
 
+          const storedClauses = localStorage.getItem(STORAGE_KEY_AGREEMENT_CUSTOM_CLAUSES);
+          state.customAgreementClauses = storedClauses ? JSON.parse(storedClauses) : [];
+
           if (storedLandlord) {
             state.landlord = JSON.parse(storedLandlord);
           }
@@ -9088,6 +9158,7 @@
           localStorage.setItem(STORAGE_KEY_MCD, JSON.stringify(state.mcdRecords));
           localStorage.setItem(STORAGE_KEY_LANDLORD, JSON.stringify(state.landlord));
           localStorage.setItem(STORAGE_KEY_LEDGER_INSTALLMENTS, JSON.stringify(state.ledgerInstallments || {}));
+          localStorage.setItem(STORAGE_KEY_AGREEMENT_CUSTOM_CLAUSES, JSON.stringify(state.customAgreementClauses || []));
         } catch (e) {
           console.error("Storage save failed", e);
         }
@@ -14002,6 +14073,21 @@
           }
         }
 
+        // Load custom agreement clauses for this property or tenant
+        if (prop && prop.customClauses && Array.isArray(prop.customClauses)) {
+          state.customAgreementClauses = [...prop.customClauses];
+        } else if (tenant && tenant.customClauses && Array.isArray(tenant.customClauses)) {
+          state.customAgreementClauses = [...tenant.customClauses];
+        } else {
+          try {
+            const raw = localStorage.getItem(STORAGE_KEY_AGREEMENT_CUSTOM_CLAUSES);
+            state.customAgreementClauses = raw ? JSON.parse(raw) : [];
+          } catch(e) {
+            state.customAgreementClauses = state.customAgreementClauses || [];
+          }
+        }
+        renderCustomClauses();
+
         updateLiveAgreementPreview();
       }
 
@@ -14038,6 +14124,149 @@
         if (j === 3 && k !== 13) return day + "rd";
         return day + "th";
       }
+
+      // --- CUSTOM RENTAL CLAUSES IN AGREEMENT STUDIO ---
+      const PRESET_RENTAL_CLAUSES = {
+        pet: "PET RESTRICTION: No dogs, cats, birds, or other animals/pets shall be kept or harboured in the Demised Premises without explicit prior written consent of the Owner.",
+        lockin: "LOCK-IN PERIOD: Both the Owner and Tenant agree to a mandatory minimum lock-in period of 6 (Six) months. Neither party may terminate this agreement during this period, failing which the breaching party shall pay rent for the unexpired lock-in period.",
+        paint: "PAINTING & RESTORATION: The premises has been handed over newly painted and whitewashed. Upon vacating, the Tenant shall either restore the premises in the same fresh condition or permit deduction of one month's painting charges from the security deposit.",
+        late: "LATE RENT PENALTY: In the event monthly rent is not paid on or before the 7th of the calendar month, a late fee of ₹100/- per day shall be payable from the 8th of the month until cleared in full.",
+        commercial: "STRICT RESIDENTIAL USE ONLY: The demised premises shall be utilized exclusively for private residential living of the Tenant and direct family. Running commercial enterprises, retail trade, coaching, or storage is strictly prohibited.",
+        sublet: "STRICT PROHIBITION ON SUBLETTING: The Tenant shall not sublet, license, transfer, or part with possession of any room or portion of the demised premises to any paying guest, relative, or third party without the Owner's prior written consent."
+      };
+
+      function renderCustomClauses() {
+        const listEl = document.getElementById("customClausesList");
+        const countBadge = document.getElementById("customClausesCountBadge");
+        const preview1List = document.getElementById("preview1CustomClausesList");
+        const preview2List = document.getElementById("preview2CustomClausesList");
+
+        state.customAgreementClauses = state.customAgreementClauses || [];
+        const clauses = state.customAgreementClauses;
+
+        if (countBadge) {
+          countBadge.textContent = `${clauses.length} Custom Clause${clauses.length === 1 ? "" : "s"}`;
+        }
+
+        // Render in Studio form list
+        if (listEl) {
+          if (clauses.length === 0) {
+            listEl.innerHTML = `
+              <div class="p-2.5 rounded-lg border border-dashed border-slate-200 dark:border-slate-700 text-center text-[11px] text-slate-400 dark:text-slate-500 bg-slate-50/50 dark:bg-slate-850/40">
+                No custom clauses added yet. Type a clause above or click a quick preset to insert.
+              </div>
+            `;
+          } else {
+            listEl.innerHTML = clauses.map((clause, idx) => `
+              <div class="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-2xs space-y-1.5 transition" data-clause-idx="${idx}">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-black uppercase text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-1.5 py-0.2 rounded border border-indigo-200/60 dark:border-indigo-800/60">
+                    Additional Clause #${idx + 1}
+                  </span>
+                  <button
+                    type="button"
+                    class="text-[10px] font-bold text-rose-600 hover:text-rose-700 dark:text-rose-400 px-1.5 py-0.5 rounded hover:bg-rose-50 dark:hover:bg-rose-950/50 transition cursor-pointer"
+                    onclick="window.removeCustomClause(${idx})"
+                    title="Remove this clause"
+                  >
+                    ✕ Remove
+                  </button>
+                </div>
+                <textarea
+                  rows="2"
+                  class="w-full px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-650 bg-slate-50/60 dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-200 focus:bg-white dark:focus:bg-slate-850 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition leading-snug"
+                  oninput="window.editCustomClause(${idx}, this.value)"
+                >${escapeHtml(clause)}</textarea>
+              </div>
+            `).join("");
+          }
+        }
+
+        // Render in Live Preview 1 (Option 1)
+        if (preview1List) {
+          if (clauses.length > 0) {
+            preview1List.classList.remove("hidden");
+            preview1List.innerHTML = clauses.map((c) => `
+              <li class="leading-relaxed text-justify">
+                ${escapeHtml(c)}
+              </li>
+            `).join("");
+          } else {
+            preview1List.classList.add("hidden");
+            preview1List.innerHTML = "";
+          }
+        }
+
+        // Render in Live Preview 2 (Option 2)
+        if (preview2List) {
+          if (clauses.length > 0) {
+            preview2List.classList.remove("hidden");
+            preview2List.innerHTML = clauses.map((c) => `
+              <li class="leading-relaxed text-justify">
+                ${escapeHtml(c)}
+              </li>
+            `).join("");
+          } else {
+            preview2List.classList.add("hidden");
+            preview2List.innerHTML = "";
+          }
+        }
+      }
+
+      function addCustomClause(text) {
+        const trimmed = (text || "").trim();
+        if (!trimmed) return;
+        state.customAgreementClauses = state.customAgreementClauses || [];
+        state.customAgreementClauses.push(trimmed);
+        try {
+          localStorage.setItem(STORAGE_KEY_AGREEMENT_CUSTOM_CLAUSES, JSON.stringify(state.customAgreementClauses));
+        } catch (e) {}
+        renderCustomClauses();
+        showFeedback("Custom rental clause added to agreement!");
+      }
+
+      function removeCustomClause(idx) {
+        state.customAgreementClauses = state.customAgreementClauses || [];
+        if (idx >= 0 && idx < state.customAgreementClauses.length) {
+          state.customAgreementClauses.splice(idx, 1);
+          try {
+            localStorage.setItem(STORAGE_KEY_AGREEMENT_CUSTOM_CLAUSES, JSON.stringify(state.customAgreementClauses));
+          } catch (e) {}
+          renderCustomClauses();
+          showFeedback("Clause removed.");
+        }
+      }
+
+      function editCustomClause(idx, newText) {
+        state.customAgreementClauses = state.customAgreementClauses || [];
+        if (idx >= 0 && idx < state.customAgreementClauses.length) {
+          state.customAgreementClauses[idx] = newText;
+          try {
+            localStorage.setItem(STORAGE_KEY_AGREEMENT_CUSTOM_CLAUSES, JSON.stringify(state.customAgreementClauses));
+          } catch (e) {}
+          const p1 = document.getElementById("preview1CustomClausesList");
+          const p2 = document.getElementById("preview2CustomClausesList");
+          if (p1) {
+            p1.innerHTML = state.customAgreementClauses.map((c) => `
+              <li class="leading-relaxed text-justify">
+                ${escapeHtml(c)}
+              </li>
+            `).join("");
+          }
+          if (p2) {
+            p2.innerHTML = state.customAgreementClauses.map((c) => `
+              <li class="leading-relaxed text-justify">
+                ${escapeHtml(c)}
+              </li>
+            `).join("");
+          }
+        }
+      }
+
+      window.addCustomClause = addCustomClause;
+      window.removeCustomClause = removeCustomClause;
+      window.editCustomClause = editCustomClause;
+      window.renderCustomClauses = renderCustomClauses;
 
       function updateLiveAgreementPreview() {
         const templateOption = document.getElementById("studioTemplateSelect")?.value || "opt2";
@@ -14285,6 +14514,8 @@
 
         if (previewSignLessor) previewSignLessor.textContent = landlordName;
         if (previewSignLessee) previewSignLessee.textContent = tenantName;
+
+        renderCustomClauses();
       }
 
       // --- MODAL: HRA RENT RECEIPT ---
@@ -18256,6 +18487,35 @@
           showFeedback("11-month dates calculated.");
         });
 
+        // Add Custom Clause Button
+        document.getElementById("addCustomClauseBtn")?.addEventListener("click", () => {
+          const input = document.getElementById("newClauseInput");
+          const text = input ? input.value.trim() : "";
+          if (!text) {
+            showFeedback("Please enter clause text or select a preset.", "error");
+            input?.focus();
+            return;
+          }
+          addCustomClause(text);
+          if (input) input.value = "";
+        });
+
+        // Preset Clause Buttons
+        document.querySelectorAll(".preset-clause-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const key = e.currentTarget.getAttribute("data-preset");
+            const text = PRESET_RENTAL_CLAUSES[key];
+            if (text) {
+              const input = document.getElementById("newClauseInput");
+              if (input) {
+                input.value = text;
+                input.focus();
+                showFeedback("Preset clause loaded into text box. Click '+ Add Clause' to add or edit as needed.");
+              }
+            }
+          });
+        });
+
         // Save & Link Agreement button in Studio
         document.getElementById("saveAgreementBtn").addEventListener("click", () => {
           const propId = document.getElementById("studioPropertySelect").value;
@@ -18286,6 +18546,9 @@
           prop.rent = rent;
           prop.deposit = deposit;
 
+          // Save custom clauses with property & tenant
+          prop.customClauses = [...(state.customAgreementClauses || [])];
+
           // Check if tenant exists or insert
           const existingTenant = state.tenants.find(
             (t) => t.unit.trim().toLowerCase() === prop.name.trim().toLowerCase()
@@ -18299,6 +18562,7 @@
             existingTenant.startDate = startDate;
             existingTenant.endDate = endDate;
             existingTenant.tenantIdNumber = tenantId;
+            existingTenant.customClauses = [...(state.customAgreementClauses || [])];
           } else {
             state.tenants.unshift({
               id: "ten_" + Date.now(),
