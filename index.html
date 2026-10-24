@@ -1637,385 +1637,377 @@
          Register, manage, and track all tenants & tenancy terms.
          Mark vacant, re-assign properties, track lease agreements.
          ========================================================= -->
-    <div id="tabViewTenants" class="hidden space-y-8">
+    <div id="tabViewTenants" class="hidden space-y-6">
       
-      <!-- Tenant Registration Form -->
-      <section class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-        <div class="mb-4 pb-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="p-1.5 rounded-lg bg-indigo-100 text-indigo-700">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-              </span>
-              <h2 class="text-base font-bold text-slate-900">Tenant Master — Register Permanent Tenant Profile</h2>
+      <!-- Tenant Registration Form (Redesigned Compact & Ergonomic) -->
+      <section class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs transition-all">
+        <!-- Compact Header with Collapse / Expand Toggle -->
+        <div class="mb-3.5 pb-2.5 border-b border-slate-100 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 shadow-2xs font-bold text-sm">
+              👥
+            </span>
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">Tenant Master — Register Permanent Tenant Profile</h2>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 shrink-0">Central Registry</span>
+              </div>
+              <p class="text-[11px] text-slate-500 truncate">Link units, agreed rent, KYC documents, and track tenancy lifecycle.</p>
             </div>
-            <p class="text-xs text-slate-500 mt-1">Manage tenant lifecycle, link to registered Property Master units, track active lease periods, agreed rent, and mark as vacant when vacated.</p>
           </div>
-          <span class="text-xs bg-indigo-50 text-indigo-700 font-bold px-3 py-1 rounded-full border border-indigo-100 shrink-0">Tenant Central Registry</span>
+          <button
+            type="button"
+            id="tmFormCollapseToggleBtn"
+            class="px-2.5 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs transition cursor-pointer flex items-center gap-1.5 shadow-2xs shrink-0 active:scale-95"
+            title="Collapse / Expand Form"
+          >
+            <span id="tmFormToggleIcon" class="text-[10px] transition-transform">▼</span>
+            <span id="tmFormToggleText" class="hidden sm:inline">Minimize Form</span>
+          </button>
         </div>
 
-        <form id="addTenantMasterForm" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <form id="addTenantMasterForm" class="space-y-3.5">
           <!-- Hidden Legacy ID input for backward compatibility -->
           <input type="hidden" id="tmIdInput" />
 
-          <!-- Tenant Profile Picture Upload Box -->
-          <div class="sm:col-span-2 lg:col-span-4 p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 flex flex-col sm:flex-row items-center sm:items-start gap-4 shadow-2xs">
-            <div class="relative group shrink-0">
+          <!-- SECTION 1: Tenant Identity & Avatar (Inline Compact Bar) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center p-3 rounded-2xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/80">
+            <!-- Compact Avatar Uploader (Col 1-3 on Desktop) -->
+            <div class="md:col-span-3 flex items-center gap-2.5">
               <input type="file" id="tmPhotoInput" class="hidden" accept="image/png,image/jpeg,image/webp,image/jpg" />
-              <div id="tmPhotoPreviewContainer" class="w-20 h-20 rounded-2xl border-2 border-dashed border-indigo-300 bg-white shadow-xs flex items-center justify-center overflow-hidden cursor-pointer hover:border-indigo-500 transition relative" title="Click to upload profile photo">
-                <img id="tmPhotoPreviewImg" src="" alt="Tenant Profile Photo" class="w-full h-full object-cover hidden" />
-                <div id="tmPhotoPlaceholder" class="flex flex-col items-center justify-center text-indigo-400 group-hover:text-indigo-600 transition">
-                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                  <span class="text-[10px] font-bold mt-0.5">Photo</span>
+              <div class="relative group shrink-0">
+                <div id="tmPhotoPreviewContainer" class="w-13 h-13 rounded-2xl border-2 border-dashed border-indigo-300 bg-white shadow-2xs flex items-center justify-center overflow-hidden cursor-pointer hover:border-indigo-500 transition relative" title="Click to upload profile photo">
+                  <img id="tmPhotoPreviewImg" src="" alt="Tenant Profile Photo" class="w-full h-full object-cover hidden" />
+                  <div id="tmPhotoPlaceholder" class="flex flex-col items-center justify-center text-indigo-400 group-hover:text-indigo-600 transition">
+                    <span class="text-base">📷</span>
+                    <span class="text-[9px] font-bold">Photo</span>
+                  </div>
+                </div>
+                <button type="button" id="tmPhotoTriggerBtn" class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center shadow-xs transition cursor-pointer text-[10px]" title="Upload Tenant Profile Picture">
+                  +
+                </button>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-slate-800">Profile Photo</span>
+                  <span class="text-[9px] font-semibold text-indigo-600 bg-indigo-50 px-1 rounded">KYC</span>
+                </div>
+                <div class="flex items-center gap-1.5 mt-0.5">
+                  <button type="button" id="tmPhotoUploadBtn" class="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 cursor-pointer underline">Choose</button>
+                  <button type="button" id="tmPhotoRemoveBtn" class="text-[11px] font-bold text-rose-600 hover:text-rose-800 cursor-pointer hidden">Remove</button>
+                  <span id="tmPhotoFileName" class="text-[10px] text-slate-400 truncate max-w-[90px] block">No file</span>
                 </div>
               </div>
-              <button type="button" id="tmPhotoTriggerBtn" class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center shadow-md transition cursor-pointer" title="Upload Tenant Profile Picture">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-              </button>
             </div>
-            
-            <div class="flex-1 text-center sm:text-left space-y-1">
-              <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                <label class="text-xs font-bold text-slate-900">Tenant Profile Picture</label>
-                <span class="text-[10px] font-semibold text-indigo-700 bg-indigo-100/70 px-2 py-0.5 rounded-full border border-indigo-200">KYC Photograph</span>
-              </div>
-              <p class="text-[11px] text-slate-500">Upload recent photograph or portrait of the tenant (PNG, JPG, WebP up to 5MB).</p>
-              <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
-                <button type="button" id="tmPhotoUploadBtn" class="px-3 py-1.5 rounded-xl bg-white border border-slate-300 hover:border-indigo-400 hover:bg-indigo-50/50 text-slate-700 hover:text-indigo-700 font-bold text-xs transition shadow-2xs flex items-center gap-1.5 cursor-pointer">
-                  <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                  <span>Choose Profile Photo</span>
-                </button>
-                <button type="button" id="tmPhotoRemoveBtn" class="px-2.5 py-1.5 rounded-xl border border-rose-200 hover:bg-rose-50 text-rose-600 font-bold text-xs transition shadow-2xs hidden flex items-center gap-1 cursor-pointer">
-                  <span>✕ Remove Photo</span>
-                </button>
-                <span id="tmPhotoFileName" class="text-xs text-slate-400 italic">No photo chosen</span>
-              </div>
-            </div>
-          </div>
 
-          <!-- Tenant Name -->
-          <div>
-            <label for="tmNameInput" class="block text-xs font-bold text-slate-700 mb-1">Tenant Full Name *</label>
-            <input
-              id="tmNameInput"
-              type="text"
-              required
-              placeholder="e.g. Vikram Malhotra"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
-            />
-          </div>
-
-          <!-- Mobile -->
-          <div>
-            <label for="tmMobileInput" class="block text-xs font-bold text-slate-700 mb-1">Mobile No. (WhatsApp) *</label>
-            <div class="flex items-center">
-              <span class="px-2.5 py-2 rounded-l-xl border border-r-0 border-slate-300 bg-slate-100 text-slate-600 font-mono text-xs font-bold">+91</span>
+            <!-- Full Name (Col 4-6 on Desktop) -->
+            <div class="md:col-span-3">
+              <label for="tmNameInput" class="block text-[11px] font-bold text-slate-700 mb-1">Tenant Full Name *</label>
               <input
-                id="tmMobileInput"
-                type="tel"
+                id="tmNameInput"
+                type="text"
                 required
-                maxlength="10"
-                placeholder="9811098765"
-                class="w-full px-3.5 py-2 rounded-r-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium font-mono"
+                placeholder="e.g. Vikram Malhotra"
+                class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold"
+              />
+            </div>
+
+            <!-- Mobile No. (Col 7-9 on Desktop) -->
+            <div class="md:col-span-3">
+              <label for="tmMobileInput" class="block text-[11px] font-bold text-slate-700 mb-1">Mobile No. (WhatsApp) *</label>
+              <div class="flex items-center">
+                <span class="px-2 py-1.5 rounded-l-xl border border-r-0 border-slate-300 bg-slate-100 text-slate-600 font-mono text-xs font-bold">+91</span>
+                <input
+                  id="tmMobileInput"
+                  type="tel"
+                  required
+                  maxlength="10"
+                  placeholder="9811098765"
+                  class="w-full px-2.5 py-1.5 rounded-r-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold font-mono"
+                />
+              </div>
+            </div>
+
+            <!-- Email (Col 10-12 on Desktop) -->
+            <div class="md:col-span-3">
+              <label for="tmEmailInput" class="block text-[11px] font-bold text-slate-700 mb-1">Email Address</label>
+              <input
+                id="tmEmailInput"
+                type="email"
+                placeholder="vikram.m@example.com"
+                class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium font-mono"
               />
             </div>
           </div>
 
-          <!-- Email -->
-          <div>
-            <label for="tmEmailInput" class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
-            <input
-              id="tmEmailInput"
-              type="email"
-              placeholder="e.g. vikram.m@example.com"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium font-mono"
-            />
-          </div>
-
-          <!-- Link Property Unit -->
-          <div>
-            <label for="tmUnitSelect" class="block text-xs font-bold text-slate-700 mb-1">Assigned Property Unit *</label>
-            <select
-              id="tmUnitSelect"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium text-slate-800"
-            >
-              <!-- Populated dynamically with units from Property Master + Unassigned option -->
-            </select>
-          </div>
-
-          <!-- Agreed Monthly Rent -->
-          <div>
-            <label for="tmRentInput" class="block text-xs font-bold text-slate-700 mb-1">Agreed Monthly Rent (₹) *</label>
-            <input
-              id="tmRentInput"
-              type="number"
-              min="0"
-              step="any"
-              required
-              placeholder="e.g. 25000"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-indigo-700"
-            />
-          </div>
-
-          <!-- Security Deposit (Months) -->
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <label for="tmDepositMonthsInput" class="text-xs font-bold text-slate-700">Security Deposit (Months)</label>
-              <div class="flex items-center gap-1">
-                <button type="button" class="deposit-quick-btn text-[10px] px-1.5 py-0.2 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 font-bold transition border border-slate-200" data-months="1">1 Mo</button>
-                <button type="button" class="deposit-quick-btn text-[10px] px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-bold transition border border-indigo-200" data-months="2">2 Mo</button>
-                <button type="button" class="deposit-quick-btn text-[10px] px-1.5 py-0.2 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 font-bold transition border border-slate-200" data-months="3">3 Mo</button>
-              </div>
-            </div>
-            <input
-              id="tmDepositMonthsInput"
-              type="number"
-              min="0"
-              max="24"
-              step="0.5"
-              value="2"
-              placeholder="e.g. 2"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-slate-800"
-            />
-          </div>
-
-          <!-- Security Deposit Amount (₹) - Auto-Calculated -->
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <label for="tmDepositAmountInput" class="text-xs font-bold text-slate-700">Security Deposit Amount (₹)</label>
-              <span id="tmDepositAutoBadge" class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">Auto-calc</span>
-            </div>
-            <input
-              id="tmDepositAmountInput"
-              type="number"
-              min="0"
-              step="any"
-              placeholder="e.g. 50000"
-              class="w-full px-3.5 py-2 rounded-xl border border-emerald-300 bg-emerald-50/40 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-emerald-800"
-            />
-          </div>
-
-          <!-- Outstanding Due (O/S) -->
-          <div>
-            <label for="tmOsInput" class="block text-xs font-bold text-slate-700 mb-1">Current Balance / Dues (₹)</label>
-            <input
-              id="tmOsInput"
-              type="number"
-              min="0"
-              step="any"
-              value="0"
-              placeholder="0 for settled"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-amber-700"
-            />
-          </div>
-
-          <!-- Dedicated Box: PAN Card & Document Attachment -->
-          <div class="sm:col-span-1 lg:col-span-2 p-3.5 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
-            <div class="flex items-center justify-between">
-              <label for="tmPanInput" class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center text-xs">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
-                </span>
-                <span>PAN Card Number</span>
-              </label>
-              <span id="tmPanStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200">10 Chars (ABCDE1234F)</span>
-            </div>
-            <input
-              id="tmPanInput"
-              type="text"
-              maxlength="10"
-              placeholder="e.g. ABCPS1234D"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-sm font-mono uppercase tracking-wider text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-            
-            <!-- PAN Document Attachment -->
-            <div class="pt-1">
-              <input type="file" id="tmPanDocInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
-              <div id="tmPanDocEmptyState" class="flex items-center gap-2">
-                <button
-                  type="button"
-                  id="tmPanDocUploadBtn"
-                  class="px-3 py-1.5 rounded-xl border border-indigo-200 bg-indigo-50/80 hover:bg-indigo-100 text-indigo-700 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                >
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                  <span>Attach PAN Document (PDF / Image)</span>
-                </button>
-                <span class="text-[11px] text-slate-400">PDF, JPG, PNG up to 5MB</span>
-              </div>
-              <div id="tmPanDocChip" class="hidden flex items-center justify-between p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs">
-                <div class="flex items-center gap-2 truncate pr-2">
-                  <span class="w-6 h-6 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                  </span>
-                  <div class="truncate">
-                    <span id="tmPanDocName" class="font-bold truncate">pan_card.pdf</span>
-                    <span id="tmPanDocSize" class="text-[10px] text-emerald-700 block">180 KB</span>
-                  </div>
-                </div>
-                <div class="flex items-center gap-1.5 shrink-0">
-                  <button type="button" id="tmPanDocPreviewBtn" class="px-2 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] transition cursor-pointer">View</button>
-                  <button type="button" id="tmPanDocRemoveBtn" class="p-1 rounded-lg hover:bg-rose-100 text-rose-600 font-bold text-xs transition cursor-pointer" title="Remove attachment">✕</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Dedicated Box: Aadhaar Card & Document Attachment -->
-          <div class="sm:col-span-1 lg:col-span-2 p-3.5 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2">
-            <div class="flex items-center justify-between">
-              <label for="tmAadhaarInput" class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center text-xs">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
-                </span>
-                <span>Aadhaar Card Number</span>
-              </label>
-              <span id="tmAadhaarStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200">12 Digits (UID)</span>
-            </div>
-            <input
-              id="tmAadhaarInput"
-              type="text"
-              maxlength="14"
-              placeholder="e.g. 2345 6789 0123"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 bg-white text-sm font-mono tracking-wider text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-
-            <!-- Aadhaar Document Attachment -->
-            <div class="pt-1">
-              <input type="file" id="tmAadhaarDocInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
-              <div id="tmAadhaarDocEmptyState" class="flex items-center gap-2">
-                <button
-                  type="button"
-                  id="tmAadhaarDocUploadBtn"
-                  class="px-3 py-1.5 rounded-xl border border-emerald-200 bg-emerald-50/80 hover:bg-emerald-100 text-emerald-700 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                >
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                  <span>Attach Aadhaar Document (PDF / Image)</span>
-                </button>
-                <span class="text-[11px] text-slate-400">PDF, JPG, PNG up to 5MB</span>
-              </div>
-              <div id="tmAadhaarDocChip" class="hidden flex items-center justify-between p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs">
-                <div class="flex items-center gap-2 truncate pr-2">
-                  <span class="w-6 h-6 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                  </span>
-                  <div class="truncate">
-                    <span id="tmAadhaarDocName" class="font-bold truncate">aadhaar_card.pdf</span>
-                    <span id="tmAadhaarDocSize" class="text-[10px] text-emerald-700 block">340 KB</span>
-                  </div>
-                </div>
-                <div class="flex items-center gap-1.5 shrink-0">
-                  <button type="button" id="tmAadhaarDocPreviewBtn" class="px-2 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] transition cursor-pointer">View</button>
-                  <button type="button" id="tmAadhaarDocRemoveBtn" class="p-1 rounded-lg hover:bg-rose-100 text-rose-600 font-bold text-xs transition cursor-pointer" title="Remove attachment">✕</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Dedicated Box: Agreements (Upload & Keep Signed Copy of Agreement for Future Reference) -->
-          <div class="sm:col-span-1 lg:col-span-2 p-4 rounded-2xl border border-blue-200 bg-blue-50/50 dark:bg-slate-800/80 dark:border-blue-900/50 space-y-3 shadow-2xs">
-            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-blue-100 dark:border-slate-700/80 pb-2.5">
-              <div class="flex items-center gap-2.5">
-                <span class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm shadow-xs font-bold">
-                  📑
-                </span>
-                <div>
-                  <div class="flex items-center gap-2">
-                    <label class="text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">
-                      Agreements
-                    </label>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300 border border-blue-200 dark:border-blue-700">
-                      Signed Copy Reference
-                    </span>
-                  </div>
-                  <p class="text-[11px] text-slate-500 dark:text-slate-400">
-                    Upload &amp; keep signed copy of agreement for future reference (legal, disputes &amp; recordkeeping)
-                  </p>
-                </div>
-              </div>
-              <span id="tmAgreementDocsCountLabel" class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 shadow-2xs">
-                0 agreement files attached
-              </span>
-            </div>
-
-            <!-- Upload Action & Format Note -->
+          <!-- SECTION 2: Tenancy Property, Rent & Deposit Terms (Tight 4-Column Grid) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <!-- Property Unit -->
             <div>
+              <label for="tmUnitSelect" class="block text-[11px] font-bold text-slate-700 mb-1">Assigned Property Unit *</label>
+              <select
+                id="tmUnitSelect"
+                class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-slate-800"
+              ></select>
+            </div>
+
+            <!-- Agreed Monthly Rent -->
+            <div>
+              <label for="tmRentInput" class="block text-[11px] font-bold text-slate-700 mb-1">Agreed Monthly Rent (₹) *</label>
+              <input
+                id="tmRentInput"
+                type="number"
+                min="0"
+                step="any"
+                required
+                placeholder="e.g. 25000"
+                class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-extrabold text-indigo-700 font-mono"
+              />
+            </div>
+
+            <!-- Security Deposit (Months + Auto Amount Combined) -->
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label for="tmDepositMonthsInput" class="text-[11px] font-bold text-slate-700">Security Deposit</label>
+                <div class="flex items-center gap-1">
+                  <button type="button" class="deposit-quick-btn text-[9px] px-1.5 py-0.2 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 font-bold transition border border-slate-200 cursor-pointer" data-months="1">1M</button>
+                  <button type="button" class="deposit-quick-btn text-[9px] px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-bold transition border border-indigo-200 cursor-pointer" data-months="2">2M</button>
+                  <button type="button" class="deposit-quick-btn text-[9px] px-1.5 py-0.2 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 font-bold transition border border-slate-200 cursor-pointer" data-months="3">3M</button>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <div class="w-16 shrink-0 relative">
+                  <input
+                    id="tmDepositMonthsInput"
+                    type="number"
+                    min="0"
+                    max="24"
+                    step="0.5"
+                    value="2"
+                    title="Number of Months"
+                    class="w-full px-2 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-slate-800 text-center font-mono"
+                  />
+                  <span class="absolute right-1 top-2 text-[8px] text-slate-400 font-bold pointer-events-none">Mo</span>
+                </div>
+                <div class="flex-1 relative">
+                  <input
+                    id="tmDepositAmountInput"
+                    type="number"
+                    min="0"
+                    step="any"
+                    placeholder="₹ Deposit"
+                    class="w-full px-3 py-1.5 rounded-xl border border-emerald-300 bg-emerald-50/40 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 font-extrabold text-emerald-800 font-mono"
+                  />
+                  <span id="tmDepositAutoBadge" class="hidden">Auto-calc</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tenancy Status & O/S Dues -->
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label for="tmStatusSelect" class="block text-[11px] font-bold text-slate-700 mb-1">Status *</label>
+                <select
+                  id="tmStatusSelect"
+                  class="w-full px-2 py-1.5 rounded-xl border border-slate-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold"
+                >
+                  <option value="Active">🟢 Active</option>
+                  <option value="Vacated">⚠️ Vacated</option>
+                </select>
+              </div>
+              <div>
+                <label for="tmOsInput" class="block text-[11px] font-bold text-slate-700 mb-1" title="Outstanding balance">O/S Dues (₹)</label>
+                <input
+                  id="tmOsInput"
+                  type="number"
+                  min="0"
+                  step="any"
+                  value="0"
+                  placeholder="0"
+                  class="w-full px-2 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-amber-700 font-mono"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 3: Lease Dates & Permanent Address (3-Column Tight Row) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
+            <!-- Lease Start Date (3 cols) -->
+            <div class="lg:col-span-3">
+              <label for="tmStartDateInput" class="block text-[11px] font-bold text-slate-700 mb-1">Lease Start Date</label>
+              <input
+                id="tmStartDateInput"
+                type="date"
+                class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+              />
+            </div>
+
+            <!-- Lease End Date (3 cols) -->
+            <div class="lg:col-span-3">
+              <div class="flex items-center justify-between mb-1">
+                <label for="tmEndDateInput" class="text-[11px] font-bold text-slate-700">Lease End Date</label>
+                <button type="button" id="tmAutoFillDatesBtn" class="text-[10px] text-indigo-600 font-bold hover:underline cursor-pointer">
+                  + Auto 11 Mo
+                </button>
+              </div>
+              <input
+                id="tmEndDateInput"
+                type="date"
+                class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+              />
+            </div>
+
+            <!-- Permanent Address (6 cols) -->
+            <div class="lg:col-span-6">
+              <label for="tmPermAddressInput" class="block text-[11px] font-bold text-slate-700 mb-1">Tenant's Permanent Home Address</label>
+              <input
+                id="tmPermAddressInput"
+                type="text"
+                placeholder="e.g. H.No 45, Sector 15, Chandigarh - 160015"
+                class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium truncate"
+              />
+            </div>
+          </div>
+
+          <!-- SECTION 4: Compact KYC & Document Attachments (3-Column Clean Mini Cards) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+            <!-- Mini Card 1: PAN Card & Document Attachment -->
+            <div class="p-3 rounded-2xl border border-slate-200/90 bg-slate-50/70 dark:bg-slate-800/40 space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center text-[10px] font-bold">💳</span>
+                  <span>PAN Card</span>
+                </span>
+                <span id="tmPanStatusBadge" class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-slate-200/80 text-slate-600">10 Chars</span>
+              </div>
+              <input
+                id="tmPanInput"
+                type="text"
+                maxlength="10"
+                placeholder="e.g. ABCPS1234D"
+                class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 bg-white text-xs font-mono uppercase tracking-wider text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <div>
+                <input type="file" id="tmPanDocInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
+                <div id="tmPanDocEmptyState" class="flex items-center justify-between gap-1.5">
+                  <button
+                    type="button"
+                    id="tmPanDocUploadBtn"
+                    class="px-2.5 py-1 rounded-lg border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[11px] transition flex items-center gap-1 cursor-pointer shadow-2xs"
+                  >
+                    <span>📎 Attach PAN</span>
+                  </button>
+                  <span class="text-[10px] text-slate-400">PDF/Img &le; 5MB</span>
+                </div>
+                <div id="tmPanDocChip" class="hidden flex items-center justify-between p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px]">
+                  <div class="flex items-center gap-1.5 truncate pr-1">
+                    <span class="text-xs">📄</span>
+                    <div class="truncate">
+                      <span id="tmPanDocName" class="font-bold truncate text-[11px]">pan.pdf</span>
+                      <span id="tmPanDocSize" class="text-[9px] text-emerald-700 block font-mono">180 KB</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1 shrink-0">
+                    <button type="button" id="tmPanDocPreviewBtn" class="px-1.5 py-0.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] transition cursor-pointer">View</button>
+                    <button type="button" id="tmPanDocRemoveBtn" class="p-0.5 rounded hover:bg-rose-100 text-rose-600 font-bold text-xs transition cursor-pointer" title="Remove attachment">✕</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mini Card 2: Aadhaar Card & Document Attachment -->
+            <div class="p-3 rounded-2xl border border-slate-200/90 bg-slate-50/70 dark:bg-slate-800/40 space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold">🪪</span>
+                  <span>Aadhaar UID</span>
+                </span>
+                <span id="tmAadhaarStatusBadge" class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-slate-200/80 text-slate-600">12 Digits</span>
+              </div>
+              <input
+                id="tmAadhaarInput"
+                type="text"
+                maxlength="14"
+                placeholder="2345 6789 0123"
+                class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 bg-white text-xs font-mono tracking-wider text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <div>
+                <input type="file" id="tmAadhaarDocInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
+                <div id="tmAadhaarDocEmptyState" class="flex items-center justify-between gap-1.5">
+                  <button
+                    type="button"
+                    id="tmAadhaarDocUploadBtn"
+                    class="px-2.5 py-1 rounded-lg border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-[11px] transition flex items-center gap-1 cursor-pointer shadow-2xs"
+                  >
+                    <span>📎 Attach Aadhaar</span>
+                  </button>
+                  <span class="text-[10px] text-slate-400">PDF/Img &le; 5MB</span>
+                </div>
+                <div id="tmAadhaarDocChip" class="hidden flex items-center justify-between p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px]">
+                  <div class="flex items-center gap-1.5 truncate pr-1">
+                    <span class="text-xs">🪪</span>
+                    <div class="truncate">
+                      <span id="tmAadhaarDocName" class="font-bold truncate text-[11px]">aadhaar.pdf</span>
+                      <span id="tmAadhaarDocSize" class="text-[9px] text-emerald-700 block font-mono">340 KB</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1 shrink-0">
+                    <button type="button" id="tmAadhaarDocPreviewBtn" class="px-1.5 py-0.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] transition cursor-pointer">View</button>
+                    <button type="button" id="tmAadhaarDocRemoveBtn" class="p-0.5 rounded hover:bg-rose-100 text-rose-600 font-bold text-xs transition cursor-pointer" title="Remove attachment">✕</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mini Card 3: Signed Agreement Copies -->
+            <div class="p-3 rounded-2xl border border-blue-200/90 bg-blue-50/40 dark:bg-slate-800/40 space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-[10px] font-bold">📑</span>
+                  <span>Signed Agreements</span>
+                </span>
+                <span id="tmAgreementDocsCountLabel" class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800">0 files</span>
+              </div>
               <input type="file" id="tmAgreementDocsInput" class="hidden" multiple accept=".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,application/pdf,image/*,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-              <div id="tmAgreementDocsEmptyState" class="flex flex-wrap items-center gap-2.5">
+              <div id="tmAgreementDocsEmptyState" class="flex items-center justify-between gap-1.5">
                 <button
                   type="button"
                   id="tmAgreementDocsUploadBtn"
-                  class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition flex items-center gap-2 cursor-pointer shadow-xs active:scale-95"
+                  class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] transition flex items-center gap-1 cursor-pointer shadow-2xs active:scale-95"
                 >
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                  <span>+ Upload Signed Agreement (Multiple Files)</span>
+                  <span>+ Attach Signed Copy</span>
                 </button>
-                <span class="text-[11px] text-slate-500 dark:text-slate-400">Supports PDF, Images (JPG, PNG), Word (.doc, .docx) up to 15MB each</span>
+                <span class="text-[10px] text-slate-400">PDF, Word, Img</span>
               </div>
+              <div id="tmAgreementDocsChipsContainer" class="flex flex-wrap gap-1.5 max-h-[50px] overflow-y-auto"></div>
             </div>
-
-            <!-- Uploaded Agreement Chips List Container -->
-            <div id="tmAgreementDocsChipsContainer" class="flex flex-wrap gap-2 pt-0.5"></div>
           </div>
 
-          <!-- Tenancy Status -->
-          <div>
-            <label for="tmStatusSelect" class="block text-xs font-bold text-slate-700 mb-1">Tenancy Status *</label>
-            <select
-              id="tmStatusSelect"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold"
-            >
-              <option value="Active">🟢 Active (Occupying Unit)</option>
-              <option value="Vacated">⚠️ Vacated (Left Property / Marked Vacant)</option>
-            </select>
-          </div>
-
-          <!-- Start Date -->
-          <div>
-            <label for="tmStartDateInput" class="block text-xs font-bold text-slate-700 mb-1">Lease Start Date</label>
-            <input
-              id="tmStartDateInput"
-              type="date"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-
-          <!-- End Date -->
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <label for="tmEndDateInput" class="text-xs font-bold text-slate-700">Lease End Date</label>
-              <button type="button" id="tmAutoFillDatesBtn" class="text-[10px] text-indigo-600 font-bold hover:underline">
-                + Auto 11 Mo
+          <!-- SECTION 5: Sleek Action Row -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 pt-2 border-t border-slate-100">
+            <span class="text-[11px] text-slate-500">
+              💡 Security deposit is auto-calculated. KYC documents auto-link to Tenancy Agreement Studio.
+            </span>
+            <div class="flex items-center gap-2 shrink-0">
+              <button
+                type="reset"
+                id="tmResetBtn"
+                class="px-3.5 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition cursor-pointer"
+              >
+                Reset
+              </button>
+              <button
+                type="submit"
+                id="tmSubmitBtn"
+                class="px-5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 text-xs font-bold transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+              >
+                <span>Save Tenant Profile</span>
+                <span class="text-sm">✓</span>
               </button>
             </div>
-            <input
-              id="tmEndDateInput"
-              type="date"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
           </div>
-
-          <!-- Permanent Address -->
-          <div>
-            <label for="tmPermAddressInput" class="block text-xs font-bold text-slate-700 mb-1">Tenant's Permanent Home Address</label>
-            <input
-              id="tmPermAddressInput"
-              type="text"
-              placeholder="e.g. H.No 45, Sector 15, Chandigarh - 160015"
-              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-
-          <!-- Submit Button Row -->
-          <div class="sm:col-span-2 lg:col-span-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-3 mt-1 border-t border-slate-100">
-            <span class="text-xs text-slate-500">
-              Security deposit is auto-calculated based on agreed rent &amp; months. Attach tenant PAN &amp; Aadhaar copies for instant legal tenancy agreement documentation.
-            </span>
-            <button
-              type="submit"
-              id="tmSubmitBtn"
-              class="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 text-sm font-bold transition shadow-xs flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        </form>
+      </section>
               <span>Save Tenant Profile to Master</span>
             </button>
           </div>
@@ -13824,6 +13816,18 @@
         if (!tenant) return;
 
         editingTenantId = tenant.id;
+
+        // Ensure form is visible if previously minimized
+        const tmFormEl = document.getElementById("addTenantMasterForm");
+        if (tmFormEl && tmFormEl.classList.contains("hidden")) {
+          tmFormEl.classList.remove("hidden");
+          const tmToggleIcon = document.getElementById("tmFormToggleIcon");
+          const tmToggleText = document.getElementById("tmFormToggleText");
+          if (tmToggleIcon) tmToggleIcon.textContent = "▼";
+          if (tmToggleText) tmToggleText.textContent = "Minimize Form";
+          document.getElementById("tmFormCollapseToggleBtn")?.classList.remove("bg-indigo-50", "text-indigo-700", "border-indigo-200");
+        }
+
         document.getElementById("tmNameInput").value = tenant.name || "";
         document.getElementById("tmMobileInput").value = tenant.mobile || "";
         document.getElementById("tmEmailInput").value = tenant.email || "";
@@ -18741,6 +18745,47 @@
             showFeedback("Lease dates set for 11 months.");
           });
         }
+
+        // Tenant Master Form: Collapse / Expand Toggle
+        const tmFormToggleBtn = document.getElementById("tmFormCollapseToggleBtn");
+        const tmFormEl = document.getElementById("addTenantMasterForm");
+        const tmToggleIcon = document.getElementById("tmFormToggleIcon");
+        const tmToggleText = document.getElementById("tmFormToggleText");
+
+        if (tmFormToggleBtn && tmFormEl) {
+          tmFormToggleBtn.addEventListener("click", () => {
+            const isHidden = tmFormEl.classList.toggle("hidden");
+            if (isHidden) {
+              if (tmToggleIcon) tmToggleIcon.textContent = "▲";
+              if (tmToggleText) tmToggleText.textContent = "Expand Form";
+              tmFormToggleBtn.title = "Expand Registration Form";
+              tmFormToggleBtn.classList.add("bg-indigo-50", "text-indigo-700", "border-indigo-200");
+            } else {
+              if (tmToggleIcon) tmToggleIcon.textContent = "▼";
+              if (tmToggleText) tmToggleText.textContent = "Minimize Form";
+              tmFormToggleBtn.title = "Minimize Registration Form";
+              tmFormToggleBtn.classList.remove("bg-indigo-50", "text-indigo-700", "border-indigo-200");
+            }
+          });
+        }
+
+        // Tenant Master Form: Reset Button
+        document.getElementById("tmResetBtn")?.addEventListener("click", () => {
+          editingTenantId = null;
+          const submitBtn = document.getElementById("tmSubmitBtn");
+          if (submitBtn) {
+            submitBtn.innerHTML = '<span>Save Tenant Profile</span><span class="text-sm">✓</span>';
+            submitBtn.className = "px-5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 text-xs font-bold transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95";
+          }
+          currentTmPhoto = null;
+          updateTenantPhotoPreviewUI("tmPhotoPreviewImg", "tmPhotoPlaceholder", "tmPhotoRemoveBtn", "tmPhotoFileName", null);
+          currentTmPanDoc = null;
+          currentTmAadhaarDoc = null;
+          updateDocChipUI("tmPanDocChip", "tmPanDocEmptyState", "tmPanDocName", "tmPanDocSize", null);
+          updateDocChipUI("tmAadhaarDocChip", "tmAadhaarDocEmptyState", "tmAadhaarDocName", "tmAadhaarDocSize", null);
+          currentTmAgreementDocs = [];
+          renderTmAgreementChips();
+        });
 
         // Tenant Master: Unit selection change -> auto-suggest standard rent & deposit
         const tmUnitSelect = document.getElementById("tmUnitSelect");
