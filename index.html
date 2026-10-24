@@ -2219,7 +2219,25 @@
 
             <!-- Tenant Details for the Agreement -->
             <div class="pt-3 border-t border-slate-200">
-              <p class="text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-2">2. Tenant (Lessee) Profile</p>
+              <div class="flex items-center justify-between mb-1.5">
+                <p class="text-xs font-extrabold uppercase tracking-wider text-slate-700">2. Tenant (Lessee) Profile</p>
+                <span id="studioTenantStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                  Custom / Direct Entry
+                </span>
+              </div>
+
+              <!-- Tenant Selector from Tenant Master -->
+              <div class="mb-3">
+                <label for="studioTenantSelect" class="block text-xs font-bold text-slate-800 mb-1">
+                  Select Tenant from Tenant Master (or Enter Custom Tenant) *
+                </label>
+                <select
+                  id="studioTenantSelect"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-indigo-300 bg-indigo-50/50 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-xs cursor-pointer"
+                >
+                  <option value="">-- Custom / Enter New Tenant Profile --</option>
+                </select>
+              </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label for="studioTenantNameInput" class="block text-xs font-bold text-slate-700 mb-1">Tenant Full Name *</label>
@@ -14003,6 +14021,71 @@
             tmSelect.appendChild(tmGroup);
           }
         });
+
+        // Sync Tenant Master selector in Draft Tenancy Agreement Studio
+        syncStudioTenantSelect();
+      }
+
+      // --- SYNC TENANT MASTER SELECTOR IN DRAFT TENANCY AGREEMENT STUDIO ---
+      function syncStudioTenantSelect() {
+        const select = document.getElementById("studioTenantSelect");
+        if (!select) return;
+
+        const currentVal = select.value;
+        select.innerHTML = '<option value="">-- Custom / Enter New Tenant Profile --</option>';
+
+        if (!Array.isArray(state.tenants) || state.tenants.length === 0) {
+          return;
+        }
+
+        const activeTenants = [];
+        const availableTenants = [];
+
+        state.tenants.forEach((t) => {
+          if (typeof isTenantUnassigned === "function" && isTenantUnassigned(t)) {
+            availableTenants.push(t);
+          } else if (t.status === "Vacated") {
+            availableTenants.push(t);
+          } else {
+            activeTenants.push(t);
+          }
+        });
+
+        activeTenants.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+        availableTenants.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+
+        if (activeTenants.length > 0) {
+          const grpActive = document.createElement("optgroup");
+          grpActive.label = `🟢 Active Tenants in Master (${activeTenants.length})`;
+          activeTenants.forEach((t) => {
+            const opt = document.createElement("option");
+            opt.value = t.id;
+            const unitLabel = t.unit ? ` (${t.unit})` : "";
+            const phoneLabel = t.mobile ? ` • ${t.mobile}` : "";
+            opt.textContent = `${t.name}${unitLabel}${phoneLabel}`;
+            grpActive.appendChild(opt);
+          });
+          select.appendChild(grpActive);
+        }
+
+        if (availableTenants.length > 0) {
+          const grpAvail = document.createElement("optgroup");
+          grpAvail.label = `⚡ Unassigned & Vacated Tenants (${availableTenants.length})`;
+          availableTenants.forEach((t) => {
+            const opt = document.createElement("option");
+            opt.value = t.id;
+            const statusLabel = t.status === "Vacated" ? "Vacated" : "Unassigned";
+            const phoneLabel = t.mobile ? ` • ${t.mobile}` : "";
+            opt.textContent = `⚡ ${t.name} [${statusLabel}]${phoneLabel}`;
+            grpAvail.appendChild(opt);
+          });
+          select.appendChild(grpAvail);
+        }
+
+        // Restore value if still present
+        if (currentVal && state.tenants.some((t) => t.id === currentVal)) {
+          select.value = currentVal;
+        }
       }
 
       // --- AGREEMENT STUDIO CONTROLLER ---
@@ -14053,20 +14136,46 @@
           }
         }
 
-        // Check if an existing tenant is tied to this unit
+        // Check if an existing tenant is tied to this unit in Tenant Master
         const tenant = state.tenants.find(
-          (t) => t.unit.trim().toLowerCase() === prop.name.trim().toLowerCase()
+          (t) => (t.unit || "").trim().toLowerCase() === (prop.name || "").trim().toLowerCase()
         );
 
+        const tenantSelect = document.getElementById("studioTenantSelect");
+        const statusBadge = document.getElementById("studioTenantStatusBadge");
+
         if (tenant) {
+          if (tenantSelect) tenantSelect.value = tenant.id;
+          if (statusBadge) {
+            statusBadge.textContent = `🟢 Master: ${tenant.unit || "Linked"}`;
+            statusBadge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+          }
           document.getElementById("studioTenantNameInput").value = tenant.name || "";
-          document.getElementById("studioTenantIdInput").value = tenant.tenantIdNumber || "Aadhaar: XXXX-XXXX-1234";
+          document.getElementById("studioTenantIdInput").value = tenant.tenantIdNumber || (tenant.aadhaar ? `Aadhaar: ${tenant.aadhaar}` : (tenant.pan ? `PAN: ${tenant.pan}` : "Aadhaar: XXXX-XXXX-1234"));
           document.getElementById("studioMobileInput").value = tenant.mobile || "";
           document.getElementById("studioEmailInput").value = tenant.email || "";
+          if (tenant.fatherName || tenant.father) {
+            const fEl = document.getElementById("studioTenantFatherInput");
+            if (fEl) fEl.value = tenant.fatherName || tenant.father;
+          }
+          if (tenant.permAddress) {
+            const pEl = document.getElementById("studioTenantPermAddressInput");
+            if (pEl) pEl.value = tenant.permAddress;
+          }
+          if (tenant.workplace || tenant.work || tenant.occupation) {
+            const wEl = document.getElementById("studioTenantWorkInput");
+            if (wEl) wEl.value = tenant.workplace || tenant.work || tenant.occupation;
+          }
           if (tenant.startDate) document.getElementById("studioStartInput").value = tenant.startDate;
           if (tenant.endDate) document.getElementById("studioEndInput").value = tenant.endDate;
           if (tenant.rent) document.getElementById("studioRentInput").value = tenant.rent;
+          if (tenant.deposit) document.getElementById("studioDepositInput").value = tenant.deposit;
         } else {
+          if (tenantSelect) tenantSelect.value = "";
+          if (statusBadge) {
+            statusBadge.textContent = "⚠️ Vacant Unit (Custom / Select Tenant)";
+            statusBadge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300";
+          }
           // Set sensible defaults if not occupied
           if (!document.getElementById("studioStartInput").value) {
             autoFillStudioDates();
@@ -14090,6 +14199,117 @@
 
         updateLiveAgreementPreview();
       }
+
+      // --- POPULATE AGREEMENT STUDIO FROM TENANT MASTER ---
+      function populateAgreementStudioFromTenant(tenantId) {
+        const select = document.getElementById("studioTenantSelect");
+        const statusBadge = document.getElementById("studioTenantStatusBadge");
+
+        if (!tenantId) {
+          if (select) select.value = "";
+          if (statusBadge) {
+            statusBadge.textContent = "Custom / Direct Entry";
+            statusBadge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200";
+          }
+          return;
+        }
+
+        const tenant = state.tenants.find((t) => t.id === tenantId);
+        if (!tenant) return;
+
+        if (select) select.value = tenant.id;
+
+        if (statusBadge) {
+          if (tenant.status === "Vacated") {
+            statusBadge.textContent = "⚠️ Vacated Tenant Profile";
+            statusBadge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300";
+          } else {
+            statusBadge.textContent = `🟢 Master: ${tenant.unit || "Active"}`;
+            statusBadge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+          }
+        }
+
+        // Populate Tenant inputs
+        const nameEl = document.getElementById("studioTenantNameInput");
+        if (nameEl) nameEl.value = tenant.name || "";
+
+        const idEl = document.getElementById("studioTenantIdInput");
+        if (idEl) {
+          const idVal = tenant.tenantIdNumber || (tenant.aadhaar ? `Aadhaar: ${tenant.aadhaar}` : (tenant.pan ? `PAN: ${tenant.pan}` : ""));
+          idEl.value = idVal || "Aadhaar: XXXX-XXXX-1234";
+        }
+
+        const mobileEl = document.getElementById("studioMobileInput");
+        if (mobileEl) mobileEl.value = tenant.mobile || "";
+
+        const emailEl = document.getElementById("studioEmailInput");
+        if (emailEl) emailEl.value = tenant.email || "";
+
+        const fatherEl = document.getElementById("studioTenantFatherInput");
+        if (fatherEl && (tenant.fatherName || tenant.father)) {
+          fatherEl.value = tenant.fatherName || tenant.father;
+        }
+
+        const permEl = document.getElementById("studioTenantPermAddressInput");
+        if (permEl && tenant.permAddress) {
+          permEl.value = tenant.permAddress;
+        }
+
+        const workEl = document.getElementById("studioTenantWorkInput");
+        if (workEl && (tenant.workplace || tenant.work || tenant.occupation)) {
+          workEl.value = tenant.workplace || tenant.work || tenant.occupation;
+        }
+
+        // Financials & Dates
+        if (tenant.rent) {
+          const rentEl = document.getElementById("studioRentInput");
+          if (rentEl) rentEl.value = tenant.rent;
+        }
+        if (tenant.deposit) {
+          const depEl = document.getElementById("studioDepositInput");
+          if (depEl) depEl.value = tenant.deposit;
+        } else if (tenant.rent) {
+          const depEl = document.getElementById("studioDepositInput");
+          if (depEl && !depEl.value) depEl.value = tenant.rent * 2;
+        }
+
+        if (tenant.startDate) {
+          const startEl = document.getElementById("studioStartInput");
+          if (startEl) startEl.value = tenant.startDate;
+        }
+        if (tenant.endDate) {
+          const endEl = document.getElementById("studioEndInput");
+          if (endEl) endEl.value = tenant.endDate;
+        }
+
+        // If this tenant's unit matches an existing property, auto-select that property in studioPropertySelect
+        if (tenant.unit && typeof isTenantUnassigned === "function" && !isTenantUnassigned(tenant)) {
+          const matchedProp = state.properties.find(
+            (p) => (p.name || "").trim().toLowerCase() === (tenant.unit || "").trim().toLowerCase()
+          );
+          if (matchedProp) {
+            const propSelect = document.getElementById("studioPropertySelect");
+            if (propSelect && propSelect.value !== matchedProp.id) {
+              propSelect.value = matchedProp.id;
+              // Populate property fields
+              document.getElementById("studioAddressInput").value = matchedProp.address || "";
+              document.getElementById("studioTypeInput").value = matchedProp.type || "2 BHK Residential Flat";
+              document.getElementById("studioMeterInput").value = matchedProp.meterNo || matchedProp.upic || "BSES-10294811";
+            }
+          }
+        }
+
+        // Custom clauses if any
+        if (tenant.customClauses && Array.isArray(tenant.customClauses) && tenant.customClauses.length > 0) {
+          state.customAgreementClauses = [...tenant.customClauses];
+          renderCustomClauses();
+        }
+
+        updateLiveAgreementPreview();
+      }
+
+      window.syncStudioTenantSelect = syncStudioTenantSelect;
+      window.populateAgreementStudioFromTenant = populateAgreementStudioFromTenant;
 
       function autoFillStudioDates() {
         const today = new Date();
@@ -14681,6 +14901,11 @@
           if (currentVal && Array.from(modalSelect.options).some((o) => o.value === currentVal)) {
             modalSelect.value = currentVal;
           }
+        }
+
+        // Also sync Agreement Studio Tenant dropdown
+        if (typeof syncStudioTenantSelect === "function") {
+          syncStudioTenantSelect();
         }
       }
 
@@ -18395,18 +18620,8 @@
             }
 
             if (action === "tm-agreement") {
-              const tenant = state.tenants.find((t) => t.id === id);
-              if (tenant && tenant.unit && !tenant.unit.startsWith("Unassigned")) {
-                const prop = state.properties.find(
-                  (p) => (p.name || "").trim().toLowerCase() === (tenant.unit || "").trim().toLowerCase()
-                );
-                if (prop) {
-                  switchTab("agreements");
-                  populateAgreementStudioFromProperty(prop.id);
-                  return;
-                }
-              }
               switchTab("agreements");
+              populateAgreementStudioFromTenant(id);
               return;
             }
 
@@ -18432,6 +18647,14 @@
         document.getElementById("studioPropertySelect").addEventListener("change", (e) => {
           populateAgreementStudioFromProperty(e.target.value);
         });
+
+        // Agreement Studio: Tenant Selector change (from Tenant Master)
+        const studioTenantSel = document.getElementById("studioTenantSelect");
+        if (studioTenantSel) {
+          studioTenantSel.addEventListener("change", (e) => {
+            populateAgreementStudioFromTenant(e.target.value);
+          });
+        }
 
         // Agreement Studio inputs live binding
         [
@@ -18549,33 +18772,57 @@
           // Save custom clauses with property & tenant
           prop.customClauses = [...(state.customAgreementClauses || [])];
 
-          // Check if tenant exists or insert
-          const existingTenant = state.tenants.find(
-            (t) => t.unit.trim().toLowerCase() === prop.name.trim().toLowerCase()
-          );
+          // Check if tenant was selected from Tenant Master or matches unit
+          const selectedTenantId = document.getElementById("studioTenantSelect")?.value;
+          let targetTenant = selectedTenantId ? state.tenants.find((t) => t.id === selectedTenantId) : null;
+          if (!targetTenant) {
+            targetTenant = state.tenants.find(
+              (t) => (t.unit || "").trim().toLowerCase() === (prop.name || "").trim().toLowerCase()
+            );
+          }
 
-          if (existingTenant) {
-            existingTenant.name = tenantName;
-            existingTenant.mobile = tenantMobile;
-            existingTenant.email = tenantEmail;
-            existingTenant.rent = rent;
-            existingTenant.startDate = startDate;
-            existingTenant.endDate = endDate;
-            existingTenant.tenantIdNumber = tenantId;
-            existingTenant.customClauses = [...(state.customAgreementClauses || [])];
+          const tenantFather = document.getElementById("studioTenantFatherInput")?.value.trim() || "";
+          const tenantPermAddress = document.getElementById("studioTenantPermAddressInput")?.value.trim() || "";
+          const tenantWork = document.getElementById("studioTenantWorkInput")?.value.trim() || "";
+
+          if (targetTenant) {
+            targetTenant.unit = prop.name;
+            targetTenant.status = "Active";
+            targetTenant.name = tenantName;
+            targetTenant.mobile = tenantMobile;
+            targetTenant.email = tenantEmail;
+            targetTenant.rent = rent;
+            targetTenant.deposit = deposit;
+            targetTenant.startDate = startDate;
+            targetTenant.endDate = endDate;
+            targetTenant.tenantIdNumber = tenantId;
+            if (tenantFather) targetTenant.fatherName = tenantFather;
+            if (tenantPermAddress) targetTenant.permAddress = tenantPermAddress;
+            if (tenantWork) targetTenant.workplace = tenantWork;
+            targetTenant.customClauses = [...(state.customAgreementClauses || [])];
           } else {
-            state.tenants.unshift({
+            const newTen = {
               id: "ten_" + Date.now(),
               unit: prop.name,
               name: tenantName,
               mobile: tenantMobile,
               email: tenantEmail,
               rent: rent,
+              deposit: deposit,
               osAmount: 0,
+              status: "Active",
               startDate: startDate,
               endDate: endDate,
-              tenantIdNumber: tenantId
-            });
+              tenantIdNumber: tenantId,
+              fatherName: tenantFather,
+              permAddress: tenantPermAddress,
+              workplace: tenantWork,
+              customClauses: [...(state.customAgreementClauses || [])]
+            };
+            state.tenants.unshift(newTen);
+            if (document.getElementById("studioTenantSelect")) {
+              document.getElementById("studioTenantSelect").value = newTen.id;
+            }
           }
 
           saveState();
@@ -18661,15 +18908,9 @@
         if (modalTrAgreementBtn) {
           modalTrAgreementBtn.addEventListener("click", () => {
             if (activeTrackRecordTenantId) {
-              const tenant = state.tenants.find((t) => t.id === activeTrackRecordTenantId);
               closeTenantTrackRecordModal();
               switchTab("agreements");
-              if (tenant && tenant.unit) {
-                const prop = state.properties.find(
-                  (p) => (p.name || "").trim().toLowerCase() === tenant.unit.trim().toLowerCase()
-                );
-                if (prop) populateAgreementStudioFromProperty(prop.id);
-              }
+              populateAgreementStudioFromTenant(activeTrackRecordTenantId);
             }
           });
         }
@@ -20659,6 +20900,9 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
 
         if (targetProp && typeof populateAgreementStudioFromProperty === "function") {
           populateAgreementStudioFromProperty(targetProp.id);
+        }
+        if (tenant && tenant.id && typeof populateAgreementStudioFromTenant === "function") {
+          populateAgreementStudioFromTenant(tenant.id);
         }
 
         const landlordSec = document.getElementById("studioLandlordSection");
