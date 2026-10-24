@@ -8107,9 +8107,6 @@
               switchTab("dashboard");
               closeAuthModal(true);
               toast.success(`Welcome back, ${u.name}! Signed in via Supabase.`);
-              setTimeout(() => {
-                if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
-              }, 300);
               return;
             }
           } catch (e) {
@@ -8145,9 +8142,6 @@
           switchTab("dashboard");
           closeAuthModal(true);
           toast.success(`Welcome back, ${currentAuthUser.name}! Signed in successfully.`);
-          setTimeout(() => {
-            if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
-          }, 300);
           return;
         }
 
@@ -8198,9 +8192,6 @@
           switchTab("dashboard");
           closeAuthModal(true);
           toast.success(`Welcome, ${currentAuthUser.name}! Account created and signed in successfully.`);
-          setTimeout(() => {
-            if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
-          }, 300);
           return;
         }
 
@@ -8331,9 +8322,6 @@
           switchTab("dashboard");
           closeAuthModal(true);
           toast.success(`Account verified successfully! Welcome, ${newUser.name}.`);
-          setTimeout(() => {
-            if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
-          }, 300);
         } else if (pendingAuthAction.type === "otpLogin") {
           const userData = pendingAuthAction.data;
           const accounts = getStoredAccounts();
@@ -8362,9 +8350,6 @@
           switchTab("dashboard");
           closeAuthModal(true);
           toast.success(`Identity verified! Logged in as ${currentAuthUser.name}.`);
-          setTimeout(() => {
-            if (typeof openLandlordProfileModal === "function") openLandlordProfileModal(true);
-          }, 300);
         } else if (pendingAuthAction.type === "resetPassword") {
           setAuthMode("setNewPassword");
           showAuthFeedback("Identity verified! Set your new password below.", "success");
@@ -21048,6 +21033,7 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
         });
 
         document.getElementById("landlordNameInput")?.addEventListener("dblclick", () => openLandlordProfileModal(false));
+        document.getElementById("studioOpenFullLandlordProfileBtn")?.addEventListener("click", () => openLandlordProfileModal(false));
       }
 
       window.openLandlordProfileModal = openLandlordProfileModal;

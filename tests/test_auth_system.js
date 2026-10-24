@@ -392,6 +392,15 @@ console.log("✓ PASS: Auth Modal opens and default mode is register");
   }
   console.log("✓ PASS: Dashboard & navigation restored and login page closed upon sign in!");
 
+  // Verify Landlord Profile & Settings modal is NOT opened automatically upon login
+  getEl("landlordProfileModal").classList.add("hidden");
+  await new Promise(r => setTimeout(r, 400));
+  if (!getEl("landlordProfileModal").classList.contains("hidden")) {
+    console.error("❌ Landlord Profile & Settings modal should NOT be opened automatically after login!");
+    process.exit(1);
+  }
+  console.log("✓ PASS: Landlord Profile & Settings modal is NOT automatically opened on login!");
+
   console.log("\n====================================================================");
   console.log("🎉 ALL AUTHENTICATION, REGISTRATION, EMAIL OTP & RESET TESTS PASSED 100%!");
   console.log("====================================================================\n");
