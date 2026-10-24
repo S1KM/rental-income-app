@@ -126,6 +126,24 @@
         box-shadow: none !important;
       }
 
+      body.print-report {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 0 !important;
+        height: auto !important;
+        width: 100% !important;
+      }
+      body.print-report > *:not(#printableReportSection) {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
       body.print-report #printableReportSection,
       body.print-report #printableReportSection.hidden {
         display: block !important;
@@ -138,8 +156,8 @@
         overflow: visible !important;
         padding: 0 !important;
         margin: 0 !important;
-        background: white !important;
-        color: black !important;
+        background: #ffffff !important;
+        color: #000000 !important;
         border: none !important;
         box-shadow: none !important;
         visibility: visible !important;
@@ -147,10 +165,21 @@
       body.print-report #printableReportSection * {
         visibility: visible !important;
       }
-      body.print-report .hidden:not(#printableReportSection),
-      body.print-report .hidden:not(#printableReportSection) * {
-        display: none !important;
-        visibility: hidden !important;
+      body.print-report table {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      body.print-report tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      body.print-report thead {
+        display: table-header-group !important;
+      }
+      body.print-report tfoot {
+        display: table-footer-group !important;
       }
       body.print-police #policePrintableArea,
       body.print-police #policePrintableArea * {
@@ -2005,11 +2034,6 @@
                 <span class="text-sm">✓</span>
               </button>
             </div>
-          </div>
-        </form>
-      </section>
-              <span>Save Tenant Profile to Master</span>
-            </button>
           </div>
         </form>
       </section>
@@ -10992,19 +11016,19 @@
           const balColor = Number(r.runningBalance) > 0 ? "#b91c1c" : "#047857";
 
           tableRowsHtml += `
-            <tr style="border-bottom: 1px solid #e2e8f0; font-size: 11px; background: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'};">
-              <td style="padding: 7px 10px; text-align: center; color: #64748b;">${idx + 1}</td>
-              <td style="padding: 7px 10px; font-weight: bold; color: #0f172a;">${escapeHtml(r.cycle)}</td>
-              <td style="padding: 7px 10px; color: #475569; font-family: monospace;">${escapeHtml(r.dueDate)}</td>
-              <td style="padding: 7px 10px; text-align: right; font-weight: bold; font-family: monospace; color: #0f172a;">${formatINR(r.dueAmount)}</td>
-              <td style="padding: 7px 10px; color: #475569;">${escapeHtml(r.receivedDate)}</td>
-              <td style="padding: 7px 10px; text-align: right; font-weight: bold; font-family: monospace; color: #047857;">${formatINR(r.receivedAmount)}</td>
-              <td style="padding: 7px 10px; text-align: right; font-weight: bold; font-family: monospace; color: ${balColor};">
+            <tr style="border-bottom: 1px solid #e2e8f0; font-size: 10px; background: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; page-break-inside: avoid; break-inside: avoid;">
+              <td style="padding: 5px 6px; text-align: center; color: #64748b;">${idx + 1}</td>
+              <td style="padding: 5px 6px; font-weight: bold; color: #0f172a;">${escapeHtml(r.cycle)}</td>
+              <td style="padding: 5px 6px; color: #475569; font-family: monospace;">${escapeHtml(r.dueDate)}</td>
+              <td style="padding: 5px 6px; text-align: right; font-weight: bold; font-family: monospace; color: #0f172a;">${formatINR(r.dueAmount)}</td>
+              <td style="padding: 5px 6px; color: #475569;">${escapeHtml(r.receivedDate)}</td>
+              <td style="padding: 5px 6px; text-align: right; font-weight: bold; font-family: monospace; color: #047857;">${formatINR(r.receivedAmount)}</td>
+              <td style="padding: 5px 6px; text-align: right; font-weight: bold; font-family: monospace; color: ${balColor};">
                 ${Number(r.runningBalance) > 0 ? `${formatINR(r.runningBalance)} Due` : (Number(r.runningBalance) < 0 ? `+${formatINR(Math.abs(r.runningBalance))} Adv` : "₹0 Clear")}
               </td>
-              <td style="padding: 7px 10px; font-size: 10px; color: #475569;">${escapeHtml(r.paymentMode)}</td>
-              <td style="padding: 7px 10px; text-align: center;">
-                <span style="display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 10px; font-weight: bold; background: ${statusBg}; color: ${statusColor};">
+              <td style="padding: 5px 6px; font-size: 9px; color: #475569;">${escapeHtml(r.paymentMode)}</td>
+              <td style="padding: 5px 6px; text-align: center;">
+                <span style="display: inline-block; padding: 2px 6px; border-radius: 9999px; font-size: 9px; font-weight: bold; background: ${statusBg}; color: ${statusColor};">
                   ${escapeHtml(r.status)}
                 </span>
               </td>
@@ -11013,72 +11037,72 @@
         });
 
         printable.innerHTML = `
-          <div style="font-family: Arial, sans-serif; color: #1e293b; padding: 28px; max-width: 980px; margin: 0 auto; background: #ffffff;">
+          <div style="font-family: Arial, sans-serif; color: #1e293b; padding: 12px 16px; width: 100%; max-width: 100%; margin: 0 auto; background: #ffffff; box-sizing: border-box;">
             <!-- Official Header -->
-            <div style="border-bottom: 2px solid #0f172a; padding-bottom: 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: flex-start; page-break-inside: avoid; break-inside: avoid;">
               <div>
                 <span style="display: inline-block; background: #0f172a; color: #ffffff; padding: 3px 8px; font-size: 9px; font-weight: 800; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
                   OFFICIAL STATEMENT OF ACCOUNT
                 </span>
-                <h1 style="font-size: 19px; font-weight: 900; margin: 0; color: #0f172a; letter-spacing: -0.2px;">
+                <h1 style="font-size: 18px; font-weight: 900; margin: 0; color: #0f172a; letter-spacing: -0.2px;">
                   PROPERTY ACCOUNT RUNNING LEDGER
                 </h1>
-                <p style="font-size: 11px; color: #64748b; margin: 2px 0 0 0;">Unified Property Inventory &amp; Legal Tenancy Suite</p>
-                <p style="font-size: 12px; font-weight: bold; margin: 6px 0 0 0; color: #334155;">
+                <p style="font-size: 10px; color: #64748b; margin: 2px 0 0 0;">Unified Property Inventory &amp; Legal Tenancy Suite</p>
+                <p style="font-size: 11px; font-weight: bold; margin: 5px 0 0 0; color: #334155;">
                   Landlord: ${escapeHtml(landlordName)} &nbsp;|&nbsp; PAN: ${escapeHtml(landlordPan)}
                 </p>
               </div>
               <div style="text-align: right;">
-                <p style="font-size: 11px; color: #64748b; margin: 0;">Statement Date</p>
-                <p style="font-size: 13px; font-weight: bold; color: #0f172a; margin: 2px 0 4px 0;">${dateStr}</p>
-                <span style="display: inline-block; background: ${currentBalance > 0 ? '#fef2f2' : '#ecfdf5'}; color: ${currentBalance > 0 ? '#991b1b' : '#065f46'}; border: 1px solid ${currentBalance > 0 ? '#fecaca' : '#a7f3d0'}; padding: 3px 8px; font-size: 10px; font-weight: bold; border-radius: 6px;">
+                <p style="font-size: 10px; color: #64748b; margin: 0;">Statement Date</p>
+                <p style="font-size: 12px; font-weight: bold; color: #0f172a; margin: 2px 0 4px 0;">${dateStr}</p>
+                <span style="display: inline-block; background: ${currentBalance > 0 ? '#fef2f2' : '#ecfdf5'}; color: ${currentBalance > 0 ? '#991b1b' : '#065f46'}; border: 1px solid ${currentBalance > 0 ? '#fecaca' : '#a7f3d0'}; padding: 2px 7px; font-size: 9px; font-weight: bold; border-radius: 6px;">
                   ${currentBalance > 0 ? '⚠️ ' + formatINR(currentBalance) + ' Balance Due' : '✓ Fully Reconciled & Settled'}
                 </span>
               </div>
             </div>
 
             <!-- Property & Tenant Summary Block -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; display: flex; justify-content: space-between; gap: 16px;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; display: flex; justify-content: space-between; gap: 16px; page-break-inside: avoid; break-inside: avoid;">
               <div style="flex: 1;">
-                <p style="margin: 0; font-size: 10px; font-weight: bold; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px;">Property Details</p>
-                <p style="margin: 3px 0 0 0; font-size: 14px; font-weight: 900; color: #0f172a;">${escapeHtml(currentProp.name)} (${escapeHtml(currentProp.building || "Sagarpur")})</p>
-                <p style="margin: 2px 0 0 0; font-size: 11px; color: #475569;">${escapeHtml(currentProp.address || "Address registered in Property Master")}</p>
-                <p style="margin: 3px 0 0 0; font-size: 10px; color: #64748b;">Meter CA: ${escapeHtml(currentProp.meterNo || "N/A")} · UPIC: ${escapeHtml(currentProp.upic || "N/A")}</p>
+                <p style="margin: 0; font-size: 9px; font-weight: bold; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px;">Property Details</p>
+                <p style="margin: 2px 0 0 0; font-size: 13px; font-weight: 900; color: #0f172a;">${escapeHtml(currentProp.name)} (${escapeHtml(currentProp.building || "Sagarpur")})</p>
+                <p style="margin: 2px 0 0 0; font-size: 10px; color: #475569;">${escapeHtml(currentProp.address || "Address registered in Property Master")}</p>
+                <p style="margin: 2px 0 0 0; font-size: 9px; color: #64748b;">Meter CA: ${escapeHtml(currentProp.meterNo || "N/A")} · UPIC: ${escapeHtml(currentProp.upic || "N/A")}</p>
               </div>
               <div style="flex: 1; text-align: right;">
-                <p style="margin: 0; font-size: 10px; font-weight: bold; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px;">Tenant / Lessee</p>
-                <p style="margin: 3px 0 0 0; font-size: 14px; font-weight: 900; color: #0f172a;">${tenant ? escapeHtml(tenant.name) : "⚠️ Vacant / Unassigned"}</p>
-                <p style="margin: 2px 0 0 0; font-size: 11px; color: #475569;">Mobile: ${tenant ? escapeHtml(tenant.mobile || "N/A") : "N/A"}</p>
-                <p style="margin: 3px 0 0 0; font-size: 11px; color: #0f172a;">Security Deposit Held: <strong>${formatINR(tenant ? (tenant.deposit || currentProp.deposit || 0) : (currentProp.deposit || 0))}</strong></p>
+                <p style="margin: 0; font-size: 9px; font-weight: bold; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px;">Tenant / Lessee</p>
+                <p style="margin: 2px 0 0 0; font-size: 13px; font-weight: 900; color: #0f172a;">${tenant ? escapeHtml(tenant.name) : "⚠️ Vacant / Unassigned"}</p>
+                <p style="margin: 2px 0 0 0; font-size: 10px; color: #475569;">Mobile: ${tenant ? escapeHtml(tenant.mobile || "N/A") : "N/A"}</p>
+                <p style="margin: 2px 0 0 0; font-size: 10px; color: #0f172a;">Security Deposit Held: <strong>${formatINR(tenant ? (tenant.deposit || currentProp.deposit || 0) : (currentProp.deposit || 0))}</strong></p>
               </div>
             </div>
 
             <!-- Ledger Table -->
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; border: 1px solid #cbd5e1; font-size: 10px;">
               <thead>
-                <tr style="background: #0f172a; color: #ffffff; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
-                  <th style="padding: 8px 10px; text-align: center; width: 36px;">#</th>
-                  <th style="padding: 8px 10px; text-align: left;">Billing Cycle</th>
-                  <th style="padding: 8px 10px; text-align: left;">Due Date</th>
-                  <th style="padding: 8px 10px; text-align: right;">Rent Due (₹)</th>
-                  <th style="padding: 8px 10px; text-align: left;">Received Date</th>
-                  <th style="padding: 8px 10px; text-align: right;">Received (₹)</th>
-                  <th style="padding: 8px 10px; text-align: right;">Running Bal (₹)</th>
-                  <th style="padding: 8px 10px; text-align: left;">Payment Mode / Ref</th>
-                  <th style="padding: 8px 10px; text-align: center; width: 85px;">Status</th>
+                <tr style="background: #0f172a; color: #ffffff; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px;">
+                  <th style="padding: 6px 8px; text-align: center; width: 4%;">#</th>
+                  <th style="padding: 6px 8px; text-align: left; width: 15%;">Billing Cycle</th>
+                  <th style="padding: 6px 8px; text-align: left; width: 11%;">Due Date</th>
+                  <th style="padding: 6px 8px; text-align: right; width: 12%;">Rent Due (₹)</th>
+                  <th style="padding: 6px 8px; text-align: left; width: 11%;">Received Date</th>
+                  <th style="padding: 6px 8px; text-align: right; width: 12%;">Received (₹)</th>
+                  <th style="padding: 6px 8px; text-align: right; width: 14%;">Running Bal (₹)</th>
+                  <th style="padding: 6px 8px; text-align: left; width: 11%;">Payment Mode</th>
+                  <th style="padding: 6px 8px; text-align: center; width: 10%;">Status</th>
                 </tr>
               </thead>
               <tbody>
                 ${tableRowsHtml}
               </tbody>
               <tfoot>
-                <tr style="background: #f1f5f9; font-weight: 900; font-size: 11px; border-top: 2px solid #0f172a;">
-                  <td colspan="3" style="padding: 10px; text-align: right; text-transform: uppercase; color: #475569;">Summary Totals:</td>
-                  <td style="padding: 10px; text-align: right; font-family: monospace; color: #0f172a;">${formatINR(totalBilled)}</td>
-                  <td style="padding: 10px; text-align: right; color: #475569;">Total Paid:</td>
-                  <td style="padding: 10px; text-align: right; font-family: monospace; color: #047857;">${formatINR(totalReceived)}</td>
-                  <td style="padding: 10px; text-align: right; font-family: monospace; color: ${currentBalance > 0 ? "#b91c1c" : "#047857"};">${formatINR(currentBalance)}</td>
-                  <td colspan="2" style="padding: 10px; text-align: right; font-size: 11px;">
+                <tr style="background: #f1f5f9; font-weight: 900; font-size: 10px; border-top: 2px solid #0f172a;">
+                  <td colspan="3" style="padding: 8px; text-align: right; text-transform: uppercase; color: #475569;">Summary Totals:</td>
+                  <td style="padding: 8px; text-align: right; font-family: monospace; color: #0f172a;">${formatINR(totalBilled)}</td>
+                  <td style="padding: 8px; text-align: right; color: #475569;">Total Paid:</td>
+                  <td style="padding: 8px; text-align: right; font-family: monospace; color: #047857;">${formatINR(totalReceived)}</td>
+                  <td style="padding: 8px; text-align: right; font-family: monospace; color: ${currentBalance > 0 ? "#b91c1c" : "#047857"};">${formatINR(currentBalance)}</td>
+                  <td colspan="2" style="padding: 8px; text-align: right; font-size: 10px;">
                     Net Balance: <strong style="color: ${currentBalance > 0 ? "#b91c1c" : "#047857"};">${formatINR(currentBalance)}</strong>
                   </td>
                 </tr>
@@ -11086,21 +11110,21 @@
             </table>
 
             <!-- Signatures & Authorization -->
-            <div style="display: flex; justify-content: space-between; margin-top: 36px; padding-top: 18px; border-top: 1px solid #cbd5e1; font-size: 11px;">
-              <div style="width: 240px; text-align: left;">
-                <div style="border-bottom: 1px solid #94a3b8; height: 32px; margin-bottom: 6px;"></div>
+            <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 14px; border-top: 1px solid #cbd5e1; font-size: 10px; page-break-inside: avoid; break-inside: avoid;">
+              <div style="width: 220px; text-align: left;">
+                <div style="border-bottom: 1px solid #94a3b8; height: 28px; margin-bottom: 4px;"></div>
                 <p style="font-weight: bold; margin: 0; color: #0f172a;">Tenant (Lessee) Signature</p>
-                <p style="color: #64748b; font-size: 10px; margin: 2px 0 0 0;">${tenant ? escapeHtml(tenant.name) : "N/A"}</p>
+                <p style="color: #64748b; font-size: 9px; margin: 2px 0 0 0;">${tenant ? escapeHtml(tenant.name) : "N/A"}</p>
               </div>
-              <div style="width: 240px; text-align: right;">
-                <div style="border-bottom: 1px solid #94a3b8; height: 32px; margin-bottom: 6px;"></div>
+              <div style="width: 220px; text-align: right;">
+                <div style="border-bottom: 1px solid #94a3b8; height: 28px; margin-bottom: 4px;"></div>
                 <p style="font-weight: bold; margin: 0; color: #0f172a;">${escapeHtml(landlordName)} (Lessor)</p>
-                <p style="color: #64748b; font-size: 10px; margin: 2px 0 0 0;">Authorized Landlord Signatory</p>
+                <p style="color: #64748b; font-size: 9px; margin: 2px 0 0 0;">Authorized Landlord Signatory</p>
               </div>
             </div>
 
             <!-- Audit Trail -->
-            <div style="margin-top: 24px; text-align: center; font-size: 9px; color: #94a3b8; border-top: 1px dashed #e2e8f0; padding-top: 8px;">
+            <div style="margin-top: 16px; text-align: center; font-size: 8.5px; color: #94a3b8; border-top: 1px dashed #e2e8f0; padding-top: 6px; page-break-inside: avoid; break-inside: avoid;">
               This statement is generated electronically from the Rental Income &amp; Property Management Suite · All figures in INR (₹) · Subject to Realization
             </div>
           </div>
