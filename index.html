@@ -1560,12 +1560,32 @@
 
       <!-- Property Master Directory List Categorized by Location -->
       <section class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
-        <div class="px-4 sm:px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 bg-slate-50/60 dark:bg-slate-850/60">
+        <div class="px-4 sm:px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex flex-col md:flex-row md:items-center md:justify-between gap-3 bg-slate-50/60 dark:bg-slate-850/60">
           <div>
             <h2 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white">Registered Properties &amp; Location Groups</h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Categorized by Building / Location. View all units &amp; flats under each property location (e.g., all 20 flats in Sagarpur).</p>
           </div>
-          <span id="pmDirectoryCountBadge" class="text-[10px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200/60 dark:border-indigo-800/60 px-2.5 py-0.5 rounded-full">0 Locations · 0 Flats</span>
+          
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Property Master Search Bar -->
+            <div class="relative w-full sm:w-64">
+              <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+              <input
+                type="text"
+                id="pmSearchInput"
+                placeholder="Search flat, building, address, CA, UPIC..."
+                class="w-full pl-8 pr-7 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs transition"
+              />
+              <button
+                type="button"
+                id="pmSearchClearBtn"
+                class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs cursor-pointer p-0.5"
+                title="Clear search"
+              >✕</button>
+            </div>
+
+            <span id="pmDirectoryCountBadge" class="text-[10px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200/60 dark:border-indigo-800/60 px-2.5 py-1 rounded-full whitespace-nowrap">0 Locations · 0 Flats</span>
+          </div>
         </div>
 
         <!-- Location Filter Tabs in Property Master -->
@@ -2046,7 +2066,24 @@
             <p class="text-xs text-slate-500">Manage tenant profiles, change occupancy status, click <strong>Mark Vacant</strong> to vacate the unit, or generate rent receipts.</p>
           </div>
           
-          <div class="flex flex-wrap items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Tenant Master Search Bar -->
+            <div class="relative w-full sm:w-64">
+              <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+              <input
+                type="text"
+                id="tmSearchInput"
+                placeholder="Search tenant, unit, phone, PAN, Aadhaar..."
+                class="w-full pl-8 pr-7 py-1.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-2xs transition"
+              />
+              <button
+                type="button"
+                id="tmSearchClearBtn"
+                class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs cursor-pointer p-0.5"
+                title="Clear search"
+              >✕</button>
+            </div>
+
             <!-- Filter Pills for Tenant Master -->
             <div id="tmFilterBtnGroup" class="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200 shadow-2xs">
               <button type="button" data-tm-filter="all" class="px-3 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-xs">All (<span id="tmAllCount">0</span>)</button>
@@ -2055,7 +2092,7 @@
             </div>
 
             <!-- Total count badge -->
-            <span id="tmDirectoryCountBadge" class="text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">0 Tenants Registered</span>
+            <span id="tmDirectoryCountBadge" class="text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full whitespace-nowrap">0 Tenants Registered</span>
           </div>
         </div>
 
@@ -7692,7 +7729,9 @@
         dashSearchQuery: "",
         dashSortBy: "unit", // 'unit' | 'rent-desc' | 'os-desc' | 'expiry'
         pmLocationFilter: "all", // 'all' or building name
+        pmSearchQuery: "",
         tmActiveFilter: "all", // 'all' | 'active' | 'vacated'
+        tmSearchQuery: "",
         collapsedBuildings: new Set(),
         reportType: "rent-roll", // 'rent-roll' | 'financial-summary' | 'overdue-roster' | 'vacancy-audit' | 'mcd-tax' | 'property-ledger'
         reportPropertyId: null, // selected property ID for property ledger report
@@ -13067,9 +13106,42 @@
           }
         });
 
-        // Group properties by Building / Location
+        const query = (state.pmSearchQuery || "").trim().toLowerCase();
+        const pmClearBtn = document.getElementById("pmSearchClearBtn");
+        if (pmClearBtn && pmClearBtn.classList) {
+          if (query) {
+            pmClearBtn.classList.remove("hidden");
+          } else {
+            pmClearBtn.classList.add("hidden");
+          }
+        }
+
+        // Filter properties by search query if any
+        let filteredProps = state.properties;
+        if (query) {
+          filteredProps = state.properties.filter((p) => {
+            const tenant = tenantMap.get((p.name || "").trim().toLowerCase());
+            const tenantName = tenant ? (tenant.name || "").toLowerCase() : "";
+            const tenantPhone = tenant ? (tenant.mobile || "").toLowerCase() : "";
+            const statusStr = tenant ? "occupied" : "vacant";
+
+            return (
+              (p.name && p.name.toLowerCase().includes(query)) ||
+              (p.building && p.building.toLowerCase().includes(query)) ||
+              (p.address && p.address.toLowerCase().includes(query)) ||
+              (p.meterNo && p.meterNo.toLowerCase().includes(query)) ||
+              (p.upic && p.upic.toLowerCase().includes(query)) ||
+              (p.type && p.type.toLowerCase().includes(query)) ||
+              tenantName.includes(query) ||
+              tenantPhone.includes(query) ||
+              statusStr.includes(query)
+            );
+          });
+        }
+
+        // Group filtered properties by Building / Location
         const buildingsMap = new Map();
-        state.properties.forEach((p) => {
+        filteredProps.forEach((p) => {
           const bName = (p.building || "Sagarpur").trim();
           if (!buildingsMap.has(bName)) {
             buildingsMap.set(bName, []);
@@ -13078,10 +13150,14 @@
         });
 
         const totalLocations = buildingsMap.size;
-        const totalFlats = state.properties.length;
+        const totalFlats = filteredProps.length;
 
         if (countBadge) {
-          countBadge.textContent = `${totalLocations} Locations · ${totalFlats} Flats Registered`;
+          if (query) {
+            countBadge.textContent = `${totalLocations} Locations · ${totalFlats} Matching Flats`;
+          } else {
+            countBadge.textContent = `${totalLocations} Locations · ${state.properties.length} Flats Registered`;
+          }
         }
 
         // Render Property Master Location Filter Tabs
@@ -13112,12 +13188,30 @@
           });
         }
 
-        if (totalFlats === 0) {
+        if (state.properties.length === 0) {
           container.innerHTML = `
             <div class="p-8 text-center text-slate-400">
               <svg class="w-12 h-12 mx-auto text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
               <p class="text-sm font-semibold text-slate-600">No properties registered yet.</p>
               <p class="text-xs text-slate-400 mt-1">Add your real estate units above or use "Bulk Add Flats" to build your Master Inventory.</p>
+            </div>
+          `;
+          return;
+        }
+
+        if (totalFlats === 0 && query) {
+          container.innerHTML = `
+            <div class="p-8 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
+              <span class="text-3xl mb-2 block">🔍</span>
+              <p class="text-sm font-bold text-slate-700">No properties found matching "${escapeHtml(state.pmSearchQuery)}"</p>
+              <p class="text-xs text-slate-400 mt-1">Try searching by flat number, building location, address, electricity CA, or MCD UPIC.</p>
+              <button
+                type="button"
+                id="pmClearSearchEmptyBtn"
+                class="mt-3.5 px-3.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold border border-indigo-200 transition cursor-pointer shadow-2xs"
+              >
+                ✕ Clear Search
+              </button>
             </div>
           `;
           return;
@@ -13950,12 +14044,89 @@
           filtered = vacatedTenants;
         }
 
+        const tmQuery = (state.tmSearchQuery || "").trim().toLowerCase();
+        const tmClearBtn = document.getElementById("tmSearchClearBtn");
+        if (tmClearBtn && tmClearBtn.classList) {
+          if (tmQuery) {
+            tmClearBtn.classList.remove("hidden");
+          } else {
+            tmClearBtn.classList.add("hidden");
+          }
+        }
+
+        if (tmQuery) {
+          filtered = filtered.filter((t) => {
+            const name = (t.name || "").toLowerCase();
+            const unit = (t.unit || "").toLowerCase();
+            const phone = (t.mobile || "").toLowerCase();
+            const email = (t.email || "").toLowerCase();
+            const pan = (t.pan || "").toLowerCase();
+            const aadhaar = (t.aadhaar || "").replace(/\s+/g, "").toLowerCase();
+            const aadhaarRaw = (t.aadhaar || "").toLowerCase();
+            const address = (t.permAddress || "").toLowerCase();
+            const father = (t.fatherName || "").toLowerCase();
+            const work = (t.work || "").toLowerCase();
+            const status = (t.status || "").toLowerCase();
+
+            return (
+              name.includes(tmQuery) ||
+              unit.includes(tmQuery) ||
+              phone.includes(tmQuery) ||
+              email.includes(tmQuery) ||
+              pan.includes(tmQuery) ||
+              aadhaar.includes(tmQuery.replace(/\s+/g, "")) ||
+              aadhaarRaw.includes(tmQuery) ||
+              address.includes(tmQuery) ||
+              father.includes(tmQuery) ||
+              work.includes(tmQuery) ||
+              status.includes(tmQuery)
+            );
+          });
+        }
+
+        if (countBadge) {
+          if (tmQuery) {
+            countBadge.textContent = `${filtered.length} Matching Tenants`;
+          } else {
+            countBadge.textContent = `${allTenants.length} Tenants Registered`;
+          }
+        }
+
+        if (allTenants.length === 0) {
+          container.innerHTML = `
+            <div class="p-8 text-center text-slate-400">
+              <svg class="w-10 h-10 mx-auto text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              <p class="text-sm font-semibold text-slate-600">No tenants registered yet.</p>
+              <p class="text-xs text-slate-400 mt-0.5">Use the Tenant Registration Form above to register a permanent tenant profile.</p>
+            </div>
+          `;
+          return;
+        }
+
+        if (filtered.length === 0 && tmQuery) {
+          container.innerHTML = `
+            <div class="p-8 text-center text-slate-400 bg-white">
+              <span class="text-3xl mb-2 block">🔍</span>
+              <p class="text-sm font-bold text-slate-700">No tenants found matching "${escapeHtml(state.tmSearchQuery)}"</p>
+              <p class="text-xs text-slate-400 mt-1">Try searching by tenant name, assigned unit, phone number, PAN, Aadhaar, or address.</p>
+              <button
+                type="button"
+                id="tmClearSearchEmptyBtn"
+                class="mt-3.5 px-3.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold border border-indigo-200 transition cursor-pointer shadow-2xs"
+              >
+                ✕ Clear Search
+              </button>
+            </div>
+          `;
+          return;
+        }
+
         if (filtered.length === 0) {
           container.innerHTML = `
             <div class="p-8 text-center text-slate-400">
               <svg class="w-10 h-10 mx-auto text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
               <p class="text-sm font-semibold text-slate-600">No tenants in this view.</p>
-              <p class="text-xs text-slate-400 mt-0.5">Use the Tenant Registration Form above to register a permanent tenant profile.</p>
+              <p class="text-xs text-slate-400 mt-0.5">Change the filter tab above to view Active or Vacated tenants.</p>
             </div>
           `;
           return;
@@ -17808,6 +17979,32 @@
           });
         }
 
+        // Property Master Search Input & Clear
+        const pmSearchInput = document.getElementById("pmSearchInput");
+        const pmSearchClearBtn = document.getElementById("pmSearchClearBtn");
+        if (pmSearchInput) {
+          pmSearchInput.addEventListener("input", (e) => {
+            state.pmSearchQuery = e.target.value;
+            renderPropertyMasterDirectory();
+          });
+        }
+        if (pmSearchClearBtn) {
+          pmSearchClearBtn.addEventListener("click", () => {
+            state.pmSearchQuery = "";
+            if (pmSearchInput) pmSearchInput.value = "";
+            renderPropertyMasterDirectory();
+            if (pmSearchInput) pmSearchInput.focus();
+          });
+        }
+        document.getElementById("propertyMasterListContainer")?.addEventListener("click", (e) => {
+          if (e.target && (e.target.id === "pmClearSearchEmptyBtn" || e.target.closest("#pmClearSearchEmptyBtn"))) {
+            state.pmSearchQuery = "";
+            if (pmSearchInput) pmSearchInput.value = "";
+            renderPropertyMasterDirectory();
+            if (pmSearchInput) pmSearchInput.focus();
+          }
+        });
+
         // Bulk Multi-Flat Generator Toggle & Submission
         const toggleBulkBtn = document.getElementById("toggleBulkGenBtn");
         const bulkCard = document.getElementById("bulkFlatGeneratorCard");
@@ -18875,10 +19072,36 @@
           });
         }
 
+        // Tenant Master Search Input & Clear
+        const tmSearchInput = document.getElementById("tmSearchInput");
+        const tmSearchClearBtn = document.getElementById("tmSearchClearBtn");
+        if (tmSearchInput) {
+          tmSearchInput.addEventListener("input", (e) => {
+            state.tmSearchQuery = e.target.value;
+            renderTenantMaster();
+          });
+        }
+        if (tmSearchClearBtn) {
+          tmSearchClearBtn.addEventListener("click", () => {
+            state.tmSearchQuery = "";
+            if (tmSearchInput) tmSearchInput.value = "";
+            renderTenantMaster();
+            if (tmSearchInput) tmSearchInput.focus();
+          });
+        }
+
         // Tenant Master Directory Delegated Actions (Vacate, Re-assign, Receipt, Agreement, Edit, View Doc, Delete)
         const tenantMasterContainer = document.getElementById("tenantMasterListContainer");
         if (tenantMasterContainer) {
           tenantMasterContainer.addEventListener("click", (e) => {
+            if (e.target && (e.target.id === "tmClearSearchEmptyBtn" || e.target.closest("#tmClearSearchEmptyBtn"))) {
+              state.tmSearchQuery = "";
+              if (tmSearchInput) tmSearchInput.value = "";
+              renderTenantMaster();
+              if (tmSearchInput) tmSearchInput.focus();
+              return;
+            }
+
             const btn = e.target.closest("[data-action]");
             if (!btn) return;
             const action = btn.getAttribute("data-action");
