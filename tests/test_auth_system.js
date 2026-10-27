@@ -44,7 +44,13 @@ const requiredAuthIds = [
   "authNewPasswordInput",
   "authNewPasswordConfirmInput",
   "authSubmitNewPasswordBtn",
-  "authQuickDemoLoginBtn"
+  "authQuickDemoLoginBtn",
+  "authHowToUseTipsCard",
+  "authModalTipsToggleBtn",
+  "headerHowToUseBtn",
+  "howToUseModal",
+  "closeHowToUseModalBtn",
+  "openHowToUseFullGuideBtn"
 ];
 
 let missingIds = 0;
@@ -191,25 +197,54 @@ try {
 
 const getEl = (id) => mockDoc.getElementById(id);
 
-console.log("\n--- 1. Testing Default Auth User Profile in Header ---");
-const userName = getEl("authHeaderUserName")?.textContent;
-const userEmail = getEl("authHeaderUserEmail")?.textContent;
-console.log(`Current Header User: "${userName}", Email: "${userEmail}"`);
-if (!userName.includes("Rajesh Sharma")) {
-  console.error("❌ Expected Rajesh Sharma as default authenticated landlord!");
-  process.exit(1);
-}
-console.log("✓ PASS: Default Rajesh Sharma authenticated session active!");
-
-console.log("\n--- 2. Testing View Switching in Auth Modal ---");
-mockWindow.openAuthModal("register");
-if (getEl("authModal").classList.contains("hidden")) {
-  console.error("❌ authModal should be visible when opened!");
-  process.exit(1);
-}
-console.log("✓ PASS: Auth Modal opens and default mode is register");
-
 (async () => {
+  console.log("\n--- 1. Testing App Always Opens on Gated Login Page with Tips ---");
+  const isLoginModalOpenOnStart = !getEl("authModal").classList.contains("hidden");
+  const isNavHiddenOnStart = getEl("mainTabNav").classList.contains("hidden");
+  const isTipsCardPresent = Boolean(getEl("authHowToUseTipsCard"));
+  console.log("Login Page open on initial load?:", isLoginModalOpenOnStart);
+  console.log("Dashboard tabs hidden on initial load?:", isNavHiddenOnStart);
+  console.log("Tips card present on login page?:", isTipsCardPresent);
+  if (!isLoginModalOpenOnStart || !isNavHiddenOnStart || !isTipsCardPresent) {
+    console.error("❌ App must always open on login page with how-to-use tips!");
+    process.exit(1);
+  }
+  console.log("✓ PASS: App always opens on login page with how-to-use tips!");
+
+  // Test opening and closing the full interactive guide modal
+  mockWindow.openHowToUseModal();
+  if (getEl("howToUseModal").classList.contains("hidden")) {
+    console.error("❌ howToUseModal should be visible when opened!");
+    process.exit(1);
+  }
+  mockWindow.closeHowToUseModal();
+  if (!getEl("howToUseModal").classList.contains("hidden")) {
+    console.error("❌ howToUseModal should be hidden after closing!");
+    process.exit(1);
+  }
+  console.log("✓ PASS: Interactive How-To-Use full guide modal opens and closes properly!");
+
+  // Test 1-Click Quick Demo Sign In
+  getEl("authLoginIdentifier").value = "abcltd9925@gmail.com";
+  getEl("authLoginPassword").value = "password123";
+  await mockWindow.handleAuthSignIn();
+
+  const userName = getEl("authHeaderUserName")?.textContent;
+  const userEmail = getEl("authHeaderUserEmail")?.textContent;
+  console.log(`Current Header User after sign in: "${userName}", Email: "${userEmail}"`);
+  if (!userName.includes("Rajesh Sharma")) {
+    console.error("❌ Expected Rajesh Sharma after sign in!");
+    process.exit(1);
+  }
+  console.log("✓ PASS: Rajesh Sharma authenticated session active!");
+
+  console.log("\n--- 2. Testing View Switching in Auth Modal ---");
+  mockWindow.openAuthModal("register");
+  if (getEl("authModal").classList.contains("hidden")) {
+    console.error("❌ authModal should be visible when opened!");
+    process.exit(1);
+  }
+  console.log("✓ PASS: Auth Modal opens and default mode is register");
   console.log("\n--- 3. Testing Registration and OTP Generation ---");
   getEl("authRegName").value = "Sunita Kapoor";
   getEl("authRegEmail").value = "sunita.kapoor@outlook.com";

@@ -585,6 +585,17 @@
             <span id="themeToggleText" class="sr-only">Dark</span>
           </button>
 
+          <!-- Tips & How to Use Guide Button -->
+          <button
+            id="headerHowToUseBtn"
+            type="button"
+            class="relative w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-amber-500 dark:text-amber-400 flex items-center justify-center transition shadow-2xs cursor-pointer active:scale-95 group"
+            title="Tips &amp; How to Use Guide"
+            aria-label="Tips and How to Use Guide"
+          >
+            <span class="text-sm group-hover:scale-110 transition-transform">💡</span>
+          </button>
+
           <!-- Notification Bell Icon (Shows GST invoice count) -->
           <button
             id="headerGstNotificationBtn"
@@ -5817,10 +5828,10 @@
     role="dialog"
     aria-modal="true"
   >
-    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150 relative">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-lg md:max-w-xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 relative">
       
       <!-- Modal Header -->
-      <div class="px-6 py-4 bg-gradient-to-r from-slate-950 via-indigo-950 to-indigo-900 text-white flex items-center justify-between relative overflow-hidden">
+      <div class="px-6 py-4 bg-gradient-to-r from-slate-950 via-indigo-950 to-indigo-900 text-white flex items-center justify-between relative overflow-hidden shrink-0">
         <div class="absolute -right-8 -top-8 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none"></div>
         <div class="flex items-center gap-3 relative z-10">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-700 text-white flex items-center justify-center text-lg font-black shadow-md border border-indigo-400/30">
@@ -5834,13 +5845,24 @@
             <p id="authModalSubtitle" class="text-[11px] text-slate-300 font-medium">Unified Rental Suite Identity &amp; Access Studio</p>
           </div>
         </div>
-        <button
-          type="button"
-          id="closeAuthModalBtn"
-          class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition cursor-pointer relative z-10"
-        >
-          ✕
-        </button>
+        <div class="flex items-center gap-2 relative z-10">
+          <button
+            type="button"
+            id="authModalTipsToggleBtn"
+            class="px-2.5 py-1 rounded-lg bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 border border-amber-400/40 text-[11px] font-bold transition cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-xs"
+            title="View Tips on how to use Rent &amp; Property Manager"
+          >
+            <span>💡</span>
+            <span class="hidden sm:inline">Tips: How to Use</span>
+          </button>
+          <button
+            type="button"
+            id="closeAuthModalBtn"
+            class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
       </div>
 
       <!-- Segmented Navigation for Sign In / Register (Hidden in OTP / Reset modes) -->
@@ -5862,7 +5884,7 @@
       </div>
 
       <!-- Modal Body -->
-      <div class="p-6 pt-4 text-xs space-y-4">
+      <div class="p-6 pt-4 text-xs space-y-4 overflow-y-auto max-h-[calc(92vh-75px)]">
         
         <!-- Feedback Banner -->
         <div id="authFeedback" class="hidden p-3 rounded-xl text-xs font-medium border flex items-start gap-2"></div>
@@ -5961,6 +5983,88 @@
           <div class="text-center pt-2 text-slate-500 text-[11px]">
             Don't have an account? 
             <button type="button" id="authInlineSwitchToRegister" class="text-indigo-600 hover:text-indigo-800 font-bold underline cursor-pointer">Register Now</button>
+          </div>
+
+          <!-- ==============================================
+               HOW TO USE TIPS SECTION (PROMINENT GUIDE)
+               ============================================== -->
+          <div id="authHowToUseTipsCard" class="mt-4 pt-3.5 border-t border-slate-200 dark:border-slate-800">
+            <div class="rounded-2xl bg-gradient-to-br from-indigo-50/90 via-slate-50 to-amber-50/50 dark:from-slate-800/90 dark:via-slate-800/70 dark:to-indigo-950/40 border border-indigo-200/80 dark:border-indigo-800/60 p-4 space-y-3 shadow-xs">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400 font-black flex items-center justify-center text-xs shadow-2xs">💡</span>
+                  <div>
+                    <h4 class="font-black text-xs text-slate-900 dark:text-white tracking-tight">How to Use Rent &amp; Property Manager</h4>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Essential steps &amp; tips to get started in seconds</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  id="openHowToUseFullGuideBtn"
+                  class="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hover:underline flex items-center gap-1 cursor-pointer shrink-0"
+                >
+                  <span>Full Guide</span>
+                  <span>➔</span>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 gap-2 pt-1">
+                <!-- Tip 1 -->
+                <div class="flex items-start gap-2.5 p-2.5 rounded-xl bg-white/90 dark:bg-slate-900/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
+                  <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5 shadow-xs">1</span>
+                  <div class="space-y-0.5">
+                    <p class="font-extrabold text-[11px] text-slate-900 dark:text-white">Instant 1-Click Test Drive</p>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
+                      Tap <button type="button" class="inline-trigger-quick-demo font-bold text-indigo-600 dark:text-indigo-400 underline cursor-pointer">👤 Quick Demo Sign In</button> above to enter immediately with pre-loaded Delhi/NCR buildings (Sagarpur, Saket, Green Park), tenants, and rent rolls. Or enter your email for passwordless OTP sign-in.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Tip 2 -->
+                <div class="flex items-start gap-2.5 p-2.5 rounded-xl bg-white/90 dark:bg-slate-900/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
+                  <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5 shadow-xs">2</span>
+                  <div class="space-y-0.5">
+                    <p class="font-extrabold text-[11px] text-slate-900 dark:text-white">Properties &amp; Multi-Unit Inventory</p>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
+                      Navigate to the <strong class="text-slate-900 dark:text-white">Properties</strong> tab to view buildings, configure unit rent rates, maintenance charges, and security deposit terms.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Tip 3 -->
+                <div class="flex items-start gap-2.5 p-2.5 rounded-xl bg-white/90 dark:bg-slate-900/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
+                  <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5 shadow-xs">3</span>
+                  <div class="space-y-0.5">
+                    <p class="font-extrabold text-[11px] text-slate-900 dark:text-white">Rent Collections &amp; Stamped Receipts</p>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
+                      Click <strong class="text-slate-900 dark:text-white">"Ledger"</strong> on any unit on Dashboard or Tenants to record UPI, cash, or NEFT payments, track partial installments, and print official revenue-stamped Indian Rent Receipts.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Tip 4 -->
+                <div class="flex items-start gap-2.5 p-2.5 rounded-xl bg-white/90 dark:bg-slate-900/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
+                  <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5 shadow-xs">4</span>
+                  <div class="space-y-0.5">
+                    <p class="font-extrabold text-[11px] text-slate-900 dark:text-white">Police Verification &amp; Agreements</p>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
+                      Generate statutory <strong class="text-slate-900 dark:text-white">Section 144 Cr.P.C. Police Verification Sheets</strong> (Delhi Police, Mumbai PCS, UP CCTNS, Haryana) and standard 11-month lease deeds with 1 click.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Tip 5 -->
+                <div class="flex items-start gap-2.5 p-2.5 rounded-xl bg-white/90 dark:bg-slate-900/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
+                  <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-black text-[10px] flex items-center justify-center shrink-0 mt-0.5 shadow-xs">5</span>
+                  <div class="space-y-0.5">
+                    <p class="font-extrabold text-[11px] text-slate-900 dark:text-white">Tenant WhatsApp Chat &amp; GST Invoicing</p>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-snug">
+                      Use the floating <strong class="text-purple-600 dark:text-purple-400">"Discuss with Tenant"</strong> 💬 widget to send tenant portal links or chat 2-way. Access <strong class="text-teal-600 dark:text-teal-400">GST Invoices</strong> for Rule 46 compliant CGST/SGST monthly tax invoices.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
 
@@ -6249,6 +6353,138 @@
           </button>
         </form>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: COMPREHENSIVE HOW TO USE & TIPS INTERACTIVE GUIDE
+       ========================================================= -->
+  <div
+    id="howToUseModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-3 sm:p-5 hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="howToUseModalTitle"
+  >
+    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 relative">
+      <!-- Header -->
+      <div class="px-6 py-4 bg-gradient-to-r from-slate-950 via-indigo-950 to-indigo-900 text-white flex items-center justify-between relative overflow-hidden shrink-0">
+        <div class="absolute -right-8 -top-8 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="flex items-center gap-3 relative z-10">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-700 text-white flex items-center justify-center text-lg font-black shadow-md border border-amber-400/30">
+            💡
+          </div>
+          <div>
+            <h3 id="howToUseModalTitle" class="font-extrabold text-base tracking-tight text-white flex items-center gap-2">
+              <span>How to Use Rent &amp; Property Manager</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40">Tips &amp; Guide</span>
+            </h3>
+            <p class="text-[11px] text-slate-300 font-medium">Complete quick-reference manual for Indian landlords &amp; property managers</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="closeHowToUseModalBtn"
+          class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition cursor-pointer relative z-10"
+          title="Close Guide"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Body with Scroll -->
+      <div class="p-6 overflow-y-auto space-y-4 text-xs text-slate-700 dark:text-slate-300">
+        <!-- Tip 1: 1-Click Demo -->
+        <div class="p-4 rounded-2xl bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/80 dark:border-indigo-800/60 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 text-indigo-900 dark:text-indigo-200 font-extrabold text-sm">
+              <span>🚀 1. Quick Sign In &amp; Instant Demo Mode</span>
+            </div>
+            <button
+              type="button"
+              class="inline-trigger-quick-demo px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] transition cursor-pointer shadow-xs active:scale-95"
+            >
+              Try Demo Now
+            </button>
+          </div>
+          <p class="leading-relaxed">
+            The application always opens securely on the Login Page. If you want to test drive immediately without typing credentials, click the <strong class="text-indigo-700 dark:text-indigo-300">"👤 Quick Demo Sign In (Rajesh Sharma)"</strong> button. It loads full real-world demonstration data for Delhi/NCR properties (Sagarpur, Green Park, Saket) and active tenant ledgers.
+          </p>
+        </div>
+
+        <!-- Tip 2: Property Management -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 space-y-1.5">
+          <div class="flex items-center gap-2 text-slate-900 dark:text-white font-extrabold text-sm">
+            <span>🏢 2. Managing Properties &amp; Multi-Unit Inventory</span>
+          </div>
+          <p class="leading-relaxed">
+            Navigate to the <strong>Properties</strong> tab. You can add multi-storey buildings, residential flats, builder floors, or commercial shops. Each unit tracks monthly rent rate, security deposit, maintenance fees, and occupancy status.
+          </p>
+        </div>
+
+        <!-- Tip 3: Tenant Ledger & Receipts -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 space-y-1.5">
+          <div class="flex items-center gap-2 text-slate-900 dark:text-white font-extrabold text-sm">
+            <span>💰 3. Recording Rent Collections &amp; Stamped Receipts</span>
+          </div>
+          <p class="leading-relaxed">
+            On the <strong>Dashboard</strong> or <strong>Tenants</strong> tab, click the <strong>"Ledger"</strong> button for any occupied unit. Here you can:
+          </p>
+          <ul class="list-disc list-inside space-y-1 pl-1 text-[11px] text-slate-600 dark:text-slate-400">
+            <li>Record full or partial rent payments (UPI, GPay/PhonePe, Cash, NEFT).</li>
+            <li>Track remaining balance due across billing cycles.</li>
+            <li>Generate &amp; print branded Indian Rent Receipts featuring revenue stamp design.</li>
+          </ul>
+        </div>
+
+        <!-- Tip 4: Police Verification -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 space-y-1.5">
+          <div class="flex items-center gap-2 text-slate-900 dark:text-white font-extrabold text-sm">
+            <span>🛡️ 4. Statutory Police Verification (Sec 144 Cr.P.C.)</span>
+          </div>
+          <p class="leading-relaxed">
+            Under Section 144 Cr.P.C. / State Police Acts, landlords must submit verified tenant particulars. Switch to the <strong>Police Verification</strong> tab to instantly generate pre-filled statutory verification sheets for:
+          </p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 font-mono text-[10px] text-center font-bold">
+            <span class="p-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">Delhi Police</span>
+            <span class="p-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">Mumbai PCS</span>
+            <span class="p-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">UP COP CCTNS</span>
+            <span class="p-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">Haryana Police</span>
+          </div>
+        </div>
+
+        <!-- Tip 5: Tenant WhatsApp & Chat -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 space-y-1.5">
+          <div class="flex items-center gap-2 text-slate-900 dark:text-white font-extrabold text-sm">
+            <span>💬 5. Tenant WhatsApp Invite &amp; Live Chat Box</span>
+          </div>
+          <p class="leading-relaxed">
+            Click the floating purple button <strong class="text-purple-600 dark:text-purple-400">"Discuss with Tenant"</strong> (bottom-right) or the 💬 icon in the top header. You can send tenant onboarding invite links directly to tenant's WhatsApp and chat 2-way with live message persistence.
+          </p>
+        </div>
+
+        <!-- Tip 6: GST Invoices -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 space-y-1.5">
+          <div class="flex items-center gap-2 text-slate-900 dark:text-white font-extrabold text-sm">
+            <span>🧾 6. Automated Monthly GST Tax Invoices (Rule 46 CGST Act)</span>
+          </div>
+          <p class="leading-relaxed">
+            For commercial properties or registered landlords, the <strong>GST Invoices</strong> tab automatically generates statutory tax invoices with 18% GST (9% CGST + 9% SGST), HSN/SAC code 997212, and 1-click WhatsApp/email dispatch.
+          </p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="px-6 py-3 bg-slate-50 dark:bg-slate-800/90 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between shrink-0">
+        <span class="text-[11px] text-slate-500 dark:text-slate-400">💡 Tip: You can reopen this guide anytime from the top bar!</span>
+        <button
+          type="button"
+          id="howToUseGotItBtn"
+          class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition cursor-pointer shadow-sm active:scale-95"
+        >
+          Got it, Close Guide
+        </button>
       </div>
     </div>
   </div>
@@ -8210,15 +8446,16 @@
 
       function initAuthSession() {
         try {
-          const raw = localStorage.getItem(STORAGE_KEY_AUTH_USER);
-          const wasLoggedOut = localStorage.getItem(STORAGE_KEY_AUTH_LOGGED_OUT) === "true";
-          if (raw) {
-            currentAuthUser = JSON.parse(raw);
-          } else if (wasLoggedOut) {
-            currentAuthUser = null;
-          } else {
-            currentAuthUser = { ...DEFAULT_AUTH_LANDLORD };
-            localStorage.setItem(STORAGE_KEY_AUTH_USER, JSON.stringify(currentAuthUser));
+          // ALWAYS OPEN ON THE LOGIN PAGE:
+          // Unconditionally reset current session on load/reload so the app opens directly on the login page!
+          currentAuthUser = null;
+          localStorage.removeItem(STORAGE_KEY_AUTH_USER);
+
+          // Pre-populate remembered or default demo identifier for quick 1-click access
+          const remembered = localStorage.getItem("rpm_remembered_identifier") || DEFAULT_AUTH_LANDLORD.email;
+          const idInput = document.getElementById("authLoginIdentifier");
+          if (idInput && !idInput.value) {
+            idInput.value = remembered;
           }
         } catch (e) {
           currentAuthUser = null;
@@ -8372,7 +8609,7 @@
           }
           if (titleEl) titleEl.innerHTML = `<span>Sign In</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-800/80 text-indigo-200 border border-indigo-700">Secure</span>`;
           if (subTitleEl) subTitleEl.textContent = "Sign in to manage properties, ledger, and agreements";
-          setTimeout(() => document.getElementById("authLoginIdentifier")?.focus(), 50);
+          setTimeout(() => document.getElementById("authLoginIdentifier")?.focus?.(), 50);
         } else if (mode === "register") {
           viewRegister?.classList.remove("hidden");
           tabNav?.classList.remove("hidden");
@@ -8384,26 +8621,26 @@
           }
           if (titleEl) titleEl.innerHTML = `<span>Create Account</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-800/80 text-indigo-200 border border-indigo-700">Register</span>`;
           if (subTitleEl) subTitleEl.textContent = "Register with Email or Mobile to create your tenancy portfolio";
-          setTimeout(() => document.getElementById("authRegName")?.focus(), 50);
+          setTimeout(() => document.getElementById("authRegName")?.focus?.(), 50);
         } else if (mode === "otp") {
           viewOtp?.classList.remove("hidden");
           tabNav?.classList.add("hidden");
           if (titleEl) titleEl.innerHTML = `<span>OTP Verification</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-800/80 text-emerald-200 border border-emerald-700">6-Digit Code</span>`;
           if (subTitleEl) subTitleEl.textContent = "Enter verification code sent to your email or phone";
           clearOtpInputs();
-          setTimeout(() => document.getElementById("authOtp1")?.focus(), 50);
+          setTimeout(() => document.getElementById("authOtp1")?.focus?.(), 50);
         } else if (mode === "forgotPassword") {
           viewForgot?.classList.remove("hidden");
           tabNav?.classList.add("hidden");
           if (titleEl) titleEl.innerHTML = `<span>Password Reset</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-800/80 text-amber-200 border border-amber-700">Recovery</span>`;
           if (subTitleEl) subTitleEl.textContent = "Send password reset link and code to your registered email";
-          setTimeout(() => document.getElementById("authResetEmailInput")?.focus(), 50);
+          setTimeout(() => document.getElementById("authResetEmailInput")?.focus?.(), 50);
         } else if (mode === "setNewPassword") {
           viewNewPass?.classList.remove("hidden");
           tabNav?.classList.add("hidden");
           if (titleEl) titleEl.innerHTML = `<span>New Password</span><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-800/80 text-emerald-200 border border-emerald-700">Update</span>`;
           if (subTitleEl) subTitleEl.textContent = "Set a secure new password for your account";
-          setTimeout(() => document.getElementById("authNewPasswordInput")?.focus(), 50);
+          setTimeout(() => document.getElementById("authNewPasswordInput")?.focus?.(), 50);
         }
       }
 
@@ -9091,6 +9328,45 @@
             if (text.length >= 6) {
               handleAuthOtpSubmit();
             }
+          });
+        }
+      }
+
+      // ====================================================================
+      // 💡 HOW TO USE & TIPS SYSTEM ENGINE
+      // ====================================================================
+      function openHowToUseModal() {
+        const modal = document.getElementById("howToUseModal");
+        if (modal) modal.classList.remove("hidden");
+      }
+
+      function closeHowToUseModal() {
+        const modal = document.getElementById("howToUseModal");
+        if (modal) modal.classList.add("hidden");
+      }
+
+      function initHowToUseGuideEngine() {
+        document.getElementById("authModalTipsToggleBtn")?.addEventListener("click", openHowToUseModal);
+        document.getElementById("openHowToUseFullGuideBtn")?.addEventListener("click", openHowToUseModal);
+        document.getElementById("headerHowToUseBtn")?.addEventListener("click", openHowToUseModal);
+        document.getElementById("closeHowToUseModalBtn")?.addEventListener("click", closeHowToUseModal);
+        document.getElementById("howToUseGotItBtn")?.addEventListener("click", closeHowToUseModal);
+
+        document.getElementById("howToUseModal")?.addEventListener("click", (e) => {
+          if (e.target.id === "howToUseModal") {
+            closeHowToUseModal();
+          }
+        });
+
+        // Delegate inline Quick Demo triggers in tips
+        if (typeof document.querySelectorAll === "function") {
+          document.querySelectorAll(".inline-trigger-quick-demo").forEach(btn => {
+            btn?.addEventListener?.("click", (e) => {
+              e.preventDefault();
+              const quickBtn = document.getElementById("authQuickDemoLoginBtn");
+              if (quickBtn) quickBtn.click();
+              closeHowToUseModal();
+            });
           });
         }
       }
@@ -23824,15 +24100,23 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         initPoliceVerificationStudio();
         loadState();
         initAuthSession();
+        initHowToUseGuideEngine();
         initLandlordProfileStudio();
         initSupabaseClient();
         fetchVercelSupabaseConfig();
         initEventListeners();
         renderAll();
+        // Ensure Login Page is immediately presented upfront
+        if (!currentAuthUser) {
+          openAuthModal("signIn");
+        }
         // Expose helpers for console inspection & automated testing
         window.state = state;
         window.openAuthModal = openAuthModal;
         window.closeAuthModal = closeAuthModal;
+        window.openHowToUseModal = openHowToUseModal;
+        window.closeHowToUseModal = closeHowToUseModal;
+        window.initHowToUseGuideEngine = initHowToUseGuideEngine;
         window.openLandlordProfileModal = openLandlordProfileModal;
         window.closeLandlordProfileModal = closeLandlordProfileModal;
         window.saveLandlordProfile = saveLandlordProfile;

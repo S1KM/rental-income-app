@@ -49,6 +49,7 @@ function getEl(id) {
 
 const documentMock = {
   getElementById: (id) => getEl(id),
+  querySelectorAll: () => [],
   body: {
     classList: {
       add: () => {},

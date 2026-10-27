@@ -61,6 +61,7 @@ const mockDoc = {
     return elements[id];
   },
   createElement: (tag) => createMockElement('el_' + Math.random(), tag),
+  querySelectorAll: () => [],
   addEventListener: () => {},
   body: createMockElement('body')
 };
