@@ -3,7 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const testsDir = path.resolve(__dirname, '../tests');
-const tests = fs.readdirSync(testsDir).filter(f => f.endsWith('.js'));
+const tests = fs.readdirSync(testsDir).filter(f => (f.endsWith('.js') || f.endsWith('.cjs')) && !f.startsWith('temp_'));
 
 console.log('======================================================================');
 console.log(`🚀 RUNNING ALL ${tests.length} PRODUCTION PRE-FLIGHT TEST SUITES`);

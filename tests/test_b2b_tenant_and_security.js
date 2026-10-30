@@ -559,4 +559,36 @@ assert.strictEqual(rsSched.rows[2].periodRange, "15-Oct-2026 to 31-Oct-2026", "O
 assert.strictEqual(rsSched.rows[2].advanceInvoiceDate, "15-Oct-2026", "Oct 2026 Advance Invoice Date must be 15-Oct-2026");
 console.log("PASS 13: Rent Start Date in Tenant Master & automatic Advance Invoice generation from Rent Start Date verified.");
 
+// 16. Test Tab 8 Excel Export & One-Page Tenant Master UI view
+assert(htmlContent.includes('id="exportRentalSchedulesExcelBtn"'), "Tab 8 must have #exportRentalSchedulesExcelBtn for Excel download");
+assert(htmlContent.includes("exportRentalSchedulesExcel("), "Schedule cards must include 1-click exportRentalSchedulesExcel() triggers");
+
+// Test runtime exportRentalSchedulesExcel
+assert.strictEqual(typeof sandbox.exportRentalSchedulesExcel, "function", "exportRentalSchedulesExcel function must be exposed");
+
+// Calling exportRentalSchedulesExcel() for all tenants
+const fullCsv = sandbox.exportRentalSchedulesExcel();
+assert(fullCsv.startsWith("\uFEFF"), "Excel CSV must begin with UTF-8 BOM (\\uFEFF) for seamless Microsoft Excel opening");
+assert(fullCsv.includes("TENANT-WISE RENTAL SCHEDULE (LEASE START TO LEASE END)"), "CSV must include main header");
+assert(fullCsv.includes("Lessor / Company:"), "CSV must include Lessor details");
+assert(fullCsv.includes("Deshmukh Fashion Retail Pvt Ltd") || fullCsv.includes("Singhania Luxury Retail Pvt Ltd"), "CSV must include tenant business names");
+assert(fullCsv.includes("Billing Month") && fullCsv.includes("Billing Period (Exact Dates)"), "CSV must include granular column headers");
+assert(fullCsv.includes("Rent / Sq.Ft (₹)") && fullCsv.includes("Separate Monthly CAM (₹)"), "CSV must include Sq.Ft and CAM headers");
+assert(fullCsv.includes("GST 18% (₹)") && fullCsv.includes("Total Monthly Outflow (₹)"), "CSV must include GST and total outflow");
+assert(fullCsv.includes("TOTAL ACROSS ENTIRE LEASE PERIOD"), "CSV must include summary row across entire lease period");
+
+// Calling exportRentalSchedulesExcel(specificTenantId) for a single tenant
+const singleTenantCsv = sandbox.exportRentalSchedulesExcel(rentStartTenant.id);
+assert(singleTenantCsv.includes("Deshmukh Fashion Retail Pvt Ltd"), "Single tenant export must include that tenant");
+assert(singleTenantCsv.includes("Rent Start Date") && singleTenantCsv.includes("15-Oct-2026"), "Single tenant export must record Rent Start Date 15-Oct-2026");
+
+// Verify One-Page Tenant Master layout in HTML
+assert(htmlContent.includes("Tenant Master — Register Permanent Tenant Profile"), "Header title must be preserved");
+assert(htmlContent.includes('id="tmFormCollapseToggleBtn"'), "Collapse/Expand toggle button must be present");
+assert(htmlContent.includes('id="tmNameInput"'), "#tmNameInput must be present");
+assert(htmlContent.includes('id="tmRentStartDateInput"'), "#tmRentStartDateInput must be present");
+assert(htmlContent.includes('id="tmPanInput"'), "#tmPanInput must be present");
+assert(htmlContent.includes('id="tmAadhaarInput"'), "#tmAadhaarInput must be present");
+console.log("PASS 14: Tab 8 Excel (.CSV) Export & Ergonomic One-Page Tenant Master UI verified.");
+
 console.log("\n🎉 ALL B2B TENANT & SECURITY TESTS PASSED!");

@@ -2048,618 +2048,421 @@
          ========================================================= -->
     <div id="tabViewTenants" class="hidden space-y-6">
 
-      <!-- Tenant Registration Form (Redesigned Compact & Ergonomic) -->
-      <section class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs transition-all">
-        <!-- Compact Header with Collapse / Expand Toggle -->
-        <div class="mb-3.5 pb-2.5 border-b border-slate-100 flex items-center justify-between gap-3">
-          <div class="flex items-center gap-2.5 min-w-0">
+      <!-- Tenant Registration Form (One-Page Executive Cockpit View) -->
+      <section class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200/90 dark:border-slate-800 shadow-xs transition-all relative overflow-hidden">
+        <!-- Subtle Top Accent Bar -->
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-600 via-teal-500 to-emerald-500"></div>
+
+        <!-- Compact Single-Line Header with Collapse / Expand Toggle -->
+        <div class="mb-2.5 pb-2 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2 min-w-0">
             <span
-              class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 shadow-2xs font-bold text-sm">
+              class="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 flex items-center justify-center shrink-0 shadow-2xs font-bold text-xs">
               👥
             </span>
-            <div class="min-w-0">
-              <div class="flex items-center gap-2 flex-wrap">
-                <h2 class="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">Tenant Master — Register
-                  Permanent Tenant Profile</h2>
-                <span
-                  class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 shrink-0">Central
-                  Registry</span>
-              </div>
-              <p class="text-[11px] text-slate-500 truncate">Link units, agreed rent, KYC documents, and track tenancy
-                lifecycle.</p>
+            <div class="flex items-center gap-2 flex-wrap min-w-0">
+              <h2 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white tracking-tight">Tenant Master — Register Permanent Tenant Profile</h2>
+              <span
+                class="text-[9px] font-bold px-2 py-0.2 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 shrink-0">One-Page Studio</span>
+              <span class="hidden xl:inline text-[10px] text-slate-400">· Link units, rent start date, B2B GST/CAM &amp; KYC on a single screen</span>
             </div>
           </div>
           <button type="button" id="tmFormCollapseToggleBtn"
-            class="px-2.5 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs transition cursor-pointer flex items-center gap-1.5 shadow-2xs shrink-0 active:scale-95"
+            class="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-[11px] transition cursor-pointer flex items-center gap-1 shadow-2xs shrink-0 active:scale-95"
             title="Collapse / Expand Form">
-            <span id="tmFormToggleIcon" class="text-[10px] transition-transform">▼</span>
+            <span id="tmFormToggleIcon" class="text-[9px] transition-transform">▼</span>
             <span id="tmFormToggleText" class="hidden sm:inline">Minimize Form</span>
           </button>
         </div>
 
-        <form id="addTenantMasterForm" class="space-y-3.5">
+        <form id="addTenantMasterForm" class="space-y-2.5">
           <!-- Hidden Legacy ID input for backward compatibility -->
           <input type="hidden" id="tmIdInput" />
 
-          <!-- SECTION 1: Tenant Identity & Avatar (Inline Compact Bar) -->
-          <div
-            class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center p-3 rounded-2xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/80">
-            <!-- Compact Avatar Uploader (Col 1-3 on Desktop) -->
-            <div class="md:col-span-3 flex items-center gap-2.5">
-              <input type="file" id="tmPhotoInput" class="hidden" accept="image/png,image/jpeg,image/webp,image/jpg" />
-              <div class="relative group shrink-0">
-                <div id="tmPhotoPreviewContainer"
-                  class="w-13 h-13 rounded-2xl border-2 border-dashed border-indigo-300 bg-white shadow-2xs flex items-center justify-center overflow-hidden cursor-pointer hover:border-indigo-500 transition relative"
-                  title="Click to upload profile photo">
-                  <img id="tmPhotoPreviewImg" src="" alt="Tenant Profile Photo"
-                    class="w-full h-full object-cover hidden" />
-                  <div id="tmPhotoPlaceholder"
-                    class="flex flex-col items-center justify-center text-indigo-400 group-hover:text-indigo-600 transition">
-                    <span class="text-base">📷</span>
-                    <span class="text-[9px] font-bold">Photo</span>
+          <!-- UNIFIED ZONE 1: Identity, Contact, Unit, Rent & Lease/Rent Start Dates (Compact 2-Row Cockpit Card) -->
+          <div class="p-2.5 sm:p-3 rounded-xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/70 space-y-2.5">
+            <!-- ROW 1: Avatar + Full Name + Mobile + Email + Assigned Property Unit (12 Cols) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2.5 items-center">
+              <!-- Compact Avatar Uploader (2 cols) -->
+              <div class="lg:col-span-2 flex items-center gap-2">
+                <input type="file" id="tmPhotoInput" class="hidden" accept="image/png,image/jpeg,image/webp,image/jpg" />
+                <div class="relative group shrink-0">
+                  <div id="tmPhotoPreviewContainer"
+                    class="w-13 h-13 rounded-2xl border-2 border-dashed border-indigo-300 bg-white shadow-2xs flex items-center justify-center overflow-hidden cursor-pointer hover:border-indigo-500 transition relative"
+                    title="Click to upload profile photo">
+                    <img id="tmPhotoPreviewImg" src="" alt="Tenant Profile Photo"
+                      class="w-full h-full object-cover hidden" />
+                    <div id="tmPhotoPlaceholder"
+                      class="flex flex-col items-center justify-center text-indigo-400 group-hover:text-indigo-600 transition">
+                      <span class="text-sm">📷</span>
+                      <span class="text-[8px] font-bold">Photo</span>
+                    </div>
+                  </div>
+                  <button type="button" id="tmPhotoTriggerBtn"
+                    class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center shadow-xs transition cursor-pointer text-[9px]"
+                    title="Upload Tenant Profile Picture">+</button>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <span class="text-[10px] font-bold text-slate-800 dark:text-slate-200 block leading-tight">KYC Photo</span>
+                  <div class="flex items-center gap-1 mt-0.5">
+                    <button type="button" id="tmPhotoUploadBtn"
+                      class="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 cursor-pointer underline">Upload</button>
+                    <button type="button" id="tmPhotoRemoveBtn"
+                      class="text-[10px] font-bold text-rose-600 hover:text-rose-800 cursor-pointer hidden">✕</button>
+                  </div>
+                  <span id="tmPhotoFileName" class="text-[9px] text-slate-400 truncate max-w-[75px] block">Optional</span>
+                </div>
+              </div>
+
+              <!-- Full Name (3 cols) -->
+              <div class="lg:col-span-3">
+                <label for="tmNameInput" class="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">Tenant Full Name *</label>
+                <input id="tmNameInput" type="text" required placeholder="e.g. Vikram Malhotra"
+                  class="w-full px-2.5 py-1 rounded-lg border border-slate-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold" />
+              </div>
+
+              <!-- Mobile No. (2 cols) -->
+              <div class="lg:col-span-2">
+                <label for="tmMobileInput" class="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">Mobile (WhatsApp) *</label>
+                <div class="flex items-center">
+                  <span class="px-1.5 py-1 rounded-l-lg border border-r-0 border-slate-300 bg-slate-100 text-slate-600 font-mono text-[11px] font-bold">+91</span>
+                  <input id="tmMobileInput" type="tel" required maxlength="10" placeholder="9811098765"
+                    class="w-full px-2 py-1 rounded-r-lg border border-slate-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold font-mono" />
+                </div>
+              </div>
+
+              <!-- Email (2 cols) -->
+              <div class="lg:col-span-2">
+                <label for="tmEmailInput" class="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">Email Address</label>
+                <input id="tmEmailInput" type="email" placeholder="tenant@email.com"
+                  class="w-full px-2.5 py-1 rounded-lg border border-slate-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium font-mono" />
+              </div>
+
+              <!-- Assigned Property Unit (3 cols) -->
+              <div class="lg:col-span-3">
+                <label for="tmUnitSelect" class="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">Assigned Property Unit *</label>
+                <select id="tmUnitSelect"
+                  class="w-full px-2.5 py-1 rounded-lg border border-indigo-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-slate-800"></select>
+              </div>
+            </div>
+
+            <!-- ROW 2: Agreed Rent + Security Deposit + Lease Start + Rent Start Date + Lease End + Status/O/S (12 Cols) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2.5 items-start pt-2 border-t border-slate-200/70 dark:border-slate-700/60">
+              <!-- Agreed Monthly Rent (2 cols) -->
+              <div class="lg:col-span-2">
+                <label for="tmRentInput" class="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">Monthly Rent (₹) *</label>
+                <input id="tmRentInput" type="number" min="0" step="any" required placeholder="e.g. 25000"
+                  class="w-full px-2.5 py-1 rounded-lg border border-slate-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-extrabold text-indigo-700 font-mono" />
+              </div>
+
+              <!-- Security Deposit (2 cols) -->
+              <div class="lg:col-span-2">
+                <div class="flex items-center justify-between mb-0.5">
+                  <label for="tmDepositMonthsInput" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Deposit</label>
+                  <div class="flex items-center gap-0.5">
+                    <button type="button" class="deposit-quick-btn text-[8px] px-1 py-0.1 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 font-bold border border-slate-200 cursor-pointer" data-months="1">1M</button>
+                    <button type="button" class="deposit-quick-btn text-[8px] px-1 py-0.1 rounded bg-indigo-50 text-indigo-700 font-bold border border-indigo-200 cursor-pointer" data-months="2">2M</button>
+                    <button type="button" class="deposit-quick-btn text-[8px] px-1 py-0.1 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 font-bold border border-slate-200 cursor-pointer" data-months="3">3M</button>
                   </div>
                 </div>
-                <button type="button" id="tmPhotoTriggerBtn"
-                  class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center shadow-xs transition cursor-pointer text-[10px]"
-                  title="Upload Tenant Profile Picture">
-                  +
-                </button>
-              </div>
-              <div class="min-w-0 flex-1">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-xs font-bold text-slate-800">Profile Photo</span>
-                  <span class="text-[9px] font-semibold text-indigo-600 bg-indigo-50 px-1 rounded">KYC</span>
-                </div>
-                <div class="flex items-center gap-1.5 mt-0.5">
-                  <button type="button" id="tmPhotoUploadBtn"
-                    class="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 cursor-pointer underline">Choose</button>
-                  <button type="button" id="tmPhotoRemoveBtn"
-                    class="text-[11px] font-bold text-rose-600 hover:text-rose-800 cursor-pointer hidden">Remove</button>
-                  <span id="tmPhotoFileName" class="text-[10px] text-slate-400 truncate max-w-[90px] block">No
-                    file</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Full Name (Col 4-6 on Desktop) -->
-            <div class="md:col-span-3">
-              <label for="tmNameInput" class="block text-[11px] font-bold text-slate-700 mb-1">Tenant Full Name
-                *</label>
-              <input id="tmNameInput" type="text" required placeholder="e.g. Vikram Malhotra"
-                class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold" />
-            </div>
-
-            <!-- Mobile No. (Col 7-9 on Desktop) -->
-            <div class="md:col-span-3">
-              <label for="tmMobileInput" class="block text-[11px] font-bold text-slate-700 mb-1">Mobile No. (WhatsApp)
-                *</label>
-              <div class="flex items-center">
-                <span
-                  class="px-2 py-1.5 rounded-l-xl border border-r-0 border-slate-300 bg-slate-100 text-slate-600 font-mono text-xs font-bold">+91</span>
-                <input id="tmMobileInput" type="tel" required maxlength="10" placeholder="9811098765"
-                  class="w-full px-2.5 py-1.5 rounded-r-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold font-mono" />
-              </div>
-            </div>
-
-            <!-- Email (Col 10-12 on Desktop) -->
-            <div class="md:col-span-3">
-              <label for="tmEmailInput" class="block text-[11px] font-bold text-slate-700 mb-1">Email Address</label>
-              <input id="tmEmailInput" type="email" placeholder="vikram.m@example.com"
-                class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium font-mono" />
-            </div>
-          </div>
-
-          <!-- SECTION 2: Tenancy Property, Rent & Deposit Terms (Tight 4-Column Grid) -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            <!-- Property Unit -->
-            <div>
-              <label for="tmUnitSelect" class="block text-[11px] font-bold text-slate-700 mb-1">Assigned Property Unit
-                *</label>
-              <select id="tmUnitSelect"
-                class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-slate-800"></select>
-            </div>
-
-            <!-- Agreed Monthly Rent -->
-            <div>
-              <label for="tmRentInput" class="block text-[11px] font-bold text-slate-700 mb-1">Agreed Monthly Rent (₹)
-                *</label>
-              <input id="tmRentInput" type="number" min="0" step="any" required placeholder="e.g. 25000"
-                class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-extrabold text-indigo-700 font-mono" />
-            </div>
-
-            <!-- Security Deposit (Months + Auto Amount Combined) -->
-            <div>
-              <div class="flex items-center justify-between mb-1">
-                <label for="tmDepositMonthsInput" class="text-[11px] font-bold text-slate-700">Security Deposit</label>
                 <div class="flex items-center gap-1">
-                  <button type="button"
-                    class="deposit-quick-btn text-[9px] px-1.5 py-0.2 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 font-bold transition border border-slate-200 cursor-pointer"
-                    data-months="1">1M</button>
-                  <button type="button"
-                    class="deposit-quick-btn text-[9px] px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-bold transition border border-indigo-200 cursor-pointer"
-                    data-months="2">2M</button>
-                  <button type="button"
-                    class="deposit-quick-btn text-[9px] px-1.5 py-0.2 rounded bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 font-bold transition border border-slate-200 cursor-pointer"
-                    data-months="3">3M</button>
-                </div>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <div class="w-16 shrink-0 relative">
-                  <input id="tmDepositMonthsInput" type="number" min="0" max="24" step="0.5" value="2"
-                    title="Number of Months"
-                    class="w-full px-2 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-slate-800 text-center font-mono" />
-                  <span class="absolute right-1 top-2 text-[8px] text-slate-400 font-bold pointer-events-none">Mo</span>
-                </div>
-                <div class="flex-1 relative">
+                  <input id="tmDepositMonthsInput" type="number" min="0" max="24" step="0.5" value="2" title="Months"
+                    class="w-11 shrink-0 px-1 py-1 rounded-lg border border-slate-300 bg-white text-xs font-bold text-slate-800 text-center font-mono" />
                   <input id="tmDepositAmountInput" type="number" min="0" step="any" placeholder="₹ Deposit"
-                    class="w-full px-3 py-1.5 rounded-xl border border-emerald-300 bg-emerald-50/40 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 font-extrabold text-emerald-800 font-mono" />
+                    class="w-full min-w-0 flex-1 px-2 py-1 rounded-lg border border-emerald-300 bg-emerald-50/40 text-xs font-extrabold text-emerald-800 font-mono" />
                   <span id="tmDepositAutoBadge" class="hidden">Auto-calc</span>
                 </div>
               </div>
-            </div>
 
-            <!-- Tenancy Status & O/S Dues -->
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label for="tmStatusSelect" class="block text-[11px] font-bold text-slate-700 mb-1">Status *</label>
-                <select id="tmStatusSelect"
-                  class="w-full px-2 py-1.5 rounded-xl border border-slate-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold">
-                  <option value="Active">🟢 Active</option>
-                  <option value="Vacated">⚠️ Vacated</option>
-                </select>
+              <!-- Lease Start Date (2 cols) -->
+              <div class="lg:col-span-2">
+                <label for="tmStartDateInput" class="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">Lease Start Date</label>
+                <input id="tmStartDateInput" type="date"
+                  class="w-full px-2 py-1 rounded-lg border border-slate-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium" />
               </div>
-              <div>
-                <label for="tmOsInput" class="block text-[11px] font-bold text-slate-700 mb-1"
-                  title="Outstanding balance">O/S Dues (₹)</label>
-                <input id="tmOsInput" type="number" min="0" step="any" value="0" placeholder="0"
-                  class="w-full px-2 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-amber-700 font-mono" />
+
+              <!-- Rent Start Date (Advance Invoice) (2 cols) -->
+              <div class="lg:col-span-2">
+                <div class="flex items-center justify-between mb-0.5">
+                  <label for="tmRentStartDateInput" class="text-[10px] font-bold text-emerald-800">Rent Start Date *</label>
+                  <button type="button" id="tmSyncRentStartBtn"
+                    class="text-[8px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-1 py-0.1 rounded font-bold hover:bg-emerald-100 cursor-pointer"
+                    title="Set Rent Start Date equal to Lease Start Date">= Lease</button>
+                </div>
+                <input id="tmRentStartDateInput" type="date"
+                  title="Date from where actual rent will start and invoice will be generated in advance"
+                  class="w-full px-2 py-1 rounded-lg border border-emerald-400 bg-emerald-50/50 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-emerald-950" />
+              </div>
+
+              <!-- Lease End Date (2 cols) -->
+              <div class="lg:col-span-2">
+                <div class="flex items-center justify-between mb-0.5">
+                  <label for="tmEndDateInput" class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Lease End Date</label>
+                  <button type="button" id="tmAutoFillDatesBtn"
+                    class="text-[9px] text-indigo-600 font-bold hover:underline cursor-pointer">+11 Mo</button>
+                </div>
+                <input id="tmEndDateInput" type="date"
+                  class="w-full px-2 py-1 rounded-lg border border-slate-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium" />
+              </div>
+
+              <!-- Status & O/S Dues (2 cols) -->
+              <div class="lg:col-span-2 grid grid-cols-2 gap-1.5">
+                <div>
+                  <label for="tmStatusSelect" class="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-0.5">Status</label>
+                  <select id="tmStatusSelect"
+                    class="w-full px-1.5 py-1 rounded-lg border border-slate-300 text-[11px] bg-white font-bold">
+                    <option value="Active">🟢 Active</option>
+                    <option value="Vacated">⚠️ Vacated</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="tmOsInput" class="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-0.5" title="Outstanding balance">O/S (₹)</label>
+                  <input id="tmOsInput" type="number" min="0" step="any" value="0" placeholder="0"
+                    class="w-full px-1.5 py-1 rounded-lg border border-slate-300 bg-white text-xs font-bold text-amber-700 font-mono" />
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- SECTION 3: Lease Dates, Rent Start Date (Advance Billing) & Permanent Address -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-start">
-            <!-- Lease Start Date (2 cols) -->
-            <div class="lg:col-span-2">
-              <label for="tmStartDateInput" class="block text-[11px] font-bold text-slate-700 mb-1">Lease Start
-                Date</label>
-              <input id="tmStartDateInput" type="date"
-                class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium" />
-            </div>
+            <!-- ROW 3: Permanent Home Address (5 cols) + Inline B2B Business Tenant Toggle Bar (7 cols) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-2.5 items-center pt-2 border-t border-slate-200/70 dark:border-slate-700/60">
+              <div class="lg:col-span-5 flex items-center gap-2">
+                <label for="tmPermAddressInput" class="text-[10px] font-bold text-slate-700 dark:text-slate-300 shrink-0">🏠 Home Address:</label>
+                <input id="tmPermAddressInput" type="text" placeholder="e.g. H.No 45, Sector 15, Chandigarh - 160015"
+                  class="w-full px-2.5 py-1 rounded-lg border border-slate-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium" />
+              </div>
 
-            <!-- Rent Start Date (Actual Rent Starts & Advance Invoice) (3 cols) -->
-            <div class="lg:col-span-3">
-              <div class="flex items-center justify-between mb-1">
-                <label for="tmRentStartDateInput" class="text-[11px] font-bold text-emerald-800 flex items-center gap-1">
-                  <span>Rent Start Date *</span>
+              <!-- Inline B2B Business Toggle Bar -->
+              <div class="lg:col-span-7 flex flex-wrap items-center justify-between gap-2 px-3 py-1.5 rounded-xl border border-indigo-200/90 bg-gradient-to-r from-indigo-50/70 via-white to-violet-50/50 dark:from-slate-800 dark:to-indigo-950/40">
+                <label for="tmIsB2bCheckbox" class="flex items-center gap-2 cursor-pointer select-none">
+                  <input id="tmIsB2bCheckbox" type="checkbox"
+                    class="w-4 h-4 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer accent-indigo-600" />
+                  <span class="text-xs font-extrabold text-slate-900 dark:text-white">🏢 B2B Commercial Tenant (GSTIN, Sq.Ft, CAM &amp; Escalation)</span>
+                  <span id="tmB2bToggleBadge"
+                    class="text-[9px] font-bold px-2 py-0.2 rounded-full bg-slate-200/80 text-slate-600 uppercase">B2C Individual</span>
                 </label>
-                <button type="button" id="tmSyncRentStartBtn"
-                  class="text-[9px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded font-bold hover:bg-emerald-100 cursor-pointer"
-                  title="Set Rent Start Date equal to Lease Start Date">
-                  = Lease Start
-                </button>
+                <span class="text-[9px] font-bold text-indigo-700 bg-indigo-100/80 px-2 py-0.5 rounded-md border border-indigo-200/70">🧾 Rule 46 GST &amp; Advance Billing</span>
               </div>
-              <input id="tmRentStartDateInput" type="date"
-                title="Date from where actual rent will start and invoice will be generated in advance"
-                class="w-full px-2.5 py-1.5 rounded-xl border border-emerald-400 bg-emerald-50/40 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-emerald-950" />
-              <p class="text-[9px] text-emerald-700 font-semibold mt-0.5 leading-tight">Actual rent &amp; advance invoice start from this date</p>
             </div>
 
-            <!-- Lease End Date (3 cols) -->
-            <div class="lg:col-span-3">
-              <div class="flex items-center justify-between mb-1">
-                <label for="tmEndDateInput" class="text-[11px] font-bold text-slate-700">Lease End Date</label>
-                <button type="button" id="tmAutoFillDatesBtn"
-                  class="text-[10px] text-indigo-600 font-bold hover:underline cursor-pointer">
-                  + Auto 11 Mo
-                </button>
-              </div>
-              <input id="tmEndDateInput" type="date"
-                class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium" />
-            </div>
-
-            <!-- Permanent Address (4 cols) -->
-            <div class="lg:col-span-4">
-              <label for="tmPermAddressInput" class="block text-[11px] font-bold text-slate-700 mb-1">Tenant's Permanent
-                Home Address</label>
-              <input id="tmPermAddressInput" type="text" placeholder="e.g. H.No 45, Sector 15, Chandigarh - 160015"
-                class="w-full px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium truncate" />
-            </div>
-          </div>
-
-          <!-- SECTION 3B: B2B Business Tenant Option (GSTIN, Business PAN & Registered Billing Address) -->
-          <div
-            class="rounded-2xl border border-indigo-200/80 bg-gradient-to-r from-indigo-50/50 via-white to-violet-50/40 dark:from-slate-800/80 dark:via-slate-900 dark:to-indigo-950/30 dark:border-slate-700 p-3.5 transition-all shadow-2xs">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <label for="tmIsB2bCheckbox" class="flex items-center gap-3 cursor-pointer select-none">
-                <input id="tmIsB2bCheckbox" type="checkbox"
-                  class="w-4 h-4 rounded border-indigo-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer accent-indigo-600" />
-                <div class="flex items-center gap-2">
-                  <span
-                    class="w-7 h-7 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-2xs">🏢</span>
-                  <div>
-                    <div class="flex items-center gap-2">
-                      <span class="text-xs font-extrabold text-slate-900 dark:text-white tracking-tight">B2B Business
-                        Tenant (Registered Entity / GST Invoice)</span>
-                      <span id="tmB2bToggleBadge"
-                        class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-slate-200/80 text-slate-600 uppercase tracking-wider">B2C
-                        Individual</span>
-                    </div>
-                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Enable to fill GSTIN, Business PAN
-                      details, and B2B Billing Address for Input Tax Credit (ITC) GST Tax Invoices</p>
-                  </div>
-                </div>
-              </label>
-              <span
-                class="text-[10px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-100/80 dark:bg-indigo-950/70 px-2.5 py-1 rounded-lg border border-indigo-200/70 self-start sm:self-center shrink-0">
-                🧾 Rule 46 B2B GST Ready
-              </span>
-            </div>
-
-            <!-- Collapsible B2B Details Drawer (Shown when B2B Business checkbox is checked) -->
+            <!-- Collapsible B2B Commercial Details Drawer (Compact 2-Row Layout when B2B is Checked) -->
             <div id="tmB2bDetailsSection"
-              class="hidden mt-3.5 pt-3.5 border-t border-indigo-200/70 dark:border-slate-700 space-y-3 animate-fadeIn">
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <!-- Business / Trade Legal Name -->
-                <div>
-                  <div class="flex items-center justify-between mb-1">
-                    <label for="tmBusinessNameInput"
-                      class="block text-[11px] font-bold text-slate-700 dark:text-slate-200">
-                      Business / Legal Entity Name
-                    </label>
-                    <span class="text-[9px] font-semibold text-indigo-600">For Tax Invoice</span>
-                  </div>
+              class="hidden pt-2.5 border-t border-indigo-200/80 dark:border-slate-700 space-y-2 animate-fadeIn">
+              <!-- B2B Row 1: Entity Name, GSTIN, Business PAN & Registered Billing Address (12 Cols) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2">
+                <div class="lg:col-span-3">
+                  <label for="tmBusinessNameInput" class="block text-[10px] font-bold text-slate-700 mb-0.5">Business / Legal Entity Name</label>
                   <input id="tmBusinessNameInput" type="text" placeholder="e.g. Apex Retail Solutions Pvt. Ltd."
-                    class="w-full px-3 py-1.5 rounded-xl border border-indigo-200 bg-white text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    class="w-full px-2.5 py-1 rounded-lg border border-indigo-200 bg-white text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 </div>
-
-                <!-- 15-Digit GSTIN Input -->
-                <div>
-                  <div class="flex items-center justify-between mb-1">
-                    <label for="tmGstinInput" class="block text-[11px] font-bold text-slate-700 dark:text-slate-200">
-                      GSTIN Number <span class="text-rose-500">*</span>
-                    </label>
-                    <span id="tmGstinStatusBadge"
-                      class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800">15
-                      Chars</span>
+                <div class="lg:col-span-2">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <label for="tmGstinInput" class="text-[10px] font-bold text-slate-700">GSTIN *</label>
+                    <span id="tmGstinStatusBadge" class="text-[8px] font-bold px-1 py-0.1 rounded bg-amber-100 text-amber-800">15 Chars</span>
                   </div>
-                  <input id="tmGstinInput" type="text" maxlength="15" placeholder="e.g. 07AABCU9603R1ZM"
-                    class="w-full px-3 py-1.5 rounded-xl border border-indigo-300 bg-white text-xs font-mono uppercase tracking-wider font-bold text-indigo-950 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                  <p class="text-[9px] text-slate-400 mt-0.5">Auto-extracts 10-char PAN from digits 3–12 of GSTIN</p>
+                  <input id="tmGstinInput" type="text" maxlength="15" placeholder="07AABCU9603R1ZM"
+                    class="w-full px-2 py-1 rounded-lg border border-indigo-300 bg-white text-xs font-mono uppercase font-bold text-indigo-950 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 </div>
-
-                <!-- Business PAN Details Input (Synced with KYC PAN Card) -->
-                <div>
-                  <div class="flex items-center justify-between mb-1">
-                    <label for="tmB2bPanInput" class="block text-[11px] font-bold text-slate-700 dark:text-slate-200">
-                      Business / Entity PAN <span class="text-rose-500">*</span>
-                    </label>
-                    <span id="tmB2bPanStatusBadge"
-                      class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-slate-200/80 text-slate-600">10
-                      Chars</span>
+                <div class="lg:col-span-2">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <label for="tmB2bPanInput" class="text-[10px] font-bold text-slate-700">Entity PAN *</label>
+                    <span id="tmB2bPanStatusBadge" class="text-[8px] font-bold px-1 py-0.1 rounded bg-slate-200 text-slate-600">10 Chars</span>
                   </div>
-                  <input id="tmB2bPanInput" type="text" maxlength="10" placeholder="e.g. AABCU9603R"
-                    class="w-full px-3 py-1.5 rounded-xl border border-indigo-300 bg-white text-xs font-mono uppercase tracking-wider font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                  <p class="text-[9px] text-slate-400 mt-0.5">Synced automatically with KYC PAN Card below</p>
+                  <input id="tmB2bPanInput" type="text" maxlength="10" placeholder="AABCU9603R"
+                    class="w-full px-2 py-1 rounded-lg border border-indigo-300 bg-white text-xs font-mono uppercase font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                </div>
+                <div class="lg:col-span-5">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <label for="tmBillingAddressInput" class="text-[10px] font-bold text-slate-700">Registered B2B Billing Address *</label>
+                    <button type="button" id="tmCopyPermToBillingBtn"
+                      class="text-[9px] font-bold text-indigo-600 hover:underline cursor-pointer">📋 Same as Home</button>
+                  </div>
+                  <textarea id="tmBillingAddressInput" rows="1"
+                    placeholder="Registered business billing address with State, City & PIN..."
+                    class="w-full px-2.5 py-1 rounded-lg border border-indigo-200 bg-white text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"></textarea>
                 </div>
               </div>
 
-              <!-- B2B Billing Address Row -->
-              <div>
-                <div class="flex items-center justify-between mb-1">
-                  <label for="tmBillingAddressInput"
-                    class="block text-[11px] font-bold text-slate-700 dark:text-slate-200">
-                    Registered B2B Billing Address <span class="text-rose-500">*</span>
-                  </label>
-                  <button type="button" id="tmCopyPermToBillingBtn"
-                    class="text-[10px] font-bold text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer flex items-center gap-1">
-                    <span>📋 Same as Home Address</span>
-                  </button>
+              <!-- B2B Row 2: 8-Col Commercial Metrics (Sq.Ft, Rent/Sq.Ft, CAM/Sq.Ft, CAM ₹, Increment Period, %, Lock-in, Lease Period) -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 pt-1.5 border-t border-indigo-100">
+                <div>
+                  <div class="flex items-center justify-between mb-0.5">
+                    <label for="tmB2bAreaSqFtInput" class="text-[10px] font-bold text-indigo-950">Area (Sq.Ft)</label>
+                    <span id="tmB2bAreaSourceHint" class="text-[8px] text-indigo-500">Auto</span>
+                  </div>
+                  <input id="tmB2bAreaSqFtInput" type="number" min="0" step="any" placeholder="1200"
+                    class="w-full px-2 py-1 rounded-lg border border-indigo-200 bg-white text-xs font-mono font-bold text-slate-900" />
                 </div>
-                <textarea id="tmBillingAddressInput" rows="2"
-                  placeholder="Enter complete registered business billing address with State, City & PIN Code (printed on B2B GST Tax Invoices)..."
-                  class="w-full px-3 py-1.5 rounded-xl border border-indigo-200 bg-white text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"></textarea>
+                <div>
+                  <label for="tmB2bRentPerSqFtInput" class="block text-[10px] font-bold text-indigo-950 mb-0.5">Rent/Sq.Ft (₹)</label>
+                  <input id="tmB2bRentPerSqFtInput" type="number" min="0" step="0.01" placeholder="100"
+                    class="w-full px-2 py-1 rounded-lg border border-indigo-300 bg-white text-xs font-mono font-extrabold text-indigo-950" />
+                </div>
+                <div>
+                  <label for="tmB2bCamPerSqFtInput" class="block text-[10px] font-bold text-teal-950 mb-0.5">CAM/Sq.Ft (₹)</label>
+                  <input id="tmB2bCamPerSqFtInput" type="number" min="0" step="0.01" placeholder="15"
+                    class="w-full px-2 py-1 rounded-lg border border-teal-300 bg-white text-xs font-mono font-bold text-teal-950" />
+                </div>
+                <div>
+                  <label for="tmB2bCamAmountInput" class="block text-[10px] font-bold text-teal-950 mb-0.5">Monthly CAM (₹)</label>
+                  <input id="tmB2bCamAmountInput" type="number" min="0" step="1" placeholder="18000"
+                    class="w-full px-2 py-1 rounded-lg border border-teal-300 bg-white text-xs font-mono font-extrabold text-teal-950" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-indigo-950 mb-0.5">Increment Period</label>
+                  <select id="tmB2bIncrementPeriodSelect"
+                    class="w-full px-1.5 py-1 rounded-lg border border-indigo-200 bg-white text-[11px] font-bold text-slate-800">
+                    <option value="Every Year">Every Year</option>
+                    <option value="After 3 Years">After 3 Years</option>
+                    <option value="After 2 Years">After 2 Years</option>
+                    <option value="No Escalation">No Escalation</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-indigo-950 mb-0.5">% of Increase</label>
+                  <input id="tmB2bIncrementPctInput" type="number" min="0" max="100" step="0.5" value="10"
+                    class="w-full px-2 py-1 rounded-lg border border-indigo-200 bg-white text-xs font-mono font-bold text-indigo-950" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-indigo-950 mb-0.5">Lock-in Period</label>
+                  <select id="tmB2bLockInSelect"
+                    class="w-full px-1.5 py-1 rounded-lg border border-indigo-200 bg-white text-[11px] font-bold text-slate-800">
+                    <option value="1 Year (12 Months)">1 Year (12 Months)</option>
+                    <option value="2 Years (24 Months)">2 Years (24 Months)</option>
+                    <option value="3 Years (36 Months)">3 Years (36 Months)</option>
+                    <option value="6 Months">6 Months</option>
+                    <option value="No Lock-in">No Lock-in</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-indigo-950 mb-0.5">Lease Period</label>
+                  <select id="tmB2bLeasePeriodSelect"
+                    class="w-full px-1.5 py-1 rounded-lg border border-indigo-200 bg-white text-[11px] font-bold text-slate-800">
+                    <option value="3 Years (36 Months)">3 Years (36 Months)</option>
+                    <option value="5 Years (60 Months)">5 Years (60 Months)</option>
+                    <option value="9 Years (108 Months)">9 Years (108 Months)</option>
+                    <option value="1 Year (12 Months)">1 Year (12 Months)</option>
+                    <option value="2 Years (24 Months)">2 Years (24 Months)</option>
+                    <option value="11 Months">11 Months</option>
+                  </select>
+                </div>
               </div>
 
-              <!-- B2B Commercial Rent per Sq. Ft., CAM (Common Area Maintenance) & Auto-Bill Separate Invoice -->
-              <div class="sm:col-span-12 pt-3 mt-1 border-t border-indigo-200/80">
-                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
-                  <div class="flex items-center gap-2">
-                    <span
-                      class="w-5 h-5 rounded-md bg-teal-600 text-white flex items-center justify-center text-[11px] font-bold">📐</span>
-                    <span class="text-xs font-extrabold text-indigo-950 uppercase tracking-wider">B2B Rent per Sq. Ft.,
-                      CAM Charges &amp; Separate Auto-Invoice</span>
-                  </div>
-                  <div class="flex flex-wrap items-center gap-1.5">
-                    <span id="tmB2bRentSqFtSummaryBadge"
-                      class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 border border-indigo-300">
-                      Rent/Sq.Ft: ₹0 / Sq.Ft/Mo
-                    </span>
-                    <span id="tmB2bCamInvoicePreviewBadge"
-                      class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-900 border border-teal-300">
-                      Separate CAM Invoice: Auto-Billed Monthly
-                    </span>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                  <div>
-                    <div class="flex items-center justify-between mb-1">
-                      <label for="tmB2bAreaSqFtInput" class="block text-[11px] font-bold text-indigo-950">Chargeable Area
-                        (Sq. Ft.)</label>
-                      <span id="tmB2bAreaSourceHint" class="text-[9px] font-semibold text-indigo-600">From Property
-                        Master</span>
-                    </div>
-                    <div class="relative">
-                      <input id="tmB2bAreaSqFtInput" type="number" min="0" step="any" placeholder="e.g., 1200"
-                        class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 pr-12" />
-                      <span
-                        class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-extrabold text-slate-400">Sq.Ft</span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="flex items-center justify-between mb-1">
-                      <label for="tmB2bRentPerSqFtInput" class="block text-[11px] font-bold text-indigo-950">Rent / Month
-                        in Sq. Ft.</label>
-                      <span class="text-[9px] font-bold text-emerald-700">Auto-Syncs Rent</span>
-                    </div>
-                    <div class="relative">
-                      <input id="tmB2bRentPerSqFtInput" type="number" min="0" step="0.01" placeholder="e.g., 100"
-                        class="w-full px-3 py-2 rounded-xl border border-indigo-300 bg-white text-xs font-mono font-extrabold text-indigo-950 focus:outline-none focus:ring-2 focus:ring-indigo-500 pr-16" />
-                      <span
-                        class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-extrabold text-indigo-600">₹/Sq.Ft/Mo</span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="flex items-center justify-between mb-1">
-                      <label for="tmB2bCamPerSqFtInput" class="block text-[11px] font-bold text-teal-950">CAM Rate / Sq.
-                        Ft. / Mo</label>
-                      <span class="text-[9px] font-semibold text-teal-700">Common Area Maint.</span>
-                    </div>
-                    <div class="relative">
-                      <input id="tmB2bCamPerSqFtInput" type="number" min="0" step="0.01" placeholder="e.g., 15"
-                        class="w-full px-3 py-2 rounded-xl border border-teal-300 bg-white text-xs font-mono font-bold text-teal-950 focus:outline-none focus:ring-2 focus:ring-teal-500 pr-16" />
-                      <span
-                        class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-extrabold text-teal-700">₹/Sq.Ft/Mo</span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="flex items-center justify-between mb-1">
-                      <label for="tmB2bCamAmountInput" class="block text-[11px] font-bold text-teal-950">Monthly CAM
-                        Charges (₹)</label>
-                      <span class="text-[9px] font-bold text-teal-700">+ 18% GST</span>
-                    </div>
-                    <div class="relative">
-                      <input id="tmB2bCamAmountInput" type="number" min="0" step="1" placeholder="e.g., 18000"
-                        class="w-full px-3 py-2 rounded-xl border border-teal-300 bg-white text-xs font-mono font-extrabold text-teal-950 focus:outline-none focus:ring-2 focus:ring-teal-500 pr-12" />
-                      <span
-                        class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-extrabold text-teal-700">₹/Mo</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="mt-2.5 p-2.5 rounded-xl bg-teal-50/90 border border-teal-200 flex flex-wrap items-center justify-between gap-2">
-                  <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+              <!-- B2B Row 3: Auto-CAM Separate Invoice Toggle + Live Summary Badges + Increment Clause (12 Cols) -->
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-2 items-center pt-1">
+                <div class="lg:col-span-6 p-1.5 px-2.5 rounded-lg bg-teal-50/90 border border-teal-200 flex flex-wrap items-center justify-between gap-1.5">
+                  <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
                     <input id="tmB2bAutoCamInvoiceCheckbox" type="checkbox" checked
-                      class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 border-teal-300 cursor-pointer" />
-                    <span class="text-xs font-extrabold text-teal-950">
-                      🧾 Auto-Bill Monthly CAM in a Separate GST Tax Invoice (SAC 997222 · Separate from Rent Invoice)
-                    </span>
+                      class="w-3.5 h-3.5 rounded text-teal-600 focus:ring-teal-500 border-teal-300 cursor-pointer" />
+                    <span class="text-[11px] font-extrabold text-teal-950">🧾 Auto-Bill CAM in Separate GST Invoice</span>
                   </label>
-                  <span id="tmB2bCamTotalWithGstHint" class="text-[11px] font-mono font-bold text-teal-800">
-                    CAM Taxable: ₹0/mo + 18% GST = ₹0/mo
-                  </span>
+                  <span id="tmB2bCamTotalWithGstHint" class="text-[10px] font-mono font-bold text-teal-800">CAM: ₹0/mo</span>
+                  <span id="tmB2bRentSqFtSummaryBadge" class="hidden">Rent/Sq.Ft: ₹0 / Sq.Ft/Mo</span>
+                  <span id="tmB2bCamInvoicePreviewBadge" class="hidden">Separate CAM Invoice</span>
+                  <span id="tmB2bEscalatedRentPreview" class="text-[10px] font-bold px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">📈 +10% Every Year</span>
                 </div>
-              </div>
-
-              <!-- B2B Commercial Lease Terms: Rental Increment Clause, Lock-in Period & Lease Period -->
-              <div class="sm:col-span-12 pt-3 mt-1 border-t border-indigo-200/80">
-                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
-                  <div class="flex items-center gap-2">
-                    <span
-                      class="w-5 h-5 rounded-md bg-indigo-600 text-white flex items-center justify-center text-[11px] font-bold">📈</span>
-                    <span class="text-xs font-extrabold text-indigo-950 uppercase tracking-wider">B2B Rental Increment
-                      Clause, Lock-in &amp; Lease Tenure</span>
-                  </div>
-                  <span id="tmB2bEscalatedRentPreview"
-                    class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
-                    Escalation: +10% Every Year
-                  </span>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                  <div>
-                    <label class="block text-[11px] font-bold text-indigo-950 mb-1">Increment Period</label>
-                    <select id="tmB2bIncrementPeriodSelect"
-                      class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                      <option value="Every Year">Every Year</option>
-                      <option value="After 3 Years">After 3 Years</option>
-                      <option value="After 2 Years">After 2 Years</option>
-                      <option value="No Escalation">No Escalation</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-indigo-950 mb-1">% of Increase</label>
-                    <div class="relative">
-                      <input id="tmB2bIncrementPctInput" type="number" min="0" max="100" step="0.5" value="10"
-                        placeholder="e.g., 10"
-                        class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs font-mono font-bold text-indigo-950 focus:outline-none focus:ring-2 focus:ring-indigo-500 pr-8" />
-                      <span
-                        class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-extrabold text-indigo-600">%</span>
-                    </div>
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-indigo-950 mb-1">Lock-in Period</label>
-                    <select id="tmB2bLockInSelect"
-                      class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                      <option value="1 Year (12 Months)">1 Year (12 Months)</option>
-                      <option value="2 Years (24 Months)">2 Years (24 Months)</option>
-                      <option value="3 Years (36 Months)">3 Years (36 Months)</option>
-                      <option value="6 Months">6 Months</option>
-                      <option value="No Lock-in">No Lock-in</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-indigo-950 mb-1">Lease Period</label>
-                    <select id="tmB2bLeasePeriodSelect"
-                      class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                      <option value="3 Years (36 Months)">3 Years (36 Months)</option>
-                      <option value="5 Years (60 Months)">5 Years (60 Months)</option>
-                      <option value="9 Years (108 Months)">9 Years (108 Months)</option>
-                      <option value="1 Year (12 Months)">1 Year (12 Months)</option>
-                      <option value="2 Years (24 Months)">2 Years (24 Months)</option>
-                      <option value="11 Months">11 Months</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="mt-2.5">
-                  <label class="block text-[11px] font-bold text-indigo-950 mb-1">
-                    Rental Increment &amp; Lock-in Clause (Auto-Generated &amp; Editable for Lease Agreement)
-                  </label>
-                  <textarea id="tmB2bIncrementClauseInput" rows="2"
-                    placeholder="Rental increment, lock-in period and lease tenure clause will be generated automatically..."
-                    class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs text-slate-700 leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                <div class="lg:col-span-6 flex items-center gap-1.5">
+                  <span class="text-[10px] font-bold text-indigo-950 shrink-0">📜 Clause:</span>
+                  <textarea id="tmB2bIncrementClauseInput" rows="1"
+                    placeholder="Auto-generated B2B rental increment & lock-in clause..."
+                    class="w-full px-2.5 py-1 rounded-lg border border-indigo-200 bg-white text-[11px] text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none"></textarea>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- SECTION 4: Compact KYC & Document Attachments (3-Column Clean Mini Cards) -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
-            <!-- Mini Card 1: PAN Card & Document Attachment -->
-            <div
-              class="p-3 rounded-2xl border border-slate-200/90 bg-slate-50/70 dark:bg-slate-800/40 space-y-2 shadow-2xs">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <span
-                    class="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center text-[10px] font-bold">💳</span>
-                  <span>PAN Card</span>
+          <!-- UNIFIED ZONE 2: Compact 3-Column Single-Line KYC & Signed Agreement Bar -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <!-- Mini Card 1: PAN Card -->
+            <div class="px-3 py-2 rounded-xl border border-slate-200/90 bg-slate-50/70 dark:bg-slate-800/40 flex flex-col justify-center gap-1.5 shadow-2xs">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[11px] font-bold text-slate-800 flex items-center gap-1 shrink-0">
+                  <span class="w-4 h-4 rounded bg-indigo-100 text-indigo-700 flex items-center justify-center text-[9px] font-bold">💳</span>
+                  <span>PAN</span>
                 </span>
-                <span id="tmPanStatusBadge"
-                  class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-slate-200/80 text-slate-600">10 Chars</span>
-              </div>
-              <input id="tmPanInput" type="text" maxlength="10" placeholder="e.g. ABCPS1234D"
-                class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 bg-white text-xs font-mono uppercase tracking-wider text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-              <div>
+                <input id="tmPanInput" type="text" maxlength="10" placeholder="ABCPS1234D"
+                  class="w-28 px-2 py-0.5 rounded-lg border border-slate-300 bg-white text-xs font-mono uppercase tracking-wider text-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+                <span id="tmPanStatusBadge" class="text-[8px] font-bold px-1.5 py-0.2 rounded-full bg-slate-200/80 text-slate-600 shrink-0">10 Chars</span>
                 <input type="file" id="tmPanDocInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
-                <div id="tmPanDocEmptyState" class="flex items-center justify-between gap-1.5">
+                <div id="tmPanDocEmptyState" class="shrink-0">
                   <button type="button" id="tmPanDocUploadBtn"
-                    class="px-2.5 py-1 rounded-lg border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[11px] transition flex items-center gap-1 cursor-pointer shadow-2xs">
-                    <span>📎 Attach PAN</span>
-                  </button>
-                  <span class="text-[10px] text-slate-400">PDF/Img &le; 5MB</span>
+                    class="px-2 py-0.5 rounded-lg border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[10px] transition cursor-pointer">📎 Attach</button>
                 </div>
-                <div id="tmPanDocChip"
-                  class="hidden flex items-center justify-between p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px]">
-                  <div class="flex items-center gap-1.5 truncate pr-1">
-                    <span class="text-xs">📄</span>
-                    <div class="truncate">
-                      <span id="tmPanDocName" class="font-bold truncate text-[11px]">pan.pdf</span>
-                      <span id="tmPanDocSize" class="text-[9px] text-emerald-700 block font-mono">180 KB</span>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-1 shrink-0">
-                    <button type="button" id="tmPanDocPreviewBtn"
-                      class="px-1.5 py-0.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] transition cursor-pointer">View</button>
-                    <button type="button" id="tmPanDocRemoveBtn"
-                      class="p-0.5 rounded hover:bg-rose-100 text-rose-600 font-bold text-xs transition cursor-pointer"
-                      title="Remove attachment">✕</button>
-                  </div>
+              </div>
+              <div id="tmPanDocChip"
+                class="hidden flex items-center justify-between px-2 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-900 text-[10px]">
+                <div class="flex items-center gap-1 truncate pr-1">
+                  <span id="tmPanDocName" class="font-bold truncate">pan.pdf</span>
+                  <span id="tmPanDocSize" class="text-[9px] text-emerald-700 font-mono">(180 KB)</span>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" id="tmPanDocPreviewBtn" class="px-1.5 py-0.2 rounded bg-emerald-600 text-white font-bold text-[9px] cursor-pointer">View</button>
+                  <button type="button" id="tmPanDocRemoveBtn" class="text-rose-600 font-bold text-[10px] cursor-pointer">✕</button>
                 </div>
               </div>
             </div>
 
-            <!-- Mini Card 2: Aadhaar Card & Document Attachment -->
-            <div
-              class="p-3 rounded-2xl border border-slate-200/90 bg-slate-50/70 dark:bg-slate-800/40 space-y-2 shadow-2xs">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <span
-                    class="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold">🪪</span>
-                  <span>Aadhaar UID</span>
+            <!-- Mini Card 2: Aadhaar UID -->
+            <div class="px-3 py-2 rounded-xl border border-slate-200/90 bg-slate-50/70 dark:bg-slate-800/40 flex flex-col justify-center gap-1.5 shadow-2xs">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[11px] font-bold text-slate-800 flex items-center gap-1 shrink-0">
+                  <span class="w-4 h-4 rounded bg-emerald-100 text-emerald-700 flex items-center justify-center text-[9px] font-bold">🪪</span>
+                  <span>Aadhaar</span>
                 </span>
-                <span id="tmAadhaarStatusBadge"
-                  class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-slate-200/80 text-slate-600">12
-                  Digits</span>
-              </div>
-              <input id="tmAadhaarInput" type="text" maxlength="14" placeholder="2345 6789 0123"
-                class="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 bg-white text-xs font-mono tracking-wider text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-              <div>
+                <input id="tmAadhaarInput" type="text" maxlength="14" placeholder="2345 6789 0123"
+                  class="w-32 px-2 py-0.5 rounded-lg border border-slate-300 bg-white text-xs font-mono tracking-wider text-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+                <span id="tmAadhaarStatusBadge" class="text-[8px] font-bold px-1.5 py-0.2 rounded-full bg-slate-200/80 text-slate-600 shrink-0">12 Digits</span>
                 <input type="file" id="tmAadhaarDocInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
-                <div id="tmAadhaarDocEmptyState" class="flex items-center justify-between gap-1.5">
+                <div id="tmAadhaarDocEmptyState" class="shrink-0">
                   <button type="button" id="tmAadhaarDocUploadBtn"
-                    class="px-2.5 py-1 rounded-lg border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-[11px] transition flex items-center gap-1 cursor-pointer shadow-2xs">
-                    <span>📎 Attach Aadhaar</span>
-                  </button>
-                  <span class="text-[10px] text-slate-400">PDF/Img &le; 5MB</span>
+                    class="px-2 py-0.5 rounded-lg border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-[10px] transition cursor-pointer">📎 Attach</button>
                 </div>
-                <div id="tmAadhaarDocChip"
-                  class="hidden flex items-center justify-between p-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px]">
-                  <div class="flex items-center gap-1.5 truncate pr-1">
-                    <span class="text-xs">🪪</span>
-                    <div class="truncate">
-                      <span id="tmAadhaarDocName" class="font-bold truncate text-[11px]">aadhaar.pdf</span>
-                      <span id="tmAadhaarDocSize" class="text-[9px] text-emerald-700 block font-mono">340 KB</span>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-1 shrink-0">
-                    <button type="button" id="tmAadhaarDocPreviewBtn"
-                      class="px-1.5 py-0.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] transition cursor-pointer">View</button>
-                    <button type="button" id="tmAadhaarDocRemoveBtn"
-                      class="p-0.5 rounded hover:bg-rose-100 text-rose-600 font-bold text-xs transition cursor-pointer"
-                      title="Remove attachment">✕</button>
-                  </div>
+              </div>
+              <div id="tmAadhaarDocChip"
+                class="hidden flex items-center justify-between px-2 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-900 text-[10px]">
+                <div class="flex items-center gap-1 truncate pr-1">
+                  <span id="tmAadhaarDocName" class="font-bold truncate">aadhaar.pdf</span>
+                  <span id="tmAadhaarDocSize" class="text-[9px] text-emerald-700 font-mono">(340 KB)</span>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" id="tmAadhaarDocPreviewBtn" class="px-1.5 py-0.2 rounded bg-emerald-600 text-white font-bold text-[9px] cursor-pointer">View</button>
+                  <button type="button" id="tmAadhaarDocRemoveBtn" class="text-rose-600 font-bold text-[10px] cursor-pointer">✕</button>
                 </div>
               </div>
             </div>
 
             <!-- Mini Card 3: Signed Agreement Copies -->
-            <div
-              class="p-3 rounded-2xl border border-blue-200/90 bg-blue-50/40 dark:bg-slate-800/40 space-y-2 shadow-2xs">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <span
-                    class="w-5 h-5 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-[10px] font-bold">📑</span>
-                  <span>Agreements (Signed Copy Reference)</span>
+            <div class="px-3 py-2 rounded-xl border border-blue-200/90 bg-blue-50/40 dark:bg-slate-800/40 flex flex-col justify-center gap-1 shadow-2xs">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[11px] font-bold text-slate-800 flex items-center gap-1 truncate">
+                  <span class="w-4 h-4 rounded bg-blue-100 text-blue-700 flex items-center justify-center text-[9px] font-bold shrink-0">📑</span>
+                  <span class="truncate" title="Keep signed copy of lease agreement for future reference">Agreements · Signed Copy Reference <span class="hidden xl:inline text-[9px] text-slate-400 font-normal">(future reference)</span></span>
                 </span>
-                <span id="tmAgreementDocsCountLabel"
-                  class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800">0 files</span>
+                <span id="tmAgreementDocsCountLabel" class="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 shrink-0">0 files</span>
+                <input type="file" id="tmAgreementDocsInput" class="hidden" multiple
+                  accept=".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,application/pdf,image/*,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                <div id="tmAgreementDocsEmptyState" class="shrink-0">
+                  <button type="button" id="tmAgreementDocsUploadBtn"
+                    class="px-2.5 py-0.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[10px] transition cursor-pointer shadow-2xs">+ Attach Copy</button>
+                </div>
               </div>
-              <p class="text-[10px] text-slate-500 leading-tight">Keep signed rent agreement copies for future
-                reference.</p>
-              <input type="file" id="tmAgreementDocsInput" class="hidden" multiple
-                accept=".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,application/pdf,image/*,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-              <div id="tmAgreementDocsEmptyState" class="flex items-center justify-between gap-1.5">
-                <button type="button" id="tmAgreementDocsUploadBtn"
-                  class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] transition flex items-center gap-1 cursor-pointer shadow-2xs active:scale-95">
-                  <span>+ Attach Signed Copy</span>
-                </button>
-                <span class="text-[10px] text-slate-400">PDF, Word, Img</span>
-              </div>
-              <div id="tmAgreementDocsChipsContainer" class="flex flex-wrap gap-1.5 max-h-[50px] overflow-y-auto"></div>
+              <div id="tmAgreementDocsChipsContainer" class="flex flex-wrap gap-1 max-h-[36px] overflow-y-auto"></div>
             </div>
           </div>
 
-          <!-- SECTION 5: Sleek Action Row -->
-          <div
-            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 pt-2 border-t border-slate-100">
-            <span class="text-[11px] text-slate-500">
-              💡 Security deposit is auto-calculated. KYC documents auto-link to Tenancy Agreement Studio.
+          <!-- UNIFIED ZONE 3: Sleek Single-Line Action Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-slate-100 dark:border-slate-800">
+            <span class="text-[10px] text-slate-500">
+              ⚡ Rent starts &amp; advance GST invoice auto-generates from <strong>Rent Start Date</strong>. KYC &amp; B2B terms sync with Agreement Studio &amp; Tab 8 Schedules.
             </span>
-            <div class="flex items-center gap-2 shrink-0">
+            <div class="flex items-center gap-2 shrink-0 ml-auto">
               <button type="reset" id="tmResetBtn"
-                class="px-3.5 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition cursor-pointer">
+                class="px-3 py-1 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition cursor-pointer">
                 Reset
               </button>
               <button type="submit" id="tmSubmitBtn"
-                class="px-5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 text-xs font-bold transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95">
+                class="px-4 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 text-xs font-bold transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95">
                 <span>Save Tenant Profile</span>
-                <span class="text-sm">✓</span>
+                <span class="text-xs">✓</span>
               </button>
             </div>
           </div>
@@ -5288,6 +5091,12 @@
               class="pl-7 pr-2.5 py-1.5 rounded-xl border border-white/20 text-xs bg-slate-900/90 text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-indigo-400 w-40 sm:w-48" />
             <span class="absolute left-2.5 top-2 text-slate-400 text-[11px]">🔍</span>
           </div>
+
+          <button type="button" id="exportRentalSchedulesExcelBtn"
+            class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-400/50 text-xs font-extrabold transition flex items-center gap-1.5 shadow-sm cursor-pointer"
+            title="Export Tenant-Wise Rental Schedules to Microsoft Excel (.CSV)">
+            <span>📊 Export Excel (.CSV)</span>
+          </button>
 
           <button type="button" id="printRentalSchedulesBtn" onclick="window.print()"
             class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
@@ -26915,6 +26724,14 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
                   <span class="text-[9px] uppercase tracking-wider text-emerald-200 block">Total Tenure Value</span>
                   <span class="font-mono font-black text-emerald-300">₹${sched.grandTotalOverLease.toLocaleString("en-IN")}</span>
                 </div>
+                <button
+                  type="button"
+                  onclick="exportRentalSchedulesExcel('${sched.tenantId}')"
+                  class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-400/40 font-extrabold text-xs transition flex items-center gap-1 cursor-pointer shadow-xs"
+                  title="Export this tenant's rental schedule to Excel (.CSV)"
+                >
+                  <span>📊 Export Excel</span>
+                </button>
               </div>
             </div>
 
@@ -26955,6 +26772,163 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
           `);
         });
         container.innerHTML = cardsHtml.join("");
+      }
+
+      function exportRentalSchedulesExcel(specificTenantId) {
+        ensureLandlordGstDefaults();
+        const activeTenants = (state.tenants || []).filter((t) => t.status !== "Vacated");
+        const selectedTenantId = (specificTenantId && typeof specificTenantId === "string")
+          ? specificTenantId
+          : (document.getElementById("scheduleTenantSelect")?.value || "all");
+        const searchQuery = (document.getElementById("scheduleSearchInput")?.value || "").trim().toLowerCase();
+
+        const filteredTenants = activeTenants.filter((t) => {
+          if (selectedTenantId !== "all" && t.id !== selectedTenantId) return false;
+          if (!specificTenantId && searchQuery) {
+            const hay = [t.name, t.businessName, t.unit, t.gstin, t.pan, t.leasePeriod, t.incrementPeriod]
+              .filter(Boolean)
+              .join(" ")
+              .toLowerCase();
+            if (!hay.includes(searchQuery)) return false;
+          }
+          return true;
+        });
+
+        const schedules = filteredTenants.map((t) => generateTenantRentalSchedule(t)).filter(Boolean);
+        if (schedules.length === 0) {
+          if (typeof showFeedback === "function") {
+            showFeedback("No tenant rental schedules available to export.", "error");
+          }
+          return "";
+        }
+
+        const landlordName = (state.landlord && (state.landlord.tradeName || state.landlord.name)) || "Rajesh Sharma";
+        const landlordGstin = (state.landlord && state.landlord.gstin) || "07AAAAA0000A1Z5";
+        const landlordPan = (state.landlord && state.landlord.pan) || "ABCPS1234D";
+        const exportDateStr = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+
+        const csvEscape = (val) => `"${String(val ?? "").replace(/"/g, '""')}"`;
+
+        let csv = "\uFEFF"; // UTF-8 BOM for Microsoft Excel
+        csv += `"TENANT-WISE RENTAL SCHEDULE (LEASE START TO LEASE END)"\n`;
+        csv += `"Lessor / Company:",${csvEscape(landlordName)},"GSTIN:",${csvEscape(landlordGstin)},"PAN:",${csvEscape(landlordPan)},"Exported On:",${csvEscape(exportDateStr)}\n\n`;
+
+        schedules.forEach((sched, sIdx) => {
+          const displayEntity = sched.businessName ? `${sched.businessName} (${sched.tenantName})` : sched.tenantName;
+          const incClauseText = sched.incrementPct > 0 && sched.incrementPeriod !== "No Escalation"
+            ? `+${sched.incrementPct}% ${sched.incrementPeriod}`
+            : "No Escalation";
+
+          csv += `"TENANT #${sIdx + 1}:",${csvEscape(displayEntity)},"Assigned Unit:",${csvEscape(sched.unit)},"Area (Sq.Ft):",${csvEscape(sched.areaSqFt || "N/A")},"GSTIN:",${csvEscape(sched.gstin || "B2C / Unregistered")}\n`;
+          csv += `"Lease Start Date:",${csvEscape(sched.startDate)},"Rent Start Date (Advance Invoice):",${csvEscape(sched.rentStartDate || sched.startDate)},"Lease End Date:",${csvEscape(sched.endDate)},"Total Tenure:",${csvEscape(sched.totalMonths + " Months (" + sched.leasePeriod + ")")}\n`;
+          csv += `"Lock-in Period:",${csvEscape(sched.lockInPeriod)},"Increment Clause:",${csvEscape(incClauseText)},"Starting Rent:",${csvEscape("₹" + sched.startingRent.toLocaleString("en-IN"))},"Ending Rent:",${csvEscape("₹" + sched.endingRent.toLocaleString("en-IN"))}\n`;
+
+          if (activeScheduleViewMode === "slabs") {
+            csv += [
+              "Slab #",
+              "Slab Period (Exact Dates)",
+              "Months in Slab",
+              "Escalation Slab / Clause",
+              "Rent / Sq.Ft (₹)",
+              "Monthly Rent (₹)",
+              "Separate Monthly CAM (₹)",
+              "Monthly GST 18% (₹)",
+              "Monthly Total Outflow (₹)",
+              "Slab Total Gross Value (₹)"
+            ].map(csvEscape).join(",") + "\n";
+
+            sched.slabs.forEach((slab, idx) => {
+              csv += [
+                `Slab #${idx + 1}`,
+                `${slab.fromDate} to ${slab.toDate}`,
+                slab.monthsCount,
+                slab.slabLabel,
+                sched.areaSqFt > 0 ? slab.rentPerSqFt : "N/A",
+                slab.monthlyRent,
+                slab.monthlyCam,
+                slab.monthlyGst,
+                slab.monthlyTotal,
+                slab.slabTotalGross
+              ].map(csvEscape).join(",") + "\n";
+            });
+          } else {
+            csv += [
+              "Month #",
+              "Billing Month",
+              "Billing Period (Exact Dates)",
+              "Advance Invoice Date",
+              "Escalation Slab / Clause",
+              "Rent / Sq.Ft (₹)",
+              "Monthly Rent (₹)",
+              "Separate Monthly CAM (₹)",
+              "GST 18% (₹)",
+              "Total Monthly Outflow (₹)",
+              "Status"
+            ].map(csvEscape).join(",") + "\n";
+
+            sched.rows.forEach((r) => {
+              const clauseLabel = r.isBeforeRentStart
+                ? "Fit-Out / Before Rent Start Date"
+                : (r.isEscalated
+                  ? `Cycle #${r.completedIntervals} (+${r.incrementPct}% ${r.incrementPeriod})`
+                  : "Base Rent Term");
+              csv += [
+                `Month ${r.monthIndex}`,
+                r.monthLabel,
+                r.periodRange,
+                r.advanceInvoiceDate || r.startDate,
+                clauseLabel,
+                sched.areaSqFt > 0 ? r.rentPerSqFt : "N/A",
+                r.scheduledRent,
+                r.monthlyCam,
+                r.totalGst,
+                r.totalMonthlyOutflow,
+                r.timelineStatus
+              ].map(csvEscape).join(",") + "\n";
+            });
+          }
+
+          csv += [
+            "TOTAL ACROSS ENTIRE LEASE PERIOD",
+            `${sched.totalMonths} Months`,
+            `${sched.startDate} to ${sched.endDate}`,
+            `Rent Start: ${sched.rentStartDate || sched.startDate}`,
+            incClauseText,
+            sched.areaSqFt > 0 ? `${sched.areaSqFt} Sq.Ft` : "—",
+            sched.totalRentOverLease,
+            sched.totalCamOverLease,
+            sched.totalGstOverLease,
+            sched.grandTotalOverLease,
+            "Full Lease Total"
+          ].map(csvEscape).join(",") + "\n\n";
+        });
+
+        if (typeof window !== "undefined") {
+          window._lastExportedScheduleCsv = csv;
+        }
+
+        try {
+          if (typeof Blob !== "undefined" && typeof URL !== "undefined" && typeof URL.createObjectURL === "function" && typeof document !== "undefined" && document.body) {
+            const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            const slug = schedules.length === 1
+              ? String(schedules[0].businessName || schedules[0].tenantName || "Tenant").replace(/[^a-zA-Z0-9]+/g, "_")
+              : "All_Tenants";
+            const filename = `Rental_Schedule_${slug}_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            if (typeof a.click === "function") a.click();
+            document.body.removeChild(a);
+            if (typeof URL.revokeObjectURL === "function") URL.revokeObjectURL(url);
+            if (typeof showFeedback === "function") {
+              showFeedback(`✓ Rental Schedule exported to Excel (.CSV): ${filename}`);
+            }
+          }
+        } catch (e) { }
+
+        return csv;
       }
 
       function initGstEngine() {
@@ -27011,6 +26985,9 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         });
         document.getElementById("scheduleSearchInput")?.addEventListener("input", () => {
           renderRentalSchedulesTab();
+        });
+        document.getElementById("exportRentalSchedulesExcelBtn")?.addEventListener("click", () => {
+          exportRentalSchedulesExcel();
         });
         document.getElementById("scheduleModeMonthlyBtn")?.addEventListener("click", () => {
           activeScheduleViewMode = "monthly";
@@ -27213,6 +27190,7 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
         window.renderGstTab = renderGstTab;
         window.generateTenantRentalSchedule = generateTenantRentalSchedule;
         window.renderRentalSchedulesTab = renderRentalSchedulesTab;
+        window.exportRentalSchedulesExcel = exportRentalSchedulesExcel;
         window.getBillingMonthDateRange = getBillingMonthDateRange;
         window.saveCompanyLogoDataUrl = saveCompanyLogoDataUrl;
         window.updateInvoiceCompanyLogoUI = updateInvoiceCompanyLogoUI;
