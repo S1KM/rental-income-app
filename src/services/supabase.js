@@ -249,7 +249,12 @@ export async function pushToSupabase(state, isSilent = false) {
       start_date: t.startDate || t.start_date || "",
       end_date: t.endDate || t.end_date || "",
       tenant_id_number: t.tenantIdNumber || t.tenant_id_number || "",
-      perm_address: t.permAddress || t.perm_address || ""
+      perm_address: t.permAddress || t.perm_address || "",
+      is_b2b: Boolean(t.isB2B || t.is_b2b || t.gstin),
+      business_name: t.businessName || t.business_name || "",
+      gstin: t.gstin || "",
+      pan: t.pan || "",
+      billing_address: t.billingAddress || t.billing_address || ""
     }));
     if (tenantRows.length > 0) {
       const { error: tErr } = await supabaseClient.from("tenants").upsert(tenantRows);
@@ -360,7 +365,12 @@ export async function pullFromSupabase(state, onUpdate = null) {
         startDate: r.start_date || r.startDate || "",
         endDate: r.end_date || r.endDate || "",
         tenantIdNumber: r.tenant_id_number || r.tenantIdNumber || "",
-        permAddress: r.perm_address || r.permAddress || ""
+        permAddress: r.perm_address || r.permAddress || "",
+        isB2B: Boolean(r.is_b2b || r.isB2B || r.gstin),
+        businessName: r.business_name || r.businessName || "",
+        gstin: r.gstin || "",
+        pan: r.pan || "",
+        billingAddress: r.billing_address || r.billingAddress || ""
       }));
     }
 

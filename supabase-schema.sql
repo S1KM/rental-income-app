@@ -37,6 +37,11 @@ CREATE TABLE IF NOT EXISTS public.tenants (
     end_date TEXT,
     tenant_id_number TEXT,
     perm_address TEXT,
+    is_b2b BOOLEAN DEFAULT FALSE,
+    business_name TEXT DEFAULT '',
+    gstin TEXT DEFAULT '',
+    pan TEXT DEFAULT '',
+    billing_address TEXT DEFAULT '',
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
