@@ -263,7 +263,12 @@ export async function pushToSupabase(state, isSilent = false) {
       increment_pct: Number(t.incrementPct !== undefined ? t.incrementPct : (t.increment_pct !== undefined ? t.increment_pct : 10)),
       lock_in_period: t.lockInPeriod || t.lock_in_period || "1 Year (12 Months)",
       lease_period: t.leasePeriod || t.lease_period || "3 Years (36 Months)",
-      b2b_increment_clause: t.b2bIncrementClause || t.b2b_increment_clause || ""
+      b2b_increment_clause: t.b2bIncrementClause || t.b2b_increment_clause || "",
+      area_sq_ft: Number(t.areaSqFt !== undefined ? t.areaSqFt : t.area_sq_ft) || 0,
+      rent_per_sq_ft: Number(t.rentPerSqFt !== undefined ? t.rentPerSqFt : t.rent_per_sq_ft) || 0,
+      cam_rate_per_sq_ft: Number(t.camRatePerSqFt !== undefined ? t.camRatePerSqFt : t.cam_rate_per_sq_ft) || 0,
+      cam_amount: Number(t.camAmount !== undefined ? t.camAmount : t.cam_amount) || 0,
+      auto_bill_cam_separate: t.autoBillCamSeparateInvoice !== undefined ? Boolean(t.autoBillCamSeparateInvoice) : (t.auto_bill_cam_separate !== undefined ? Boolean(t.auto_bill_cam_separate) : true)
     }));
     if (tenantRows.length > 0) {
       const { error: tErr } = await supabaseClient.from("tenants").upsert(tenantRows);
@@ -388,7 +393,12 @@ export async function pullFromSupabase(state, onUpdate = null) {
         incrementPct: Number(r.increment_pct !== undefined ? r.increment_pct : (r.incrementPct !== undefined ? r.incrementPct : 10)),
         lockInPeriod: r.lock_in_period || r.lockInPeriod || "1 Year (12 Months)",
         leasePeriod: r.lease_period || r.leasePeriod || "3 Years (36 Months)",
-        b2bIncrementClause: r.b2b_increment_clause || r.b2bIncrementClause || ""
+        b2bIncrementClause: r.b2b_increment_clause || r.b2bIncrementClause || "",
+        areaSqFt: Number(r.area_sq_ft !== undefined ? r.area_sq_ft : r.areaSqFt) || 0,
+        rentPerSqFt: Number(r.rent_per_sq_ft !== undefined ? r.rent_per_sq_ft : r.rentPerSqFt) || 0,
+        camRatePerSqFt: Number(r.cam_rate_per_sq_ft !== undefined ? r.cam_rate_per_sq_ft : r.camRatePerSqFt) || 0,
+        camAmount: Number(r.cam_amount !== undefined ? r.cam_amount : r.camAmount) || 0,
+        autoBillCamSeparateInvoice: r.auto_bill_cam_separate !== undefined ? Boolean(r.auto_bill_cam_separate) : (r.autoBillCamSeparateInvoice !== undefined ? Boolean(r.autoBillCamSeparateInvoice) : true)
       }));
     }
 

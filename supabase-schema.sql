@@ -51,6 +51,11 @@ CREATE TABLE IF NOT EXISTS public.tenants (
     lock_in_period TEXT DEFAULT '1 Year (12 Months)',
     lease_period TEXT DEFAULT '3 Years (36 Months)',
     b2b_increment_clause TEXT DEFAULT '',
+    area_sq_ft NUMERIC DEFAULT 0,
+    rent_per_sq_ft NUMERIC DEFAULT 0,
+    cam_rate_per_sq_ft NUMERIC DEFAULT 0,
+    cam_amount NUMERIC DEFAULT 0,
+    auto_bill_cam_separate BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
