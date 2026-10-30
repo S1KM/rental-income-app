@@ -223,9 +223,13 @@ export async function pushToSupabase(state, isSilent = false) {
     const propRows = (state.properties || []).map(p => ({
       id: p.id,
       building: p.building || "Sagarpur",
+      building_type: p.buildingType || p.building_type || "Residential",
       name: p.name || "",
       address: p.address || "",
       type: p.type || "1 BHK Residential Flat",
+      super_area: Number(p.superArea !== undefined ? p.superArea : p.super_area) || 0,
+      carpet_area: Number(p.carpetArea !== undefined ? p.carpetArea : p.carpet_area) || 0,
+      common_area: Number(p.commonArea !== undefined ? p.commonArea : p.common_area) || 0,
       rent: Number(p.rent) || 0,
       deposit: Number(p.deposit) || 0,
       upic: p.upic || "",
@@ -254,7 +258,12 @@ export async function pushToSupabase(state, isSilent = false) {
       business_name: t.businessName || t.business_name || "",
       gstin: t.gstin || "",
       pan: t.pan || "",
-      billing_address: t.billingAddress || t.billing_address || ""
+      billing_address: t.billingAddress || t.billing_address || "",
+      increment_period: t.incrementPeriod || t.increment_period || "Every Year",
+      increment_pct: Number(t.incrementPct !== undefined ? t.incrementPct : (t.increment_pct !== undefined ? t.increment_pct : 10)),
+      lock_in_period: t.lockInPeriod || t.lock_in_period || "1 Year (12 Months)",
+      lease_period: t.leasePeriod || t.lease_period || "3 Years (36 Months)",
+      b2b_increment_clause: t.b2bIncrementClause || t.b2b_increment_clause || ""
     }));
     if (tenantRows.length > 0) {
       const { error: tErr } = await supabaseClient.from("tenants").upsert(tenantRows);
@@ -339,9 +348,13 @@ export async function pullFromSupabase(state, onUpdate = null) {
       state.properties = props.map(r => ({
         id: r.id,
         building: r.building || "Sagarpur",
+        buildingType: r.building_type || r.buildingType || "Residential",
         name: r.name || "",
         address: r.address || "",
         type: r.type || "1 BHK Residential Flat",
+        superArea: Number(r.super_area !== undefined ? r.super_area : r.superArea) || 0,
+        carpetArea: Number(r.carpet_area !== undefined ? r.carpet_area : r.carpetArea) || 0,
+        commonArea: Number(r.common_area !== undefined ? r.common_area : r.commonArea) || 0,
         rent: Number(r.rent) || 12000,
         deposit: Number(r.deposit) || 24000,
         upic: r.upic || "",
@@ -370,7 +383,12 @@ export async function pullFromSupabase(state, onUpdate = null) {
         businessName: r.business_name || r.businessName || "",
         gstin: r.gstin || "",
         pan: r.pan || "",
-        billingAddress: r.billing_address || r.billingAddress || ""
+        billingAddress: r.billing_address || r.billingAddress || "",
+        incrementPeriod: r.increment_period || r.incrementPeriod || "Every Year",
+        incrementPct: Number(r.increment_pct !== undefined ? r.increment_pct : (r.incrementPct !== undefined ? r.incrementPct : 10)),
+        lockInPeriod: r.lock_in_period || r.lockInPeriod || "1 Year (12 Months)",
+        leasePeriod: r.lease_period || r.leasePeriod || "3 Years (36 Months)",
+        b2bIncrementClause: r.b2b_increment_clause || r.b2bIncrementClause || ""
       }));
     }
 

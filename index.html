@@ -1622,6 +1622,20 @@
               </select>
             </div>
 
+            <!-- Type of Building -->
+            <div>
+              <label for="pmBuildingTypeInput" class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">Type of Building <span class="text-rose-500">*</span></label>
+              <select
+                id="pmBuildingTypeInput"
+                class="w-full px-2.5 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-800 bg-indigo-50/40 dark:bg-indigo-950/30 text-xs font-semibold text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1.5 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-2xs"
+              >
+                <option value="Residential">Residential</option>
+                <option value="Mall">Mall</option>
+                <option value="High Street">High Street</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
             <!-- Complete Address -->
             <div class="sm:col-span-2">
               <label for="pmAddressInput" class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">Complete Postal Address <span class="text-rose-500">*</span></label>
@@ -1660,6 +1674,62 @@
                 placeholder="e.g. BSES-10294811"
                 class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium uppercase text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1.5 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-2xs placeholder:text-slate-400 placeholder:text-[11px]"
               />
+            </div>
+          </div>
+
+          <!-- Property Area Measurements (Super Area, Carpet Area & Common Area in Sq. Ft.) -->
+          <div class="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700/80">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                <span>📐 Property Area Measurements (Sq. Ft.)</span>
+              </span>
+              <span id="pmAreaLoadingBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                Common Area Auto-Calculated (Super − Carpet)
+              </span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Super Area (in Sq. Ft.)</label>
+                <div class="relative">
+                  <input
+                    id="pmSuperAreaInput"
+                    type="number"
+                    min="0"
+                    step="any"
+                    placeholder="e.g., 1500"
+                    class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-slate-800 pr-14"
+                  />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400 pointer-events-none">Sq. Ft.</span>
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Carpet Area (in Sq. Ft.)</label>
+                <div class="relative">
+                  <input
+                    id="pmCarpetAreaInput"
+                    type="number"
+                    min="0"
+                    step="any"
+                    placeholder="e.g., 1100"
+                    class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-slate-800 pr-14"
+                  />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400 pointer-events-none">Sq. Ft.</span>
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Common Area (in Sq. Ft.)</label>
+                <div class="relative">
+                  <input
+                    id="pmCommonAreaInput"
+                    type="number"
+                    min="0"
+                    step="any"
+                    placeholder="e.g., 400"
+                    class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-slate-800 pr-14"
+                  />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400 pointer-events-none">Sq. Ft.</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -2141,6 +2211,89 @@
                   placeholder="Enter complete registered business billing address with State, City & PIN Code (printed on B2B GST Tax Invoices)..."
                   class="w-full px-3 py-1.5 rounded-xl border border-indigo-200 bg-white text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
                 ></textarea>
+              </div>
+
+              <!-- B2B Commercial Lease Terms: Rental Increment Clause, Lock-in Period & Lease Period -->
+              <div class="sm:col-span-12 pt-3 mt-1 border-t border-indigo-200/80">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                  <div class="flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-md bg-indigo-600 text-white flex items-center justify-center text-[11px] font-bold">📈</span>
+                    <span class="text-xs font-extrabold text-indigo-950 uppercase tracking-wider">B2B Rental Increment Clause, Lock-in &amp; Lease Tenure</span>
+                  </div>
+                  <span id="tmB2bEscalatedRentPreview" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                    Escalation: +10% Every Year
+                  </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                  <div>
+                    <label class="block text-[11px] font-bold text-indigo-950 mb-1">Increment Period</label>
+                    <select
+                      id="tmB2bIncrementPeriodSelect"
+                      class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="Every Year">Every Year</option>
+                      <option value="After 3 Years">After 3 Years</option>
+                      <option value="After 2 Years">After 2 Years</option>
+                      <option value="No Escalation">No Escalation</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-indigo-950 mb-1">% of Increase</label>
+                    <div class="relative">
+                      <input
+                        id="tmB2bIncrementPctInput"
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="0.5"
+                        value="10"
+                        placeholder="e.g., 10"
+                        class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs font-mono font-bold text-indigo-950 focus:outline-none focus:ring-2 focus:ring-indigo-500 pr-8"
+                      />
+                      <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-extrabold text-indigo-600">%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-indigo-950 mb-1">Lock-in Period</label>
+                    <select
+                      id="tmB2bLockInSelect"
+                      class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="1 Year (12 Months)">1 Year (12 Months)</option>
+                      <option value="2 Years (24 Months)">2 Years (24 Months)</option>
+                      <option value="3 Years (36 Months)">3 Years (36 Months)</option>
+                      <option value="6 Months">6 Months</option>
+                      <option value="No Lock-in">No Lock-in</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-indigo-950 mb-1">Lease Period</label>
+                    <select
+                      id="tmB2bLeasePeriodSelect"
+                      class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="3 Years (36 Months)">3 Years (36 Months)</option>
+                      <option value="5 Years (60 Months)">5 Years (60 Months)</option>
+                      <option value="9 Years (108 Months)">9 Years (108 Months)</option>
+                      <option value="1 Year (12 Months)">1 Year (12 Months)</option>
+                      <option value="2 Years (24 Months)">2 Years (24 Months)</option>
+                      <option value="11 Months">11 Months</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="mt-2.5">
+                  <label class="block text-[11px] font-bold text-indigo-950 mb-1">
+                    Rental Increment &amp; Lock-in Clause (Auto-Generated &amp; Editable for Lease Agreement)
+                  </label>
+                  <textarea
+                    id="tmB2bIncrementClauseInput"
+                    rows="2"
+                    placeholder="Rental increment, lock-in period and lease tenure clause will be generated automatically..."
+                    class="w-full px-3 py-2 rounded-xl border border-indigo-200 bg-white text-xs text-slate-700 leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  ></textarea>
+                </div>
               </div>
             </div>
           </div>
@@ -4645,6 +4798,11 @@
               <option value="Sep 2026">Sep 2026</option>
               <option value="Aug 2026">Aug 2026</option>
               <option value="Jul 2026">Jul 2026</option>
+              <option value="Apr 2027">Apr 2027 (Next FY)</option>
+              <option value="Oct 2027">Oct 2027 (+1 Yr Escalation)</option>
+              <option value="Oct 2028">Oct 2028 (+2 Yrs Escalation)</option>
+              <option value="Apr 2029">Apr 2029 (+3 Yrs Escalation)</option>
+              <option value="Oct 2029">Oct 2029 (+3 Yrs Escalation)</option>
             </select>
           </div>
 
@@ -5095,7 +5253,53 @@
                 <label for="modalTenantBillingAddress" class="block text-[10px] font-bold text-slate-700 mb-0.5">Registered B2B Billing Address *</label>
                 <input id="modalTenantBillingAddress" type="text" placeholder="Registered business billing address with State & PIN Code" class="w-full px-3 py-1.5 rounded-lg border border-indigo-200 bg-white text-xs font-medium" />
               </div>
+            <!-- Modal B2B Rental Increment, Lock-in & Lease Period -->
+            <div class="pt-2 border-t border-indigo-200/70 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-extrabold text-indigo-950 uppercase tracking-wider">📈 Rental Increment, Lock-in &amp; Lease Period</span>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div>
+                  <label class="block text-[10px] font-bold text-indigo-950 mb-0.5">Increment Period</label>
+                  <select id="modalTenantB2bIncrementPeriod" class="w-full px-2 py-1.5 rounded-lg border border-indigo-200 bg-white text-[11px] font-bold">
+                    <option value="Every Year">Every Year</option>
+                    <option value="After 3 Years">After 3 Years</option>
+                    <option value="After 2 Years">After 2 Years</option>
+                    <option value="No Escalation">No Escalation</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-indigo-950 mb-0.5">% of Increase</label>
+                  <input id="modalTenantB2bIncrementPct" type="number" min="0" max="100" step="0.5" value="10" class="w-full px-2 py-1.5 rounded-lg border border-indigo-200 bg-white text-[11px] font-mono font-bold" />
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-indigo-950 mb-0.5">Lock-in Period</label>
+                  <select id="modalTenantB2bLockIn" class="w-full px-2 py-1.5 rounded-lg border border-indigo-200 bg-white text-[11px] font-bold">
+                    <option value="1 Year (12 Months)">1 Year (12 Months)</option>
+                    <option value="2 Years (24 Months)">2 Years (24 Months)</option>
+                    <option value="3 Years (36 Months)">3 Years (36 Months)</option>
+                    <option value="6 Months">6 Months</option>
+                    <option value="No Lock-in">No Lock-in</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-indigo-950 mb-0.5">Lease Period</label>
+                  <select id="modalTenantB2bLeasePeriod" class="w-full px-2 py-1.5 rounded-lg border border-indigo-200 bg-white text-[11px] font-bold">
+                    <option value="3 Years (36 Months)">3 Years (36 Months)</option>
+                    <option value="5 Years (60 Months)">5 Years (60 Months)</option>
+                    <option value="9 Years (108 Months)">9 Years (108 Months)</option>
+                    <option value="1 Year (12 Months)">1 Year (12 Months)</option>
+                    <option value="2 Years (24 Months)">2 Years (24 Months)</option>
+                    <option value="11 Months">11 Months</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-indigo-950 mb-0.5">Rental Increment Clause</label>
+                <textarea id="modalTenantB2bIncrementClause" rows="2" class="w-full px-2.5 py-1.5 rounded-lg border border-indigo-200 bg-white text-[11px] text-slate-700"></textarea>
+              </div>
             </div>
+          </div>
           </div>
 
           <!-- PAN Card & Document Box -->
@@ -7093,7 +7297,25 @@
           </div>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Billing Period / Escalation Milestone Switcher -->
+          <div class="flex items-center gap-1.5 bg-white/10 px-2.5 py-1 rounded-xl border border-white/20">
+            <span class="text-[10px] font-bold text-teal-200 uppercase tracking-wider">Billing Period:</span>
+            <select
+              id="gstModalPeriodSwitcher"
+              class="bg-slate-900 text-teal-300 text-xs font-bold font-mono rounded-lg px-2 py-0.5 border border-teal-400/40 focus:outline-none cursor-pointer"
+              title="Switch Billing Month to generate/preview invoice with automatic rental increment"
+            >
+              <option value="Oct 2026">Oct 2026 (Current)</option>
+              <option value="Nov 2026">Nov 2026</option>
+              <option value="Apr 2027">Apr 2027 (Next FY)</option>
+              <option value="Oct 2027">Oct 2027 (+1 Yr Escalation)</option>
+              <option value="Oct 2028">Oct 2028 (+2 Yrs Escalation)</option>
+              <option value="Apr 2029">Apr 2029 (+3 Yrs Escalation)</option>
+              <option value="Oct 2029">Oct 2029 (+3 Yrs Escalation)</option>
+            </select>
+          </div>
+
           <!-- WhatsApp Send Trigger -->
           <button
             type="button"
@@ -7253,6 +7475,18 @@
               </tr>
             </tfoot>
           </table>
+        </div>
+
+        <!-- Automatic Rental Increment / Escalation Breakdown Box (Shown when Increment Condition applies) -->
+        <div id="invEscalationBanner" class="hidden p-3.5 rounded-2xl border border-amber-300 bg-amber-50/70 text-xs space-y-1.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="font-extrabold text-amber-950 flex items-center gap-1.5">
+              <span>📈 Automatic Rental Increment &amp; Escalation Schedule</span>
+              <span id="invEscalationStatusBadge" class="text-[10px] font-black px-2 py-0.5 rounded-full bg-amber-600 text-white uppercase tracking-wider">Escalation Applied</span>
+            </span>
+            <span id="invEscalationConditionTag" class="font-mono font-bold text-[11px] text-amber-900 bg-white px-2.5 py-0.5 rounded-lg border border-amber-300">+10% Every Year</span>
+          </div>
+          <p id="invEscalationSummaryText" class="text-[11px] text-slate-700 font-medium leading-relaxed"></p>
         </div>
 
         <!-- Total in Words & Reverse Charge -->
@@ -10512,8 +10746,38 @@
           };
         }
 
-        const rent = Number(tenant.rent) || Number(prop.rent) || 12000;
+        const baseRentVal = Number(
+          tenant.baseRent !== undefined && Number(tenant.baseRent) > 0 && Number(tenant._escalatedRentApplied) === Number(tenant.rent)
+            ? tenant.baseRent
+            : (tenant.rent || prop.rent || 12000)
+        );
+        const rent = baseRentVal;
         const currentOs = Math.max(0, Number(tenant.osAmount) || 0);
+
+        // Helper to compute per-cycle escalated rent when increment condition applies
+        function computeCycleRent(cycleYm, startYmVal) {
+          if (!startYmVal) return baseRentVal;
+          const incPct = Number(tenant.incrementPct) || 0;
+          const incPeriod = String(tenant.incrementPeriod || "").toLowerCase();
+          if (incPct <= 0 || !incPeriod || incPeriod.includes("no escalation")) return baseRentVal;
+          let intervalMonths = 0;
+          if (incPeriod.includes("every year") || incPeriod.includes("1 year") || incPeriod.includes("annual")) {
+            intervalMonths = 12;
+          } else if (incPeriod.includes("2 year")) {
+            intervalMonths = 24;
+          } else if (incPeriod.includes("3 year")) {
+            intervalMonths = 36;
+          }
+          if (intervalMonths <= 0) return baseRentVal;
+          const sY = Math.floor(startYmVal / 100);
+          const sM = startYmVal % 100;
+          const cY = Math.floor(cycleYm / 100);
+          const cM = cycleYm % 100;
+          const elapsed = Math.max(0, (cY - sY) * 12 + (cM - sM));
+          if (elapsed < intervalMonths) return baseRentVal;
+          const completed = Math.floor(elapsed / intervalMonths);
+          return Math.round(baseRentVal * Math.pow(1 + incPct / 100, completed));
+        }
 
         // Standard 7-Month Tenancy Term Cycles (April 2026 to October 2026)
         const cycleDefinitions = [
@@ -10573,7 +10837,7 @@
         activeCycles.forEach((c, idx) => {
           const isLatest = (idx === activeCycles.length - 1);
           const isPenultimate = (idx === activeCycles.length - 2);
-          const dueAmount = rent;
+          const dueAmount = computeCycleRent(parseCycleYmKey(c.cycle), startYm);
           const instKey = (prop.id || "") + "_" + c.cycle;
 
           let payments = [];
@@ -14125,6 +14389,10 @@
             return (
               (p.name && p.name.toLowerCase().includes(query)) ||
               (p.building && p.building.toLowerCase().includes(query)) ||
+              (p.buildingType && p.buildingType.toLowerCase().includes(query)) ||
+              (p.superArea && String(p.superArea).toLowerCase().includes(query)) ||
+              (p.carpetArea && String(p.carpetArea).toLowerCase().includes(query)) ||
+              (p.commonArea && String(p.commonArea).toLowerCase().includes(query)) ||
               (p.address && p.address.toLowerCase().includes(query)) ||
               (p.meterNo && p.meterNo.toLowerCase().includes(query)) ||
               (p.upic && p.upic.toLowerCase().includes(query)) ||
@@ -14350,11 +14618,27 @@
                                 <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
                                   ${escapeHtml(p.type || "Residential Flat")}
                                 </span>
+                                ${
+                                  p.buildingType
+                                    ? `<span class="text-[11px] px-2 py-0.5 rounded-md font-bold bg-indigo-50 text-indigo-800 border border-indigo-200">
+                                        ${p.buildingType === "Mall" ? "🏬 Mall" : p.buildingType === "High Street" ? "🛣️ High Street" : p.buildingType === "Other" ? "🏗️ Other" : "🏠 Residential"}
+                                       </span>`
+                                    : ""
+                                }
                                 <span class="font-bold text-slate-800">
                                   ${isOccupied && tenant ? formatINR(tenant.rent) : (Number(p.rent) > 0 ? formatINR(p.rent) : "₹12,000")}/mo
                                 </span>
                                 ${p.meterNo ? `<span class="text-slate-400 font-mono text-[11px]">Meter: ${escapeHtml(p.meterNo)}</span>` : ""}
                               </div>
+                              ${
+                                Number(p.superArea) > 0 || Number(p.carpetArea) > 0 || Number(p.commonArea) > 0
+                                  ? `<div class="flex flex-wrap items-center gap-1.5 text-[11px] pt-0.5">
+                                      ${Number(p.superArea) > 0 ? `<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-mono">📐 Super: <strong>${Number(p.superArea).toLocaleString("en-IN")} Sq.Ft</strong></span>` : ""}
+                                      ${Number(p.carpetArea) > 0 ? `<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-mono">Carpet: <strong>${Number(p.carpetArea).toLocaleString("en-IN")} Sq.Ft</strong></span>` : ""}
+                                      ${Number(p.commonArea) > 0 ? `<span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 font-mono">Common: <strong>${Number(p.commonArea).toLocaleString("en-IN")} Sq.Ft</strong></span>` : ""}
+                                     </div>`
+                                  : ""
+                              }
 
                               ${
                                 isOccupied && tenant
@@ -14945,6 +15229,91 @@
         return /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/.test(clean) || clean.length === 15;
       }
 
+      function parseLeasePeriodToMonths(leasePeriodStr) {
+        const s = String(leasePeriodStr || "").toLowerCase();
+        if (s.includes("11 month")) return 11;
+        if (s.includes("1 year") || s.includes("12 month")) return 12;
+        if (s.includes("2 year") || s.includes("24 month")) return 24;
+        if (s.includes("3 year") || s.includes("36 month")) return 36;
+        if (s.includes("5 year") || s.includes("60 month")) return 60;
+        if (s.includes("9 year") || s.includes("108 month")) return 108;
+        const m = s.match(/(\d+)/);
+        return m ? Number(m[1]) : 36;
+      }
+
+      function calculateLeaseEndDateFromPeriod(startDateStr, leasePeriodStr) {
+        const months = parseLeasePeriodToMonths(leasePeriodStr);
+        let baseDate = startDateStr ? new Date(startDateStr) : new Date();
+        if (isNaN(baseDate.getTime())) baseDate = new Date();
+        const endDate = new Date(baseDate.getFullYear(), baseDate.getMonth() + months, baseDate.getDate() - 1);
+        const yyyy = endDate.getFullYear();
+        const mm = String(endDate.getMonth() + 1).padStart(2, "0");
+        const dd = String(endDate.getDate()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      function buildB2bIncrementClauseText({ incrementPeriod, incrementPct, lockInPeriod, leasePeriod, baseRent }) {
+        const period = incrementPeriod || "Every Year";
+        const pct = Number(incrementPct !== undefined && incrementPct !== "" ? incrementPct : 10);
+        const lockIn = lockInPeriod || "1 Year (12 Months)";
+        const tenure = leasePeriod || "3 Years (36 Months)";
+        const rentNum = Number(baseRent) || 0;
+        const escalatedRent = rentNum > 0 ? Math.round(rentNum * (1 + pct / 100)) : 0;
+        const rentNote = rentNum > 0
+          ? ` (escalating from ₹${rentNum.toLocaleString("en-IN")}/mo to ₹${escalatedRent.toLocaleString("en-IN")}/mo upon completion of ${period.toLowerCase()})`
+          : "";
+        const lockInNote = lockIn === "No Lock-in"
+          ? "with no mandatory lock-in restriction"
+          : `with a mandatory Lock-in Period of ${lockIn} during which neither party shall terminate the lease`;
+        return `B2B COMMERCIAL LEASE, LOCK-IN & RENTAL INCREMENT CLAUSE: The total lease period shall be ${tenure} ${lockInNote}. The monthly rent shall be subject to a mandatory upward revision / escalation of ${pct}% ${period} over the last paid monthly rent${rentNote}.`;
+      }
+
+      function updateTmB2bIncrementClauseUI(forceUpdateClause = true) {
+        const period = document.getElementById("tmB2bIncrementPeriodSelect")?.value || "Every Year";
+        const pct = Number(document.getElementById("tmB2bIncrementPctInput")?.value ?? 10);
+        const lockIn = document.getElementById("tmB2bLockInSelect")?.value || "1 Year (12 Months)";
+        const leasePeriod = document.getElementById("tmB2bLeasePeriodSelect")?.value || "3 Years (36 Months)";
+        const baseRent = Number(document.getElementById("tmRentInput")?.value) || 0;
+        const escalated = baseRent > 0 ? Math.round(baseRent * (1 + pct / 100)) : 0;
+
+        const badge = document.getElementById("tmB2bEscalatedRentPreview");
+        if (badge) {
+          badge.textContent = baseRent > 0
+            ? `📈 +${pct}% (${period}) → ₹${escalated.toLocaleString("en-IN")}/mo`
+            : `Escalation: +${pct}% ${period}`;
+        }
+
+        const clauseInput = document.getElementById("tmB2bIncrementClauseInput");
+        if (clauseInput && (forceUpdateClause || !clauseInput.value)) {
+          clauseInput.value = buildB2bIncrementClauseText({
+            incrementPeriod: period,
+            incrementPct: pct,
+            lockInPeriod: lockIn,
+            leasePeriod,
+            baseRent
+          });
+        }
+      }
+
+      function updateModalB2bIncrementClauseUI(forceUpdateClause = true) {
+        const period = document.getElementById("modalTenantB2bIncrementPeriod")?.value || "Every Year";
+        const pct = Number(document.getElementById("modalTenantB2bIncrementPct")?.value ?? 10);
+        const lockIn = document.getElementById("modalTenantB2bLockIn")?.value || "1 Year (12 Months)";
+        const leasePeriod = document.getElementById("modalTenantB2bLeasePeriod")?.value || "3 Years (36 Months)";
+        const baseRent = Number(document.getElementById("modalTenantRent")?.value) || 0;
+
+        const clauseInput = document.getElementById("modalTenantB2bIncrementClause");
+        if (clauseInput && (forceUpdateClause || !clauseInput.value)) {
+          clauseInput.value = buildB2bIncrementClauseText({
+            incrementPeriod: period,
+            incrementPct: pct,
+            lockInPeriod: lockIn,
+            leasePeriod,
+            baseRent
+          });
+        }
+      }
+
       function toggleTmB2bSection(isB2B) {
         const checkbox = document.getElementById("tmIsB2bCheckbox");
         const section = document.getElementById("tmB2bDetailsSection");
@@ -14953,6 +15322,7 @@
         if (section && section.classList) {
           if (isB2B) {
             section.classList.remove("hidden");
+            updateTmB2bIncrementClauseUI(false);
           } else {
             section.classList.add("hidden");
           }
@@ -14973,6 +15343,7 @@
         if (section && section.classList) {
           if (isB2B) {
             section.classList.remove("hidden");
+            updateModalB2bIncrementClauseUI(false);
           } else {
             section.classList.add("hidden");
           }
@@ -15015,7 +15386,7 @@
         document.getElementById("tmMobileInput").value = tenant.mobile || "";
         document.getElementById("tmEmailInput").value = tenant.email || "";
         document.getElementById("tmUnitSelect").value = tenant.unit || "Unassigned";
-        document.getElementById("tmRentInput").value = tenant.rent || 0;
+        document.getElementById("tmRentInput").value = tenant.baseRent || tenant.rent || 0;
 
         const monthsInput = document.getElementById("tmDepositMonthsInput");
         const amtInput = document.getElementById("tmDepositAmountInput");
@@ -15029,10 +15400,29 @@
         const gstinInput = document.getElementById("tmGstinInput");
         const b2bPanInput = document.getElementById("tmB2bPanInput");
         const billingAddrInput = document.getElementById("tmBillingAddressInput");
+        const incPeriodSelect = document.getElementById("tmB2bIncrementPeriodSelect");
+        const incPctInput = document.getElementById("tmB2bIncrementPctInput");
+        const lockInSelect = document.getElementById("tmB2bLockInSelect");
+        const leasePeriodSelect = document.getElementById("tmB2bLeasePeriodSelect");
+        const incClauseInput = document.getElementById("tmB2bIncrementClauseInput");
         if (bizNameInput) bizNameInput.value = tenant.businessName || "";
         if (gstinInput) gstinInput.value = tenant.gstin || "";
         if (b2bPanInput) b2bPanInput.value = tenant.pan || "";
         if (billingAddrInput) billingAddrInput.value = tenant.billingAddress || "";
+        if (incPeriodSelect) incPeriodSelect.value = tenant.incrementPeriod || "Every Year";
+        if (incPctInput) incPctInput.value = tenant.incrementPct !== undefined ? tenant.incrementPct : 10;
+        if (lockInSelect) lockInSelect.value = tenant.lockInPeriod || "1 Year (12 Months)";
+        if (leasePeriodSelect) leasePeriodSelect.value = tenant.leasePeriod || "3 Years (36 Months)";
+        if (incClauseInput) {
+          incClauseInput.value = tenant.b2bIncrementClause || (isB2B ? buildB2bIncrementClauseText({
+            incrementPeriod: incPeriodSelect?.value,
+            incrementPct: incPctInput?.value,
+            lockInPeriod: lockInSelect?.value,
+            leasePeriod: leasePeriodSelect?.value,
+            baseRent: tenant.baseRent || tenant.rent
+          }) : "");
+        }
+        updateTmB2bIncrementClauseUI(false);
 
         // PAN & Aadhaar
         const panInput = document.getElementById("tmPanInput");
@@ -15072,6 +15462,11 @@
       window.formatPanString = formatPanString;
       window.formatGstinString = formatGstinString;
       window.isValidGstin = isValidGstin;
+      window.parseLeasePeriodToMonths = parseLeasePeriodToMonths;
+      window.calculateLeaseEndDateFromPeriod = calculateLeaseEndDateFromPeriod;
+      window.buildB2bIncrementClauseText = buildB2bIncrementClauseText;
+      window.updateTmB2bIncrementClauseUI = updateTmB2bIncrementClauseUI;
+      window.updateModalB2bIncrementClauseUI = updateModalB2bIncrementClauseUI;
       window.toggleTmB2bSection = toggleTmB2bSection;
       window.toggleModalB2bSection = toggleModalB2bSection;
       window.formatAadhaarString = formatAadhaarString;
@@ -15086,6 +15481,10 @@
         const countBadge = document.getElementById("tmDirectoryCountBadge");
         if (!container) return;
         container.innerHTML = "";
+
+        if (typeof applyAutomaticRentalIncrements === "function") {
+          applyAutomaticRentalIncrements();
+        }
 
         const allTenants = state.tenants;
         const activeTenants = allTenants.filter((t) => t.status !== "Vacated");
@@ -15355,6 +15754,27 @@
                 }
               </div>
 
+              ${
+                t.isB2B || t.incrementPeriod || t.lockInPeriod || t.leasePeriod
+                  ? `<div class="flex flex-wrap items-center gap-1.5 pt-0.5 text-[11px]">
+                      <span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-800 border border-indigo-200 font-bold">📈 Increment: +${t.incrementPct !== undefined ? t.incrementPct : 10}% (${escapeHtml(t.incrementPeriod || "Every Year")})</span>
+                      ${
+                        t.isRentEscalated && t.baseRent && t.baseRent !== t.rent
+                          ? `<span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 border border-emerald-300 font-extrabold">✓ Auto-Escalated: ${formatINR(t.rent)}/mo (Base ${formatINR(t.baseRent)} · Cycle #${t.completedIncrementCycles || 1})</span>`
+                          : (t.nextIncrementMonth && t.nextEscalatedRent
+                              ? `<span class="px-2 py-0.5 rounded-md bg-violet-50 text-violet-900 border border-violet-200 font-semibold">⏳ Next Auto-Increase: ${escapeHtml(t.nextIncrementMonth)} → ${formatINR(t.nextEscalatedRent)}/mo</span>`
+                              : "")
+                      }
+                      ${t.lockInPeriod ? `<span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200 font-semibold">🔒 Lock-in: ${escapeHtml(t.lockInPeriod)}</span>` : ""}
+                      ${t.leasePeriod ? `<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold">🗓️ Lease Period: ${escapeHtml(t.leasePeriod)}</span>` : ""}
+                     </div>`
+                  : ""
+              }
+              ${
+                t.b2bIncrementClause
+                  ? `<p class="text-[11px] text-slate-700 bg-slate-50 border border-slate-200/80 rounded-lg px-2.5 py-1 font-medium leading-relaxed">📜 <strong class="font-bold text-indigo-900">Rental Increment Clause:</strong> ${escapeHtml(t.b2bIncrementClause)}</p>`
+                  : ""
+              }
               ${
                 t.billingAddress
                   ? `<p class="text-xs text-indigo-900 bg-indigo-50/60 border border-indigo-100 rounded-lg px-2.5 py-1 font-medium">🏢 <strong class="font-bold">B2B Billing Address:</strong> ${escapeHtml(t.billingAddress)}</p>`
@@ -19309,6 +19729,34 @@
           }
         });
 
+        // Property Master: Auto-calculate Common Area = Super Area - Carpet Area
+        function recalculatePropertyAreas(source = "super_or_carpet") {
+          const superEl = document.getElementById("pmSuperAreaInput");
+          const carpetEl = document.getElementById("pmCarpetAreaInput");
+          const commonEl = document.getElementById("pmCommonAreaInput");
+          const badgeEl = document.getElementById("pmAreaLoadingBadge");
+          if (!superEl || !carpetEl || !commonEl) return;
+
+          const superArea = Number(superEl.value) || 0;
+          const carpetArea = Number(carpetEl.value) || 0;
+          if (source === "super_or_carpet" && superArea > 0 && carpetArea > 0 && superArea >= carpetArea) {
+            commonEl.value = Math.round((superArea - carpetArea) * 100) / 100;
+          }
+          const commonArea = Number(commonEl.value) || 0;
+          if (badgeEl) {
+            if (superArea > 0 && commonArea >= 0) {
+              const loadingPct = Math.round((commonArea / superArea) * 100);
+              badgeEl.textContent = `Super: ${superArea} Sq.Ft · Carpet: ${carpetArea} Sq.Ft · Common: ${commonArea} Sq.Ft (${loadingPct}% Loading)`;
+            } else {
+              badgeEl.textContent = "Common Area Auto-Calculated (Super − Carpet)";
+            }
+          }
+        }
+        window.recalculatePropertyAreas = recalculatePropertyAreas;
+        document.getElementById("pmSuperAreaInput")?.addEventListener("input", () => recalculatePropertyAreas("super_or_carpet"));
+        document.getElementById("pmCarpetAreaInput")?.addEventListener("input", () => recalculatePropertyAreas("super_or_carpet"));
+        document.getElementById("pmCommonAreaInput")?.addEventListener("input", () => recalculatePropertyAreas("common"));
+
         // Add Property to Master Form (Pure Real Estate Asset Registration with Building / Location)
         const pmForm = document.getElementById("addPropertyMasterForm");
         if (pmForm) {
@@ -19318,6 +19766,13 @@
             let name = document.getElementById("pmUnitInput").value.trim();
             const address = document.getElementById("pmAddressInput").value.trim();
             const type = document.getElementById("pmTypeInput").value;
+            const buildingType = document.getElementById("pmBuildingTypeInput")?.value || "Residential";
+            const superArea = Number(document.getElementById("pmSuperAreaInput")?.value) || 0;
+            const carpetArea = Number(document.getElementById("pmCarpetAreaInput")?.value) || 0;
+            const commonInputVal = document.getElementById("pmCommonAreaInput")?.value;
+            const commonArea = commonInputVal !== "" && commonInputVal !== undefined
+              ? Number(commonInputVal) || 0
+              : Math.max(0, superArea - carpetArea);
             const upic = document.getElementById("pmUpicInput").value.trim();
             const meterNo = document.getElementById("pmMeterInput").value.trim();
 
@@ -19340,6 +19795,10 @@
               state.properties[existingPropIdx] = {
                 ...state.properties[existingPropIdx],
                 building,
+                buildingType,
+                superArea,
+                carpetArea,
+                commonArea,
                 name,
                 address,
                 type,
@@ -19351,6 +19810,10 @@
               const newProp = {
                 id: "prop_" + Date.now(),
                 building,
+                buildingType,
+                superArea,
+                carpetArea,
+                commonArea,
                 name,
                 address,
                 type,
@@ -19365,7 +19828,8 @@
 
             saveState();
             renderAll();
-            e.target.reset();
+            if (e.target && typeof e.target.reset === "function") e.target.reset();
+            else if (typeof pmForm.reset === "function") pmForm.reset();
             if (document.getElementById("pmBuildingInput")) {
               document.getElementById("pmBuildingInput").value = building;
             }
@@ -19611,7 +20075,7 @@
             const rent = Number(document.getElementById("modalTenantRent").value) || prop.rent;
             const os = Number(document.getElementById("modalTenantOs").value) || 0;
             const startDate = document.getElementById("modalTenantStart").value;
-            const endDate = document.getElementById("modalTenantEnd").value;
+            let endDate = document.getElementById("modalTenantEnd").value;
 
             // B2B Business details
             const isB2B = !!document.getElementById("modalTenantIsB2b")?.checked;
@@ -19619,6 +20083,22 @@
             const gstin = isB2B ? formatGstinString(document.getElementById("modalTenantGstin")?.value) : "";
             const b2bPan = isB2B ? formatPanString(document.getElementById("modalTenantB2bPan")?.value) : "";
             const billingAddress = isB2B ? (document.getElementById("modalTenantBillingAddress")?.value || "").trim() : "";
+            const incrementPeriod = isB2B ? (document.getElementById("modalTenantB2bIncrementPeriod")?.value || "Every Year") : "";
+            const incrementPct = isB2B ? Number(document.getElementById("modalTenantB2bIncrementPct")?.value ?? 10) : 0;
+            const lockInPeriod = isB2B ? (document.getElementById("modalTenantB2bLockIn")?.value || "1 Year (12 Months)") : "";
+            const leasePeriod = isB2B ? (document.getElementById("modalTenantB2bLeasePeriod")?.value || "3 Years (36 Months)") : "";
+            const b2bIncrementClause = isB2B
+              ? ((document.getElementById("modalTenantB2bIncrementClause")?.value || "").trim() || buildB2bIncrementClauseText({
+                  incrementPeriod,
+                  incrementPct,
+                  lockInPeriod,
+                  leasePeriod,
+                  baseRent: rent
+                }))
+              : "";
+            if (isB2B && startDate && !endDate && leasePeriod) {
+              endDate = calculateLeaseEndDateFromPeriod(startDate, leasePeriod);
+            }
 
             // Security Deposit & ID Cards
             const depositMonths = Number(document.getElementById("modalTenantDepositMonths")?.value) || 2;
@@ -19665,7 +20145,9 @@
               targetTenant.name = name;
               targetTenant.mobile = mobile;
               targetTenant.email = email;
+              targetTenant.baseRent = rent;
               targetTenant.rent = rent;
+              delete targetTenant._escalatedRentApplied;
               targetTenant.depositMonths = depositMonths;
               targetTenant.deposit = deposit;
               targetTenant.photo = currentModalTenantPhoto || targetTenant.photo || null;
@@ -19673,6 +20155,16 @@
               targetTenant.businessName = isB2B ? businessName : "";
               targetTenant.gstin = isB2B ? gstin : "";
               targetTenant.billingAddress = isB2B ? billingAddress : "";
+              targetTenant.incrementPeriod = isB2B ? incrementPeriod : "";
+              targetTenant.incrementPct = isB2B ? incrementPct : 0;
+              targetTenant.lockInPeriod = isB2B ? lockInPeriod : "";
+              targetTenant.leasePeriod = isB2B ? leasePeriod : "";
+              targetTenant.b2bIncrementClause = isB2B ? b2bIncrementClause : "";
+              if (isB2B && b2bIncrementClause) {
+                targetTenant.customClauses = Array.isArray(targetTenant.customClauses)
+                  ? [b2bIncrementClause, ...targetTenant.customClauses.filter(c => !c.startsWith("B2B COMMERCIAL LEASE"))]
+                  : [b2bIncrementClause];
+              }
               targetTenant.pan = pan;
               targetTenant.panDoc = currentModalPanDoc;
               targetTenant.aadhaar = aadhaar;
@@ -19693,6 +20185,7 @@
                 name,
                 mobile,
                 email,
+                baseRent: rent,
                 rent,
                 depositMonths,
                 deposit,
@@ -19701,6 +20194,12 @@
                 businessName: isB2B ? businessName : "",
                 gstin: isB2B ? gstin : "",
                 billingAddress: isB2B ? billingAddress : "",
+                incrementPeriod: isB2B ? incrementPeriod : "",
+                incrementPct: isB2B ? incrementPct : 0,
+                lockInPeriod: isB2B ? lockInPeriod : "",
+                leasePeriod: isB2B ? leasePeriod : "",
+                b2bIncrementClause: isB2B ? b2bIncrementClause : "",
+                customClauses: isB2B && b2bIncrementClause ? [b2bIncrementClause] : [],
                 pan,
                 panDoc: currentModalPanDoc,
                 aadhaar,
@@ -19717,6 +20216,9 @@
             prop.rent = rent;
             prop.deposit = deposit;
 
+            if (typeof applyAutomaticRentalIncrements === "function") {
+              applyAutomaticRentalIncrements();
+            }
             saveState();
             renderAll();
             currentModalAgreementDocs = [];
@@ -19746,13 +20248,29 @@
             const gstin = isB2B ? formatGstinString(document.getElementById("tmGstinInput")?.value) : "";
             const b2bPan = isB2B ? formatPanString(document.getElementById("tmB2bPanInput")?.value) : "";
             const billingAddress = isB2B ? (document.getElementById("tmBillingAddressInput")?.value || "").trim() : "";
+            const incrementPeriod = isB2B ? (document.getElementById("tmB2bIncrementPeriodSelect")?.value || "Every Year") : "";
+            const incrementPct = isB2B ? Number(document.getElementById("tmB2bIncrementPctInput")?.value ?? 10) : 0;
+            const lockInPeriod = isB2B ? (document.getElementById("tmB2bLockInSelect")?.value || "1 Year (12 Months)") : "";
+            const leasePeriod = isB2B ? (document.getElementById("tmB2bLeasePeriodSelect")?.value || "3 Years (36 Months)") : "";
+            const b2bIncrementClause = isB2B
+              ? ((document.getElementById("tmB2bIncrementClauseInput")?.value || "").trim() || buildB2bIncrementClauseText({
+                  incrementPeriod,
+                  incrementPct,
+                  lockInPeriod,
+                  leasePeriod,
+                  baseRent: rent
+                }))
+              : "";
 
             const pan = b2bPan || formatPanString(document.getElementById("tmPanInput")?.value) || (gstin.length >= 12 ? gstin.slice(2, 12) : "");
             const aadhaar = formatAadhaarString(document.getElementById("tmAadhaarInput")?.value);
             const osAmount = Number(document.getElementById("tmOsInput").value) || 0;
             const status = document.getElementById("tmStatusSelect").value || "Active";
             const startDate = document.getElementById("tmStartDateInput").value;
-            const endDate = document.getElementById("tmEndDateInput").value;
+            let endDate = document.getElementById("tmEndDateInput").value;
+            if (isB2B && startDate && !endDate && leasePeriod) {
+              endDate = calculateLeaseEndDateFromPeriod(startDate, leasePeriod);
+            }
             const permAddress = document.getElementById("tmPermAddressInput").value.trim();
             const effectiveId = [gstin ? "GSTIN: " + gstin : "", pan ? "PAN: " + pan : "", aadhaar ? "Aadhaar: " + aadhaar : ""].filter(Boolean).join(" · ") || tenantIdNumber || "Aadhaar: XXXX-XXXX-1234";
 
@@ -19787,7 +20305,9 @@
                 targetTenant.mobile = mobile;
                 targetTenant.email = email;
                 targetTenant.unit = status === "Vacated" ? "Unassigned / Vacated" : (unit || "Unassigned");
+                targetTenant.baseRent = rent;
                 targetTenant.rent = rent;
+                delete targetTenant._escalatedRentApplied;
                 targetTenant.depositMonths = depositMonths;
                 targetTenant.deposit = deposit;
                 targetTenant.photo = currentTmPhoto;
@@ -19795,6 +20315,16 @@
                 targetTenant.businessName = isB2B ? businessName : "";
                 targetTenant.gstin = isB2B ? gstin : "";
                 targetTenant.billingAddress = isB2B ? billingAddress : "";
+                targetTenant.incrementPeriod = isB2B ? incrementPeriod : "";
+                targetTenant.incrementPct = isB2B ? incrementPct : 0;
+                targetTenant.lockInPeriod = isB2B ? lockInPeriod : "";
+                targetTenant.leasePeriod = isB2B ? leasePeriod : "";
+                targetTenant.b2bIncrementClause = isB2B ? b2bIncrementClause : "";
+                if (isB2B && b2bIncrementClause) {
+                  targetTenant.customClauses = Array.isArray(targetTenant.customClauses)
+                    ? [b2bIncrementClause, ...targetTenant.customClauses.filter(c => !c.startsWith("B2B COMMERCIAL LEASE"))]
+                    : [b2bIncrementClause];
+                }
                 targetTenant.pan = pan;
                 targetTenant.panDoc = currentTmPanDoc;
                 targetTenant.aadhaar = aadhaar;
@@ -19852,6 +20382,7 @@
                 tenantIdNumber: effectiveId,
                 unit: status === "Vacated" ? "Unassigned / Vacated" : (unit || "Unassigned"),
                 previousUnit: status === "Vacated" && unit && !unit.startsWith("Unassigned") ? unit : "",
+                baseRent: rent,
                 rent,
                 depositMonths,
                 deposit,
@@ -19860,6 +20391,12 @@
                 businessName: isB2B ? businessName : "",
                 gstin: isB2B ? gstin : "",
                 billingAddress: isB2B ? billingAddress : "",
+                incrementPeriod: isB2B ? incrementPeriod : "",
+                incrementPct: isB2B ? incrementPct : 0,
+                lockInPeriod: isB2B ? lockInPeriod : "",
+                leasePeriod: isB2B ? leasePeriod : "",
+                b2bIncrementClause: isB2B ? b2bIncrementClause : "",
+                customClauses: isB2B && b2bIncrementClause ? [b2bIncrementClause] : [],
                 pan,
                 panDoc: currentTmPanDoc,
                 aadhaar,
@@ -19893,6 +20430,9 @@
               }
             }
 
+            if (typeof applyAutomaticRentalIncrements === "function") {
+              applyAutomaticRentalIncrements();
+            }
             saveState();
             renderAll();
             addTenantMasterForm.reset();
@@ -19964,6 +20504,48 @@
             }
           });
         }
+
+        // Live B2B Rental Increment Clause & Lease End Date auto-calculation
+        ["tmB2bIncrementPeriodSelect", "tmB2bIncrementPctInput", "tmB2bLockInSelect", "tmB2bLeasePeriodSelect", "tmRentInput"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.addEventListener("input", () => updateTmB2bIncrementClauseUI(true));
+            el.addEventListener("change", () => {
+              updateTmB2bIncrementClauseUI(true);
+              if (id === "tmB2bLeasePeriodSelect") {
+                const startVal = document.getElementById("tmStartDateInput")?.value;
+                const endEl = document.getElementById("tmEndDateInput");
+                if (startVal && endEl) {
+                  endEl.value = calculateLeaseEndDateFromPeriod(startVal, el.value);
+                }
+              }
+            });
+          }
+        });
+        document.getElementById("tmStartDateInput")?.addEventListener("change", (e) => {
+          if (document.getElementById("tmIsB2bCheckbox")?.checked && e.target.value) {
+            const periodVal = document.getElementById("tmB2bLeasePeriodSelect")?.value || "3 Years (36 Months)";
+            const endEl = document.getElementById("tmEndDateInput");
+            if (endEl) endEl.value = calculateLeaseEndDateFromPeriod(e.target.value, periodVal);
+          }
+        });
+
+        ["modalTenantB2bIncrementPeriod", "modalTenantB2bIncrementPct", "modalTenantB2bLockIn", "modalTenantB2bLeasePeriod", "modalTenantRent"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.addEventListener("input", () => updateModalB2bIncrementClauseUI(true));
+            el.addEventListener("change", () => {
+              updateModalB2bIncrementClauseUI(true);
+              if (id === "modalTenantB2bLeasePeriod") {
+                const startVal = document.getElementById("modalTenantStart")?.value;
+                const endEl = document.getElementById("modalTenantEnd");
+                if (startVal && endEl) {
+                  endEl.value = calculateLeaseEndDateFromPeriod(startVal, el.value);
+                }
+              }
+            });
+          }
+        });
 
         const tmGstinInput = document.getElementById("tmGstinInput");
         if (tmGstinInput) {
@@ -23786,7 +24368,163 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
       window.saveLandlordProfile = saveLandlordProfile;
       window.toggleLandlordGstFields = toggleLandlordGstFields;
 
-      function generateGstInvoiceForTenant(tenantId, targetMonth) {
+      // ============================================================================
+      // 📈 AUTOMATIC RENTAL INCREMENT & ESCALATED INVOICE ENGINE
+      // Automatically calculates escalated rent based on Increment Period ("Every Year",
+      // "After 2 Years", "After 3 Years") and % of Increase from lease commencement
+      // ============================================================================
+      function parseIncrementPeriodMonths(incrementPeriod) {
+        const s = String(incrementPeriod || "").toLowerCase().trim();
+        if (!s || s.includes("no escalation") || s === "none") return 0;
+        if (s.includes("every year") || s.includes("1 year") || s.includes("12 month") || s.includes("annual")) return 12;
+        if (s.includes("2 year") || s.includes("24 month")) return 24;
+        if (s.includes("3 year") || s.includes("36 month")) return 36;
+        const m = s.match(/(\d+)\s*year/);
+        if (m) return parseInt(m[1], 10) * 12;
+        return 0;
+      }
+
+      function parseYearMonthFromAny(val) {
+        if (!val) return null;
+        if (val instanceof Date && !isNaN(val.getTime())) {
+          return { year: val.getFullYear(), month: val.getMonth() + 1 };
+        }
+        const cleaned = String(val).replace(/^term\s*:\s*/i, "").trim();
+        const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+        const ymd = cleaned.match(/^(\d{4})[-/](\d{1,2})/);
+        if (ymd) {
+          return { year: parseInt(ymd[1], 10), month: parseInt(ymd[2], 10) };
+        }
+        const mmm = cleaned.match(/(?:(\d{1,2})[-\s])?([A-Za-z]{3})[a-z]*[-\s,]+(\d{4})/);
+        if (mmm) {
+          const mIdx = months.indexOf(mmm[2].toLowerCase());
+          if (mIdx !== -1) {
+            return { year: parseInt(mmm[3], 10), month: mIdx + 1 };
+          }
+        }
+        const d = new Date(cleaned);
+        if (!isNaN(d.getTime())) {
+          return { year: d.getFullYear(), month: d.getMonth() + 1 };
+        }
+        return null;
+      }
+
+      function getEffectiveRentForTenant(tenant, targetMonthOrDate) {
+        if (!tenant) {
+          return {
+            baseRent: 12000,
+            effectiveRent: 12000,
+            isEscalated: false,
+            completedIntervals: 0,
+            incrementPct: 0,
+            incrementPeriod: "No Escalation",
+            intervalMonths: 0,
+            monthsElapsed: 0,
+            escalationAmount: 0,
+            nextEscalatedRent: 12000,
+            nextIncrementMonth: ""
+          };
+        }
+
+        const baseRent = Number(
+          tenant.baseRent !== undefined && Number(tenant.baseRent) > 0 &&
+          (tenant._escalatedRentApplied === undefined || Number(tenant._escalatedRentApplied) === Number(tenant.rent))
+            ? tenant.baseRent
+            : (tenant.rent || 12000)
+        );
+
+        const incrementPeriod = tenant.incrementPeriod || (tenant.isB2B ? "Every Year" : "No Escalation");
+        const incrementPct = tenant.incrementPct !== undefined && tenant.incrementPct !== ""
+          ? Number(tenant.incrementPct)
+          : (tenant.isB2B && incrementPeriod !== "No Escalation" ? 10 : 0);
+        const intervalMonths = parseIncrementPeriodMonths(incrementPeriod);
+
+        const startYm = parseYearMonthFromAny(tenant.startDate);
+        const targetYm = parseYearMonthFromAny(targetMonthOrDate || getEffectiveBillingMonth());
+
+        let monthsElapsed = 0;
+        if (startYm && targetYm) {
+          monthsElapsed = Math.max(0, (targetYm.year - startYm.year) * 12 + (targetYm.month - startYm.month));
+        }
+
+        let completedIntervals = 0;
+        if (intervalMonths > 0 && incrementPct > 0 && monthsElapsed >= intervalMonths) {
+          completedIntervals = Math.floor(monthsElapsed / intervalMonths);
+        }
+
+        const effectiveRent = completedIntervals > 0
+          ? Math.round(baseRent * Math.pow(1 + incrementPct / 100, completedIntervals))
+          : baseRent;
+
+        const nextEscalatedRent = intervalMonths > 0 && incrementPct > 0
+          ? Math.round(effectiveRent * (1 + incrementPct / 100))
+          : effectiveRent;
+
+        let nextIncrementMonth = "";
+        if (startYm && intervalMonths > 0 && incrementPct > 0) {
+          const monthsToNext = (completedIntervals + 1) * intervalMonths;
+          const nextDate = new Date(startYm.year, (startYm.month - 1) + monthsToNext, 1);
+          const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+          nextIncrementMonth = `${monthNames[nextDate.getMonth()]} ${nextDate.getFullYear()}`;
+        }
+
+        return {
+          baseRent,
+          effectiveRent,
+          isEscalated: completedIntervals > 0 && effectiveRent !== baseRent,
+          completedIntervals,
+          incrementPct,
+          incrementPeriod,
+          intervalMonths,
+          monthsElapsed,
+          escalationAmount: effectiveRent - baseRent,
+          nextEscalatedRent,
+          nextIncrementMonth
+        };
+      }
+
+      function applyAutomaticRentalIncrements(targetMonthOrDate) {
+        if (!state || !Array.isArray(state.tenants)) return 0;
+        const billingMonth = targetMonthOrDate || getEffectiveBillingMonth();
+        let escalatedCount = 0;
+
+        state.tenants.forEach((t) => {
+          if (!t || t.status === "Vacated") return;
+          const rentInfo = getEffectiveRentForTenant(t, billingMonth);
+          t.baseRent = rentInfo.baseRent;
+          t.currentEffectiveRent = rentInfo.effectiveRent;
+          t.isRentEscalated = rentInfo.isEscalated;
+          t.completedIncrementCycles = rentInfo.completedIntervals;
+          t.nextIncrementMonth = rentInfo.nextIncrementMonth;
+          t.nextEscalatedRent = rentInfo.nextEscalatedRent;
+
+          if (rentInfo.intervalMonths > 0 && rentInfo.incrementPct > 0) {
+            t.rent = rentInfo.effectiveRent;
+            t._escalatedRentApplied = rentInfo.effectiveRent;
+            if (rentInfo.isEscalated) {
+              escalatedCount++;
+              if (Array.isArray(state.properties) && t.unit && !t.unit.startsWith("Unassigned")) {
+                const matchedProp = state.properties.find(
+                  (p) => (p.name || "").trim().toLowerCase() === t.unit.trim().toLowerCase()
+                );
+                if (matchedProp) {
+                  matchedProp.rent = rentInfo.effectiveRent;
+                }
+              }
+            }
+          }
+        });
+
+        return escalatedCount;
+      }
+
+      if (typeof window !== "undefined") {
+        window.parseIncrementPeriodMonths = parseIncrementPeriodMonths;
+        window.getEffectiveRentForTenant = getEffectiveRentForTenant;
+        window.applyAutomaticRentalIncrements = applyAutomaticRentalIncrements;
+      }
+
+      function generateGstInvoiceForTenant(tenantId, targetMonth, forceRefresh = false) {
         ensureLandlordGstDefaults();
         const tenant = state.tenants.find((t) => t.id === tenantId);
         if (!tenant) return null;
@@ -23797,13 +24535,27 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
 
         state.gstInvoices = state.gstInvoices || {};
 
-        if (state.gstInvoices[invoiceId]) {
-          return state.gstInvoices[invoiceId];
+        // Compute automatic rental increment for the target billing month
+        const rentInfo = getEffectiveRentForTenant(tenant, billingMonth);
+        tenant.baseRent = rentInfo.baseRent;
+
+        if (state.gstInvoices[invoiceId] && !forceRefresh) {
+          const existingInv = state.gstInvoices[invoiceId];
+          if (
+            Number(existingInv.taxableRent) === Number(rentInfo.effectiveRent) &&
+            (existingInv.incrementPeriod || "") === (rentInfo.incrementPeriod || "") &&
+            Number(existingInv.incrementPct || 0) === Number(rentInfo.incrementPct || 0)
+          ) {
+            return existingInv;
+          }
         }
 
+        const existingChannels = state.gstInvoices[invoiceId]?.dispatchedChannels || [];
+        const existingDispatchedAt = state.gstInvoices[invoiceId]?.dispatchedAt || null;
+
         // Generate consecutive invoice number: GST/YY-YY/MMM/UNIT or BILL/...
-        const now = new Date();
-        const curYear = now.getFullYear();
+        const parsedBillingYm = parseYearMonthFromAny(billingMonth);
+        const curYear = parsedBillingYm ? parsedBillingYm.year : new Date().getFullYear();
         const nextYearShort = String(curYear + 1).slice(-2);
         const curYearShort = String(curYear).slice(-2);
         const fy = curYearShort + "-" + nextYearShort;
@@ -23820,8 +24572,8 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
         const invoicePrefix = isGstEnabled ? "GST" : "BILL";
         const invoiceNo = invoicePrefix + "/" + fy + "/" + monthPart + "/" + unitCode;
 
-        // Rent & GST calculation
-        const taxableRent = Number(tenant.rent) || 12000;
+        // Rent & GST calculation (automatically incorporates rental increment when applicable)
+        const taxableRent = Number(rentInfo.effectiveRent) || 12000;
         let cgstRate = 0;
         let sgstRate = 0;
         let cgstAmount = 0;
@@ -23842,6 +24594,12 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
         const invoiceDate = "01-" + formattedMonth;
         const dueDate = "07-" + formattedMonth;
 
+        const escalationSummary = rentInfo.isEscalated
+          ? `Automatic Rental Increment Applied: Base Rent ₹${rentInfo.baseRent.toLocaleString("en-IN")}/mo increased by +${rentInfo.incrementPct}% (${rentInfo.incrementPeriod} · Cycle #${rentInfo.completedIntervals}, +₹${rentInfo.escalationAmount.toLocaleString("en-IN")}/mo) → Effective Taxable Rent ₹${taxableRent.toLocaleString("en-IN")}/mo.`
+          : (rentInfo.intervalMonths > 0 && rentInfo.incrementPct > 0
+              ? `Active Increment Clause: +${rentInfo.incrementPct}% ${rentInfo.incrementPeriod} on Base Rent ₹${rentInfo.baseRent.toLocaleString("en-IN")}/mo${rentInfo.nextIncrementMonth ? ` (Next automatic increase on ${rentInfo.nextIncrementMonth} → ₹${rentInfo.nextEscalatedRent.toLocaleString("en-IN")}/mo)` : ""}.`
+              : "");
+
         const invoiceRecord = {
           id: invoiceId,
           invoiceNo,
@@ -23860,15 +24618,24 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
           invoiceDate,
           dueDate,
           sacCode: state.landlord.sacCode || "997212",
+          baseRent: rentInfo.baseRent,
           taxableRent,
+          isEscalated: rentInfo.isEscalated,
+          completedIntervals: rentInfo.completedIntervals,
+          incrementPct: rentInfo.incrementPct,
+          incrementPeriod: rentInfo.incrementPeriod,
+          escalationAmount: rentInfo.escalationAmount,
+          nextIncrementMonth: rentInfo.nextIncrementMonth,
+          nextEscalatedRent: rentInfo.nextEscalatedRent,
+          escalationSummary,
           cgstRate,
           cgstAmount,
           sgstRate,
           sgstAmount,
           totalAmount,
           placeOfSupply: "07 - DELHI",
-          dispatchedChannels: [],
-          dispatchedAt: null,
+          dispatchedChannels: existingChannels,
+          dispatchedAt: existingDispatchedAt,
           createdAt: new Date().toISOString()
         };
 
@@ -23894,14 +24661,17 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
         } catch (e) {}
 
         const billingMonth = targetMonth || getEffectiveBillingMonth();
+        applyAutomaticRentalIncrements(billingMonth);
+
         let createdCount = 0;
 
         state.tenants.forEach((t) => {
           if (!t.unit || t.unit.startsWith("Unassigned")) return;
           const monthSlug = billingMonth.replace(/\s+/g, "_").toLowerCase();
           const invoiceId = "inv_" + monthSlug + "_" + t.id;
-          if (!state.gstInvoices[invoiceId]) {
-            generateGstInvoiceForTenant(t.id, billingMonth);
+          const hadInvoice = !!state.gstInvoices[invoiceId];
+          generateGstInvoiceForTenant(t.id, billingMonth);
+          if (!hadInvoice) {
             createdCount++;
           }
         });
@@ -23959,6 +24729,25 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
         document.getElementById("invMetaPeriod").textContent = inv.billingMonth;
         document.getElementById("invMetaDueDate").textContent = inv.dueDate;
 
+        // Sync Billing Period Switcher inside Modal
+        const periodSwitcher = document.getElementById("gstModalPeriodSwitcher");
+        if (periodSwitcher) {
+          periodSwitcher.value = inv.billingMonth;
+          periodSwitcher.onchange = (e) => {
+            const newMonth = e.target.value;
+            if (newMonth && inv.tenantId) {
+              applyAutomaticRentalIncrements(newMonth);
+              const updatedInv = generateGstInvoiceForTenant(inv.tenantId, newMonth, true);
+              if (updatedInv) {
+                openGstInvoiceModal(updatedInv.id);
+                const mainSelect = document.getElementById("gstMonthSelect");
+                if (mainSelect) mainSelect.value = newMonth;
+                renderGstTab(newMonth);
+              }
+            }
+          };
+        }
+
         // Supplier details
         document.getElementById("invSupplierName").textContent = state.landlord.name || "Rajesh Sharma";
         document.getElementById("invSupplierGstin").textContent = state.landlord.gstin || "07AAAAA0000A1Z5";
@@ -23979,12 +24768,37 @@ Save or Add to Home Screen for instant 1-tap mobile access!`;
 
         // Line Items Table
         document.getElementById("invItemDescription").textContent = "Monthly Rental Services for Unit: " + inv.tenantUnit;
-        document.getElementById("invItemPeriodNote").textContent = "Service Period: " + inv.invoiceDate + " to Month End (" + inv.billingMonth + ")";
+        const basePeriodNote = "Service Period: " + inv.invoiceDate + " to Month End (" + inv.billingMonth + ")";
+        document.getElementById("invItemPeriodNote").textContent = inv.isEscalated
+          ? `${basePeriodNote} · 📈 Includes +${inv.incrementPct}% Rental Increment (${inv.incrementPeriod}, Cycle #${inv.completedIntervals} on Base ₹${Number(inv.baseRent).toLocaleString("en-IN")})`
+          : basePeriodNote;
         document.getElementById("invItemSac").textContent = inv.sacCode || "997212";
         document.getElementById("invItemTaxable").textContent = formatGstCurrency(inv.taxableRent);
         document.getElementById("invItemCgst").textContent = formatGstCurrency(inv.cgstAmount);
         document.getElementById("invItemSgst").textContent = formatGstCurrency(inv.sgstAmount);
         document.getElementById("invItemTotal").textContent = formatGstCurrency(inv.totalAmount);
+
+        // Escalation Banner inside Tax Invoice Print Area
+        const escBanner = document.getElementById("invEscalationBanner");
+        const escStatusBadge = document.getElementById("invEscalationStatusBadge");
+        const escConditionTag = document.getElementById("invEscalationConditionTag");
+        const escSummaryText = document.getElementById("invEscalationSummaryText");
+        if (escBanner) {
+          if (inv.escalationSummary) {
+            escBanner.classList.remove("hidden");
+            if (escStatusBadge) {
+              escStatusBadge.textContent = inv.isEscalated ? `✓ Auto-Escalated (Cycle #${inv.completedIntervals})` : "Active Increment Clause";
+            }
+            if (escConditionTag) {
+              escConditionTag.textContent = `+${inv.incrementPct}% ${inv.incrementPeriod}`;
+            }
+            if (escSummaryText) {
+              escSummaryText.textContent = inv.escalationSummary;
+            }
+          } else {
+            escBanner.classList.add("hidden");
+          }
+        }
 
         // Footers
         document.getElementById("invFootTaxable").textContent = formatGstCurrency(inv.taxableRent);
@@ -24073,7 +24887,7 @@ Your monthly GST Tax Invoice for ${inv.tenantUnit} for ${inv.billingMonth} has b
 • Invoice No: ${inv.invoiceNo}
 • Invoice Date: ${inv.invoiceDate} (Start of Month)
 • Payment Due Date: ${inv.dueDate}
-• SAC Code: ${inv.sacCode} (Rental Services)
+• SAC Code: ${inv.sacCode} (Rental Services)${inv.isEscalated ? `\n• Rental Increment: +${inv.incrementPct}% (${inv.incrementPeriod}, Cycle #${inv.completedIntervals} on Base ₹${Number(inv.baseRent).toLocaleString("en-IN")})` : ""}
 • Taxable Rent: ₹${Number(inv.taxableRent).toLocaleString("en-IN")}
 • CGST (9%): ₹${Number(inv.cgstAmount).toLocaleString("en-IN")}
 • SGST (9%): ₹${Number(inv.sgstAmount).toLocaleString("en-IN")}
@@ -24321,7 +25135,16 @@ Supplier: ${lName} (GSTIN: ${lGstin})`;
                 </div>
               </div>
             </td>
-            <td class="py-2 px-3 text-right font-mono font-bold text-slate-900 dark:text-white text-xs whitespace-nowrap">${formatGstCurrency(inv.taxableRent)}</td>
+            <td class="py-2 px-3 text-right font-mono font-bold text-slate-900 dark:text-white text-xs whitespace-nowrap">
+              <div>${formatGstCurrency(inv.taxableRent)}</div>
+              ${
+                inv.isEscalated
+                  ? `<div class="text-[9px] font-sans font-extrabold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200 inline-block mt-0.5" title="Auto-escalated from Base Rent ₹${Number(inv.baseRent).toLocaleString("en-IN")}">📈 +${inv.incrementPct}% (${escapeHtml(inv.incrementPeriod)})</div>`
+                  : (inv.incrementPct > 0 && inv.incrementPeriod && inv.incrementPeriod !== "No Escalation"
+                      ? `<div class="text-[9px] font-sans font-semibold text-slate-400">Clause: +${inv.incrementPct}% ${escapeHtml(inv.incrementPeriod)}</div>`
+                      : "")
+              }
+            </td>
             <td class="py-2 px-3 text-right font-mono text-slate-600 dark:text-slate-400 text-xs whitespace-nowrap">${formatGstCurrency(inv.cgstAmount)}</td>
             <td class="py-2 px-3 text-right font-mono text-slate-600 dark:text-slate-400 text-xs whitespace-nowrap">${formatGstCurrency(inv.sgstAmount)}</td>
             <td class="py-2 px-3 text-right font-mono font-black text-xs whitespace-nowrap">

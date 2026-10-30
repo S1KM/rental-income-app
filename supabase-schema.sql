@@ -12,9 +12,13 @@
 CREATE TABLE IF NOT EXISTS public.properties (
     id TEXT PRIMARY KEY,
     building TEXT NOT NULL DEFAULT 'Sagarpur',
+    building_type TEXT DEFAULT 'Residential',
     name TEXT NOT NULL,
     address TEXT,
     type TEXT DEFAULT '1 BHK Residential Flat',
+    super_area NUMERIC DEFAULT 0,
+    carpet_area NUMERIC DEFAULT 0,
+    common_area NUMERIC DEFAULT 0,
     rent NUMERIC NOT NULL DEFAULT 12000,
     deposit NUMERIC NOT NULL DEFAULT 24000,
     upic TEXT,
@@ -42,6 +46,11 @@ CREATE TABLE IF NOT EXISTS public.tenants (
     gstin TEXT DEFAULT '',
     pan TEXT DEFAULT '',
     billing_address TEXT DEFAULT '',
+    increment_period TEXT DEFAULT 'Every Year',
+    increment_pct NUMERIC DEFAULT 10,
+    lock_in_period TEXT DEFAULT '1 Year (12 Months)',
+    lease_period TEXT DEFAULT '3 Years (36 Months)',
+    b2b_increment_clause TEXT DEFAULT '',
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
